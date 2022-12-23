@@ -26,9 +26,6 @@ module.exports = {
   defaultNetwork: "hardhat",
   networks: {
     hardhat: {
-      // forking: {
-      //   url: MAINNET_RPC_URL
-      // }
       chainId: 31337,
     },
     localhost: {
@@ -60,7 +57,7 @@ module.exports = {
     },
   },
   etherscan: {
-    // npx hardhat verify --network <NETWORK> <CONTRACT_ADDRESS> <CONSTRUCTOR_PARAMETERS>
+    // yarn hardhat verify --network <NETWORK> <CONTRACT_ADDRESS> <CONSTRUCTOR_PARAMETERS>
     apiKey: {
       goerli: ETHERSCAN_API_KEY,
       polygon: POLYGONSCAN_API_KEY,

@@ -29,10 +29,22 @@ const networkConfig = {
   },
 };
 const DECIMALS = "18";
+const INITIAL_TOKEN_SUPPLY_TO_OWNER = "100000000000";
+const TOTAL_TOKEN_SUPPLY = "300000000000";
+const MINE_REWARD = "500";
+const FIRST_SIGNUP_REWARD = "50";
 
+const FRONTEND_ABI_LOCATION = "./constants/ABIs/";
+const FRONTEND_ADDRESS_LOCATION = "./constants/networkMapping.json";
 const developmentChains = ["hardhat", "localhost"];
 module.exports = {
   networkConfig,
   developmentChains,
   DECIMALS,
+  INITIAL_TOKEN_SUPPLY_TO_OWNER,
+  TOTAL_TOKEN_SUPPLY,
+  MINE_REWARD,
+  FIRST_SIGNUP_REWARD,
+  FRONTEND_ABI_LOCATION,
+  FRONTEND_ADDRESS_LOCATION,
 };
