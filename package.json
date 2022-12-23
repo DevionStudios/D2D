@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node index.ts",
-    "dev": "ts-node --watch index.ts"
+    "start": "ts-node src/index.ts",
+    "dev": "ts-node --watch src/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +18,10 @@
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "mongoose": "^6.8.1",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "cookie-session": "^2.0.0",
+    "express-async-errors": "^3.1.1",
+    "express-validator": "^6.14.2",
+    "jsonwebtoken": "^8.5.1"
   }
 }
