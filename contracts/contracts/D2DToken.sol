@@ -1,4 +1,3 @@
-// contracts/OceanToken.sol
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.7;
@@ -8,63 +7,68 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Capped.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 
 contract D2DToken is ERC20Capped, ERC20Burnable {
-  address payable public owner;
+    address payable public owner;
 
-  /** Remove this comment and the comments regarding minerReward if you wish to reward the miners */
-  //uint256 public blockReward;
+    /** Remove this comment and the comments regarding minerReward if you wish to reward the miners */
+    //uint256 public blockReward;
 
-  /**@param maximumSupply is the maximum number of tokens that can be minted
-  @param initialSupplyToOwner is the number of tokens that will be minted and sent to the owner's address
+    /**
+   * @param maximumSupply is the maximum number of tokens that can be minted
+   * @param initialSupplyToOwner is the number of tokens that will be minted and sent to the owner's address
   Remove the comment from minerReward if you wish to give rewards to the miners
  */
-  constructor(
-    uint256 maximumSupply,
-    /*uint256 minerReward,*/
-    uint256 initialSupplyToOwner
-  ) ERC20("D2DToken", "D2D") ERC20Capped(maximumSupply * (10 ** decimals())) {
-    owner = payable(msg.sender);
-    _mint(owner, initialSupplyToOwner * (10 ** decimals()));
-    /*blockReward = minerReward;*/
-  }
+    constructor(
+        uint256 maximumSupply,
+        /*uint256 minerReward,*/
+        uint256 initialSupplyToOwner
+    ) ERC20("D2DToken", "D2D") ERC20Capped(maximumSupply * (10**decimals())) {
+        owner = payable(msg.sender);
+        _mint(owner, initialSupplyToOwner * (10**decimals()));
+        /*blockReward = minerReward;*/
+    }
 
-  function _mint(
-    address account,
-    uint256 amount
-  ) internal virtual override(ERC20Capped, ERC20) {
-    require(ERC20.totalSupply() + amount <= cap(), "ERC20Capped: cap exceeded");
-    super._mint(account, amount);
-  }
+    function _mint(address account, uint256 amount)
+        internal
+        virtual
+        override(ERC20Capped, ERC20)
+    {
+        require(
+            ERC20.totalSupply() + amount <= cap(),
+            "ERC20Capped: cap exceeded"
+        );
+        super._mint(account, amount);
+    }
 
-  function destroy() public onlyOwner {
-    selfdestruct(owner);
-  }
+    function destroy() public onlyOwner {
+        selfdestruct(owner);
+    }
 
-  modifier onlyOwner() {
-    require(msg.sender == owner, "Only the owner can call this function");
-    _;
-  }
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only the owner can call this function");
+        _;
+    }
 
-  /**
+    /**
    Remove the comments from the code below to give rewards to the miners
    */
-  //   function _mintMinerReward() internal {
-  //     _mint(block.coinbase, blockReward);
-  //   }
+    //   function _mintMinerReward() internal {
+    //     _mint(block.coinbase, blockReward);
+    //   }
 
-  //   function _beforeTokenTransfer(
-  //     address from,
-  //     address to,
-  //     uint256 value
-  //   ) internal virtual override {
-  //     if (
-  //       from != address(0) && to != block.coinbase && block.coinbase != address(0)
-  //     ) {
-  //       _mintMinerReward();
-  //     }
-  //     super._beforeTokenTransfer(from, to, value);
-  //   }
+    //   function _beforeTokenTransfer(
+    //     address from,
+    //     address to,
+    //     uint256 value
+    //   ) internal virtual override {
+    //     if (
+    //       from != address(0) && to != block.coinbase && block.coinbase != address(0)
+    //     ) {
+    //       _mintMinerReward();
+    //     }
+    //     super._beforeTokenTransfer(from, to, value);
+    //   }
 
-  //   function setBlockReward(uint256 minerReward) public onlyOwner {
-  //     blockReward = minerReward * (10 ** decimals());
-  //   }
+    //   function setBlockReward(uint256 minerReward) public onlyOwner {
+    //     blockReward = minerReward * (10 ** decimals());
+    //   }
 }

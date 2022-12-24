@@ -1,13 +1,13 @@
 {
   "1": { "FundContract": [], "D2DToken": [] },
   "5": {
-    "FundContract": ["0x5D84cC314150Ff9dE186a410b831f0499d3ff2dF"],
-    "D2DToken": ["0x2F3E2C77b72dE939d72a18324885465c46a15e2c"]
+    "FundContract": [],
+    "D2DToken": []
   },
   "137": { "FundContract": [], "D2DToken": [] },
   "31337": {
-    "FundContract": ["0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"],
-    "D2DToken": ["0x5FbDB2315678afecb367f032d93F642f64180aa3"]
+    "FundContract": [],
+    "D2DToken": []
   },
   "80001": { "FundContract": [], "D2DToken": [] }
 }
