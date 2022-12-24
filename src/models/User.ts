@@ -29,6 +29,7 @@ export interface UserDoc extends mongoose.Document {
   bio?: string;
   followers?: UserDoc[];
   following?: UserDoc[];
+  hashtagsfollowed?: string[];
   posts?: PostDoc[];
 }
 
@@ -67,6 +68,11 @@ const userSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
+      },
+    ],
+    hashtagsfollowed: [
+      {
+        type: String,
       },
     ],
     posts: [
