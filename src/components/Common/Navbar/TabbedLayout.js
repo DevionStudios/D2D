@@ -42,7 +42,7 @@ export function TabbedLayout({ navigation }) {
                       clsx(
                         selected
                           ? "bg-brand-800 text-white dark:bg-brand-700 dark:text-white"
-                          : "text-gray-600 hover:text-white hover:bg-brand-600 dark:hover:bg-brand-500 dark:hover:text-gray-100",
+                          : "text-gray-600 hover:text-white hover:bg-brand-600 dark:hover:bg-yellow-300 dark:hover:text-gray-100",
                         "group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full "
                       )
                     }

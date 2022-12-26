@@ -12,13 +12,13 @@ export function Hero() {
               Capture and share the world&apos;s moments
             </h1>
             <p className="text-base text-gray-500 sm:text-lg">
-              Welcome to DogeSocial. A social media platform made for people
-              like you! Come, share and see what others are up to!
+              Welcome to D2D. A social media platform made for people like you!
+              Come, share and see what others are up to!
             </p>
             <div className="flex flex-col items-center w-full space-x-5 lg:flex-row">
               <a
                 href={user?.id ? "/feed/all" : "/auth/signup"}
-                className="w-full px-6 py-6 text-xl font-medium text-center text-white bg-brand-700 shadow-xl xl:px-12 xl:text-2xl lg:w-auto hover:bg-brand-800 rounded"
+                className="w-full px-6 py-6 text-xl font-medium text-center text-black bg-yellow-300 shadow-xl xl:px-12 xl:text-2xl lg:w-auto hover:bg-yellow-400 rounded "
               >
                 <span className="flex space-x-2 items-center justify-center">
                   {user && user.id ? (

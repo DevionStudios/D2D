@@ -64,7 +64,7 @@ export function WhoToFollow() {
             return (
               <div
                 key={person?.id}
-                className="flex-shrink-0 relative rounded-lg border dark:border-gray-600 border-gray-300 bg-white dark:bg-gray-800 px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-brand-500"
+                className="flex-shrink-0 relative rounded-lg border dark:border-gray-600 border-gray-300 bg-white dark:bg-gray-800 px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-yellow-300"
               >
                 <div className="space-y-3">
                   <div className="flex-shrink-0 ">

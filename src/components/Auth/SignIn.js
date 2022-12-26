@@ -52,12 +52,12 @@ export function LoginForm() {
   });
 
   async function handleGuestLogin(e) {
-    form.setValue("email", "test_account@dogesocial.app");
+    form.setValue("email", "test_account@D2D.app");
     form.setValue("password", "test_user");
     e.preventDefault();
     await login({
       variables: {
-        input: { email: "test_account@dogesocial.app", password: "test_user" },
+        input: { email: "test_account@D2D.app", password: "test_user" },
       },
     });
   }
@@ -65,7 +65,7 @@ export function LoginForm() {
   return (
     <AuthLayout
       title="Sign In."
-      subtitle="Welcome back! Sign in to your DogeSocial account."
+      subtitle="Welcome back! Sign in to your D2D account."
     >
       <Form
         form={form}
@@ -104,7 +104,7 @@ export function LoginForm() {
               className="font-medium text-brand-600 hover:text-brand-400"
               href="/auth/signup"
             >
-              Join DogeSocial™
+              Join D2D™
             </Link>
           </Card.Body>
         </Card>

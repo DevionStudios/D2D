@@ -31,7 +31,7 @@ export function Following({ username }) {
 
   return (
     <>
-      <SEO title={`${username} / Following · DogeSocial`} />
+      <SEO title={`${username} / Following · D2D`} />
       <div>
         <div className="flow-root">
           <ul role="list" className=" divide-y  divide-gray-600">

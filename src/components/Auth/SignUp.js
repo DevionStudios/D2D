@@ -50,7 +50,7 @@ export function SignUp() {
   });
 
   return (
-    <AuthLayout title="Sign Up." subtitle="Sign up and join the DogeSocial!">
+    <AuthLayout title="Sign Up." subtitle="Sign up and join the D2D!">
       <Form
         form={form}
         onSubmit={async (values) => {
@@ -105,7 +105,7 @@ export function SignUp() {
               className="font-medium text-brand-600 hover:text-brand-400"
               href="/auth/signin"
             >
-              Log into DogeSocial™
+              Log into D2D™
             </Link>
           </Card.Body>
         </Card>

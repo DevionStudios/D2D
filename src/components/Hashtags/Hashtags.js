@@ -9,8 +9,8 @@ export function Hashtags() {
   return (
     <>
       <SEO
-        title="Explore trending hashtags · DogeSocial"
-        description="View top 10 trending hashtags this week on DogeSocial."
+        title="Explore trending hashtags · D2D"
+        description="View top 10 trending hashtags this week on D2D."
         path={undefined}
       />
       <Card rounded="lg">
