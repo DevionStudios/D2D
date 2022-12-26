@@ -8,9 +8,7 @@ export default function SearchResultsPage() {
   return <SearchResults />;
 }
 
-// export const getServerSideProps: GetServerSideProps = authenticatedRoute
-
-SearchResultsPage.getLayout = function getLayout(page: ReactElement) {
+SearchResultsPage.getLayout = function getLayout(page) {
   return (
     <>
       <Navbar />

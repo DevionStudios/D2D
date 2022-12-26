@@ -29,7 +29,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "src/pages/_app.js", "src/pages/_document.js", "src/pages/404.js", "src/pages/about.js", "src/pages/index.js", "src/pages/onboarding.js", "src/pages/search.js", "src/pages/testpage.js", "src/utils/toastOptions.js", "src/utils/useMediaQuery.ts", "src/components/ui/NProgress/index.tsx", "src/components/Common/Navbar/MobileMenu.js", "src/components/Common/Navbar/index.js", "src/components/Common/Navbar/Logo.js", "src/components/Common/Navbar/ProfileDropdown.js", "src/components/Common/Navbar/RightSidebar.js", "src/components/Common/Navbar/SearchBar.js", "src/components/Common/Navbar/TabbedLayout.js", "src/components/Common/Navbar/UnauthorizedHeader.js", "src/components/Common/Footer.js", "src/components/Common/UserHandle.js", "src/components/Hero.js", "src/components/Notifications/Notification.js", "src/components/Notifications/NotificationOverlay.js"  ],
   "exclude": [
     "node_modules"
   ]
