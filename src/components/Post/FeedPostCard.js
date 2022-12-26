@@ -15,7 +15,6 @@ import { Button } from "../ui/Button";
 import { Link } from "~/components/ui/Link";
 import { PostDropdown } from "./PostDropdown";
 import NextImage from "next/image";
-import { Post } from "~/__generated__/schema.generated";
 import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
 import toast from "react-hot-toast";
 

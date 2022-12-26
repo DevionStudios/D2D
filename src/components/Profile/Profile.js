@@ -84,7 +84,7 @@ export function Profile({ username }) {
                 <h1 className="text-2xl font-bold flex truncate items-center">
                   {user.firstName + " "}
                   {user.lastName !== null ? user.lastName : ""}
-                  <HiBadgeCheck className="w-6 h-6 ml-1 text-brand-700" />
+                  <HiBadgeCheck className="w-6 h-6 ml-1 text-brand-500" />
                 </h1>
                 <p className="text-muted text-sm">@{username}</p>
               </div>

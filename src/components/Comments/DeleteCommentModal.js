@@ -1,38 +1,12 @@
-import { gql, useMutation } from "@apollo/client";
 import toast from "react-hot-toast";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
 import { Heading } from "../ui/Heading";
 import Modal from "../ui/Modal";
 
-const DELETE_COMMENT_MUTATION = gql`
-  mutation DeleteCommentMutation($id: String!) {
-    deleteComment(id: $id) {
-      success
-    }
-  }
-`;
-
+let DELETE_COMMENT_MUTATION;
 export function DeleteCommentModal({ id, isOpen, onClose, postId }) {
-  const [deleteComment] = useMutation(DELETE_COMMENT_MUTATION, {
-    update(cache) {
-      const normalizedId = cache.identify({ id, __typename: "Comment" });
-      cache.modify({
-        id: `Post:${postId}`,
-        fields: {
-          comments(prev) {
-            return {
-              ...prev,
-              totalCount: prev.totalCount - 1,
-            };
-          },
-        },
-      });
-      cache.evict({ id: normalizedId });
-      cache.gc();
-    },
-  });
-
+  let deleteComment;
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="sm:max-w-lg">
       <Modal.Header dismiss>

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Popover, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
@@ -5,7 +6,8 @@ import { Button } from "~/components/ui/Button";
 import { GradientBar } from "~/components/ui/GradientBar";
 import { Heading } from "~/components/ui/Heading";
 import { Link } from "~/components/ui/Link";
-import { Logo } from "./Logo";
+import Logo from "../../../assets/D2Dlogo.png";
+import LogoGrad from "../../../assets/D2D Logo Trans.png";
 
 export function UnauthorizedHeader() {
   return (
@@ -20,7 +22,9 @@ export function UnauthorizedHeader() {
           <div className="flex justify-between items-center max-w-7xl mx-auto py-4 px-4 lg:px-0 md:justify-start md:space-x-10 ">
             <div className="flex justify-start lg:w-0 lg:flex-1">
               <div className="flex items-center space-x-4">
-                <Logo /> <Heading size="h5">D2D</Heading>
+                {/* <Logo /> */}
+                <Image src={LogoGrad} alt="D2D" width={50} height={50} />
+                <Heading size="h5">D2D</Heading>
               </div>
             </div>
             <div className="-mr-2 -my-2 md:hidden">

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Popover } from "@headlessui/react";
 import { HiX, HiMenu, HiOutlineBell } from "react-icons/hi";
 import clsx from "clsx";
@@ -14,7 +15,8 @@ import Spinner from "~/components/ui/Spinner";
 import { useState } from "react";
 import { NotificationOverlay } from "~/components/Notifications/NotificationOverlay";
 import { UnauthorizedHeader } from "./UnauthorizedHeader";
-import { Logo } from "./Logo";
+import Logo from "../../../assets/D2Dlogo.png";
+import LogoGrad from "../../../assets/D2DlogoGrad.png";
 
 export function Navbar() {
   const [openNotifications, setNotificationOpen] = useState(false);
@@ -48,7 +50,7 @@ export function Navbar() {
             <div className="mx-auto max-w-7xl relative flex justify-between xl:grid xl:grid-cols-12 lg:gap-8">
               <div className="flex md:absolute md:left-0 md:inset-y-0 lg:static xl:col-span-2">
                 <div className="flex-shrink-0 flex items-center">
-                  <Logo />
+                  <Image src={Logo} alt="D2D" width={100} height={100} />
                 </div>
               </div>
               <div className="min-w-0 flex-1  lg:px-0 lg:max-w-5xl xl:col-span-6 flex-grow">
