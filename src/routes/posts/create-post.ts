@@ -33,7 +33,9 @@ router.post(
       //   res.status(201).send(post);
     } catch (err) {
       console.log(err);
-      res.status(500).send({ message: err.message });
+      res.status(500).send({ message: err });
     }
   }
 );
+
+export { router as createPostRouter };

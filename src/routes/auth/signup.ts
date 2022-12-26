@@ -5,6 +5,9 @@ import jwt from "jsonwebtoken";
 import { validateRequest, BadRequestError } from "@devion/common";
 import { User } from "../../models/User";
 
+import dotenv from "dotenv";
+dotenv.config();
+
 const router = express.Router();
 
 router.post(
@@ -52,9 +55,9 @@ router.post(
       };
 
       res.status(201).send(user);
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
-      res.status(400).send({ message: err.message });
+      res.status(400).send({ message: err });
     }
   }
 );

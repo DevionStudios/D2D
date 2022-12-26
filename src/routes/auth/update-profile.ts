@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 
 import { BadRequestError, currentUser } from "@devion/common";
-import { User } from "../../models/user";
+import { User } from "../../models/User";
 
 const router = express.Router();
 
@@ -31,7 +31,9 @@ router.put(
       res.status(200).send(existingUser);
     } catch (err) {
       console.log(err);
-      res.status(500).send({ message: err.message });
+      res.status(500).send({ message: err });
     }
   }
 );
+
+export { router as updateProfileRouter };

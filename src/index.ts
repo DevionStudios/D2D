@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import { app } from "./app";
+import dotenv from "dotenv";
+dotenv.config();
 
 const start = async () => {
   if (!process.env.JWT_KEY) {
@@ -10,6 +12,7 @@ const start = async () => {
   }
 
   try {
+    mongoose.set("strictQuery", true);
     await mongoose.connect(process.env.MONGO_URI, {});
     console.log("Connected to MongoDb");
   } catch (err) {

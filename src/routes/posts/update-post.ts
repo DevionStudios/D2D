@@ -38,3 +38,5 @@ router.put(
     res.send(post);
   }
 );
+
+export { router as updatePostRouter };

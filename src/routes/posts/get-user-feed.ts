@@ -45,7 +45,9 @@ router.get(
       res.status(200).send(userFeed);
     } catch (err) {
       console.log(err);
-      res.status(500).send({ message: err.message });
+      res.status(500).send({ message: err });
     }
   }
 );
+
+export { router as getUserFeedRouter };

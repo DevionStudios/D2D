@@ -27,7 +27,9 @@ router.delete(
       res.status(204).send({ message: "Post deleted!" });
     } catch (err) {
       console.log(err);
-      res.status(500).send({ message: err.message });
+      res.status(500).send({ message: err });
     }
   }
 );
+
+export { router as deletePostRouter };

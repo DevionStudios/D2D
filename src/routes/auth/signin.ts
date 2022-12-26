@@ -3,8 +3,11 @@ import { body } from "express-validator";
 import jwt from "jsonwebtoken";
 
 import { Password } from "../../services/password";
-import { User } from "../../models/user";
+import { User } from "../../models/User";
 import { validateRequest, BadRequestError } from "@devion/common";
+
+import dotenv from "dotenv";
+dotenv.config();
 
 const router = express.Router();
 
@@ -53,7 +56,7 @@ router.post(
       res.status(200).send(existingUser);
     } catch (err) {
       console.log(err);
-      res.status(500).send({ message: err.message });
+      res.status(500).send({ message: err });
     }
   }
 );
