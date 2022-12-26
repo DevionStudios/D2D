@@ -1,22 +1,12 @@
-import { gql, useQuery } from "@apollo/client";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
 import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
 import Spinner from "../ui/Spinner";
-import { UserPopoverQuery } from "./__generated__/index.generated";
 
 let USER_POPOVER_QUERY; //!profile query here
 
 export function UserProfilePopover({ username }) {
-  const { data, loading, error } =
-    useQuery <
-    UserPopoverQuery(USER_POPOVER_QUERY, {
-      variables: {
-        username,
-      },
-      fetchPolicy: "no-cache",
-    });
-
+  let data, loading, error;
   if (!data || loading)
     return (
       <Card

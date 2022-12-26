@@ -36,7 +36,7 @@ export function UserPosts({ username, count }) {
             className={({ selected }) =>
               clsx(
                 selected
-                  ? "border-brand-500 text-brand-600"
+                  ? "border-yellow-300 text-brand-600"
                   : "border-transparent text-gray-500 hover:text-brand-700 hover:border-brand-700",
                 "w-1/4 py-4 px-1 text-center border-b-2  font-medium text-sm flex-1"
               )

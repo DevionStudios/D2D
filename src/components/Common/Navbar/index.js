@@ -66,7 +66,7 @@ export function Navbar() {
                   <span className="sr-only">View notifications</span>
                   <HiOutlineBell className="h-6 w-6" aria-hidden="true" />
                 </button>
-                <Popover.Button className="-mx-2 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-500">
+                <Popover.Button className="-mx-2 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-300">
                   <span className="sr-only">Open menu</span>
                   {open ? (
                     <HiX className="block h-6 w-6" aria-hidden="true" />

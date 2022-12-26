@@ -10,7 +10,7 @@ export function AuthLayout({ title, subtitle, children }) {
       <div className="mb-8 text-center">
         <div className="inline-flex items-center mb-1 space-x-3">
           <svg
-            className="hi-solid hi-cube-transparent inline-block w-10 h-10 text-brand-500"
+            className="hi-solid hi-cube-transparent inline-block w-10 h-10 text-yellow-300"
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"

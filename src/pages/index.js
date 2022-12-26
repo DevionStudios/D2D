@@ -7,8 +7,8 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="DogeSocial | Capture and share the world's moments"
-        description="DogeSocial is a social media platform created for you. See what your friends are up to."
+        title="D2D | Capture and share the world's moments"
+        description="D2D is a social media platform created for you. See what your friends are up to."
         image="https://i.imgur.com/ni5JNk1.png"
         cardType="summary_large_image"
         path="/"

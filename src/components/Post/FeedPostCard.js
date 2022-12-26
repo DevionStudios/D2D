@@ -114,7 +114,7 @@ export function FeedPostCard(props) {
                   layout="fill"
                   objectFit="cover"
                   placeholder="empty"
-                  alt={`Image posted by ${props.post.user.firstName} on DogeSocial.`}
+                  alt={`Image posted by ${props.post.user.firstName} on D2D.`}
                 />
               </div>
             </div>
@@ -171,9 +171,7 @@ export function FeedPostCard(props) {
                 variant="dark"
                 onClick={async () => {
                   navigator.clipboard
-                    .writeText(
-                      `https://dogesocial.vercel.app/post/${props.post.id}`
-                    )
+                    .writeText(`https://D2D.vercel.app/post/${props.post.id}`)
                     .then(() => toast.success("Link copied to clipboard"));
                 }}
               >

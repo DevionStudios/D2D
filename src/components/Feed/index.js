@@ -41,7 +41,7 @@ export function Feed() {
   return (
     <>
       <SEO
-        title="Explore · DogeSocial"
+        title="Explore · D2D"
         description="Explore community posts and posts from people you follow."
       />
       <main className="lg:col-span-7 xl:col-span-6 lg:grid lg:grid-cols-12 lg:gap-3">
@@ -77,7 +77,7 @@ export function EndMessage() {
       <GradientBar color="pink" />
       <div className="px-4 py-3">
         <div className="flex flex-col items-center justify-center">
-          <HiCheckCircle className="w-10 h-10 mb-1 text-brand-500" />
+          <HiCheckCircle className="w-10 h-10 mb-1 text-yellow-300" />
           <p className="font-medium ">You&apos;re All Caught Up ! </p>
           <span className="text-center">
             Empty Feed? Follow people to see their posts.

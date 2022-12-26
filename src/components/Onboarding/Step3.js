@@ -34,8 +34,7 @@ export function Step3() {
         <div className="text-2xl font-bold">Your profile</div>
         <div className="text-gray-500">
           Tell us a little bit about yourself — this is how others will see you
-          on DogeSocial. You’ll always be able to edit this later in your
-          Settings.
+          on D2D. You’ll always be able to edit this later in your Settings.
         </div>
       </Card.Body>
       {/* <Form

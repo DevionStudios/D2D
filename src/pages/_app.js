@@ -10,7 +10,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <ThemeProvider storageKey="preferred-theme" attribute="class">
-      <DefaultSeo defaultTitle="DogeSocial" titleTemplate="%s | DogeSocial" />
+      <DefaultSeo defaultTitle="D2D" titleTemplate="%s | D2D" />
       <NProgress />
       <Toaster position="top-right" toastOptions={toastOptions} />
       {getLayout(<Component {...pageProps} />)}
