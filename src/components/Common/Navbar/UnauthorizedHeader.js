@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Popover, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
@@ -6,15 +5,17 @@ import { Button } from "~/components/ui/Button";
 import { GradientBar } from "~/components/ui/GradientBar";
 import { Heading } from "~/components/ui/Heading";
 import { Link } from "~/components/ui/Link";
-import Logo from "../../../assets/D2Dlogo.png";
-import LogoGrad from "../../../assets/D2D Logo Trans.png";
+// import { Logo } from "./Logo";
+import Logo from "../../../assets/D2D Logo Trans.png";
+
+import Image from "next/image";
 
 export function UnauthorizedHeader() {
   return (
     <div>
       <header>
         <GradientBar
-          color="blue"
+          color="pink"
           size="md"
           className="fixed max-w-full top-0 z-10"
         />
@@ -22,13 +23,12 @@ export function UnauthorizedHeader() {
           <div className="flex justify-between items-center max-w-7xl mx-auto py-4 px-4 lg:px-0 md:justify-start md:space-x-10 ">
             <div className="flex justify-start lg:w-0 lg:flex-1">
               <div className="flex items-center space-x-4">
-                {/* <Logo /> */}
-                <Image src={LogoGrad} alt="D2D" width={67} height={67} />
+                <Image src={Logo} alt="D2D Logo" width={67} height={67} />
                 <Heading size="h5">D2D</Heading>
               </div>
             </div>
             <div className="-mr-2 -my-2 md:hidden">
-              <Popover.Button className=" rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-300">
+              <Popover.Button className=" rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-500">
                 <span className="sr-only">Open menu</span>
                 <HiOutlineMenu className="h-6 w-6" aria-hidden="true" />
               </Popover.Button>
@@ -41,7 +41,7 @@ export function UnauthorizedHeader() {
               >
                 Sign in
               </Link>
-              <Button size="lg" href="/auth/signup" className="ml-8 ">
+              <Button size="lg" href="/auth/signup" className="ml-8">
                 Sign up
               </Button>
             </div>
@@ -64,10 +64,13 @@ export function UnauthorizedHeader() {
                 <div className="pt-5 pb-6 ">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
-                      <Logo /> <Heading size="h5">D2D</Heading>
+                      {/* <Logo />  */}
+                      <Image src={Logo} alt="D2D Logo" width={67} height={67} />
+
+                      <Heading size="h5">D2D</Heading>
                     </div>
                     <div className="-mr-2">
-                      <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-300">
+                      <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-500">
                         <span className="sr-only">Close menu</span>
                         <HiOutlineX className="h-6 w-6" aria-hidden="true" />
                       </Popover.Button>
