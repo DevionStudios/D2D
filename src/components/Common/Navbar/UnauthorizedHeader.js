@@ -23,7 +23,7 @@ export function UnauthorizedHeader() {
             <div className="flex justify-start lg:w-0 lg:flex-1">
               <div className="flex items-center space-x-4">
                 {/* <Logo /> */}
-                <Image src={LogoGrad} alt="D2D" width={50} height={50} />
+                <Image src={LogoGrad} alt="D2D" width={67} height={67} />
                 <Heading size="h5">D2D</Heading>
               </div>
             </div>
