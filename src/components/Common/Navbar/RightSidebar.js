@@ -1,3 +1,4 @@
+import React from "react";
 import { gql, useQuery } from "@apollo/client";
 import { HiOutlineCubeTransparent } from "react-icons/hi";
 import { FollowButton } from "~/components/Profile/FollowButton";

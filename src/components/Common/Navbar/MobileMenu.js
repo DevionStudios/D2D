@@ -1,3 +1,4 @@
+import React from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { HiOutlineCog, HiOutlineHome, HiOutlineSparkles } from "react-icons/hi";
 import { Button } from "~/components/ui/Button";

@@ -1,3 +1,4 @@
+import React from "react";
 import Image from "next/image";
 import { Popover } from "@headlessui/react";
 import { HiX, HiMenu, HiOutlineBell } from "react-icons/hi";
