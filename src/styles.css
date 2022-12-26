@@ -1,0 +1,230 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+@tailwind base;
+@tailwind components;
+
+body {
+	@apply text-gray-900 bg-gray-100 dark:text-gray-100 dark:bg-gray-900 antialiased font-sans;
+	font-feature-settings: 'cv11', 'cv04';
+}
+
+form {
+	margin-block-end: 0;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+	-webkit-text-fill-color: black !important;
+	-webkit-box-shadow: 0 0 0 999px theme('colors.white') inset !important;
+	background-clip: content-box !important;
+}
+
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:hover,
+.dark input:-webkit-autofill:focus,
+.dark input:-webkit-autofill:active {
+	-webkit-text-fill-color: white !important;
+	-webkit-box-shadow: 0 0 0 999px theme('colors.gray.800') inset !important;
+	background-clip: content-box !important;
+}
+
+.text-muted {
+	@apply text-gray-500;
+}
+
+#nprogress {
+	@apply z-50 pointer-events-none;
+}
+#nprogress .bar {
+	@apply bg-brand-500 fixed z-50 top-0 left-0 w-full h-1;
+}
+
+/* Image Loading Logic Starts */
+/* Courtesy : https://joebell.co.uk/blog/loading-images-with-the-blur-down-technique */
+.img {
+	--img-blur: 42px;
+	--img-scale: 1.5;
+	--img-transition-duration: 1.2s;
+	display: block;
+	position: relative;
+	overflow: hidden;
+	transform: translateZ(0); /* [1] */
+}
+
+.img__element {
+	font-size: 0; /* [3] */
+	opacity: 0;
+}
+
+/**
+ * "Blur Down"
+ */
+.img--blur-down .img__element,
+.img--blur-down .img__placeholder {
+	filter: blur(var(--img-blur));
+	transform: scale(var(--img-scale));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.img--blur-down .img__element {
+		transition: var(--img-transition-duration) ease;
+		transition-property: filter, opacity, transform;
+		will-change: filter, transform;
+	}
+}
+
+.img--blur-down.is-loaded .img__element {
+	opacity: 1;
+	transform: scale(1);
+	filter: blur(0);
+}
+
+/* React Infinite Scroll Component Style Overrides */
+.infinite-scroll-component {
+	overflow: unset !important;
+}
+
+/* React Giphy Searchbox Style Overrides */
+.reactGiphySearchbox-componentWrapper {
+	overflow: hidden;
+}
+.reactGiphySearchbox-searchForm-input {
+	border-radius: 0.5rem !important;
+	color: black !important;
+}
+
+/* React Link Preview Style Overrides */
+.Container {
+	border: unset !important;
+	border-color: unset !important;
+	transition: none !important;
+}
+.dark .Container {
+	background-color: theme('colors.gray.800') !important;
+	color: theme('colors.gray.100') !important;
+}
+.dark .LowerContainer .Title {
+	color: theme('colors.gray.100') !important;
+}
+.dark .Description {
+	color: theme('colors.gray.300') !important;
+}
+.dark .SiteDetails {
+	color: theme('colors.gray.400') !important;
+}
+.dark .Container:hover,
+.dark .Container .Image :hover {
+	background-color: theme('colors.gray.900') !important;
+}
+
+@media (orientation: landscape) {
+	::-webkit-scrollbar {
+		width: 10px;
+		background-color: theme('colors.gray.100');
+	}
+
+	.dark ::-webkit-scrollbar {
+		background-color: theme('colors.gray.800');
+	}
+
+	::-webkit-scrollbar-thumb {
+		border-radius: 5px;
+		background-color: theme('colors.brand.700');
+		border: 2px solid theme('colors.brand.700');
+	}
+
+	::-webkit-scrollbar-track {
+		border-radius: 3px;
+		background-color: transparent;
+	}
+}
+
+.custom-img {
+	object-fit: contain;
+	width: 100% !important;
+	position: relative !important;
+	height: unset !important;
+}
+
+.unset-img {
+	width: 100%;
+}
+.unset-img > div {
+	position: unset !important;
+}
+.who-to-follow::-webkit-scrollbar {
+	display: none;
+}
+
+.dark div.css-n21wkn {
+	background: theme('colors.gray.900') none repeat scroll 0% 0% / auto
+		padding-box border-box;
+	background-color: #171717;
+}
+div.css-n21wkn {
+	background: #edf2f7 none repeat scroll 0% 0% / auto padding-box border-box;
+	background-color: #edf2f7;
+
+	bottom: 0px;
+	box-sizing: border-box;
+	color: #2d3748;
+	font-family: Inter, sans-serif;
+	height: 0.25rem;
+	left: 0px;
+	line-height: 24px;
+	overflow: hidden;
+	overflow-wrap: break-word;
+	position: relative;
+	right: 0px;
+	top: 0px;
+	word-wrap: break-word;
+}
+.dark div.css-h5ends {
+	background-image: linear-gradient(
+		to right,
+		transparent 0%,
+		theme('colors.pink.600') 50%,
+		transparent 100%
+	);
+}
+div.css-h5ends {
+	animation: animation-11lmxjq 1s ease 0s infinite normal none running;
+	background-image: linear-gradient(
+		to right,
+		transparent 0%,
+		theme('colors.pink.900') 50%,
+		transparent 100%
+	);
+	bottom: 0px;
+	color: #2d3748;
+	height: 100%;
+	left: 244.1px;
+	line-height: 24px;
+	min-width: 50%;
+	overflow-wrap: break-word;
+	position: absolute;
+	right: -69.5px;
+	top: 0px;
+	transition: background-color 0.3s ease 0s, border-color 0.3s ease 0s,
+		color 0.3s ease 0s, fill 0.3s ease 0s, stroke 0.3s ease 0s,
+		opacity 0.3s ease 0s, box-shadow 0.3s ease 0s, transform 0.3s ease 0s;
+	transition-duration: 0.3s;
+	transition-property: background-color, border-color, color, fill, stroke,
+		opacity, box-shadow, transform;
+	width: 0%;
+	will-change: left;
+	word-wrap: break-word;
+}
+
+@keyframes animation-11lmxjq {
+	0% {
+		left: -40%;
+	}
+
+	100% {
+		left: 100%;
+	}
+}
+
+@tailwind utilities;
