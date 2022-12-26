@@ -16,7 +16,7 @@ module.exports = {
         sans: ["Inter", ...defaultTheme.fontFamily.sans],
       },
       colors: {
-        gray: colors.trueGray,
+        gray: colors.neutral,
         brand: brandColor,
       },
       ringColor: {

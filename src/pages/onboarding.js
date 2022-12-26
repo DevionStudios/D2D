@@ -60,7 +60,7 @@ export default function Onboarding() {
         <div className="py-2 flex justify-center items-center">
           <Link href="/">
             <svg
-              className="hi-solid hi-cube-transparent inline-block w-10 h-10 mr-1  text-brand-600"
+              className="hi-solid hi-cube-transparent inline-block w-10 h-10 mr-1  text-brand-300"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"

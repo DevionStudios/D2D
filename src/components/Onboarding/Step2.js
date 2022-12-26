@@ -1,4 +1,3 @@
-import { useQuery } from "@apollo/client";
 import { UserHandle } from "../Common/UserHandle";
 import { FollowButton } from "../Profile/FollowButton";
 import { Card } from "../ui/Card";

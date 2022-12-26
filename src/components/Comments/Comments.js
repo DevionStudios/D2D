@@ -1,11 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { Heading } from "../ui/Heading";
 import { Card } from "~/components/ui/Card";
-// import { gql, useQuery } from "@apollo/client";
-import {
-  CommentsQuery,
-  CommentsQueryVariables,
-} from "./__generated__/Comments.generated";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { LoadingFallback } from "../ui/Fallbacks/LoadingFallback";
 import { formatDistance } from "date-fns";

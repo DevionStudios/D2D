@@ -18,17 +18,14 @@ import { Card } from "../ui/Card";
 import Form, { useZodForm } from "../ui/Form/Form";
 import { TextArea } from "../ui/TextArea";
 
-import { Comments, COMMENTS_QUERY } from "../Comments/Comments";
-import { CREATE_COMMENT_MUTATION } from "./ReplyModal";
+import { Comments } from "../Comments/Comments";
 import { PostDropdown } from "./PostDropdown";
-import { TOGGLE_LIKE_MUTATION } from "./FeedPostCard";
 
 import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
 import { LoadingFallback } from "../ui/Fallbacks/LoadingFallback";
 import Modal from "../ui/Modal";
 import { Link } from "~/components/ui/Link";
 
-import { ViewLikes } from "./ViewLikes";
 import { SEO } from "../SEO";
 
 export const CommentSchema = z.object({
@@ -215,10 +212,10 @@ export function PostCard() {
                   <button onClick={() => setLikesModal(true)}>
                     <p className="text-muted ml-1 ">Likes</p>{" "}
                   </button>
-                  <ViewLikes
+                  {/* <ViewLikes
                     isOpen={likesModal}
                     onClose={() => setLikesModal(false)}
-                  />
+                  /> */}
                 </span>
                 <span className="inline-flex">
                   <p className="font-bold">{post.comments.totalCount}</p>
