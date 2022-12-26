@@ -1,14 +1,10 @@
 import { object, string } from "zod";
 import { Input } from "../ui/Input";
 import Form, { useZodForm } from "~/components/ui/Form/Form";
-import { gql, useMutation } from "@apollo/client";
 import { Link } from "../ui/Link";
-import { useAuthRedirect } from "~/utils/useAuthRedirect";
-
 import { AuthLayout } from "./AuthLayout";
 import { Card } from "../ui/Card";
 import toast from "react-hot-toast";
-import { LoginFormMutation } from "./__generated__/SignIn.generated";
 import FormSubmitButton from "../ui/Form/SubmitButton";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/Button";
@@ -19,59 +15,17 @@ const loginSchema = object({
 });
 
 export function LoginForm() {
-  const authRedirect = useAuthRedirect();
-
-  const [login, loginResult] =
-    useMutation <
-    LoginFormMutation(
-      gql`
-        mutation LoginFormMutation($input: SignInInput!) {
-          signIn(input: $input) {
-            user {
-              username
-            }
-            session {
-              id
-            }
-            success
-          }
-        }
-      `,
-      {
-        onCompleted: () => {
-          authRedirect();
-        },
-        onError(err) {
-          toast(err.message);
-        },
-      }
-    );
-
   const form = useZodForm({
     schema: loginSchema,
   });
-
-  async function handleGuestLogin(e) {
-    form.setValue("email", "test_account@dogesocial.app");
-    form.setValue("password", "test_user");
-    e.preventDefault();
-    await login({
-      variables: {
-        input: { email: "test_account@dogesocial.app", password: "test_user" },
-      },
-    });
-  }
-
   return (
     <AuthLayout
       title="Sign In."
-      subtitle="Welcome back! Sign in to your DogeSocial account."
+      subtitle="Welcome back! Sign in to your Decentralised To Decentralised account."
     >
       <Form
         form={form}
-        onSubmit={async ({ email, password }) => {
-          await login({ variables: { input: { email, password } } });
-        }}
+        onSubmit={async ({ email, password }) => {}}
         className="w-full"
       >
         <Input
@@ -92,9 +46,6 @@ export function LoginForm() {
         />
 
         <FormSubmitButton size="lg">Login</FormSubmitButton>
-        <Button variant="dark" size="lg" onClick={handleGuestLogin}>
-          Login as guest
-        </Button>
       </Form>
       <div>
         <Card rounded="lg" className="mt-4">
@@ -104,7 +55,7 @@ export function LoginForm() {
               className="font-medium text-brand-600 hover:text-brand-400"
               href="/auth/signup"
             >
-              Join DogeSocial™
+              Join D2D™
             </Link>
           </Card.Body>
         </Card>

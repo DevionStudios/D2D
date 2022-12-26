@@ -1,65 +1,31 @@
-import { gql, useMutation } from "@apollo/client";
 import router from "next/router";
 import toast from "react-hot-toast";
 import { z } from "zod";
-import { useAuthRedirect } from "~/utils/useAuthRedirect";
 import { Card } from "../ui/Card";
 import Form, { useZodForm } from "../ui/Form/Form";
 import FormSubmitButton from "../ui/Form/SubmitButton";
 import { Input } from "../ui/Input";
 import { Link } from "../ui/Link";
 import { AuthLayout } from "./AuthLayout";
-import { SignUpMutation } from "./__generated__/SignUp.generated";
-
 const SignUpSchema = z.object({
   email: z.string().email(),
-  firstName: z.string().min(2),
-  lastName: z.string().min(2),
+  fullName: z.string().min(3),
   username: z.string().min(3),
-  password: z.string().min(5),
+  password: z.string().min(6),
 });
 
 export function SignUp() {
-  const [signup] =
-    useMutation <
-    SignUpMutation >
-    (gql`
-      mutation SignUpMutation($input: SignUpInput!) {
-        signUp(input: $input) {
-          success
-          session {
-            id
-          }
-          user {
-            username
-          }
-        }
-      }
-    `,
-    {
-      onCompleted: () => {
-        router.push("/onboarding?step=0");
-      },
-      onError: (error) => toast(error.message),
-    });
-
-  const authRedirect = useAuthRedirect();
-
+  const signup = async () => {};
   const form = useZodForm({
     schema: SignUpSchema,
   });
 
   return (
-    <AuthLayout title="Sign Up." subtitle="Sign up and join the DogeSocial!">
-      <Form
-        form={form}
-        onSubmit={async (values) => {
-          const ok = await signup({ variables: { input: { ...values } } });
-          if (ok.data?.signUp.success) {
-            router.push("/onboarding?step=0");
-          }
-        }}
-      >
+    <AuthLayout
+      title="Sign Up."
+      subtitle="Sign up and join the Decentralised To Decentralised!"
+    >
+      <Form form={form} onSubmit={async (values) => {}}>
         <Input
           label="Email Address"
           type="email"
@@ -68,17 +34,10 @@ export function SignUp() {
         />
 
         <Input
-          label="First Name"
+          label="Full Name"
           type="text"
-          placeholder="John"
-          {...form.register("firstName")}
-        />
-
-        <Input
-          label="Last Name"
-          type="text"
-          placeholder="Doe"
-          {...form.register("lastName")}
+          placeholder="Your Full Name"
+          {...form.register("fullName")}
         />
 
         <Input
@@ -91,7 +50,7 @@ export function SignUp() {
         <Input
           label="Password"
           type="password"
-          placeholder="Your password (min 5)"
+          placeholder="Your password (min 6)"
           {...form.register("password")}
         />
 
@@ -105,7 +64,7 @@ export function SignUp() {
               className="font-medium text-brand-600 hover:text-brand-400"
               href="/auth/signin"
             >
-              Log into DogeSocial™
+              Log into D2D™
             </Link>
           </Card.Body>
         </Card>
