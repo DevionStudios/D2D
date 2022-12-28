@@ -14,7 +14,6 @@ import { ProfileDropdown } from "./ProfileDropdown";
 import { MobileMenu } from "./MobileMenu";
 import Spinner from "~/components/ui/Spinner";
 import { useState } from "react";
-import { NotificationOverlay } from "~/components/Notifications/NotificationOverlay";
 import { UnauthorizedHeader } from "./UnauthorizedHeader";
 import Logo from "../../../assets/D2Dlogo.png";
 import LogoGrad from "../../../assets/D2DlogoGrad.png";
@@ -100,10 +99,7 @@ export function Navbar() {
               </div>
             </div>
           </div>
-          <NotificationOverlay
-            open={openNotifications}
-            setOpen={setNotificationOpen}
-          />
+
           <MobileMenu user={user} open={open} closeFx={close} />
         </>
       )}

@@ -5,7 +5,6 @@ import {
   HiOutlineLogout,
   HiOutlineSparkles,
 } from "react-icons/hi";
-import { Avatar } from "~/components/ui/Avatar";
 import { Menu, MenuItem } from "~/components/ui/Dropdown";
 
 export function ProfileDropdown({ user }) {
@@ -41,8 +40,6 @@ export function ProfileDropdown({ user }) {
         </>
       }
       dropdownClassName="mr-5 mt-6"
-    >
-      <Avatar rounded url={user.avatar} />
-    </Menu>
+    ></Menu>
   );
 }
