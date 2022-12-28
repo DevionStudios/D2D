@@ -2,7 +2,6 @@ import React from "react";
 import { Tab } from "@headlessui/react";
 import clsx from "clsx";
 import { useRouter } from "next/router";
-import React from "react";
 import { IconType } from "react-icons/lib";
 import { useState } from "react";
 
