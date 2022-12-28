@@ -15,19 +15,13 @@ const EditProfileFormSchema = object({
     .min(4, "Username is too short")
     .max(15, "Username is too long. Consider making it shorter.")
     .optional(),
-  firstName: z
+  fullname: z
     .string()
     .min(1, "Firstname must be longer than one character.")
-    .max(20, "Consider putting a shorter first name."),
+    .max(30, "Consider putting a shorter first name."),
   bio: z
     .string()
     .max(400, "Exceeds 400 characters. Consider keeping bio shorter.")
-    .optional()
-    .nullable(),
-  lastName: z
-    .string()
-    .min(1)
-    .max(20, "Consider keeping last name shorter.")
     .optional()
     .nullable(),
   email: z.string().email("Must be a valid email address."),
@@ -35,8 +29,15 @@ const EditProfileFormSchema = object({
   coverImage: z.any().optional(),
 });
 
-export function EditProfileTab({ user }) {
+export function EditProfileTab(/*{ user }*/) {
   const [loading, setLoading] = useState(false);
+  // fetch user data before rendering
+  const user = {
+    username: "azulul",
+    fullname: "Azulul Mobius",
+    bio: "I am a gamer",
+    email: "azulul@gmail.com",
+  };
   const form = useZodForm({
     schema: EditProfileFormSchema,
     defaultValues: {
@@ -47,20 +48,21 @@ export function EditProfileTab({ user }) {
     },
   });
 
-  useEffect(() => {
-    form.reset({
-      username: user?.username,
-      bio: user?.bio,
-      firstName: user?.firstName,
-      lastName: user?.lastName,
-      email: user?.email,
-    });
-  }, [user]);
+  //   useEffect(() => {
+  //     form.reset({
+  //       username: user.username,
+  //       bio: user.bio,
+  //       fullname: user.fullname,
+  //       email: user.email,
+  //     });
+  //   }, []);
 
   if (loading) {
     return <LoadingFallback />;
   }
-  const updateProfile = async ({ variables }) => {};
+  const updateProfile = async ({ variables }) => {
+    console.log(variables);
+  };
   return (
     <Card rounded="lg" className="lg:max-w-3xl">
       <Form
@@ -69,7 +71,6 @@ export function EditProfileTab({ user }) {
           const changedValues = Object.fromEntries(
             Object.keys(form.formState.dirtyFields).map((key) => [
               key,
-              // @ts-ignore
               values[key],
             ])
           );
@@ -99,7 +100,7 @@ export function EditProfileTab({ user }) {
             <div className="flex space-x-3 ">
               <div className="flex-[0.3]">
                 <FileInput
-                  existingimage={user?.avatar}
+                  existingimage={user.avatar}
                   name="avatar"
                   accept="image/png, image/jpg, image/jpeg, image/gif"
                   multiple={false}
@@ -107,7 +108,7 @@ export function EditProfileTab({ user }) {
               </div>
               <div className="flex-[0.7]">
                 <FileInput
-                  existingimage={user?.coverImage}
+                  existingimage={user.coverImage}
                   accept="image/png, image/jpg, image/jpeg, image/gif"
                   name="coverImage"
                   label="Cover Image"
@@ -120,22 +121,15 @@ export function EditProfileTab({ user }) {
                 {...form.register("username")}
                 label="Username"
                 placeholder="Your username"
-                prefix="dogesocial.com/@"
+                prefix="D2D.com/@"
               />
             </div>
             <div className="flex space-x-3">
               <div className="flex-1">
                 <Input
-                  {...form.register("firstName")}
-                  label="First Name"
-                  placeholder="Your First Name"
-                />
-              </div>
-              <div className="flex-1">
-                <Input
-                  {...form.register("lastName")}
-                  label="Last Name"
-                  placeholder="Your last name"
+                  {...form.register("fullname")}
+                  label="Full Name"
+                  placeholder="Your Full Name"
                 />
               </div>
             </div>

@@ -4,10 +4,10 @@ import { Card } from "../ui/Card";
 
 import InfiniteScroll from "react-infinite-scroll-component";
 import { LoadingFallback } from "../ui/Fallbacks/LoadingFallback";
-// import { FeedPostCard } from "../Post/FeedPostCard";
+import { FeedPostCard } from "../Post/FeedPostCard";
 import { Badge } from "../ui/Badge";
 import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
-// import { EndMessage } from "../Feed";
+import { EndMessage } from "../Feed";
 
 export function UserPosts({ username, count }) {
   //dummy data
@@ -55,7 +55,7 @@ export function UserPosts({ username, count }) {
                 }}
                 dataLength={posts.length}
                 loader={<LoadingFallback />}
-                // endMessage={<EndMessage />}
+                endMessage={<EndMessage />}
               >
                 {posts.map((post) => {
                   const data = post;
