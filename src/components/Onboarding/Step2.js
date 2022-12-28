@@ -5,6 +5,8 @@ import { LoadingFallback } from "../ui/Fallbacks/LoadingFallback";
 import { FileInput } from "../ui/Form/FileInput";
 import Form, { useZodForm } from "../ui/Form/Form";
 import { TextArea } from "../ui/TextArea";
+import { useState } from "react";
+import { Router } from "next/router";
 
 const ProfileFormSchema = z.object({
   bio: z
@@ -17,6 +19,7 @@ const ProfileFormSchema = z.object({
 });
 
 export function Step2() {
+  const [loading, setLoading] = useState(false);
   const user = {};
   const form = useZodForm({
     schema: ProfileFormSchema,
@@ -24,9 +27,9 @@ export function Step2() {
       bio: user.bio,
     },
   });
-
-  // if (loading) return <LoadingFallback />
-
+  const updateProfile = async ({ variables }) => {
+    console.log(variables);
+  };
   return (
     <Card className="space-y-4 my-6 overflow-hidden" rounded="lg">
       <Card.Body className="space-y-1">
@@ -36,61 +39,66 @@ export function Step2() {
           on D2D. You’ll always be able to edit this later in your Settings.
         </div>
       </Card.Body>
-      {/* <Form
-				form={form}
-				onSubmit={async (values) => {
-					const changedValues = Object.fromEntries(
-						Object.keys(form.formState.dirtyFields).map((key) => [
-							key,
-							// @ts-ignore
-							values[key],
-						])
-					)
+      <Form
+        form={form}
+        onSubmit={async (values) => {
+          setLoading(true);
+          const changedValues = Object.fromEntries(
+            Object.keys(form.formState.dirtyFields).map((key) => [
+              key,
+              values[key],
+            ])
+          );
 
-					const input = {
-						...changedValues,
-						avatar: values?.avatar?.[0],
-						coverImage: values?.coverImage?.[0],
-					}
+          const input = {
+            ...changedValues,
+            avatar: values.avatar?.[0],
+            coverImage: values.coverImage?.[0],
+          };
 
-					await updateProfile({
-						variables: { input },
-					})
+          await updateProfile({
+            variables: { input },
+          });
 
-					toast('Profile updated successfully.')
-				}}
-			> */}
-      {/* <div className="flex space-x-3 px-5">
-					<div className="flex-[0.3]">
-						<FileInput
-							existingimage={user?.avatar}
-							name="avatar"
-							accept="image/png, image/jpg, image/jpeg, image/gif"
-							multiple={false}
-						/>
-					</div>
-					<div className="flex-[0.7] ">
-						<FileInput
-							existingimage={user?.coverImage}
-							accept="image/png, image/jpg, image/jpeg, image/gif"
-							name="coverImage"
-							label="Cover Image"
-							multiple={false}
-						/>
-					</div>
-				</div>
+          toast("Profile updated successfully.");
+          // After updating profile setLoading To false
+          setLoading(false);
+          // Redirect to feed
+          Router.push("/feed/");
+        }}
+      >
+        <div className="flex space-x-3 px-5">
+          <div className="flex-[0.3]">
+            <FileInput
+              existingimage={user.avatar}
+              name="avatar"
+              accept="image/png, image/jpg, image/jpeg, image/gif"
+              multiple={false}
+            />
+          </div>
+          <div className="flex-[0.7] ">
+            <FileInput
+              existingimage={user.coverImage}
+              accept="image/png, image/jpg, image/jpeg, image/gif"
+              name="coverImage"
+              label="Cover Image"
+              multiple={false}
+            />
+          </div>
+        </div>
 
-				<div className="px-5 py-10">
-					<TextArea
-						{...form.register('bio')}
-						label="Bio"
-						placeholder="Write a few lines about yourself."
-					/>
-				</div>
-				<Card.Footer className="flex flex-row-reverse">
-					<Form.SubmitButton>Save</Form.SubmitButton>
-				</Card.Footer>
-			</Form> */}
+        <div className="px-5 py-10">
+          <TextArea
+            {...form.register("bio")}
+            label="Bio"
+            placeholder="Write a few lines about yourself."
+          />
+        </div>
+        <Card.Footer className="flex flex-row-reverse">
+          <Form.SubmitButton>Save</Form.SubmitButton>
+        </Card.Footer>
+      </Form>
+      {loading && <LoadingFallback />}
     </Card>
   );
 }

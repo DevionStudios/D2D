@@ -99,7 +99,7 @@ export default function Onboarding() {
           </Tab.List>
           <Tab.Panels>
             {currentStep === 0 && <Step1 />}
-            {currentStep === 2 && <Step2 />}
+            {currentStep === 1 && <Step2 />}
           </Tab.Panels>
         </Tab.Group>
 
