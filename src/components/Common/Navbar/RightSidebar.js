@@ -1,5 +1,5 @@
 import { HiOutlineCubeTransparent } from "react-icons/hi";
-// import { FollowButton } from "~/components/Profile/FollowButton";
+import { FollowButton } from "~/components/Profile/FollowButton";
 import { Button } from "~/components/ui/Button";
 import { Card } from "~/components/ui/Card";
 import { ErrorFallback } from "~/components/ui/Fallbacks/ErrorFallback";
@@ -30,7 +30,7 @@ export function RightSidebar() {
           node: {
             id: "1",
             username: "inu_chan",
-            avatar: "https://placekitten.com/200/300",
+            avatar: "https://placekitten.com/400/300",
             firstName: "Inu",
             lastName: "Chan",
             isFollowing: true,
@@ -40,7 +40,7 @@ export function RightSidebar() {
           node: {
             id: "1",
             username: "saru_chan",
-            avatar: "https://placekitten.com/200/300",
+            avatar: "https://placekitten.com/300/300",
             firstName: "Saru",
             lastName: "Chan",
             isFollowing: false,
@@ -50,7 +50,7 @@ export function RightSidebar() {
           node: {
             id: "1",
             username: "hebi_chan",
-            avatar: "https://placekitten.com/200/300",
+            avatar: "https://placekitten.com/200/200",
             firstName: "Hebi",
             lastName: "Chan",
             isFollowing: false,
@@ -138,11 +138,11 @@ export function RightSidebar() {
                           </p>
                         </div>
                         <div className="flex-shrink-0">
-                          {/* <FollowButton
+                          <FollowButton
                             variant="dark"
                             isFollowing={user?.isFollowing}
                             username={user?.username}
-                          /> */}
+                          />
                         </div>
                       </li>
                     );

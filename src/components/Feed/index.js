@@ -9,6 +9,7 @@ import { ErrorFallback } from "~/components/ui/Fallbacks/ErrorFallback";
 import React from "react";
 import { SEO } from "../SEO";
 import { IndeterminateProgress } from "../ui/Progress";
+import { WhoToFollow } from "./WhoToFollow";
 
 let FEED_QUERY;
 
@@ -20,9 +21,14 @@ export function Feed() {
         {
           node: {
             id: "1",
-            title: "Hello World",
-            content: "This is a test post",
-            createdAt: "2020-12-09T11:43:00",
+            createdAt: "Janu 1, 12:10 PM",
+            isMine: true,
+            isLiked: false,
+            likes: {
+              totalCount: 404,
+            },
+            caption: "Hi there! I am Neko Chan and I hate cats!",
+            // image: "https://placekitten.com/720/480",
             user: {
               id: "1",
               username: "neko_chan",
@@ -37,14 +43,20 @@ export function Feed() {
         {
           node: {
             id: "2",
-            title: "Hello World",
-            content: "This is a test post",
-            createAt: "2020-12-09T11:43:00",
+            createdAt: "Janu 2, 12:10 PM",
+            isMine: false,
+            isLiked: true,
+            likes: {
+              totalCount: 10,
+            },
+            caption: "test caption",
+            gifImage:
+              "https://media3.giphy.com/media/CnSdOKbh6mCUlHNG4z/giphy.gif",
             user: {
               id: "1",
-              username: "neko_chan",
-              avatar: "https://placekitten.com/200/300",
-              firstName: "Neko",
+              username: "hebi_chan",
+              avatar: "https://placekitten.com/200/200",
+              firstName: "Hebi",
               lastName: "Chan",
               isFollowing: false,
             },
@@ -101,7 +113,7 @@ export function Feed() {
               return (
                 <div key={edge?.cursor}>
                   <FeedPostCard post={edge?.node} />
-                  {/* {index === 5 || index === 10 ? <WhoToFollow /> : null} */}
+                  {index === 5 || index === 10 ? <WhoToFollow /> : null}
                 </div>
               );
             })}

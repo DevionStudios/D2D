@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import toast from "react-hot-toast";
 
-import { Interweave } from "../Interweave";
+// import { Interweave } from "../Interweave";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
 import Form, { useZodForm } from "../ui/Form/Form";
@@ -9,7 +9,7 @@ import { Heading } from "../ui/Heading";
 import Modal from "../ui/Modal";
 import { TextArea } from "../ui/TextArea";
 import { Props as FeedPostCardProps } from "./FeedPostCard";
-import { CommentSchema } from "./PostCard";
+// import { CommentSchema } from "./PostCard";
 
 export let CREATE_COMMENT_MUTATION;
 
@@ -17,7 +17,7 @@ export function ReplyModal({ isOpen, onClose, ...props }) {
   let createComment;
 
   const form = useZodForm({
-    schema: CommentSchema,
+    // schema: CommentSchema,
   });
 
   return (
@@ -63,12 +63,12 @@ export function ReplyModal({ isOpen, onClose, ...props }) {
         </div>
         <div className=" mt-4">
           <p className=" space-y-4 dark:text-gray-300">
-            {props.post.caption && !props.post.image && (
+            {/* {props.post.caption && !props.post.image && (
               <Interweave content={props.post.caption} />
             )}
             {props.post.caption && props.post.image && (
               <Interweave content={props.post.caption + props.post.image} />
-            )}
+            )} */}
           </p>
         </div>
         <div className="w-full mt-4">

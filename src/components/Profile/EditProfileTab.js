@@ -120,7 +120,7 @@ export function EditProfileTab({ user }) {
                 {...form.register("username")}
                 label="Username"
                 placeholder="Your username"
-                prefix="dogesocial.com/@"
+                prefix="d2d.com/@"
               />
             </div>
             <div className="flex space-x-3">

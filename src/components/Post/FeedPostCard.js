@@ -8,8 +8,8 @@ import {
 import { format } from "date-fns";
 
 import { Card } from "~/components/ui/Card";
-// import { Interweave } from "../Interweave";
-// import { ReplyModal } from "./ReplyModal";
+import { Interweave } from "../Interweave";
+import { ReplyModal } from "./ReplyModal";
 import { Button } from "../ui/Button";
 import { Link } from "~/components/ui/Link";
 import { PostDropdown } from "./PostDropdown";
@@ -73,12 +73,12 @@ export function FeedPostCard(props) {
               </Link>
               <p className="text-sm text-gray-500">
                 <a href="#" className="hover:underline">
-                  {/* <time dateTime="2020-12-09T11:43:00">
+                  <time dateTime="2020-12-09T11:43:00">
                     {format(
                       new Date(props.post.createdAt),
                       "MMMM d, hh:mm aaa"
                     )}
-                  </time> */}
+                  </time>
                 </a>
               </p>
             </div>
@@ -113,7 +113,7 @@ export function FeedPostCard(props) {
                   layout="fill"
                   objectFit="cover"
                   placeholder="empty"
-                  alt={`Image posted by ${props.post.user.firstName} on DogeSocial.`}
+                  alt={`Image posted by ${props.post.user.firstName} on D2D.`}
                 />
               </div>
             </div>
@@ -123,7 +123,7 @@ export function FeedPostCard(props) {
 
           <div className="px-6  pb-2 my-2">
             <p className=" space-y-4 dark:text-gray-300">
-              {/* <Interweave content={props.post.caption} /> */}
+              <Interweave content={props.post.caption} />
             </p>
           </div>
         </Link>
@@ -157,11 +157,11 @@ export function FeedPostCard(props) {
                 <HiOutlineReply className="w-5 h-5" />
                 <p>{props.post.comments?.totalCount}</p>
               </Button>
-              {/* <ReplyModal
+              <ReplyModal
                 isOpen={isOpen}
                 onClose={() => setIsOpen(false)}
                 {...props}
-              /> */}
+              />
             </span>
           </div>
           <div>
@@ -170,9 +170,7 @@ export function FeedPostCard(props) {
                 variant="dark"
                 onClick={async () => {
                   navigator.clipboard
-                    .writeText(
-                      `https://dogesocial.vercel.app/post/${props.post.id}`
-                    )
+                    .writeText(`https://d2d.vercel.app/post/${props.post.id}`)
                     .then(() => toast.success("Link copied to clipboard"));
                 }}
               >

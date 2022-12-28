@@ -73,17 +73,17 @@ export function PostCard() {
   const post = data.seePost;
 
   const shareData = {
-    title: `${data.seePost.user.username} on DogeSocial.`,
+    title: `${data.seePost.user.username} on D2D.`,
     text: `${
       data.seePost.caption ?? "Check it out now! See what they have to say."
     }`,
-    url: `https://dogesocial.vercel.app/post/${data.seePost.id}`,
+    url: `https://d2d.vercel.app/post/${data.seePost.id}`,
   };
 
   return (
     <>
       <SEO
-        title={`${data.seePost.user.username} on DogeSocial: ${
+        title={`${data.seePost.user.username} on D2D: ${
           post.caption ? post?.caption.slice(0, 255) : ""
         }`}
         description={post.caption ? post.caption.slice(0, 255) : ""}
@@ -269,9 +269,7 @@ export function PostCard() {
                     variant="dark"
                     onClick={async () => {
                       navigator.clipboard
-                        .writeText(
-                          `https://dogesocial.vercel.app/post/${post.id}`
-                        )
+                        .writeText(`https://d2d.vercel.app/post/${post.id}`)
                         .then(() => toast.success("Link copied to clipboard"));
                     }}
                   >
