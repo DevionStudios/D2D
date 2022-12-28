@@ -88,6 +88,6 @@
     "src/components/ui/Modal/ModalHeader/index.js",
     "src/components/ui/Modal/index.js",
     "src/components/ui/TextArea/index.js"
-, "src/components/Profile/EditProfileTab.js", "src/components/Profile/FollowButton.js", "src/components/Profile/Password.js", "src/components/Profile/Preferences.js", "src/components/Profile/Profile.js", "src/components/Profile/UserPosts.js"  ],
+, "src/components/Profile/EditProfileTab.js", "src/components/Profile/FollowButton.js", "src/components/Profile/Password.js", "src/components/Profile/Preferences.js", "src/components/Profile/Profile.js", "src/components/Profile/UserPosts.js", "src/pages/account/settings/index.js", "src/components/Common/Layouts/AccountPageLayout.js", "src/components/Common/Layouts/PostPageLayout.js", "src/pages/post/new/index.js"  ],
   "exclude": ["node_modules"]
 }

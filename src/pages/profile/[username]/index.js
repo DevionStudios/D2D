@@ -1,7 +1,7 @@
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { Navbar } from "~/components/Common/Navbar";
-import { Profile, PROFILE_QUERY } from "~/components/Profile/Profile";
+import { Profile } from "~/components/Profile/Profile";
 
 export default function ProfilePage() {
   const router = useRouter();

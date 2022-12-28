@@ -22,7 +22,7 @@ export function Profile({ username }) {
 
   // fetch user data, currently dummy data
   const user = {
-    username: "azulul",
+    username: username,
     firstName: "Azulul",
     lastName: "Mobius",
     isMe: true, // can be made false

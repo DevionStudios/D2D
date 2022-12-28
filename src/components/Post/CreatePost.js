@@ -28,17 +28,16 @@ export const CreatePostSchema = object({
   path: ["caption"],
 });
 
-let CREATE_POST_MUTATION;
-
 export function CreatePost() {
-  let createPost;
+  const createPost = async ({ variables }) => {
+    //post data
+    console.log(variables);
+  };
   const form = useZodForm({
     schema: CreatePostSchema,
   });
 
   function handleEmojiPick(emote) {
-    //The types provided by these types are incorrect. I promise there's a native obj here
-    // @ts-ignore
     form.setValue("caption", form.watch("caption") + emote.native);
   }
 
