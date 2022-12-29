@@ -53,7 +53,9 @@ router.post(
         jwt: userJwt,
       };
 
-      res.status(200).send(existingUser);
+      res.status(200).send({
+        jwt: userJwt,
+      });
     } catch (err) {
       console.log(err);
       res.status(500).send({ message: err });
