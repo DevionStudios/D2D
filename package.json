@@ -24,5 +24,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.8.1",
     "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "@types/cookie-session": "^2.0.44"
   }
 }
