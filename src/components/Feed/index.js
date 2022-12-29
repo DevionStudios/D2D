@@ -27,6 +27,9 @@ export function Feed() {
             likes: {
               totalCount: 404,
             },
+            comments: {
+              totalCount: 10,
+            },
             caption: "Hi there! I am Neko Chan and I hate cats!",
             // image: "https://placekitten.com/720/480",
             user: {
@@ -46,6 +49,9 @@ export function Feed() {
             isMine: false,
             isLiked: true,
             likes: {
+              totalCount: 10,
+            },
+            comments: {
               totalCount: 10,
             },
             caption: "test caption",

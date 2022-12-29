@@ -1,5 +1,7 @@
 import React from "react";
 import dynamic from "next/dynamic";
+import { ConnectButton } from "@web3uikit/web3";
+
 import { HiOutlineFire, HiOutlineHashtag, HiOutlineHome } from "react-icons/hi";
 import { Feed } from "~/components/Feed";
 import { TabbedLayout } from "../Navbar/TabbedLayout";

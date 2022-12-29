@@ -12,16 +12,16 @@ function MyApp({ Component, pageProps }) {
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
-    <MoralisProvider initializeOnMount={false}>
-      <NotificationProvider>
-        <ThemeProvider storageKey="preferred-theme" attribute="class">
-          <DefaultSeo defaultTitle="D2D" titleTemplate="%s | D2D" />
-          <NProgress />
-          <Toaster position="top-right" toastOptions={toastOptions} />
+    <ThemeProvider storageKey="preferred-theme" attribute="class">
+      <DefaultSeo defaultTitle="D2D" titleTemplate="%s | D2D" />
+      <NProgress />
+      <Toaster position="top-right" toastOptions={toastOptions} />
+      <MoralisProvider initializeOnMount={false}>
+        <NotificationProvider>
           {getLayout(<Component {...pageProps} />)}
-        </ThemeProvider>
-      </NotificationProvider>
-    </MoralisProvider>
+        </NotificationProvider>
+      </MoralisProvider>
+    </ThemeProvider>
   );
 }
 export default MyApp;

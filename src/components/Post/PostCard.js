@@ -232,8 +232,8 @@ export function PostCard() {
                   <Button
                     loading={isLikeLoading}
                     onClick={async () => {
-                      // setHasLiked(!hasLiked)
-                      // setLikesCount(hasLiked ? likesCount - 1 : likesCount + 1)
+                      // setHasLiked(!hasLiked);
+                      // setLikesCount(hasLiked ? likesCount - 1 : likesCount + 1);
                       await toggleLike({
                         variables: { id: post.id },
                       });
