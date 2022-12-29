@@ -1,9 +1,12 @@
 import { useState } from "react";
 import {
   HiHeart,
+  HiOutlineBadgeCheck,
+  HiOutlineCurrencyDollar,
   HiOutlineHeart,
   HiOutlineReply,
   HiOutlineShare,
+  HiOutlineSupport,
 } from "react-icons/hi";
 import { format } from "date-fns";
 
@@ -162,6 +165,12 @@ export function FeedPostCard(props) {
                 onClose={() => setIsOpen(false)}
                 {...props}
               />
+            </span>
+            {/* To Tip on the posts */}
+            <span className="inline-flex items-center space-x-2">
+              <Button variant="dark" className="space-x-2">
+                <HiOutlineCurrencyDollar className="w-10 h-6" />
+              </Button>
             </span>
           </div>
           <div>

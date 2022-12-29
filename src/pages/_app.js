@@ -1,3 +1,6 @@
+import { MoralisProvider } from "react-moralis";
+import { NotificationProvider } from "@web3uikit/core";
+
 import { DefaultSeo } from "next-seo";
 import { NProgress } from "~/components/ui/NProgress";
 import { ThemeProvider } from "next-themes";
@@ -13,7 +16,11 @@ function MyApp({ Component, pageProps, currentUser }) {
       <DefaultSeo defaultTitle="D2D" titleTemplate="%s | D2D" />
       <NProgress />
       <Toaster position="top-right" toastOptions={toastOptions} />
-      {getLayout(<Component {...pageProps} currentUser={currentUser} />)}
+      <MoralisProvider initializeOnMount={false}>
+        <NotificationProvider>
+          {getLayout(<Component {...pageProps} currentUser={currentUser} />)}
+        </NotificationProvider>
+      </MoralisProvider>
     </ThemeProvider>
   );
 }

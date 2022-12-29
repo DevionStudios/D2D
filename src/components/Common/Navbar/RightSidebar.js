@@ -1,3 +1,4 @@
+import { ConnectButton } from "@web3uikit/web3";
 import { HiOutlineCubeTransparent } from "react-icons/hi";
 import { FollowButton } from "~/components/Profile/FollowButton";
 import { Button } from "~/components/ui/Button";
@@ -27,7 +28,7 @@ export function RightSidebar() {
         },
         {
           node: {
-            id: "1",
+            id: "2",
             username: "inu_chan",
             avatar: "https://placekitten.com/400/300",
             name: "Inu Chan",
@@ -36,7 +37,7 @@ export function RightSidebar() {
         },
         {
           node: {
-            id: "1",
+            id: "3",
             username: "saru_chan",
             avatar: "https://placekitten.com/300/300",
             name: "Saru Chan",
@@ -45,7 +46,7 @@ export function RightSidebar() {
         },
         {
           node: {
-            id: "1",
+            id: "4",
             username: "hebi_chan",
             avatar: "https://placekitten.com/200/200",
             name: "Hebi Chan",
@@ -149,6 +150,7 @@ export function RightSidebar() {
           </div>
         </section>
       </div>
+      {/* <ConnectButton /> */}
       <Footer />
     </aside>
   );
