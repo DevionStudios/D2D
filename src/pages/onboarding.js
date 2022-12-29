@@ -1,7 +1,7 @@
 import { Tab } from "@headlessui/react";
 import clsx from "clsx";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Step1 } from "~/components/Onboarding/Step1";
 import { Step2 } from "~/components/Onboarding/Step2";
 import { Button } from "~/components/ui/Button";
@@ -23,12 +23,16 @@ const onboardingTabs = [
   },
 ];
 
-export default function Onboarding() {
+export default function Onboarding({ currentUser }) {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(
     router.query.step ? parseInt(router.query.step) : 0
   );
-
+  useEffect(() => {
+    if (!currentUser) {
+      router.push("/auth/signin");
+    }
+  });
   function handleChange(idx) {
     setCurrentStep(idx);
     router.push(
@@ -98,8 +102,8 @@ export default function Onboarding() {
             })}
           </Tab.List>
           <Tab.Panels>
-            {currentStep === 0 && <Step1 />}
-            {currentStep === 1 && <Step2 />}
+            {currentStep === 0 && <Step1 currentUser={currentUser} />}
+            {currentStep === 1 && <Step2 currentUser={currentUser} />}
           </Tab.Panels>
         </Tab.Group>
 

@@ -6,8 +6,8 @@ import { FileInput } from "../ui/Form/FileInput";
 import Form, { useZodForm } from "../ui/Form/Form";
 import { TextArea } from "../ui/TextArea";
 import { useState } from "react";
-import { Router } from "next/router";
-
+import { useRouter } from "next/router";
+import axios from "axios";
 const ProfileFormSchema = z.object({
   bio: z
     .string()
@@ -18,17 +18,41 @@ const ProfileFormSchema = z.object({
   coverImage: z.any().optional(),
 });
 
-export function Step2() {
+export function Step2({ currentUser }) {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const user = {};
+  const user = currentUser || {};
   const form = useZodForm({
     schema: ProfileFormSchema,
     defaultValues: {
-      bio: user.bio,
+      bio: user.bio || "",
     },
   });
   const updateProfile = async ({ variables }) => {
     console.log(variables);
+    const { input } = variables;
+    let dataToSend = {
+      bio: input.bio || user.bio,
+      image: input.avatar || user.image,
+      coverImage: input.coverImage || user.coverImage,
+      name: user.name,
+      username: user.username,
+    };
+    console.log(document.cookie);
+    try {
+      const res = await axios.put(
+        "http://localhost:5000/api/users/update",
+        dataToSend,
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
+      );
+      console.log(res.data);
+    } catch (e) {
+      console.log(e);
+    }
   };
   return (
     <Card className="space-y-4 my-6 overflow-hidden" rounded="lg">
@@ -52,8 +76,8 @@ export function Step2() {
 
           const input = {
             ...changedValues,
-            avatar: values.avatar?.[0],
-            coverImage: values.coverImage?.[0],
+            avatar: values.avatar?.[0] || user.image,
+            coverImage: values.coverImage?.[0] || user.coverImage,
           };
 
           await updateProfile({
@@ -64,13 +88,13 @@ export function Step2() {
           // After updating profile setLoading To false
           setLoading(false);
           // Redirect to feed
-          Router.push("/feed/");
+          router.push("/feed/");
         }}
       >
         <div className="flex space-x-3 px-5">
           <div className="flex-[0.3]">
             <FileInput
-              existingimage={user.avatar}
+              existingimage={user.image}
               name="avatar"
               accept="image/png, image/jpg, image/jpeg, image/gif"
               multiple={false}

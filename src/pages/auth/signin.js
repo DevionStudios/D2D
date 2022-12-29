@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { LoginForm } from "../../components/Auth/SignIn";
-const signin = () => {
+import Router from "next/router";
+const Signin = ({ currentUser }) => {
+  const router = Router;
+  useEffect(() => {
+    if (currentUser) {
+      router.push("/onboarding");
+    }
+  }, []);
   return (
     <>
       <LoginForm />
@@ -8,4 +15,4 @@ const signin = () => {
   );
 };
 
-export default signin;
+export default Signin;
