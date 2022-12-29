@@ -1,16 +1,17 @@
 import express, { Request, Response } from "express";
 
-import { BadRequestError, currentUser } from "@devion/common";
+import { BadRequestError } from "@devion/common";
+import { currentUser } from "../../middlewares/currentuser";
 import { User } from "../../models/User";
 
 const router = express.Router();
 
 router.put(
-  "/api/users/update-profile",
+  "/api/users/update",
   currentUser,
   async (req: Request, res: Response) => {
     try {
-      const { username, name, bio, image } = req.body;
+      const { username, name, bio, image, coverImage } = req.body;
 
       const existingUser = await User.findOne({
         email: req.currentUser!.email,
@@ -25,6 +26,7 @@ router.put(
       existingUser.name = name || existingUser.name;
       existingUser.bio = bio || existingUser.bio;
       existingUser.image = image || existingUser.image;
+      existingUser.coverImage = coverImage || existingUser.coverImage;
 
       await existingUser.save();
 

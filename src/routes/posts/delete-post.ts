@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 
-import { BadRequestError, currentUser } from "@devion/common";
+import { BadRequestError } from "@devion/common";
+import { currentUser } from "../../middlewares/currentuser";
 import { Post } from "../../models/Post";
 
 const router = express.Router();

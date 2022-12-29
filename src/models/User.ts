@@ -9,6 +9,7 @@ interface UserAttrs {
   name: string;
   walletAddress?: string;
   image?: string;
+  coverImage?: string;
   bio?: string;
   followers?: UserDoc[];
   following?: UserDoc[];
@@ -26,6 +27,7 @@ export interface UserDoc extends mongoose.Document {
   name?: string;
   walletAddress?: string;
   image?: string;
+  coverImage?: string;
   bio?: string;
   followers?: UserDoc[];
   following?: UserDoc[];
@@ -55,8 +57,14 @@ const userSchema = new mongoose.Schema(
       default:
         "https://i.pinimg.com/474x/66/ff/cb/66ffcb56482c64bdf6b6010687938835.jpg",
     },
+    coverImage: {
+      type: String,
+      default:
+        "https://149369349.v2.pressablecdn.com/wp-content/uploads/2012/10/twitter-cover.jpg",
+    },
     bio: {
       type: String,
+      default: "I am a new user",
     },
     followers: [
       {

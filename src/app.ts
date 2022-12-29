@@ -34,11 +34,11 @@ app.use(
   })
 );
 
+app.use(updateProfileRouter);
 app.use(signupRouter);
 app.use(signinRouter);
 app.use(signoutRouter);
 app.use(currentUserRouter);
-app.use(updateProfileRouter);
 app.use(followUserRouter);
 app.use(createPostRouter);
 app.use(getUserPostsRouter);

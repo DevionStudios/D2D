@@ -1,7 +1,8 @@
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
 
-import { validateRequest, BadRequestError, currentUser } from "@devion/common";
+import { validateRequest, BadRequestError } from "@devion/common";
+import { currentUser } from "../../middlewares/currentuser";
 import { User, UserDoc } from "../../models/User";
 import { Post } from "../../models/Post";
 
