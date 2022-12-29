@@ -33,8 +33,7 @@ export function Feed() {
               id: "1",
               username: "neko_chan",
               avatar: "https://placekitten.com/200/300",
-              firstName: "Neko",
-              lastName: "Chan",
+              name: "Neko Chan",
             },
           },
 
@@ -56,8 +55,7 @@ export function Feed() {
               id: "1",
               username: "hebi_chan",
               avatar: "https://placekitten.com/200/200",
-              firstName: "Hebi",
-              lastName: "Chan",
+              name: "Hebi Chan",
               isFollowing: false,
             },
           },
@@ -66,7 +64,7 @@ export function Feed() {
       ],
       pageInfo: {
         hasNextPage: false,
-        endCursor: "2",
+        endCursor: "1",
       },
     },
   };

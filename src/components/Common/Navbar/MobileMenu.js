@@ -55,12 +55,12 @@ export function MobileMenu({ open, user, closeFx }) {
                   src={user.avatar}
                   height={40}
                   width={40}
-                  alt={`Profile picture of ${user.firstName}`}
+                  alt={`Profile picture of ${user.name}`}
                 />
               </div>
               <div className="ml-3">
                 <div className="text-base font-medium text-gray-800 dark:text-gray-100">
-                  Hi! {user.firstName}
+                  Hi! {user.name}
                 </div>
               </div>
             </div>

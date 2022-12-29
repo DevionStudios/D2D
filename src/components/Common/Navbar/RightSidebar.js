@@ -21,8 +21,7 @@ export function RightSidebar() {
             id: "1",
             username: "neko_chan",
             avatar: "https://placekitten.com/200/300",
-            firstName: "Neko",
-            lastName: "Chan",
+            name: "Neko Chan",
             isFollowing: false,
           },
         },
@@ -31,8 +30,7 @@ export function RightSidebar() {
             id: "1",
             username: "inu_chan",
             avatar: "https://placekitten.com/400/300",
-            firstName: "Inu",
-            lastName: "Chan",
+            name: "Inu Chan",
             isFollowing: true,
           },
         },
@@ -41,8 +39,7 @@ export function RightSidebar() {
             id: "1",
             username: "saru_chan",
             avatar: "https://placekitten.com/300/300",
-            firstName: "Saru",
-            lastName: "Chan",
+            name: "Saru Chan",
             isFollowing: false,
           },
         },
@@ -51,8 +48,7 @@ export function RightSidebar() {
             id: "1",
             username: "hebi_chan",
             avatar: "https://placekitten.com/200/200",
-            firstName: "Hebi",
-            lastName: "Chan",
+            name: "Hebi Chan",
             isFollowing: false,
           },
         },
@@ -129,8 +125,8 @@ export function RightSidebar() {
                               className="no-underline"
                               href={`/profile/${user?.username}`}
                             >
-                              {user?.firstName + " "}
-                              {user?.lastName ? user?.lastName : null}
+                              {user?.name + " "}
+                              {/* {user?.lastName ? user?.lastName : null} */}
                             </Link>
                           </p>
                           <p className="text-sm text-gray-500 dark:text-gray-400">

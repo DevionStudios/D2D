@@ -20,7 +20,9 @@ import Logo from "../../../assets/D2D Logo Trans.png";
 export function Navbar() {
   const [openNotifications, setNotificationOpen] = useState(false);
 
-  const user = "hello";
+  const user = {
+    avatar: "https://i.pravatar.cc/300",
+  };
   if (!user) {
     return (
       <>
@@ -49,7 +51,9 @@ export function Navbar() {
             <div className="mx-auto max-w-7xl relative flex justify-between xl:grid xl:grid-cols-12 lg:gap-8">
               <div className="flex md:absolute md:left-0 md:inset-y-0 lg:static xl:col-span-2">
                 <div className="flex-shrink-0 flex items-center">
-                  <Image src={Logo} alt="D2D" width={67} height={67} />
+                  <Link href={`/feed`}>
+                    <Image src={Logo} alt="D2D" width={67} height={67} />
+                  </Link>
                 </div>
               </div>
               <div className="min-w-0 flex-1  lg:px-0 lg:max-w-5xl xl:col-span-6 flex-grow">

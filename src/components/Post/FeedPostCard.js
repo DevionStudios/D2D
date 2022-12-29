@@ -62,10 +62,10 @@ export function FeedPostCard(props) {
                 className="no-underline"
               >
                 <p className="text-sm font-medium ">
-                  {props.post?.user?.firstName}{" "}
-                  {props.post?.user?.lastName
+                  {props.post?.user?.name}
+                  {/* {props.post?.user?.lastName
                     ? props.post?.user?.lastName
-                    : null}
+                    : null} */}
                   <span className="text-muted text-sm ml-2">
                     @{props.post?.user?.username}
                   </span>
@@ -113,7 +113,7 @@ export function FeedPostCard(props) {
                   layout="fill"
                   objectFit="cover"
                   placeholder="empty"
-                  alt={`Image posted by ${props.post.user.firstName} on D2D.`}
+                  alt={`Image posted by ${props.post.user.name} on D2D.`}
                 />
               </div>
             </div>

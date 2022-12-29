@@ -44,8 +44,8 @@ export function FeedLayout() {
   //   const { user, loading } = useUser();
   let user = {
     avatar: "https://placekitten.com/400/400",
-    firstName: "Kitten",
     username: "kitten",
+    name: "Kitten",
   };
   let loading = false;
 
@@ -63,7 +63,7 @@ export function FeedLayout() {
           <div className="hidden lg:block fixed bottom-8">
             <CurrentUser
               avatar={user.avatar || "https://placekitten.com/400/400"}
-              firstName={user.firstName || "Kitten"}
+              name={user.name || "Kitten"}
               username={user.username || "kitten"}
             />
           </div>

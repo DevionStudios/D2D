@@ -17,7 +17,7 @@ const EditProfileFormSchema = object({
     .optional(),
   fullname: z
     .string()
-    .min(1, "Firstname must be longer than one character.")
+    .min(1, "Name must be longer than one character.")
     .max(30, "Consider putting a shorter first name."),
   bio: z
     .string()

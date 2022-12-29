@@ -4,56 +4,15 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { LoadingFallback } from "~/components/ui/Fallbacks/LoadingFallback";
 import Spinner from "~/components/ui/Spinner";
 
-import {
-  FollowingListQuery,
-  FollowingListQueryVariables,
-} from "./__generated__/Following.generated";
 import { FollowButton } from "../FollowButton";
 import { UserHandle } from "~/components/Common/UserHandle";
 import { ErrorFallback } from "~/components/ui/Fallbacks/ErrorFallback";
 import { SEO } from "~/components/SEO";
 
-interface FollowingProps {
-  username: string;
-}
+let FOLLOWING_LIST_QUERY;
 
-const FOLLOWING_LIST_QUERY = gql`
-  query FollowingListQuery($username: String!, $first: Int!, $after: ID) {
-    seeProfile(username: $username) {
-      following(first: $first, after: $after) {
-        edges {
-          cursor
-          node {
-            username
-            avatar
-            firstName
-            lastName
-            bio
-            isMe
-            isFollowing
-          }
-        }
-        pageInfo {
-          hasNextPage
-          endCursor
-        }
-      }
-    }
-  }
-`;
-
-export function Following({ username }: FollowingProps) {
-  const { data, loading, error, fetchMore } = useQuery<
-    FollowingListQuery,
-    FollowingListQueryVariables
-  >(FOLLOWING_LIST_QUERY, {
-    variables: {
-      first: 10,
-      after: null,
-      username,
-    },
-    fetchPolicy: "cache-first",
-  });
+export function Following({ username }) {
+  let data, loading, error, fetchMore;
 
   if (loading) {
     return (

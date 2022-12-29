@@ -11,47 +11,10 @@ import { UserHandle } from "~/components/Common/UserHandle";
 import { ErrorFallback } from "~/components/ui/Fallbacks/ErrorFallback";
 import { SEO } from "~/components/SEO";
 
-interface FollowersProps {
-  username: string;
-}
+let FOLLOWERS_LIST_QUERY;
 
-const FOLLOWERS_LIST_QUERY = gql`
-  query FollowersListQuery($username: String!, $first: Int!, $after: ID) {
-    seeProfile(username: $username) {
-      followers(first: $first, after: $after) {
-        edges {
-          cursor
-          node {
-            username
-            avatar
-            firstName
-            lastName
-            bio
-            isMe
-            isFollowing
-          }
-        }
-        pageInfo {
-          hasNextPage
-          endCursor
-        }
-      }
-    }
-  }
-`;
-
-export function Followers({ username }: FollowersProps) {
-  const { data, loading, error, fetchMore } = useQuery<
-    FollowersListQuery,
-    FollowersListQueryVariables
-  >(FOLLOWERS_LIST_QUERY, {
-    variables: {
-      first: 10,
-      after: null,
-      username,
-    },
-    fetchPolicy: "cache-first",
-  });
+export function Followers({ username }) {
+  let data, loading, error, fetchMore;
 
   if (error) return <ErrorFallback message="Something went wrong." />;
 

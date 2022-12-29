@@ -35,7 +35,7 @@ export function UserProfilePopover({ username }) {
           alt="profile"
         />
         <p className="text-xl font-semibold leading-tight mt-2.5 text-gray-800 dark:text-gray-100">
-          {user.firstName} &nbsp; {user.lastName ?? null}
+          {user.name} &nbsp;
         </p>
         <p className="text-sm leading-3 mt-2 text-muted dark:text-gray-400">
           @{user.username}

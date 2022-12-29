@@ -84,9 +84,7 @@ export function WhoToFollow() {
                       href={`/profile/${person?.username}`}
                       className="focus:outline-none no-underline"
                     >
-                      <p className="text-sm font-medium ">
-                        {person?.firstName}
-                      </p>
+                      <p className="text-sm font-medium ">{person?.name}</p>
                       <p className="text-sm text-gray-500 truncate">
                         @{person?.username}
                       </p>

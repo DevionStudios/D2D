@@ -1,11 +1,6 @@
 import Link from "next/link";
 
-export function CurrentUser({
-  avatar,
-  firstName,
-
-  username,
-}) {
+export function CurrentUser({ avatar, name, username }) {
   return (
     <span className="flex w-full justify-between items-center">
       <Link href="/profile/username" passHref>
@@ -16,7 +11,7 @@ export function CurrentUser({
             alt="Profile avatar"
           />
           <span className="flex-1 flex flex-col min-w-0">
-            <span className="text-sm font-medium truncate">{firstName}</span>
+            <span className="text-sm font-medium truncate">{name}</span>
             <span className="text-gray-500 text-sm truncate">@{username}</span>
           </span>
         </span>

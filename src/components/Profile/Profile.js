@@ -23,8 +23,7 @@ export function Profile({ username }) {
   // fetch user data, currently dummy data
   const user = {
     username: username,
-    firstName: "Azulul",
-    lastName: "Mobius",
+    name: "Azulul Mobius",
     isMe: true, // can be made false
     createdAt: "Dec, 2022",
   };
@@ -69,8 +68,8 @@ export function Profile({ username }) {
             <div className="flex justify-between items-center">
               <div>
                 <h1 className="text-2xl font-bold flex truncate items-center">
-                  {user.firstName + " "}
-                  {user.lastName !== null ? user.lastName : ""}
+                  {user.name}
+                  {/* {user.lastName !== null ? user.lastName : ""} */}
                   <HiBadgeCheck className="w-6 h-6 ml-1 text-brand-700" />
                 </h1>
                 <p className="text-muted text-sm">@{username}</p>
@@ -118,7 +117,7 @@ export function Profile({ username }) {
               <div className="flex">
                 <span className="font-bold mr-2">{user.followersCount}</span>
                 <ButtonOrLink
-                  href={`/profile/${user.username}/follows?firstName=${user.firstName}&lastName=${user.lastName}&type=followers`}
+                  href={`/profile/${user.username}/follows?name=${user.namme}&type=followers`}
                   className="text-muted hover:underline"
                 >
                   Followers
@@ -127,7 +126,7 @@ export function Profile({ username }) {
               <div className="flex">
                 <span className="font-bold mr-2">{user.followingCount}</span>
                 <ButtonOrLink
-                  href={`/profile/${user.username}/follows?firstName=${user.firstName}&lastName=${user.lastName}`}
+                  href={`/profile/${user.username}/follows?name=${user.name}`}
                   className="text-muted hover:underline"
                 >
                   Following

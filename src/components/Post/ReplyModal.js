@@ -40,9 +40,7 @@ export function ReplyModal({ isOpen, onClose, ...props }) {
             <div className="min-w-0 flex-1">
               <p className="text-sm font-medium ">
                 <a href="#" className="hover:underline">
-                  {props.post?.user?.firstName +
-                    " " +
-                    props.post?.user?.lastName ?? ""}
+                  {props.post?.user?.name + " " ?? ""}
                   <span className="text-muted text-sm ml-2">
                     @{props.post?.user?.username}
                   </span>
