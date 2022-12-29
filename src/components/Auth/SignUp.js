@@ -9,7 +9,7 @@ import { Link } from "../ui/Link";
 import { AuthLayout } from "./AuthLayout";
 const SignUpSchema = z.object({
   email: z.string().email(),
-  fullName: z.string().min(3),
+  name: z.string().min(3),
   username: z.string().min(3),
   password: z.string().min(6),
 });
@@ -37,7 +37,7 @@ export function SignUp() {
           label="Full Name"
           type="text"
           placeholder="Your Full Name"
-          {...form.register("fullName")}
+          {...form.register("name")}
         />
 
         <Input

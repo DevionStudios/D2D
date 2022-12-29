@@ -24,7 +24,7 @@ export function Profile({ username }) {
   const user = {
     username: username,
     name: "Azulul Mobius",
-    isMe: true, // can be made false
+    isMe: false, // can be made false
     createdAt: "Dec, 2022",
   };
 
@@ -117,7 +117,7 @@ export function Profile({ username }) {
               <div className="flex">
                 <span className="font-bold mr-2">{user.followersCount}</span>
                 <ButtonOrLink
-                  href={`/profile/${user.username}/follows?name=${user.namme}&type=followers`}
+                  href={`/profile/${user.username}/follows?name=${user.name}&type=followers`}
                   className="text-muted hover:underline"
                 >
                   Followers

@@ -15,7 +15,7 @@ const EditProfileFormSchema = object({
     .min(4, "Username is too short")
     .max(15, "Username is too long. Consider making it shorter.")
     .optional(),
-  fullname: z
+  name: z
     .string()
     .min(1, "Name must be longer than one character.")
     .max(30, "Consider putting a shorter first name."),
@@ -34,7 +34,7 @@ export function EditProfileTab(/*{ user }*/) {
   // fetch user data before rendering
   const user = {
     username: "azulul",
-    fullname: "Azulul Mobius",
+    name: "Azulul Mobius",
     bio: "I am a gamer",
     email: "azulul@gmail.com",
   };
@@ -43,7 +43,7 @@ export function EditProfileTab(/*{ user }*/) {
     defaultValues: {
       username: user.username,
       bio: user.bio,
-      fullname: user.fullname,
+      name: user.name,
       email: user.email,
     },
   });
@@ -52,7 +52,7 @@ export function EditProfileTab(/*{ user }*/) {
   //     form.reset({
   //       username: user.username,
   //       bio: user.bio,
-  //       fullname: user.fullname,
+  //       name: user.name,
   //       email: user.email,
   //     });
   //   }, []);
@@ -127,7 +127,7 @@ export function EditProfileTab(/*{ user }*/) {
             <div className="flex space-x-3">
               <div className="flex-1">
                 <Input
-                  {...form.register("fullname")}
+                  {...form.register("name")}
                   label="Full Name"
                   placeholder="Your Full Name"
                 />
