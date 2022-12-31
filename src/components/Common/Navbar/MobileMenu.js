@@ -25,9 +25,9 @@ export const links = [
   },
 ];
 
-export function MobileMenu({ open, user, closeFx }) {
+export function MobileMenu({ open, user, closeFx, signout }) {
   const router = useRouter();
-  const signout = () => {};
+  // const signout = () => {};
   return (
     <Transition
       show={open}

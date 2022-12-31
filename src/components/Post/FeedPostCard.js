@@ -9,6 +9,8 @@ import {
   HiOutlineSupport,
 } from "react-icons/hi";
 import { format } from "date-fns";
+import { ethers } from "ethers";
+import { useMoralis } from "react-moralis";
 
 import { Card } from "~/components/ui/Card";
 import { Interweave } from "../Interweave";
@@ -21,10 +23,14 @@ import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
 import toast from "react-hot-toast";
 import { useDebouncedCallback } from "use-debounce";
 
+// import D2DToken from "../constants/frontEndAbiLocation/D2DToken.json";
+// import networkMapping from "../constants/networkMapping.json";
+
 export let TOGGLE_LIKE_MUTATION;
 
 export function FeedPostCard(props) {
   const [isOpen, setIsOpen] = useState(false);
+  const { account } = useMoralis();
 
   let toggleLike, loading;
 
@@ -46,6 +52,40 @@ export function FeedPostCard(props) {
   if (!props.post || !props.post.user) {
     return <ErrorFallback message="Failed to load" />;
   }
+
+  // ! Test this after deploying the contract
+  const tip = async (receiverWalletAddress) => {
+    const { ethereum } = window;
+    if (ethereum && receiverWalletAddress && account) {
+      try {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const D2DTokenContract = new ethers.Contract(
+          // networkMapping[chainId]["D2DToken"].slice(-1)[0], //TODO uncommment this
+          // D2DtokenAbi, //TODO uncommment this
+          signer
+        );
+        let transfer = await D2DTokenContract.transferFrom(
+          props.currentUser.ethAddress,
+          receiverWalletAddress,
+          // amount, //TODO uncommment this
+          {
+            gasLimit: 500000,
+          }
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      if (!account) {
+        toast.error("Please connect your wallet!");
+      } else if (!receiverWalletAddress) {
+        toast.error("Wallet Address of receiver not found!");
+      } else {
+        toast.error("Please install an Ethereum Wallet!");
+      }
+    }
+  };
 
   return (
     <Card noPadding className="max-w-2xl overflow-hidden my-3 rounded-lg ">
@@ -168,7 +208,11 @@ export function FeedPostCard(props) {
             </span>
             {/* To Tip on the posts */}
             <span className="inline-flex items-center space-x-2">
-              <Button variant="dark" className="space-x-2">
+              <Button
+                variant="dark"
+                className="space-x-2"
+                onClick={() => tip(props?.post?.user?.walletAddress)}
+              >
                 <HiOutlineCurrencyDollar className="w-10 h-6" />
               </Button>
             </span>

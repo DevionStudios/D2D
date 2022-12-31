@@ -29,15 +29,17 @@ const EditProfileFormSchema = object({
   coverImage: z.any().optional(),
 });
 
-export function EditProfileTab(/*{ user }*/) {
+export function EditProfileTab({ currentUser }) {
   const [loading, setLoading] = useState(false);
+
   // fetch user data before rendering
-  const user = {
+  const [user, setUser] = useState({
     username: "azulul",
     name: "Azulul Mobius",
     bio: "I am a gamer",
     email: "azulul@gmail.com",
-  };
+  });
+
   const form = useZodForm({
     schema: EditProfileFormSchema,
     defaultValues: {
@@ -48,21 +50,25 @@ export function EditProfileTab(/*{ user }*/) {
     },
   });
 
-  //   useEffect(() => {
-  //     form.reset({
-  //       username: user.username,
-  //       bio: user.bio,
-  //       name: user.name,
-  //       email: user.email,
-  //     });
-  //   }, []);
+  useEffect(() => {
+    setUser(currentUser);
+
+    form.reset({
+      username: currentUser.username,
+      bio: currentUser.bio,
+      name: currentUser.name,
+      email: currentUser.email,
+    });
+  }, [currentUser]);
 
   if (loading) {
     return <LoadingFallback />;
   }
+
   const updateProfile = async ({ variables }) => {
     console.log(variables);
   };
+
   return (
     <Card rounded="lg" className="lg:max-w-3xl">
       <Form

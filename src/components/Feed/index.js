@@ -13,7 +13,7 @@ import { WhoToFollow } from "./WhoToFollow";
 
 let FEED_QUERY;
 
-export function Feed() {
+export function Feed({ currentUser }) {
   let error, fetchMore;
   let data = {
     feed: {
@@ -116,7 +116,7 @@ export function Feed() {
             {data.feed.edges.map((edge, index) => {
               return (
                 <div key={edge?.cursor}>
-                  <FeedPostCard post={edge?.node} />
+                  <FeedPostCard post={edge?.node} currentUser={currentUser} />
                   {index === 5 || index === 10 ? <WhoToFollow /> : null}
                 </div>
               );

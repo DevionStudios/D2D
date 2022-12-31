@@ -12,7 +12,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 const loginSchema = object({
   email: string().email(),
-  password: string().min(6),
+  password: string().min(4),
 });
 
 export function LoginForm() {

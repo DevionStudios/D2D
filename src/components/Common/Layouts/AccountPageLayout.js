@@ -10,14 +10,14 @@ import { PasswordTab } from "~/components/Profile/Password";
 import { Preferences } from "~/components/Profile/Preferences";
 import { TabbedLayout } from "../Navbar/TabbedLayout";
 
-export function AccountPageLayout() {
+export function AccountPageLayout({ currentUser }) {
   return (
     <div className="max-w-7xl mt-20 mx-auto">
       <div className="lg:grid lg:grid-cols-12 lg:gap-x-5">
         <TabbedLayout
           navigation={[
             {
-              component: <EditProfileTab />,
+              component: <EditProfileTab currentUser={currentUser} />,
               icon: HiOutlineUserCircle,
               name: "Profile Settings",
               id: "",

@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 import { IconType } from "react-icons/lib";
 import { useState } from "react";
 import { ConnectButton } from "@web3uikit/web3";
+import { HiOutlineFire, HiOutlineHashtag, HiOutlineHome } from "react-icons/hi";
+import { RiWallet3Fill } from "react-icons/ri";
 
 export function TabbedLayout({ navigation }) {
   const router = useRouter();
@@ -65,14 +67,15 @@ export function TabbedLayout({ navigation }) {
                     </Tab>
                   );
                 })}
+                <div className="h-16 w-30 bg-white rounded-lg">
+                  <span className="truncate flex items-center">
+                    <RiWallet3Fill className="text-gray-800 group-hover:text-white dark:group-hover:text-white flex-shrink-0 h-6 w-6" />
+                    <ConnectButton />
+                  </span>
+                </div>
               </Tab.List>
             </div>
           </nav>
-          <div className=" mr-3 h-16 w-30 bg-white rounded-lg px-3">
-            {/* <div className=" flex justify-center"> */}
-            <ConnectButton />
-            {/* </div> */}
-          </div>
         </aside>
         <Tab.Panels className="space-y-6 sm:px-6 lg:px-0 lg:col-span-9">
           {navigation.map((panel, index) => {
