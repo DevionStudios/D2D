@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { StringExpressionOperatorReturningBoolean } from "mongoose";
 import { UserDoc } from "./User";
 
 interface PostAttrs {
@@ -8,6 +8,8 @@ interface PostAttrs {
   likes?: number;
   comments?: number;
   reposts?: number;
+  media?: string;
+  gifLink?: string;
 }
 
 interface PostModel extends mongoose.Model<PostDoc> {
@@ -21,6 +23,10 @@ export interface PostDoc extends mongoose.Document {
   likes?: number;
   comments?: number;
   reposts?: number;
+  updatedAt?: Date;
+  createdAt?: Date;
+  media?: String;
+  gifLink?: String;
 }
 
 const PostSchema = new mongoose.Schema(
@@ -49,6 +55,14 @@ const PostSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    media: {
+      type: String,
+      default: null,
+    },
+    gifLink: {
+      type: String,
+      default: null,
+    }
   },
   {
     toJSON: {
@@ -61,6 +75,7 @@ const PostSchema = new mongoose.Schema(
   }
 );
 
+PostSchema.set("timestamps", true);
 PostSchema.statics.build = (attrs: PostAttrs) => {
   return new Post(attrs);
 };

@@ -1,9 +1,10 @@
 import express from "express";
 import "express-async-errors";
-import { json } from "body-parser";
+import { json, urlencoded } from "body-parser";
 import cookieSession from "cookie-session";
 import cors from "cors";
 import dotenv from "dotenv";
+import multer from "multer";
 dotenv.config();
 
 import { signupRouter } from "./routes/auth/signup";
@@ -17,6 +18,7 @@ import { getUserPostsRouter } from "./routes/posts/get-user-posts";
 import { updatePostRouter } from "./routes/posts/update-post";
 import { deletePostRouter } from "./routes/posts/delete-post";
 import { getUserFeedRouter } from "./routes/posts/get-user-feed";
+import { fetchUserRouter } from "./routes/auth/fetch-user";
 
 const app = express();
 // app.set("trust proxy", true);
@@ -33,12 +35,18 @@ app.use(
     secure: process.env.NODE_ENV !== "test",
   })
 );
+app.use(
+  urlencoded({
+    extended: true,
+  })
+);
 
 app.use(updateProfileRouter);
 app.use(signupRouter);
 app.use(signinRouter);
 app.use(signoutRouter);
 app.use(currentUserRouter);
+app.use(fetchUserRouter);
 app.use(followUserRouter);
 app.use(createPostRouter);
 app.use(getUserPostsRouter);

@@ -33,6 +33,8 @@ export interface UserDoc extends mongoose.Document {
   following?: UserDoc[];
   hashtagsfollowed?: string[];
   posts?: PostDoc[];
+  updatedAt?: Date;
+  createdAt?: Date;
 }
 
 const userSchema = new mongoose.Schema(
@@ -101,6 +103,7 @@ const userSchema = new mongoose.Schema(
     },
   }
 );
+userSchema.set("timestamps", true);
 
 userSchema.pre("save", async function (done) {
   if (this.isModified("password")) {

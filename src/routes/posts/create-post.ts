@@ -5,6 +5,8 @@ import { validateRequest, BadRequestError } from "@devion/common";
 import { currentUser } from "../../middlewares/currentuser";
 import { User, UserDoc } from "../../models/User";
 import { Post } from "../../models/Post";
+import cloudinary from "../../config/cloudinaryConfig";
+import upload from "../../config/multer.filefilter.config";
 
 const router = express.Router();
 
@@ -13,10 +15,14 @@ router.post(
   [body("content").trim().notEmpty()],
   validateRequest,
   currentUser,
+  upload.single("media"),
   async (req: Request, res: Response) => {
     try {
-      const { content } = req.body;
-
+      const { content, gifLink } = req.body;
+      const result = req.file
+        ? await cloudinary.uploader.upload(req.file.path)
+        : null;
+      const media = result.secure_url;
       const existingUser = await User.findOne({
         _id: req.currentUser!.id,
       });
@@ -27,11 +33,13 @@ router.post(
 
       const post = Post.build({
         content,
+        media,
+        gifLink,
         author: existingUser as UserDoc,
       });
       await post.save();
 
-      //   res.status(201).send(post);
+      res.status(201).send(post);
     } catch (err) {
       console.log(err);
       res.status(500).send({ message: err });
