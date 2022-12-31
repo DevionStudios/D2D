@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { object, z } from "zod";
+import axios from "axios";
+
 import { Card } from "../ui/Card";
 import { LoadingFallback } from "../ui/Fallbacks/LoadingFallback";
 import { FileInput } from "../ui/Form/FileInput";
@@ -67,6 +69,29 @@ export function EditProfileTab({ currentUser }) {
 
   const updateProfile = async ({ variables }) => {
     console.log(variables);
+    const { input } = variables;
+    const images = [input.avatar, input.coverImage];
+    const formdata = new FormData();
+    formdata.append("bio", input.bio || user.bio);
+    formdata.append("images", input.avatar);
+    formdata.append("images", input.coverImage);
+    formdata.append("name", user.name);
+    formdata.append("username", user.username);
+    console.log("Cookie: ", document.cookie);
+    try {
+      const res = await axios.put(
+        "http://localhost:5000/api/users/update",
+        formdata,
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
+      );
+      console.log(res.data);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
