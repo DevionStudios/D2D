@@ -18,6 +18,7 @@ import Spinner from "~/components/ui/Spinner";
 import { useState } from "react";
 import { UnauthorizedHeader } from "./UnauthorizedHeader";
 import Logo from "../../../assets/D2D Logo Trans.png";
+import Router from "next/router";
 
 export function Navbar() {
   const [openNotifications, setNotificationOpen] = useState(false);
@@ -32,6 +33,18 @@ export function Navbar() {
       </>
     );
   }
+
+  const signout = () => {
+    // clear all cookies
+    document.cookie.split(";").forEach(function (c) {
+      document.cookie = c
+        .replace(/^ +/, "")
+        .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+    });
+    // redirect to home page
+    Router.push("/");
+  };
+
   return (
     <>
       <Popover
@@ -106,11 +119,21 @@ export function Navbar() {
                   >
                     <Button size="sm">New Post</Button>
                   </Link>
+                  {/* <Link href={`/`} className="ml-6 text-sm no-underline"> */}
+                  <Button size="sm" onClick={signout}>
+                    Sign Out
+                  </Button>
+                  {/* </Link> */}
                 </div>
               </div>
             </div>
 
-            <MobileMenu user={user} open={open} closeFx={close} />
+            <MobileMenu
+              user={user}
+              open={open}
+              closeFx={close}
+              signout={signout}
+            />
           </>
         )}
       </Popover>
