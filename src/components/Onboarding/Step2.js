@@ -31,18 +31,18 @@ export function Step2({ currentUser }) {
   const updateProfile = async ({ variables }) => {
     console.log(variables);
     const { input } = variables;
-    let dataToSend = {
-      bio: input.bio || user.bio,
-      image: input.avatar || user.image,
-      coverImage: input.coverImage || user.coverImage,
-      name: user.name,
-      username: user.username,
-    };
+    const images = [input.avatar, input.coverImage];
+    const formdata = new FormData();
+    formdata.append("bio", input.bio || user.bio);
+    formdata.append("images", input.avatar);
+    formdata.append("images", input.coverImage);
+    formdata.append("name", user.name);
+    formdata.append("username", user.username);
     console.log(document.cookie);
     try {
       const res = await axios.put(
         "http://localhost:5000/api/users/update",
-        dataToSend,
+        formdata,
         {
           headers: {
             cookies: document.cookie,
@@ -88,7 +88,7 @@ export function Step2({ currentUser }) {
           // After updating profile setLoading To false
           setLoading(false);
           // Redirect to feed
-          router.push("/feed/");
+          // router.push("/feed/");
         }}
       >
         <div className="flex space-x-3 px-5">

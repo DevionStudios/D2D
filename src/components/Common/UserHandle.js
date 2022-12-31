@@ -3,7 +3,8 @@ import Image from "next/image";
 
 import { Button } from "../ui/Button";
 
-export function UserHandle({ user }) {
+export function UserHandle({ currentUser }) {
+  const user = currentUser;
   return (
     <>
       <div className="flex-shrink-0">

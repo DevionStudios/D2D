@@ -15,23 +15,16 @@ import { LoadingFallback } from "../ui/Fallbacks/LoadingFallback";
 import { IndeterminateProgress } from "../ui/Progress";
 import { FollowButton } from "./FollowButton";
 import { UserPosts } from "./UserPosts";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-export function Profile({ username }) {
-  const isMobile = useMediaQuery(MEDIA_QUERIES.SMALL);
+export function Profile({ user, isMe, username }) {
   const router = useRouter();
-
-  // fetch user data, currently dummy data
-  const user = {
-    username: username,
-    name: "Azulul Mobius",
-    isMe: false, // can be made false
-    createdAt: "Dec, 2022",
-  };
-
-  return (
+  const isMobile = useMediaQuery(MEDIA_QUERIES.SMALL);
+  return user ? (
     <div className="py-16">
       <div>
-        {user.coverImage && !user.coverImageBg ? (
+        {user.coverImage ? (
           <img
             className="h-32 w-full object-cover lg:h-48"
             src={user.coverImage}
@@ -43,7 +36,7 @@ export function Profile({ username }) {
             src={user.coverImage} // profile cover image
             alt={`Cover image for user ${user.username}. Contains patterns and colors.`}
             style={{
-              backgroundColor: `#${user.coverImageBg}`,
+              backgroundColor: `#${user.coverImage}`,
               backgroundImage: `#${user.coverImage}`,
               backgroundSize: "50%",
             }}
@@ -56,7 +49,7 @@ export function Profile({ username }) {
             <img
               className="h-24 w-24 rounded-full object-cover ring-4 ring-brand-500 sm:h-32 sm:w-32"
               src={
-                user.avatar ??
+                user.image ??
                 "https://res.cloudinary.com/dogecorp/image/upload/v1631712846/d2d/v1/images/8_ni0eag.svg"
               }
               alt=""
@@ -69,20 +62,21 @@ export function Profile({ username }) {
               <div>
                 <h1 className="text-2xl font-bold flex truncate items-center">
                   {user.name}
-                  {/* {user.lastName !== null ? user.lastName : ""} */}
                   <HiBadgeCheck className="w-6 h-6 ml-1 text-brand-700" />
                 </h1>
-                <p className="text-muted text-sm">@{username}</p>
+                <p className="text-muted text-sm">@{user.username}</p>
               </div>
               <div className=" flex items-center justify-stretch  sm:flex-row sm:space-y-0 sm:space-x-5">
                 <div className="mr-3">
-                  <Menu dropdown={<MenuItem>Report Profile</MenuItem>}>
-                    <span className="-m-2 p-2 rounded-full flex items-center dark:hover:bg-gray-700 hover:bg-gray-300">
-                      <HiOutlineDotsVertical className="w-5 h-5" />
-                    </span>
-                  </Menu>
+                  {!isMe ? (
+                    <Menu dropdown={<MenuItem>Report Profile</MenuItem>}>
+                      <span className="-m-2 p-2 rounded-full flex items-center dark:hover:bg-gray-700 hover:bg-gray-300">
+                        <HiOutlineDotsVertical className="w-5 h-5" />
+                      </span>
+                    </Menu>
+                  ) : null}
                 </div>
-                {user.isMe ? (
+                {isMe ? (
                   <Button
                     href={`/account/settings`}
                     size={isMobile ? "base" : "lg"}
@@ -138,5 +132,7 @@ export function Profile({ username }) {
         <UserPosts count={user.postsCount} username={user.username} />
       </div>
     </div>
+  ) : (
+    <>Loading!</>
   );
 }

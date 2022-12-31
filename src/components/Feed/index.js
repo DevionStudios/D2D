@@ -38,7 +38,7 @@ export function Feed() {
               avatar: "https://placekitten.com/200/300",
               name: "Neko Chan",
             },
-          },
+          },  
 
           cursor: "1",
         },

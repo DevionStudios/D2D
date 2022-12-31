@@ -44,7 +44,7 @@ export function LoginForm() {
         document.cookie =
           jwtToken + ";expires=" + date.toUTCString() + ";path=/";
         toast.success("Signed In Successfully");
-        router.push("/onboarding");
+        router.push("/onboarding/");
       } else {
         toast.error(res.data.message);
       }
