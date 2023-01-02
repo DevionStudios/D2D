@@ -19,6 +19,7 @@ import { updatePostRouter } from "./routes/posts/update-post";
 import { deletePostRouter } from "./routes/posts/delete-post";
 import { getUserFeedRouter } from "./routes/posts/get-user-feed";
 import { fetchUserRouter } from "./routes/auth/fetch-user";
+import { updatePasswordRouter } from "./routes/auth/update-password";
 
 const app = express();
 // app.set("trust proxy", true);
@@ -53,6 +54,7 @@ app.use(getUserPostsRouter);
 app.use(updatePostRouter);
 app.use(deletePostRouter);
 app.use(getUserFeedRouter);
+app.use(updatePasswordRouter);
 
 app.all("*", async (req: any, res: any) => {
   throw new Error("Route not found!!");
