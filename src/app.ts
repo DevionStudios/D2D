@@ -21,6 +21,7 @@ import { getUserFeedRouter } from "./routes/posts/get-user-feed";
 import { fetchUserRouter } from "./routes/auth/fetch-user";
 import { updatePasswordRouter } from "./routes/auth/update-password";
 import { getAllPostsRouter } from "./routes/posts/get-all-posts";
+import { getPostRouter } from "./routes/posts/get-post-by-id";
 
 const app = express();
 // app.set("trust proxy", true);
@@ -52,6 +53,7 @@ app.use(currentUserRouter);
 app.use(fetchUserRouter);
 app.use(followUserRouter);
 app.use(createPostRouter);
+app.use(getPostRouter);
 app.use(getUserPostsRouter);
 app.use(updatePostRouter);
 app.use(deletePostRouter);
