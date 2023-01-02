@@ -45,9 +45,9 @@ app.use(
 );
 
 app.use(getUserFeedRouter);
-app.use(updateProfileRouter);
 app.use(signupRouter);
 app.use(signinRouter);
+app.use(updateProfileRouter);
 app.use(signoutRouter);
 app.use(currentUserRouter);
 app.use(fetchUserRouter);
