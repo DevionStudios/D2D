@@ -1,23 +1,49 @@
 import { format } from "date-fns";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 // import { Interweave } from "../Interweave";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
+import { z } from "zod";
 import Form, { useZodForm } from "../ui/Form/Form";
 import { Heading } from "../ui/Heading";
 import Modal from "../ui/Modal";
 import { TextArea } from "../ui/TextArea";
-import { Props as FeedPostCardProps } from "./FeedPostCard";
-// import { CommentSchema } from "./PostCard";
+import Link from "next/link";
 
 export let CREATE_COMMENT_MUTATION;
 
 export function ReplyModal({ isOpen, onClose, ...props }) {
-  let createComment;
+  const createComment = async (values) => {
+    console.log("Caption: ", values.variables.input.caption);
+    console.log("Post ID: ", props.post.id);
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/comments/create",
+        {
+          caption: values.variables.input.caption,
+          postId: props.post.id,
+        },
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
+      );
+
+      console.log("Response: ", response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const CommentSchema = z.object({
+    caption: z.string().min(1, "Comment must be atleast 1 character long."),
+  });
 
   const form = useZodForm({
-    // schema: CommentSchema,
+    schema: CommentSchema,
   });
 
   return (
@@ -29,35 +55,38 @@ export function ReplyModal({ isOpen, onClose, ...props }) {
       </Modal.Header>
       <div className="max-w-3xl mx-auto">
         <div className="px-3">
-          <div className="flex space-x-3">
-            <div className="flex-shrink-0">
-              <img
-                className="h-10 w-10 rounded-full"
-                src={props.post.user?.avatar}
-                alt=""
-              />
+          <Link href={`/profile/${props.post?.author?.username}`} passHref>
+            <div className="flex space-x-3">
+              <div className="flex-shrink-0">
+                <img
+                  className="h-10 w-10 rounded-full"
+                  src={props.post.author?.avatar}
+                  alt=""
+                />
+              </div>
+
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-medium ">
+                  <a href="#" className="hover:underline">
+                    {props.post?.author?.name + " " ?? ""}
+                    <span className="text-muted text-sm ml-2">
+                      @{props.post?.author?.username}
+                    </span>
+                  </a>
+                </p>
+                <p className="text-sm text-gray-500">
+                  <a href="#" className="hover:underline">
+                    <time>
+                      {format(
+                        new Date(props.post.createdAt),
+                        "MMMM d, hh:mm aaa"
+                      )}
+                    </time>
+                  </a>
+                </p>
+              </div>
             </div>
-            <div className="min-w-0 flex-1">
-              <p className="text-sm font-medium ">
-                <a href="#" className="hover:underline">
-                  {props.post?.user?.name + " " ?? ""}
-                  <span className="text-muted text-sm ml-2">
-                    @{props.post?.user?.username}
-                  </span>
-                </a>
-              </p>
-              <p className="text-sm text-gray-500">
-                <a href="#" className="hover:underline">
-                  <time>
-                    {format(
-                      new Date(props.post.createdAt),
-                      "MMMM d, hh:mm aaa"
-                    )}
-                  </time>
-                </a>
-              </p>
-            </div>
-          </div>
+          </Link>
         </div>
         <div className=" mt-4">
           <p className=" space-y-4 dark:text-gray-300">
@@ -77,21 +106,20 @@ export function ReplyModal({ isOpen, onClose, ...props }) {
                 await createComment({
                   variables: {
                     input: {
-                      body: values.body,
+                      caption: values.caption,
                       postId: props.post.id,
                     },
                   },
                 });
 
-                toast.success("Your comment has been posted!");
-
+                toast.success("Comment created successfully");
                 onClose();
               }}
             >
               <TextArea
                 label="Your reply"
                 placeholder="An interesting comment"
-                {...form.register("body")}
+                {...form.register("caption")}
               />
 
               <div className="flex justify-end space-x-2">
