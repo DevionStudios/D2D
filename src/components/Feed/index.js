@@ -75,7 +75,7 @@ export function Feed({ currentUser }) {
                     <div key={index}>
                       <FeedPostCard
                         post={post}
-                        isMine={post.author.username === currentUser.username}
+                        username={currentUser.username}
                       />
                       {index === 5 || index === 10 ? <WhoToFollow /> : null}
                     </div>
