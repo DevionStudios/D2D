@@ -27,6 +27,7 @@ const EditProfileFormSchema = object({
     .optional()
     .nullable(),
   email: z.string().email("Must be a valid email address."),
+  walletAddress: z.string().optional().nullable(),
   avatar: z.any().optional(),
   coverImage: z.any().optional(),
 });
@@ -78,9 +79,9 @@ export function EditProfileTab({ currentUser }) {
     formdata.append("bio", input.bio || user.bio);
     formdata.append("images", input.avatar);
     formdata.append("images", input.coverImage);
-    formdata.append("name", user.name);
-    formdata.append("username", user.username);
-    formdata.append("walletAddress", user.walletAddress);
+    formdata.append("name", input.name || user.name);
+    formdata.append("username", input.username || user.username);
+    formdata.append("walletAddress", input.walletAddress || user.walletAddress);
     console.log("Cookie: ", document.cookie);
     try {
       const res = await axios.put(
