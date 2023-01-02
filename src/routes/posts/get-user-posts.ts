@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
-import mongoose from "mongoose";
-import { Post } from "../../models/Post";
+import mongoose, { mongo } from "mongoose";
+import { Post, PostSchema } from "../../models/Post";
 import { BadRequestError } from "@devion/common";
 import { User, UserDoc } from "../../models/User";
 
@@ -22,6 +22,7 @@ router.get("/api/posts/:username", async (req: Request, res: Response) => {
       throw new BadRequestError("User not found!");
     }
 
+    console.log("Eu:", existingUser);
     res.status(200).send(existingUser.posts);
   } catch (err) {
     console.log(err);

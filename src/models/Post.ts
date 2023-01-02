@@ -62,7 +62,7 @@ const PostSchema = new mongoose.Schema(
     gifLink: {
       type: String,
       default: null,
-    }
+    },
   },
   {
     toJSON: {
@@ -80,6 +80,6 @@ PostSchema.statics.build = (attrs: PostAttrs) => {
   return new Post(attrs);
 };
 
-const Post = mongoose.model<PostDoc, PostModel>("post", PostSchema);
+const Post = mongoose.model<PostDoc, PostModel>("Post", PostSchema);
 
-export { Post };
+export { Post, PostSchema };
