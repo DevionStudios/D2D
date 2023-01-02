@@ -12,7 +12,11 @@ router.get("/api/posts/:username", async (req: Request, res: Response) => {
     const { username } = req.params;
     const existingUser = await User.findOne({
       username: username,
-    }).populate("posts");
+    }).populate({
+      path: "posts",
+    });
+
+    console.log("existingUser: ", existingUser);
 
     if (!existingUser) {
       throw new BadRequestError("User not found!");

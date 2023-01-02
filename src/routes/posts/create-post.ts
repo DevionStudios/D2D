@@ -20,7 +20,7 @@ router.post(
       const result = req.file
         ? await cloudinary.uploader.upload(req.file.path)
         : null;
-      const media = result.secure_url;
+      const media = result?.secure_url || "";
       const existingUser = await User.findOne({
         _id: req.currentUser!.id,
       });

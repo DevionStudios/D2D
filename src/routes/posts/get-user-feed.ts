@@ -12,11 +12,13 @@ router.get(
   currentUser,
   async (req: Request, res: Response) => {
     try {
-      const { userid } = req.params;
-
       const existingUser = await User.findOne({
-        _id: userid,
-      }).populate("following");
+        username: req.currentUser!.username,
+      }).populate({
+        path: "following",
+      });
+
+      console.log("cu", req.currentUser);
 
       if (!existingUser) {
         throw new BadRequestError("User not found!");
