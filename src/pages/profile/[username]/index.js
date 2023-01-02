@@ -26,22 +26,20 @@ export default function ProfilePage({ currentUser }) {
     fetchUserProfile();
   }, []);
   return user ? (
-    <Profile
-      isMe={user.username == currentUser.username}
-      user={user}
-      currentUser={currentUser}
-      username={username}
-    />
+    <>
+      <Navbar currentUser={currentUser} />
+      <Profile
+        isMe={user.username == currentUser.username}
+        user={user}
+        currentUser={currentUser}
+        username={username}
+      />
+    </>
   ) : (
     <>Loading</>
   );
 }
 
 ProfilePage.getLayout = function getLayout(page) {
-  return (
-    <>
-      <Navbar />
-      {page}
-    </>
-  );
+  return <>{page}</>;
 };
