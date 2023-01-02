@@ -4,12 +4,13 @@ import { Card } from "~/components/ui/Card";
 import Form, { useZodForm } from "../ui/Form/Form";
 import { Heading } from "../ui/Heading";
 import { Input } from "../ui/Input";
+import axios from "axios";
 
 const PasswordResetSchema = object({
   oldPassword: z.string().nonempty("Current password is required."),
   newPassword: z
     .string()
-    .min(5, "Password should be atleast 5 characters long.")
+    .min(4, "Password should be atleast 4 characters long.")
     .max(334, "Your password is a bit long."),
   confirm: z.string(),
 }).refine((data) => data.newPassword === data.confirm, {
@@ -23,7 +24,23 @@ export function PasswordTab() {
   });
   const changePassword = async ({ variables }) => {
     // change password request
-    console.log(variables);
+    try {
+      const res = await axios.put(
+        "http://localhost:5000/api/users/updatepassword",
+        {
+          oldPassword: variables.input.oldPassword,
+          newPassword: variables.input.newPassword,
+        },
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
+      );
+      console.log(res.data);
+    } catch (e) {
+      console.log(e);
+    }
   };
   return (
     <>

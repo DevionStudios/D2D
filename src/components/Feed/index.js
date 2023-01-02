@@ -6,7 +6,7 @@ import { GradientBar } from "~/components/ui/GradientBar";
 import { LoadingFallback } from "~/components/ui/Fallbacks/LoadingFallback";
 import { FeedPostCard } from "../Post/FeedPostCard";
 import { ErrorFallback } from "~/components/ui/Fallbacks/ErrorFallback";
-import React from "react";
+import React, { useState } from "react";
 import { SEO } from "../SEO";
 import { IndeterminateProgress } from "../ui/Progress";
 import { WhoToFollow } from "./WhoToFollow";
@@ -15,7 +15,7 @@ let FEED_QUERY;
 
 export function Feed({ currentUser }) {
   let error, fetchMore;
-  let data = {
+  const [data, setData] = useState({
     feed: {
       edges: [
         {
@@ -38,7 +38,7 @@ export function Feed({ currentUser }) {
               avatar: "https://placekitten.com/200/300",
               name: "Neko Chan",
             },
-          },  
+          },
 
           cursor: "1",
         },
@@ -73,7 +73,7 @@ export function Feed({ currentUser }) {
         endCursor: "1",
       },
     },
-  };
+  });
 
   if (error) {
     return (

@@ -40,6 +40,7 @@ export function EditProfileTab({ currentUser }) {
     name: "Azulul Mobius",
     bio: "I am a gamer",
     email: "azulul@gmail.com",
+    walletAddress: "0x0000000000000000dEaD",
   });
 
   const form = useZodForm({
@@ -49,6 +50,7 @@ export function EditProfileTab({ currentUser }) {
       bio: user.bio,
       name: user.name,
       email: user.email,
+      walletAddress: user.walletAddress,
     },
   });
 
@@ -60,6 +62,7 @@ export function EditProfileTab({ currentUser }) {
       bio: currentUser.bio,
       name: currentUser.name,
       email: currentUser.email,
+      walletAddress: currentUser.walletAddress,
     });
   }, [currentUser]);
 
@@ -77,6 +80,7 @@ export function EditProfileTab({ currentUser }) {
     formdata.append("images", input.coverImage);
     formdata.append("name", user.name);
     formdata.append("username", user.username);
+    formdata.append("walletAddress", user.walletAddress);
     console.log("Cookie: ", document.cookie);
     try {
       const res = await axios.put(
@@ -169,6 +173,13 @@ export function EditProfileTab({ currentUser }) {
                 {...form.register("email")}
                 readOnly
                 label="Email Address"
+              />
+            </div>
+            <div>
+              <Input
+                {...form.register("walletAddress")}
+                placeholder="Enter your Wallet Address."
+                label="Wallet Address"
               />
             </div>
             <div>
