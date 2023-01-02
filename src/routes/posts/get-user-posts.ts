@@ -18,7 +18,6 @@ router.get("/api/posts/:username", async (req: Request, res: Response) => {
       throw new BadRequestError("User not found!");
     }
 
-    console.log("Eu:", existingUser);
     res.status(200).send(existingUser.posts);
   } catch (err) {
     console.log(err);

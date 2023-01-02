@@ -13,8 +13,6 @@ router.get(
       const existingUser = await User.findOne({
         username: req.params.nameUser,
       });
-
-      console.log("hemlo", existingUser);
       if (!existingUser) {
         throw new BadRequestError("User not found!");
       }
