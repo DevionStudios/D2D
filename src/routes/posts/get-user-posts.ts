@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
-import mongoose from "mongoose";
-import { Post } from "../../models/Post";
+import mongoose, { mongo } from "mongoose";
+import { Post, PostSchema } from "../../models/Post";
 import { BadRequestError } from "@devion/common";
 import { User, UserDoc } from "../../models/User";
 
@@ -12,7 +12,9 @@ router.get("/api/posts/:username", async (req: Request, res: Response) => {
     const { username } = req.params;
     const existingUser = await User.findOne({
       username: username,
-    }).populate("posts");
+    }).populate({
+      path: "posts",
+    });
 
     if (!existingUser) {
       throw new BadRequestError("User not found!");
