@@ -14,6 +14,7 @@ router.get("/api/posts/:username", async (req: Request, res: Response) => {
       username: username,
     }).populate({
       path: "posts",
+      populate: { path: "author" },
     });
 
     console.log("existingUser: ", existingUser);

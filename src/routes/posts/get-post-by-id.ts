@@ -6,6 +6,7 @@ import { Post } from "../../models/Post";
 const router = express.Router();
 
 router.get("/api/post/:id", async (req: Request, res: Response) => {
+  console.log("Id of post:", req.params.id);
   try {
     const post = await Post.findOne({
       _id: new mongoose.Types.ObjectId(req.params.id),
