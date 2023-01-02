@@ -47,8 +47,6 @@ export function CommentDropdown({ id, isMine, postId, body }) {
                 Delete Comment
               </MenuItem>
             )}
-
-            <MenuItem icon={<HiOutlineFlag />}>Report Comment</MenuItem>
           </>
         }
       >

@@ -35,6 +35,7 @@ export function FeedPostCard(props) {
   const [isLiked, setIsLiked] = useState(false);
   const [post, setPost] = useState(props.post);
   const [likes, setLikes] = useState(props.post.likes);
+  const [comments, setComments] = useState(0);
 
   let loading;
 
@@ -43,6 +44,7 @@ export function FeedPostCard(props) {
     setPost(props.post);
 
     setLikes(props.post?.likes?.length);
+    setComments(props.post?.comments?.length);
   }, [props.post]);
 
   if (!props.post || !props.post.author) {
@@ -121,7 +123,13 @@ export function FeedPostCard(props) {
 
   return (
     <>
-      <ReplyModal isOpen={isOpen} onClose={() => setIsOpen(false)} {...props} />
+      <ReplyModal
+        isOpen={isOpen}
+        comments={comments}
+        setComments={setComments}
+        onClose={() => setIsOpen(false)}
+        {...props}
+      />
       <Card noPadding className="max-w-2xl overflow-hidden my-3 rounded-lg ">
         <article>
           <div className="px-6 py-4">
@@ -245,7 +253,7 @@ export function FeedPostCard(props) {
                   className="space-x-2"
                 >
                   <HiOutlineReply className="w-5 h-5" />
-                  <p>{props.post?.comments?.length || "0"}</p>
+                  <p>{comments || "0"}</p>
                 </Button>
               </span>
               {/* To Tip on the posts */}

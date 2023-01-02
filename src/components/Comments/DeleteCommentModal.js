@@ -1,4 +1,3 @@
-import { gql, useMutation } from "@apollo/client";
 import toast from "react-hot-toast";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
@@ -6,7 +5,7 @@ import { Heading } from "../ui/Heading";
 import Modal from "../ui/Modal";
 
 export function DeleteCommentModal({ id, isOpen, onClose, postId }) {
-  let deleteComment;
+  const deleteComment = async () => {};
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="sm:max-w-lg">

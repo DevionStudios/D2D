@@ -18,6 +18,7 @@ import { Card } from "../ui/Card";
 import Form, { useZodForm } from "../ui/Form/Form";
 import { TextArea } from "../ui/TextArea";
 import { PostDropdown } from "./PostDropdown";
+import { Comments } from "../Comments/Comments";
 
 import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
 import { LoadingFallback } from "../ui/Fallbacks/LoadingFallback";
@@ -83,7 +84,7 @@ export function PostCard({ id, username, currentUser }) {
         if (isLiked) setLikes(likes - 1);
         else setLikes(likes + 1);
         setIsLiked(!isLiked);
-        // console.log("Response Data: ", response.data);
+
         setData(response.data);
       }
     } catch (e) {
@@ -108,11 +109,9 @@ export function PostCard({ id, username, currentUser }) {
         }
       );
       console.log("Response: ", response.data);
-
-      if (response.status === 200) {
-        setComments(response.data);
-        form.reset();
-      }
+      window.location.reload();
+      setComments(response.data.comments);
+      form.reset();
     } catch (error) {
       console.log(error);
     }
@@ -299,7 +298,7 @@ export function PostCard({ id, username, currentUser }) {
                   />
                 </span>
                 <span className="inline-flex">
-                  <p className="font-bold">{data?.comments?.length || "0"}</p>
+                  <p className="font-bold">{comments?.length || "0"}</p>
                   <p className="text-muted ml-1 ">Comments</p>{" "}
                 </span>
               </div>
@@ -391,9 +390,13 @@ export function PostCard({ id, username, currentUser }) {
             </Form>
           </Card.Body>
         </Card>
-        {/* <div className="w-full relative">
-          <Comments postId={data.id} />
-        </div> */}
+        <div className="w-full relative">
+          <Comments
+            postId={data.id}
+            comments={data?.comments}
+            currentUser={currentUser}
+          />
+        </div>
       </div>
     </>
   ) : (

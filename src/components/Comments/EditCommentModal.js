@@ -1,4 +1,3 @@
-import { gql, useMutation } from "@apollo/client";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { z } from "zod";
@@ -14,14 +13,7 @@ const EditCommentSchema = z.object({
   body: z.string().min(1, "Comment should consist atleast one character."),
 });
 
-const EDIT_COMMENT_MUTATION = gql`
-  mutation EditCommentMutation($input: EditCommentInput!) {
-    editComment(input: $input) {
-      success
-    }
-  }
-`;
-
+let EDIT_COMMENT_MUTATION;
 export function EditCommentModal({ isOpen, onClose, id, body, postId }) {
   const form = useZodForm({
     schema: EditCommentSchema,
@@ -39,9 +31,6 @@ export function EditCommentModal({ isOpen, onClose, id, body, postId }) {
     <Modal isOpen={isOpen} onClose={onClose} className="sm:max-w-lg">
       <Modal.Header dismiss>
         <Heading size="h4">Edit Comment</Heading>
-        <p className="text-sm text-muted">
-          Only caption edits are supported for now.
-        </p>
       </Modal.Header>
       <Card.Body noPadding className="mt-4">
         <Form

@@ -14,7 +14,13 @@ import Link from "next/link";
 
 export let CREATE_COMMENT_MUTATION;
 
-export function ReplyModal({ isOpen, onClose, ...props }) {
+export function ReplyModal({
+  isOpen,
+  onClose,
+  comments,
+  setComments,
+  ...props
+}) {
   const createComment = async (values) => {
     console.log("Caption: ", values.variables.input.caption);
     console.log("Post ID: ", props.post.id);
@@ -33,6 +39,7 @@ export function ReplyModal({ isOpen, onClose, ...props }) {
       );
 
       console.log("Response: ", response.data);
+      setComments(comments + 1);
     } catch (error) {
       console.log(error);
     }
