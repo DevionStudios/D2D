@@ -35,7 +35,10 @@ router.post(
         gifLink,
         author: existingUser as UserDoc,
       });
+      existingUser?.posts!.push(post);
+
       await post.save();
+      await existingUser.save();
 
       res.status(201).send(post);
     } catch (err) {
