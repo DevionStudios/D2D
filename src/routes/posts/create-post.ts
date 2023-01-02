@@ -45,39 +45,40 @@ router.post(
       await existingUser.save();
 
       // Save the hashtags in hashtag db
-      if (typeof hashtags === "string") {
-        const existingHashtag = await HashTag.findOne({
-          content: hashtags,
-        });
-        if (existingHashtag) {
-          existingHashtag.useCounter = existingHashtag.useCounter + 1;
-          await existingHashtag.save();
-        } else {
-          const newHashtag = HashTag.build({
-            content: hashtags,
-            useCounter: 1,
-          });
-          await newHashtag.save();
-        }
-      } else {
-        for (let i = 0; i < hashtags.length; i++) {
-          console.log(hashtags[i]);
+      if (hashtags) {
+        if (typeof hashtags === "string") {
           const existingHashtag = await HashTag.findOne({
-            content: hashtags[i],
+            content: hashtags,
           });
           if (existingHashtag) {
             existingHashtag.useCounter = existingHashtag.useCounter + 1;
             await existingHashtag.save();
           } else {
             const newHashtag = HashTag.build({
-              content: hashtags[i],
+              content: hashtags,
               useCounter: 1,
             });
             await newHashtag.save();
           }
+        } else {
+          for (let i = 0; i < hashtags.length; i++) {
+            console.log(hashtags[i]);
+            const existingHashtag = await HashTag.findOne({
+              content: hashtags[i],
+            });
+            if (existingHashtag) {
+              existingHashtag.useCounter = existingHashtag.useCounter + 1;
+              await existingHashtag.save();
+            } else {
+              const newHashtag = HashTag.build({
+                content: hashtags[i],
+                useCounter: 1,
+              });
+              await newHashtag.save();
+            }
+          }
         }
       }
-
       res.status(201).send(post);
     } catch (err) {
       console.log(err);
