@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { format, formatDistance } from "date-fns";
 import toast from "react-hot-toast";
@@ -16,11 +16,7 @@ import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
 import Form, { useZodForm } from "../ui/Form/Form";
 import { TextArea } from "../ui/TextArea";
-
-import { Comments, COMMENTS_QUERY } from "../Comments/Comments";
-import { CREATE_COMMENT_MUTATION } from "./ReplyModal";
 import { PostDropdown } from "./PostDropdown";
-import { TOGGLE_LIKE_MUTATION } from "./FeedPostCard";
 
 import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
 import { LoadingFallback } from "../ui/Fallbacks/LoadingFallback";
@@ -30,30 +26,43 @@ import { Link } from "~/components/ui/Link";
 import { ViewLikes } from "./ViewLikes";
 import { SEO } from "../SEO";
 
+import axios from "axios";
+
 export const CommentSchema = z.object({
   body: z.string().min(1, "Comment must be atleast 1 character long."),
 });
 
-export let POST_QUERY;
-
-export function PostCard() {
+export function PostCard({ id, isMine }) {
   const [imageModal, setImageModal] = useState(false);
   const [likesModal, setLikesModal] = useState(false);
-
+  const [data, setData] = useState({});
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
-
+  const fetchPostData = async () => {
+    setLoading(true);
+    console.log("Hello", id);
+    try {
+      const res = await axios.get(`http://localhost:5000/api/post/${id}`);
+      setData(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+    setLoading(false);
+  };
+  useEffect(() => {
+    fetchPostData();
+  }, []);
   const form = useZodForm({
     schema: CommentSchema,
   });
 
   let createComment;
 
-  let data, error, loading;
+  let error;
 
   let toggleLike, isLikeLoading;
 
   if (loading) return <LoadingFallback />;
-
   if (error)
     return (
       <ErrorFallback
@@ -70,29 +79,27 @@ export function PostCard() {
       />
     );
 
-  const post = data.seePost;
+  // const shareData = {
+  //   title: `${data.author.username} on D2D.`,
+  //   text: `${
+  //     data.seePost.caption ?? "Check it out now! See what they have to say."
+  //   }`,
+  //   url: `https://d2d.vercel.app/post/${data.seePost.id}`,
+  // };
 
-  const shareData = {
-    title: `${data.seePost.user.username} on D2D.`,
-    text: `${
-      data.seePost.caption ?? "Check it out now! See what they have to say."
-    }`,
-    url: `https://d2d.vercel.app/post/${data.seePost.id}`,
-  };
-
-  return (
+  return data && data.author ? (
     <>
       <SEO
-        title={`${data.seePost.user.username} on D2D: ${
-          post.caption ? post?.caption.slice(0, 255) : ""
+        title={`${data.author.username} on D2D: ${
+          data.caption ? data.caption.slice(0, 255) : ""
         }`}
-        description={post.caption ? post.caption.slice(0, 255) : ""}
-        image={post.user.avatar}
-        path={`/post/${post.id}`}
+        description={data.caption ? data.caption.slice(0, 255) : ""}
+        image={data.author.image}
+        path={`/post/${data.id}`}
       />
       <div className="max-w-2xl mx-auto flex flex-wrap space-y-4 relative">
         <div className="absolute -left-24 top-5">
-          <Button variant="dark" onClick={() => router.push("/feed/all")}>
+          <Button variant="dark" onClick={() => router.push("/feed")}>
             {" "}
             ← Back
           </Button>
@@ -105,20 +112,20 @@ export function PostCard() {
                   <div className="flex-shrink-0">
                     <img
                       className="h-10 w-10 rounded-full"
-                      src={post.user.avatar}
+                      src={data.author.image}
                       alt=""
                     />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className=" font-medium ">
                       <Link
-                        href={`/profile/${post.user.username}`}
+                        href={`/profile/${data.author.username}`}
                         className="no-underline"
                       >
-                        {post.user.name}
+                        {data.author.name}
                         {/* {post.user.lastName ? post.user.lastName : ""} */}
                         <span className="text-muted ml-1 text-sm">
-                          @{post.user.username}
+                          @{data.author.username}
                         </span>
                       </Link>
                     </p>
@@ -126,12 +133,12 @@ export function PostCard() {
                       <a href="#" className="hover:underline">
                         <time>
                           {format(
-                            new Date(post.createdAt),
+                            new Date(data.createdAt),
                             "MMMM d, hh:mm aaa"
                           )}{" "}
                           (
                           {formatDistance(
-                            new Date(post.createdAt),
+                            new Date(data.createdAt),
                             new Date(),
                             {
                               addSuffix: true,
@@ -144,32 +151,32 @@ export function PostCard() {
                   </div>
                   <div className="flex-shrink-0 self-center flex">
                     <PostDropdown
-                      id={post.id}
-                      isMine={post.isMine}
-                      caption={post.caption ?? ""}
-                      gifLink={post.gifImage ?? ""}
+                      id={data.id}
+                      isMine={isMine}
+                      caption={data.caption ?? ""}
+                      gifLink={data.gifImage ?? ""}
                     />
                   </div>
                 </div>
               </div>
 
               <div className="px-4 pb-4">
-                <Interweave content={post.caption} />
+                <Interweave content={data.caption} />
               </div>
-              {post.gifImage && (
+              {data.gifImage && (
                 <div className="mx-auto w-11/12 rounded-lg pb-4 overflow-hidden">
                   <img
                     className="w-full rounded-lg"
-                    src={post.gifImage}
-                    alt={`A moving GIF image posted by ${post.user.username}.`}
+                    src={data.gifImage}
+                    alt={`A moving GIF image posted by ${data.author.username}.`}
                   />
                 </div>
               )}
-              {post.image && (
+              {data.media && (
                 <div className="aspect-w-1 aspect-h-1 ">
                   <NextImage
                     onClick={() => setImageModal(true)}
-                    src={post.image}
+                    src={data.media}
                     layout="fill"
                     objectFit="cover"
                     placeholder="empty"
@@ -192,7 +199,7 @@ export function PostCard() {
                     <NextImage
                       layout="fill"
                       objectFit="contain"
-                      src={post.image}
+                      src={data.media}
                     />
                   </div>
                 </Modal.Content>
@@ -210,7 +217,7 @@ export function PostCard() {
             <Card className="py-2 px-4 flex justify-between space-x-8">
               <div className="flex space-x-6">
                 <span className="inline-flex">
-                  <p className="font-bold">{post.likes.totalCount}</p>
+                  <p className="font-bold">{data.likes}</p>
                   <button onClick={() => setLikesModal(true)}>
                     <p className="text-muted ml-1 ">Likes</p>{" "}
                   </button>
@@ -220,7 +227,7 @@ export function PostCard() {
                   />
                 </span>
                 <span className="inline-flex">
-                  <p className="font-bold">{post.comments.totalCount}</p>
+                  <p className="font-bold">{data.comments}</p>
                   <p className="text-muted ml-1 ">Comments</p>{" "}
                 </span>
               </div>
@@ -235,12 +242,12 @@ export function PostCard() {
                       // setHasLiked(!hasLiked);
                       // setLikesCount(hasLiked ? likesCount - 1 : likesCount + 1);
                       await toggleLike({
-                        variables: { id: post.id },
+                        variables: { id: data.id },
                       });
                     }}
                     variant="dark"
                   >
-                    {data.seePost.isLiked ? (
+                    {data.likes > 0 ? (
                       <HiHeart
                         className="h-5 w-5 text-brand-600"
                         aria-hidden="true"
@@ -269,7 +276,7 @@ export function PostCard() {
                     variant="dark"
                     onClick={async () => {
                       navigator.clipboard
-                        .writeText(`https://d2d.vercel.app/post/${post.id}`)
+                        .writeText(`https://d2d.vercel.app/post/${data.id}`)
                         .then(() => toast.success("Link copied to clipboard"));
                     }}
                   >
@@ -313,10 +320,12 @@ export function PostCard() {
             </Form>
           </Card.Body>
         </Card>
-        <div className="w-full relative">
-          <Comments postId={post.id} />
-        </div>
+        {/* <div className="w-full relative">
+          <Comments postId={data.id} />
+        </div> */}
       </div>
     </>
+  ) : (
+    <LoadingFallback />
   );
 }

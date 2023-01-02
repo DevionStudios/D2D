@@ -143,7 +143,11 @@ export function Profile({ user, isMe, username }) {
             </div>
           </div>
         </div>
-        <UserPosts count={user.postsCount} username={user.username} />
+        <UserPosts
+          count={userPosts ? userPosts.length : 0}
+          posts={userPosts || []}
+          username={user.username}
+        />
       </div>
     </div>
   ) : (
