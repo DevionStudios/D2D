@@ -43,6 +43,7 @@ app.use(
   })
 );
 
+app.use(getUserFeedRouter);
 app.use(updateProfileRouter);
 app.use(signupRouter);
 app.use(signinRouter);
@@ -54,7 +55,6 @@ app.use(createPostRouter);
 app.use(getUserPostsRouter);
 app.use(updatePostRouter);
 app.use(deletePostRouter);
-app.use(getUserFeedRouter);
 app.use(updatePasswordRouter);
 app.use(getAllPostsRouter);
 
