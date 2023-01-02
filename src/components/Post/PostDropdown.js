@@ -46,8 +46,6 @@ export function PostDropdown({ id, caption, isMine, gifLink }) {
                 Delete Post
               </MenuItem>
             )}
-
-            <MenuItem icon={<HiOutlineFlag />}>Report Post</MenuItem>
           </>
         }
       >

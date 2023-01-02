@@ -16,44 +16,7 @@ export function RightSidebar() {
   let loading, error, refetch;
   let data = {
     whoToFollow: {
-      edges: [
-        {
-          node: {
-            id: "1",
-            username: "neko_chan",
-            avatar: "https://placekitten.com/200/300",
-            name: "Neko Chan",
-            isFollowing: false,
-          },
-        },
-        {
-          node: {
-            id: "2",
-            username: "inu_chan",
-            avatar: "https://placekitten.com/400/300",
-            name: "Inu Chan",
-            isFollowing: true,
-          },
-        },
-        {
-          node: {
-            id: "3",
-            username: "saru_chan",
-            avatar: "https://placekitten.com/300/300",
-            name: "Saru Chan",
-            isFollowing: false,
-          },
-        },
-        {
-          node: {
-            id: "4",
-            username: "hebi_chan",
-            avatar: "https://placekitten.com/200/200",
-            name: "Hebi Chan",
-            isFollowing: false,
-          },
-        },
-      ],
+      edges: [],
     },
   };
 

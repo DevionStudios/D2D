@@ -7,7 +7,7 @@ export default function Post({ currentUser }) {
   const id = router.query.id;
   return (
     <div className="mt-20">
-      <PostCard id={id} />
+      <PostCard id={id} username={currentUser.username} />
     </div>
   );
 }

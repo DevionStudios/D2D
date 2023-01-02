@@ -1,0 +1,29 @@
+[
+  {
+    "type": "constructor",
+    "stateMutability": "payable",
+    "payable": true,
+    "inputs": [
+      { "type": "address", "name": "tokenAddress" },
+      { "type": "uint256", "name": "firstRegisterTokenRewardAmount" }
+    ]
+  },
+  { "type": "error", "name": "Fund__AlreadyRegistered", "inputs": [] },
+  {
+    "type": "function",
+    "name": "firstSignUpReward",
+    "constant": false,
+    "payable": false,
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "token",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [{ "type": "address" }]
+  }
+]

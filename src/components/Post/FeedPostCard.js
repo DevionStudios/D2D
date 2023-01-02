@@ -21,16 +21,15 @@ import { PostDropdown } from "./PostDropdown";
 import NextImage from "next/image";
 import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
 import toast from "react-hot-toast";
-import { useDebouncedCallback } from "use-debounce";
 
-// import D2DToken from "../constants/frontEndAbiLocation/D2DToken.json";
-// import networkMapping from "../constants/networkMapping.json";
+import D2DToken from "../../constants/ABIs/D2DToken.json";
+import networkMapping from "../../constants/networkMapping.json";
 
 export let TOGGLE_LIKE_MUTATION;
 
 export function FeedPostCard(props) {
   const [isOpen, setIsOpen] = useState(false);
-  const { account } = useMoralis();
+  const { account, chainId } = useMoralis();
   let toggleLike, loading;
 
   function handleCacheUpdate(cache) {
@@ -60,14 +59,14 @@ export function FeedPostCard(props) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const D2DTokenContract = new ethers.Contract(
-          // networkMapping[chainId]["D2DToken"].slice(-1)[0], //TODO uncommment this
-          // D2DtokenAbi, //TODO uncommment this
+          networkMapping[5]["D2DToken"].slice(-1)[0], //TODO fetch chainId from moralis
+          D2DToken, //TODO uncommment this
           signer
         );
         let transfer = await D2DTokenContract.transferFrom(
-          props.currentUser.ethAddress,
+          props.currentUser.walletAddress,
           receiverWalletAddress,
-          // amount, //TODO uncommment this
+          ethers.utils.parseEther("0.02"), //TODO send the amount from the input
           {
             gasLimit: 500000,
           }
@@ -125,12 +124,14 @@ export function FeedPostCard(props) {
               </p>
             </div>
             <div className="flex-shrink-0 self-center flex">
-              <PostDropdown
-                id={props.post.id}
-                isMine={props.post.author.username === props.username}
-                caption={props.post.caption ?? ""}
-                gifLink={props.post.gifImage ?? ""}
-              />
+              {props.post.author.username === props.username ? (
+                <PostDropdown
+                  id={props.post.id}
+                  isMine={props.post.author.username === props.username}
+                  caption={props.post.caption ?? ""}
+                  gifLink={props.post.gifLink ?? ""}
+                />
+              ) : null}
             </div>
           </div>
         </div>
@@ -141,9 +142,9 @@ export function FeedPostCard(props) {
           href={`/post/${props.post.id}`}
           className="mt-1 block no-underline font-normal outline-none focus:outline-none focus:ring-0"
         >
-          {props.post.gifImage && (
+          {props.post.gifLink && (
             <div className="mx-auto w-11/12 rounded-lg overflow-hidden">
-              <img className="w-full" src={props.post.gifImage} alt="" />
+              <img className="w-full" src={props.post.gifLink} alt="" />
             </div>
           )}
 

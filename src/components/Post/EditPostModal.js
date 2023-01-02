@@ -1,21 +1,38 @@
 import { useEffect } from "react";
 import toast from "react-hot-toast";
-
+import { object, z } from "zod";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
 import Form, { useZodForm } from "../ui/Form/Form";
 import { Heading } from "../ui/Heading";
 import Modal from "../ui/Modal";
 import { TextArea } from "../ui/TextArea";
-// import { CreatePostSchema } from "./CreatePost";
+import axios from "axios";
 
-let EDIT_POST_MUTATION;
-
+const EditPostSchema = object({
+  caption: z.string().nonempty("Caption is required.").max(420),
+});
 export function EditPost({ isOpen, onClose, id, caption, gifLink }) {
-  let editPost;
+  const editPost = async (values) => {
+    const { caption } = values;
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/posts/edit/${id}`,
+        { caption },
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const form = useZodForm({
-    // schema: CreatePostSchema,
+    schema: EditPostSchema,
   });
 
   useEffect(() => {
@@ -28,21 +45,15 @@ export function EditPost({ isOpen, onClose, id, caption, gifLink }) {
     <Modal isOpen={isOpen} onClose={onClose} className="sm:max-w-lg">
       <Modal.Header dismiss>
         <Heading size="h4">Edit Post</Heading>
-        <p className="text-sm text-muted">
-          Only caption edits are supported for now.
-        </p>
       </Modal.Header>
       <Card.Body noPadding className="mt-4">
         <Form
           form={form}
           onSubmit={async (values) => {
-            await editPost({
-              variables: {
-                input: { caption: values.caption, id, gifLink },
-              },
-            });
+            await editPost(values);
             onClose();
             toast("Post caption has been edited successfully.");
+            window.location.reload();
           }}
         >
           <TextArea
