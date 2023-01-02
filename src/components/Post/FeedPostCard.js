@@ -1,4 +1,5 @@
 import { useState } from "react";
+import clsx from "clsx";
 import {
   HiHeart,
   HiOutlineBadgeCheck,
@@ -167,6 +168,20 @@ export function FeedPostCard(props) {
           <div className="px-6  pb-2 my-2">
             <p className=" space-y-4 dark:text-gray-300">
               <Interweave content={props.post.caption} />
+            </p>
+            <p>
+              {props.post.hashtags.map((hashtag, index) => {
+                return (
+                  <span
+                    key={index}
+                    className={clsx(
+                      "bg-gray-50 dark:bg-gray-700 mr-2 shadow-sm border  dark:border-gray-500 border-gray-300 rounded-l-md rounded-r-md px-3 inline-flex items-center text-gray-500 dark:text-gray-100 sm:text-sm"
+                    )}
+                  >
+                    {hashtag}
+                  </span>
+                );
+              })}
             </p>
           </div>
         </Link>

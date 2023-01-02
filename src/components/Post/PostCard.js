@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { format, formatDistance } from "date-fns";
 import toast from "react-hot-toast";
+import clsx from "clsx";
 import {
   HiHeart,
   HiOutlineHeart,
@@ -164,6 +165,20 @@ export function PostCard({ id, username }) {
 
               <div className="px-4 pb-4">
                 <Interweave content={data.caption} />
+                <p>
+                  {data.hashtags.map((hashtag, index) => {
+                    return (
+                      <span
+                        key={index}
+                        className={clsx(
+                          "bg-gray-50 dark:bg-gray-700 mr-2 shadow-sm border  dark:border-gray-500 border-gray-300 rounded-l-md rounded-r-md px-3 inline-flex items-center text-gray-500 dark:text-gray-100 sm:text-sm"
+                        )}
+                      >
+                        {hashtag}
+                      </span>
+                    );
+                  })}
+                </p>
               </div>
               {data.gifLink && (
                 <div className="mx-auto w-11/12 rounded-lg pb-4 overflow-hidden">

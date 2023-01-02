@@ -54,39 +54,49 @@ export function Feed({ currentUser }) {
   //   });
   // }
 
-  return data.length > 0 ? (
-    <>
-      <SEO
-        title="Explore · D2D"
-        description="Explore community posts and posts from people you follow."
-      />
-      <main className="lg:col-span-7 xl:col-span-6 lg:grid lg:grid-cols-12 lg:gap-3">
-        <div className="px-4 lg:col-span-12 -mt-3">
-          <InfiniteScroll
-            // hasMore={data.feed.pageInfo.hasNextPage}
-            // next={handleNext}
-            dataLength={data.length}
-            loader={<IndeterminateProgress />}
-            endMessage={<EndMessage />}
-          >
-            {data.length > 0
-              ? data.map((post, index) => {
-                  return (
-                    <div key={index}>
-                      <FeedPostCard
-                        post={post}
-                        username={currentUser.username}
-                        currentUser={currentUser}
-                      />
-                      {index === 5 || index === 10 ? <WhoToFollow /> : null}
-                    </div>
-                  );
-                })
-              : null}
-          </InfiniteScroll>
-        </div>
-      </main>
-    </>
+  return data ? (
+    data.length > 0 ? (
+      <>
+        <SEO
+          title="Explore · D2D"
+          description="Explore community posts and posts from people you follow."
+        />
+        <main className="lg:col-span-7 xl:col-span-6 lg:grid lg:grid-cols-12 lg:gap-3">
+          <div className="px-4 lg:col-span-12 -mt-3">
+            <InfiniteScroll
+              // hasMore={data.feed.pageInfo.hasNextPage}
+              // next={handleNext}
+              dataLength={data.length}
+              loader={<IndeterminateProgress />}
+              endMessage={<EndMessage />}
+            >
+              {data.length > 0
+                ? data.map((post, index) => {
+                    return (
+                      <div key={index}>
+                        <FeedPostCard
+                          post={post}
+                          username={currentUser.username}
+                          currentUser={currentUser}
+                        />
+                        {index === 5 || index === 10 ? <WhoToFollow /> : null}
+                      </div>
+                    );
+                  })
+                : null}
+            </InfiniteScroll>
+          </div>
+        </main>
+      </>
+    ) : (
+      <InfiniteScroll
+        // hasMore={data.feed.pageInfo.hasNextPage}
+        // next={handleNext}
+        dataLength={0}
+        loader={<IndeterminateProgress />}
+        endMessage={<EndMessage />}
+      ></InfiniteScroll>
+    )
   ) : (
     <LoadingFallback />
   );

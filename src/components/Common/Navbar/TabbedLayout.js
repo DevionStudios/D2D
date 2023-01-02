@@ -3,7 +3,7 @@ import { Tab } from "@headlessui/react";
 import clsx from "clsx";
 import { useRouter } from "next/router";
 import { IconType } from "react-icons/lib";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ConnectButton } from "@web3uikit/web3";
 import { HiOutlineFire, HiOutlineHashtag, HiOutlineHome } from "react-icons/hi";
 import { RiWallet3Fill } from "react-icons/ri";
@@ -11,22 +11,20 @@ import { RiWallet3Fill } from "react-icons/ri";
 export function TabbedLayout({ navigation }) {
   const router = useRouter();
 
-  const [currentPath, setCurrentPath] = useState(
-    router.isReady ? router.pathname : "/all"
-  );
-
+  const [currentPath, setCurrentPath] = useState(router.pathname);
+  const [defaultidx, setDefaultIdx] = useState(0);
   function handleChange(idx) {
+    console.log("route_path," + currentPath);
     const path = navigation[idx].id;
     setCurrentPath(path);
-    router.push(path, undefined, {
-      shallow: true,
-    });
+    setDefaultIdx(idx);
+    router.push(path);
   }
 
   return (
     <>
       <Tab.Group
-        defaultIndex={navigation.findIndex((x) => x.id === currentPath)}
+        defaultIndex={currentPath === "/feed" ? 0 : 1}
         onChange={(idx) => handleChange(idx)}
         vertical
       >

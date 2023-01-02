@@ -13,7 +13,8 @@ import { EmojiPicker } from "../ui/EmojiPicker";
 import { GIFPicker } from "../ui/GIFPicker";
 import { LoadingFallback } from "../ui/Fallbacks/LoadingFallback";
 import axios from "axios";
-
+import clsx from "clsx";
+import { toast } from "react-hot-toast";
 const oneOf = (keys) => (val) => {
   for (const k of keys) {
     if (val[k] !== undefined) return true;
@@ -33,14 +34,68 @@ export const CreatePostSchema = object({
 
 export function CreatePost({ currentUser }) {
   const [loading, setLoading] = useState(false);
+  const [tags, setTags] = useState([]);
+
+  function handleKeyDown(e) {
+    if (e.key !== "Enter") return;
+    const value = e.target.value;
+    if (!value.trim()) return;
+    let tagValue = value;
+    if (value[0] !== "#") {
+      tagValue = "#" + value;
+    }
+    setTags([...tags, tagValue]);
+    e.target.value = "";
+  }
+
+  function removeTag(index) {
+    setTags(tags.filter((el, i) => i !== index));
+  }
+  function TagsInput() {
+    return (
+      <div>
+        {tags.map((tag, index) => (
+          <div key={index}>
+            <span
+              className={clsx(
+                "bg-gray-50 dark:bg-gray-700  shadow-sm border border-r-0 dark:border-gray-500 border-gray-300 rounded-l-md px-3 inline-flex items-center text-gray-500 dark:text-gray-100 sm:text-sm"
+              )}
+            >
+              {tag}
+            </span>
+            <span
+              className={clsx(
+                "bg-black-50 dark:bg-black-700  shadow-sm border border-r-0 dark:border-black-500 border-gray-300 rounded-l-md rounded-r-md px-3 inline-flex items-center text-gray-500 dark:text-gray-100 sm:text-sm"
+              )}
+              onClick={() => removeTag(index)}
+            >
+              &times;
+            </span>
+          </div>
+        ))}
+        <input
+          className={clsx(
+            "w-full transition duration-500 ease-in-out border-2 border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-800   focus:border-brand-600 focus:ring-yellow-300 disabled:opacity-60 disabled:bg-gray-500 disabled:bg-opacity-20 rounded-md disabled:cursor-not-allowed",
+            "flex-grow block w-full min-w-0 rounded-none rounded-r-md"
+          )}
+          type="text"
+          placeholder="Press Enter To Add Hashtags (E.g- #d2d)"
+          onKeyDown={handleKeyDown}
+        />
+      </div>
+    );
+  }
   const createPost = async ({ variables }) => {
     //post data
-    console.log(variables);
+    console.log(tags);
     const { input } = variables;
     const formdata = new FormData();
     formdata.append("caption", input.caption);
     formdata.append("media", input.media);
     formdata.append("gifLink", input.gifLink);
+    for (let i = 0; i < tags.length; i++) {
+      formdata.append("hashtags", tags[i]);
+    }
     setLoading(true);
     try {
       const response = await axios.post(
@@ -108,12 +163,10 @@ export function CreatePost({ currentUser }) {
             </div>
           </div>
           <div>
-            <Input
-              {...form.register("hashtags")}
-              label="Hashtags"
-              placeholder="Hashtags (e.g- #D2D #trending)"
-              prefix="D2D.com/@"
-            />
+            <label className="mb-1 font-medium dark:text-white ">
+              Hashtags
+            </label>
+            <TagsInput></TagsInput>
           </div>
           {/* GIF Preview */}
           <div>
