@@ -21,34 +21,29 @@ const RightSidebar = dynamic(
 
 RightSidebar.displayName = "RightSidebar";
 
-export const navigation = [
-  {
-    component: <Feed />,
-    icon: HiOutlineHome,
-    name: "Your Feed",
-    id: "all",
-  },
-  {
-    component: <Feed />, //! Replace with Popular Posts later
-    icon: HiOutlineFire,
-    name: "Popular",
-    id: "popular",
-  },
-  {
-    component: <Feed />, //! Replace with trending posts later
-    icon: HiOutlineHashtag,
-    name: "Trending",
-    id: "trending",
-  },
-];
-
 export function FeedLayout({ currentUser }) {
+  const navigation = [
+    {
+      component: <Feed currentUser={currentUser} />,
+      icon: HiOutlineHome,
+      name: "Your Feed",
+      id: "all",
+    },
+    {
+      component: <Feed currentUser={currentUser} />, //! Replace with Popular Posts later
+      icon: HiOutlineFire,
+      name: "Popular",
+      id: "popular",
+    },
+    {
+      component: <Feed currentUser={currentUser} />, //! Replace with trending posts later
+      icon: HiOutlineHashtag,
+      name: "Trending",
+      id: "trending",
+    },
+  ];
   //   const { user, loading } = useUser();
-  let user = {
-    avatar: "https://placekitten.com/400/400",
-    username: "kitten",
-    name: "Kitten",
-  };
+  let user = currentUser;
   let loading = false;
 
   if (loading || !user)

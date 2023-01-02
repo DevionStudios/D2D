@@ -6,75 +6,33 @@ import { GradientBar } from "~/components/ui/GradientBar";
 import { LoadingFallback } from "~/components/ui/Fallbacks/LoadingFallback";
 import { FeedPostCard } from "../Post/FeedPostCard";
 import { ErrorFallback } from "~/components/ui/Fallbacks/ErrorFallback";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SEO } from "../SEO";
 import { IndeterminateProgress } from "../ui/Progress";
 import { WhoToFollow } from "./WhoToFollow";
-
-let FEED_QUERY;
+import axios from "axios";
 
 export function Feed({ currentUser }) {
-  let error, fetchMore;
-  const [data, setData] = useState({
-    feed: {
-      edges: [
-        {
-          node: {
-            id: "1",
-            createdAt: "Janu 1, 12:10 PM",
-            isMine: true,
-            isLiked: false,
-            likes: {
-              totalCount: 404,
-            },
-            comments: {
-              totalCount: 10,
-            },
-            caption: "Hi there! I am Neko Chan and I hate cats!",
-            // image: "https://placekitten.com/720/480",
-            user: {
-              id: "1",
-              username: "neko_chan",
-              avatar: "https://placekitten.com/200/300",
-              name: "Neko Chan",
-            },
-          },
-
-          cursor: "1",
-        },
-        {
-          node: {
-            id: "2",
-            createdAt: "Janu 2, 12:10 PM",
-            isMine: false,
-            isLiked: true,
-            likes: {
-              totalCount: 10,
-            },
-            comments: {
-              totalCount: 10,
-            },
-            caption: "test caption",
-            gifImage:
-              "https://media3.giphy.com/media/CnSdOKbh6mCUlHNG4z/giphy.gif",
-            user: {
-              id: "1",
-              username: "hebi_chan",
-              avatar: "https://placekitten.com/200/200",
-              name: "Hebi Chan",
-              isFollowing: false,
-            },
-          },
-          cursor: "2",
-        },
-      ],
-      pageInfo: {
-        hasNextPage: false,
-        endCursor: "1",
-      },
-    },
-  });
-
+  let fetchMore;
+  const [data, setData] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const fetchAllPosts = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get("http://localhost:5000/api/posts");
+      setData(response.data);
+      console.log(response.data);
+    } catch (e) {
+      console.log(e);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchAllPosts();
+  }, []);
   if (error) {
     return (
       <ErrorFallback
@@ -87,18 +45,16 @@ export function Feed({ currentUser }) {
     return <h1></h1>;
   }
 
-  function handleNext() {
-    fetchMore({
-      variables: {
-        first: 10,
-        after: data?.feed.pageInfo.endCursor,
-      },
-    });
-  }
+  // function handleNext() {
+  //   fetchMore({
+  //     variables: {
+  //       first: 10,
+  //       after: data?.feed.pageInfo.endCursor,
+  //     },
+  //   });
+  // }
 
-  const length = data.feed.edges.length;
-
-  return (
+  return data.length > 0 ? (
     <>
       <SEO
         title="Explore · D2D"
@@ -107,24 +63,31 @@ export function Feed({ currentUser }) {
       <main className="lg:col-span-7 xl:col-span-6 lg:grid lg:grid-cols-12 lg:gap-3">
         <div className="px-4 lg:col-span-12 -mt-3">
           <InfiniteScroll
-            hasMore={data.feed.pageInfo.hasNextPage}
-            next={handleNext}
-            dataLength={length}
+            // hasMore={data.feed.pageInfo.hasNextPage}
+            // next={handleNext}
+            dataLength={data.length}
             loader={<IndeterminateProgress />}
             endMessage={<EndMessage />}
           >
-            {data.feed.edges.map((edge, index) => {
-              return (
-                <div key={edge?.cursor}>
-                  <FeedPostCard post={edge?.node} currentUser={currentUser} />
-                  {index === 5 || index === 10 ? <WhoToFollow /> : null}
-                </div>
-              );
-            })}
+            {data.length > 0
+              ? data.map((post, index) => {
+                  return (
+                    <div key={index}>
+                      <FeedPostCard
+                        post={post}
+                        isMine={post.author.username === currentUser.username}
+                      />
+                      {index === 5 || index === 10 ? <WhoToFollow /> : null}
+                    </div>
+                  );
+                })
+              : null}
           </InfiniteScroll>
         </div>
       </main>
     </>
+  ) : (
+    <LoadingFallback />
   );
 }
 
