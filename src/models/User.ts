@@ -74,23 +74,32 @@ const userSchema = new mongoose.Schema(
         ref: "User",
       },
     ],
-    following: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
-    hashtagsfollowed: [
-      {
-        type: String,
-      },
-    ],
-    posts: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Post",
-      },
-    ],
+    following: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+      ],
+      default: [],
+    },
+    hashtagsfollowed: {
+      type: [
+        {
+          type: String,
+        },
+      ],
+      default: [],
+    },
+    posts: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Post",
+        },
+      ],
+      default: [],
+    },
   },
   {
     toJSON: {
