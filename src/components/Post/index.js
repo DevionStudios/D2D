@@ -5,7 +5,7 @@ import { GradientBar } from "../ui/GradientBar";
 import { Heading } from "../ui/Heading";
 import { CreatePost } from "./CreatePost";
 
-export function Create() {
+export function Create({ currentUser }) {
   return (
     <Card className="max-w-3xl mx-auto my-20 overflow-hidden" rounded="lg">
       <GradientBar color="pink" />
@@ -32,7 +32,7 @@ export function Create() {
             </Tab.List>
             <Tab.Panels>
               <Tab.Panel>
-                <CreatePost />
+                <CreatePost currentUser={currentUser} />
               </Tab.Panel>
             </Tab.Panels>
           </Tab.Group>

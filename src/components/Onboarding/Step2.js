@@ -8,6 +8,7 @@ import { TextArea } from "../ui/TextArea";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { Input } from "../ui/Input";
 const ProfileFormSchema = z.object({
   bio: z
     .string()
@@ -16,6 +17,7 @@ const ProfileFormSchema = z.object({
     .nullable(),
   avatar: z.any().optional(),
   coverImage: z.any().optional(),
+  walletAddress: z.string().optional().nullable(),
 });
 
 export function Step2({ currentUser }) {
@@ -26,18 +28,19 @@ export function Step2({ currentUser }) {
     schema: ProfileFormSchema,
     defaultValues: {
       bio: user.bio || "",
+      walletAddress: user.walletAddress || "",
     },
   });
   const updateProfile = async ({ variables }) => {
     console.log(variables);
     const { input } = variables;
-    const images = [input.avatar, input.coverImage];
     const formdata = new FormData();
     formdata.append("bio", input.bio || user.bio);
     formdata.append("images", input.avatar);
     formdata.append("images", input.coverImage);
     formdata.append("name", user.name);
     formdata.append("username", user.username);
+    formdata.append("walletAddress", input.walletAddress || user.walletAddress);
     console.log(document.cookie);
     try {
       const res = await axios.put(
@@ -88,7 +91,7 @@ export function Step2({ currentUser }) {
           // After updating profile setLoading To false
           setLoading(false);
           // Redirect to feed
-          // router.push("/feed/");
+          router.push("/feed/");
         }}
       >
         <div className="flex space-x-3 px-5">
@@ -110,7 +113,13 @@ export function Step2({ currentUser }) {
             />
           </div>
         </div>
-
+        <div className="px-5 py-10">
+          <Input
+            {...form.register("walletAddress")}
+            label="Funding Wallet Address"
+            placeholder="Your Wallet Address"
+          />
+        </div>
         <div className="px-5 py-10">
           <TextArea
             {...form.register("bio")}

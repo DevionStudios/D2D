@@ -19,8 +19,22 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export function Profile({ user, isMe, username }) {
-  const router = useRouter();
   const isMobile = useMediaQuery(MEDIA_QUERIES.SMALL);
+  const [userPosts, setUserPosts] = useState(undefined);
+  const fetchUserPost = async function () {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:5000/api/posts/${user.username}`
+      );
+      setUserPosts(data);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchUserPost();
+  });
   return user ? (
     <div className="py-16">
       <div>
