@@ -1,12 +1,13 @@
-import mongoose, { StringExpressionOperatorReturningBoolean } from "mongoose";
+import mongoose from "mongoose";
+import { CommentDoc } from "./Comment";
 import { UserDoc } from "./User";
 
 interface PostAttrs {
   caption: string;
   author: UserDoc;
   hashtags?: string[];
-  likes?: number;
-  comments?: number;
+  likes?: UserDoc[];
+  comments?: CommentDoc[];
   reposts?: number;
   media?: string;
   gifLink?: string;
@@ -20,8 +21,8 @@ export interface PostDoc extends mongoose.Document {
   caption: string;
   author: UserDoc;
   hashtags?: string[];
-  likes?: number;
-  comments?: number;
+  likes?: UserDoc[];
+  comments?: CommentDoc[];
   reposts?: number;
   updatedAt?: Date;
   createdAt?: Date;
@@ -44,16 +45,22 @@ const PostSchema = new mongoose.Schema(
       },
     ],
     likes: {
-      type: Number,
-      default: 0,
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+      ],
+      default: [],
     },
     comments: {
-      type: Number,
-      default: 0,
-    },
-    reposts: {
-      type: Number,
-      default: 0,
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Comment",
+        },
+      ],
+      default: [],
     },
     media: {
       type: String,
