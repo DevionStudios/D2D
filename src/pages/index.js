@@ -3,7 +3,7 @@ import React from "react";
 import { Hero } from "~/components/Hero";
 import { SEO } from "~/components/SEO";
 
-export default function Home() {
+export default function Home({ currentUser }) {
   return (
     <>
       <SEO
@@ -14,7 +14,7 @@ export default function Home() {
         path="/"
       />
       <div className="min-h-screen overflow-hidden bg-white dark:bg-gray-900 ">
-        <Navbar />
+        <Navbar currentUser={currentUser} />
         <Hero />
       </div>
     </>

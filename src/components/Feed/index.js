@@ -44,7 +44,6 @@ export function Feed({ currentUser }) {
   if (!data) {
     return <h1></h1>;
   }
-
   return data ? (
     data.length > 0 ? (
       <>

@@ -2,7 +2,12 @@ import { Navbar } from "~/components/Common/Navbar";
 
 import { Create } from "~/components/Post";
 export default function CreatePage({ currentUser }) {
-  return <Create currentUser={currentUser} />;
+  return (
+    <>
+      <Navbar currentUser={currentUser} />
+      <Create currentUser={currentUser} />
+    </>
+  );
 }
 
 CreatePage.getLayout = function getLayout(page) {

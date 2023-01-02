@@ -20,12 +20,10 @@ import { UnauthorizedHeader } from "./UnauthorizedHeader";
 import Logo from "../../../assets/D2D Logo Trans.png";
 import Router from "next/router";
 
-export function Navbar() {
+export function Navbar({ currentUser }) {
   const [openNotifications, setNotificationOpen] = useState(false);
 
-  const user = {
-    avatar: "https://placekitten.com/200/300",
-  };
+  const user = currentUser;
   if (!user) {
     return (
       <>

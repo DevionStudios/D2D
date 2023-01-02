@@ -7,6 +7,7 @@ export default function Post({ currentUser }) {
   const id = router.query.id;
   return (
     <div className="mt-20">
+      <Navbar currentUser={currentUser} />
       <PostCard
         id={id}
         username={currentUser.username}
@@ -19,7 +20,6 @@ export default function Post({ currentUser }) {
 Post.getLayout = function getLayout(page) {
   return (
     <>
-      <Navbar />
       <PostPageLayout>{page}</PostPageLayout>
     </>
   );
