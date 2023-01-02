@@ -11,6 +11,8 @@ import { Card } from "../ui/Card";
 import { TextArea } from "../ui/TextArea";
 import { EmojiPicker } from "../ui/EmojiPicker";
 import { GIFPicker } from "../ui/GIFPicker";
+import { LoadingFallback } from "../ui/Fallbacks/LoadingFallback";
+import axios from "axios";
 
 const oneOf = (keys) => (val) => {
   for (const k of keys) {
@@ -28,10 +30,34 @@ export const CreatePostSchema = object({
   path: ["caption"],
 });
 
-export function CreatePost() {
+export function CreatePost({ currentUser }) {
+  const [loading, setLoading] = useState(false);
   const createPost = async ({ variables }) => {
     //post data
     console.log(variables);
+    const { input } = variables;
+    const formdata = new FormData();
+    formdata.append("caption", input.caption);
+    formdata.append("media", input.media);
+    formdata.append("gifLink", input.gifLink);
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/posts/create",
+        formdata,
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
+      );
+      console.log(response.data);
+      //route to feed
+      router.push("/feed");
+    } catch (e) {
+      console.log(e);
+    }
+    setLoading(false);
   };
   const form = useZodForm({
     schema: CreatePostSchema,
@@ -112,6 +138,7 @@ export function CreatePost() {
           <Form.SubmitButton size="lg">Upload</Form.SubmitButton>
         </Card.Footer>
       </Form>
+      {loading && <LoadingFallback />}
     </div>
   );
 }
