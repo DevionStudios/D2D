@@ -14,9 +14,10 @@ router.get(
     try {
       const existingUser = await User.findOne({
         username: req.currentUser!.username,
-      }).populate({
-        path: "following",
       });
+      // .populate({
+      //   path: "following",
+      // });
 
       console.log("cu", req.currentUser);
 
@@ -24,28 +25,29 @@ router.get(
         throw new BadRequestError("User not found!");
       }
 
-      const usersFollwed = existingUser.following || [];
-      const hashtagsFollowed = existingUser.hashtagsfollowed || [];
+      // const usersFollwed = existingUser.following || [];
+      // const hashtagsFollowed = existingUser.hashtagsfollowed || [];
 
-      let userFeed: PostDoc[] = [];
+      // let userFeed: PostDoc[] = [];
 
-      // get all the posts that have the hashtags that the user is following and add them to the userFeed
-      for (let i = 0; i < hashtagsFollowed.length; i++) {
-        const posts = await Post.find({ hashtags: hashtagsFollowed[i] });
-        userFeed = userFeed.concat(posts);
-      }
+      // // get all the posts that have the hashtags that the user is following and add them to the userFeed
+      // for (let i = 0; i < hashtagsFollowed.length; i++) {
+      //   const posts = await Post.find({ hashtags: hashtagsFollowed[i] });
+      //   userFeed = userFeed.concat(posts);
+      // }
 
-      // get all the posts by the users followed
-      for (let i = 0; i < usersFollwed.length; i++) {
-        const user = await User.findOne({ _id: usersFollwed[i] }).populate(
-          "posts"
-        );
-        if (user) {
-          userFeed = userFeed.concat(user.posts || []);
-        }
-      }
+      // // get all the posts by the users followed
+      // for (let i = 0; i < usersFollwed.length; i++) {
+      //   const user = await User.findOne({ _id: usersFollwed[i] }).populate(
+      //     "posts"
+      //   );
+      //   if (user) {
+      //     userFeed = userFeed.concat(user.posts || []);
+      //   }
+      // }
 
-      res.status(200).send(userFeed);
+      res.status(200);
+      // .send(userFeed);
     } catch (err) {
       console.log(err);
       res.status(500).send({ message: err });

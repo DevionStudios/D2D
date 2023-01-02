@@ -12,14 +12,14 @@ router.put(
   "/api/posts/:id",
   currentUser,
   [
-    body("content")
+    body("caption")
       .trim()
       .isLength({ min: 1, max: 280 })
-      .withMessage("Content must be between 1 and 280 characters"),
+      .withMessage("caption must be between 1 and 280 characters"),
   ],
   validateRequest,
   async (req: Request, res: Response) => {
-    const { content } = req.body;
+    const { caption } = req.body;
     const { id } = req.params;
     const user = req.currentUser as UserDoc;
 
@@ -33,7 +33,7 @@ router.put(
       throw new BadRequestError("You are not authorized to edit this post");
     }
 
-    post.content = content;
+    post.caption = caption;
     await post.save();
 
     res.send(post);
