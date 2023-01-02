@@ -31,7 +31,6 @@ export let TOGGLE_LIKE_MUTATION;
 export function FeedPostCard(props) {
   const [isOpen, setIsOpen] = useState(false);
   const { account } = useMoralis();
-
   let toggleLike, loading;
 
   function handleCacheUpdate(cache) {
@@ -42,14 +41,14 @@ export function FeedPostCard(props) {
         likes: (prev) => {
           return {
             ...prev,
-            totalCount: prev.totalCount + (props?.post.isLiked ? -1 : 1),
+            totalCount: props.post.likes,
           };
         },
       },
     });
   }
 
-  if (!props.post || !props.post.user) {
+  if (!props.post || !props.post.author) {
     return <ErrorFallback message="Failed to load" />;
   }
 
@@ -95,22 +94,22 @@ export function FeedPostCard(props) {
             <div className="flex-shrink-0">
               <img
                 className="h-10 w-10 rounded-full object-cover"
-                src={props.post.user.avatar}
-                alt={`Profile avatar of ${props.post.user.username}`}
+                src={props.post.author.image}
+                alt={`Profile image of ${props.post.author.username}`}
               />
             </div>
             <div className="min-w-0 flex-1">
               <Link
-                href={`/profile/${props.post.user.username}`}
+                href={`/profile/${props.post.author.username}`}
                 className="no-underline"
               >
                 <p className="text-sm font-medium ">
-                  {props.post?.user?.name}
+                  {props.post.author.name}
                   {/* {props.post?.user?.lastName
                     ? props.post?.user?.lastName
                     : null} */}
                   <span className="text-muted text-sm ml-2">
-                    @{props.post?.user?.username}
+                    @{props.post.author.username}
                   </span>
                 </p>
               </Link>
@@ -128,7 +127,7 @@ export function FeedPostCard(props) {
             <div className="flex-shrink-0 self-center flex">
               <PostDropdown
                 id={props.post.id}
-                isMine={props.post.isMine}
+                isMine={props.post.author.username === props.username}
                 caption={props.post.caption ?? ""}
                 gifLink={props.post.gifImage ?? ""}
               />
@@ -156,7 +155,7 @@ export function FeedPostCard(props) {
                   layout="fill"
                   objectFit="cover"
                   placeholder="empty"
-                  alt={`Image posted by ${props.post.user.name} on D2D.`}
+                  alt={`Image posted by ${props.post.author.name} on D2D.`}
                 />
               </div>
             </div>
@@ -188,7 +187,7 @@ export function FeedPostCard(props) {
                 ) : (
                   <HiOutlineHeart className="w-5 h-5" />
                 )}
-                <p>{props.post.likes?.totalCount}</p>
+                <p>{props.post.likes}</p>
               </Button>
             </span>
             <span className="inline-flex items-center space-x-2">
@@ -198,7 +197,7 @@ export function FeedPostCard(props) {
                 className="space-x-2"
               >
                 <HiOutlineReply className="w-5 h-5" />
-                <p>{props.post.comments?.totalCount}</p>
+                <p>{props.post.comments}</p>
               </Button>
               <ReplyModal
                 isOpen={isOpen}
@@ -211,7 +210,7 @@ export function FeedPostCard(props) {
               <Button
                 variant="dark"
                 className="space-x-2"
-                onClick={() => tip(props?.post?.user?.walletAddress)}
+                onClick={() => tip(props.post.author.walletAddress)}
               >
                 <HiOutlineCurrencyDollar className="w-10 h-6" />
               </Button>
