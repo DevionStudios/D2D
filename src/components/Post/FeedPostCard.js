@@ -215,14 +215,6 @@ export function FeedPostCard(props) {
                 </div>
               </div>
             )}
-
-            {/* Caption */}
-
-            <div className="px-6  pb-2 my-2">
-              <p className=" space-y-4 dark:text-gray-300">
-                <Interweave content={props.post.caption} />
-              </p>
-            </div>
           </Link>
           {/* Post Actions */}
           <div className="py-2 px-6 bg-gray-50 dark:bg-gray-900/30 flex border-t border-gray-200 dark:border-gray-700 justify-between space-x-8">
