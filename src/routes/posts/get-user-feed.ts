@@ -12,14 +12,20 @@ router.get(
   currentUser,
   async (req: Request, res: Response) => {
     try {
-      const existingUser = await User.findOne({
-        username: req.currentUser!.username,
-      });
-      // .populate({
-      //   path: "following",
-      // });
+      const { currentUser } = req;
+      if (!currentUser) {
+        throw new BadRequestError("User not found!");
+      }
 
-      console.log("cu", req.currentUser);
+      const existingUser = await User.findOne({
+        username: currentUser!.username,
+      }).populate({
+        path: "following",
+        populate: {
+          path: "posts",
+          model: "Post",
+        },
+      });
 
       if (!existingUser) {
         throw new BadRequestError("User not found!");
@@ -46,8 +52,7 @@ router.get(
       //   }
       // }
 
-      res.status(200);
-      // .send(userFeed);
+      res.status(200).send(existingUser);
     } catch (err) {
       console.log(err);
       res.status(500).send({ message: err });
