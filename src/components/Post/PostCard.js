@@ -32,7 +32,7 @@ export const CommentSchema = z.object({
   body: z.string().min(1, "Comment must be atleast 1 character long."),
 });
 
-export function PostCard({ id, isMine }) {
+export function PostCard({ id, username }) {
   const [imageModal, setImageModal] = useState(false);
   const [likesModal, setLikesModal] = useState(false);
   const [data, setData] = useState({});
@@ -150,12 +150,14 @@ export function PostCard({ id, isMine }) {
                     </p>
                   </div>
                   <div className="flex-shrink-0 self-center flex">
-                    <PostDropdown
-                      id={data.id}
-                      isMine={isMine}
-                      caption={data.caption ?? ""}
-                      gifLink={data.gifImage ?? ""}
-                    />
+                    {username === data.author.username ? (
+                      <PostDropdown
+                        id={data.id}
+                        isMine={username === data.author.username}
+                        caption={data.caption ?? ""}
+                        gifLink={data.gifLink ?? ""}
+                      />
+                    ) : null}
                   </div>
                 </div>
               </div>
@@ -163,11 +165,11 @@ export function PostCard({ id, isMine }) {
               <div className="px-4 pb-4">
                 <Interweave content={data.caption} />
               </div>
-              {data.gifImage && (
+              {data.gifLink && (
                 <div className="mx-auto w-11/12 rounded-lg pb-4 overflow-hidden">
                   <img
                     className="w-full rounded-lg"
-                    src={data.gifImage}
+                    src={data.gifLink}
                     alt={`A moving GIF image posted by ${data.author.username}.`}
                   />
                 </div>

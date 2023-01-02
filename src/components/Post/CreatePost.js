@@ -4,7 +4,7 @@ import { object, z } from "zod";
 import { EmojiData } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
 import { HiXCircle } from "react-icons/hi";
-
+import { Input } from "../ui/Input";
 import Form, { useZodForm } from "../ui/Form/Form";
 import { FileInput } from "../ui/Form/FileInput";
 import { Card } from "../ui/Card";
@@ -25,6 +25,7 @@ export const CreatePostSchema = object({
   caption: z.string().nonempty("Caption is required.").max(420),
   media: z.any().optional(),
   gifLink: z.string().optional(),
+  hashtags: z.string().optional(),
 }).refine(oneOf(["caption", "media"]), {
   message: "Please include a text body for posts without images.",
   path: ["caption"],
@@ -106,7 +107,14 @@ export function CreatePost({ currentUser }) {
               />
             </div>
           </div>
-
+          <div>
+            <Input
+              {...form.register("hashtags")}
+              label="Hashtags"
+              placeholder="Hashtags (e.g- #D2D #trending)"
+              prefix="D2D.com/@"
+            />
+          </div>
           {/* GIF Preview */}
           <div>
             <label className="mb-1 font-medium dark:text-white ">

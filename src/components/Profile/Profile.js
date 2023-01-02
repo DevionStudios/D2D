@@ -147,6 +147,7 @@ export function Profile({ user, isMe, username }) {
           count={userPosts ? userPosts.length : 0}
           posts={userPosts || []}
           username={user.username}
+          currentUser={user}
         />
       </div>
     </div>

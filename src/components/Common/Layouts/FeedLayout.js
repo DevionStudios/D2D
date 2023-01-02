@@ -30,12 +30,6 @@ export function FeedLayout({ currentUser }) {
       id: "all",
     },
     {
-      component: <Feed currentUser={currentUser} />, //! Replace with Popular Posts later
-      icon: HiOutlineFire,
-      name: "Popular",
-      id: "popular",
-    },
-    {
       component: <Feed currentUser={currentUser} />, //! Replace with trending posts later
       icon: HiOutlineHashtag,
       name: "Trending",

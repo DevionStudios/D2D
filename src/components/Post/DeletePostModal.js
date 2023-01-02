@@ -3,11 +3,27 @@ import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
 import { Heading } from "../ui/Heading";
 import Modal from "../ui/Modal";
-
-let DELETE_POST_MUTATION;
+import axios from "axios";
 
 export function DeletePostModal({ isOpen, onClose, id }) {
-  let deletePost;
+  const deletePost = async () => {
+    try {
+      const response = await axios.delete(
+        "http://localhost:5000/api/posts/delete/" + id,
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
+      );
+      console.log(response.data);
+      onClose();
+      toast.success("Requested post has been deleted.");
+    } catch (e) {
+      toast.error("There was some error when deleting post.");
+      console.log(e);
+    }
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="sm:max-w-lg">
@@ -22,11 +38,8 @@ export function DeletePostModal({ isOpen, onClose, id }) {
           </Button>
           <Button
             onClick={async () => {
-              const response = await deletePost({ variables: { id } });
-              if (response.data?.deletePost.success) {
-                onClose();
-                toast.success("Requested post has been deleted.");
-              }
+              await deletePost();
+              window.location.reload(false);
             }}
             size="lg"
           >
