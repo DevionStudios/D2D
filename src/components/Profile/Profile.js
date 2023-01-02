@@ -34,7 +34,7 @@ export function Profile({ user, isMe, username }) {
   };
   useEffect(() => {
     fetchUserPost();
-  });
+  }, []);
   return user ? (
     <div className="py-16">
       <div>
