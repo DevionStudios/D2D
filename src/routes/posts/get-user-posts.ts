@@ -12,14 +12,13 @@ router.get("/api/posts/:username", async (req: Request, res: Response) => {
     const { username } = req.params;
     const existingUser = await User.findOne({
       username: username,
-    }).populate({
-      path: "posts",
-    });
+    }).populate("posts");
 
     if (!existingUser) {
       throw new BadRequestError("User not found!");
     }
 
+    console.log("Eu:", existingUser);
     res.status(200).send(existingUser.posts);
   } catch (err) {
     console.log(err);
