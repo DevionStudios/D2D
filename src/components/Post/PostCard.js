@@ -30,21 +30,29 @@ import { SEO } from "../SEO";
 import axios from "axios";
 
 export const CommentSchema = z.object({
-  body: z.string().min(1, "Comment must be atleast 1 character long."),
+  caption: z.string().min(1, "Comment must be atleast 1 character long."),
 });
 
-export function PostCard({ id, username }) {
+export function PostCard({ id, username, currentUser }) {
   const [imageModal, setImageModal] = useState(false);
   const [likesModal, setLikesModal] = useState(false);
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const [likes, setLikes] = useState([]);
+  const [comments, setComments] = useState([]);
+  let error,
+    isLikeLoading = false;
+
   const router = useRouter();
   const fetchPostData = async () => {
     setLoading(true);
-    console.log("Hello", id);
     try {
       const res = await axios.get(`http://localhost:5000/api/post/${id}`);
       setData(res.data);
+      setLikes(res.data?.likes);
+      setComments(res.data?.comments);
+      setIsLiked(res.data?.likes?.includes(currentUser.id));
     } catch (e) {
       console.log(e);
     }
@@ -57,11 +65,58 @@ export function PostCard({ id, username }) {
     schema: CommentSchema,
   });
 
-  let createComment;
+  const toggleLike = async () => {
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/like`,
+        {
+          id: id,
+        },
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
+      );
 
-  let error;
+      if (response.status === 200) {
+        if (isLiked) setLikes(likes - 1);
+        else setLikes(likes + 1);
+        setIsLiked(!isLiked);
+        // console.log("Response Data: ", response.data);
+        setData(response.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-  let toggleLike, isLikeLoading;
+  const createComment = async (values) => {
+    console.log("Caption: ", values.variables.input.caption);
+    console.log("Post ID: ", id);
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/comments/create",
+        {
+          caption: values.variables.input.caption,
+          postId: id,
+        },
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
+      );
+      console.log("Response: ", response.data);
+
+      if (response.status === 200) {
+        setComments(response.data);
+        form.reset();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   if (loading) return <LoadingFallback />;
   if (error)
@@ -234,7 +289,7 @@ export function PostCard({ id, username }) {
             <Card className="py-2 px-4 flex justify-between space-x-8">
               <div className="flex space-x-6">
                 <span className="inline-flex">
-                  <p className="font-bold">{data.likes}</p>
+                  <p className="font-bold">{data?.likes?.length || "0"}</p>
                   <button onClick={() => setLikesModal(true)}>
                     <p className="text-muted ml-1 ">Likes</p>{" "}
                   </button>
@@ -244,7 +299,7 @@ export function PostCard({ id, username }) {
                   />
                 </span>
                 <span className="inline-flex">
-                  <p className="font-bold">{data.comments}</p>
+                  <p className="font-bold">{data?.comments?.length || "0"}</p>
                   <p className="text-muted ml-1 ">Comments</p>{" "}
                 </span>
               </div>
@@ -264,7 +319,7 @@ export function PostCard({ id, username }) {
                     }}
                     variant="dark"
                   >
-                    {data.likes > 0 ? (
+                    {isLiked ? (
                       <HiHeart
                         className="h-5 w-5 text-brand-600"
                         aria-hidden="true"
@@ -277,7 +332,7 @@ export function PostCard({ id, username }) {
                   </Button>
                 </span>
 
-                <span className="inline-flex items-center text-sm">
+                {/* <span className="inline-flex items-center text-sm">
                   <Button onClick={() => form.setFocus("body")} variant="dark">
                     <span>
                       <HiOutlineReply className="h-5 w-5" aria-hidden="true" />
@@ -285,7 +340,7 @@ export function PostCard({ id, username }) {
                     <span className="ml-1">Reply</span>
                     <span className="sr-only">Reply</span>
                   </Button>
-                </span>
+                </span> */}
               </div>
               <div className="flex text-sm">
                 <span className="inline-flex items-center text-sm">
@@ -316,8 +371,7 @@ export function PostCard({ id, username }) {
                 await createComment({
                   variables: {
                     input: {
-                      body: values.body,
-                      postId: router.query.id,
+                      caption: values.caption,
                     },
                   },
                 });
@@ -327,7 +381,7 @@ export function PostCard({ id, username }) {
             >
               <TextArea
                 label="Your reply"
-                {...form.register("body")}
+                {...form.register("caption")}
                 placeholder="An interesting comment"
               />
               <div className="flex justify-end space-x-2">

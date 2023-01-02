@@ -4,7 +4,9 @@ import { Card } from "~/components/ui/Card";
 import Form, { useZodForm } from "../ui/Form/Form";
 import { Heading } from "../ui/Heading";
 import { Input } from "../ui/Input";
+import { LoadingFallback } from "../ui/Fallbacks/LoadingFallback";
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 const PasswordResetSchema = object({
   oldPassword: z.string().nonempty("Current password is required."),
@@ -19,6 +21,8 @@ const PasswordResetSchema = object({
 });
 
 export function PasswordTab() {
+  const [loading, setLoading] = useState(false);
+
   const form = useZodForm({
     schema: PasswordResetSchema,
   });
@@ -42,6 +46,11 @@ export function PasswordTab() {
       console.log(e);
     }
   };
+
+  if (loading) {
+    return <LoadingFallback />;
+  }
+
   return (
     <>
       <Card rounded="lg" className="lg:max-w-3xl">
