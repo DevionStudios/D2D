@@ -1,18 +1,17 @@
 import express, { Request, Response } from "express";
 import { body } from "express-validator";
-
+import mongoose from "mongoose";
+import { Post } from "../../models/Post";
 import { BadRequestError } from "@devion/common";
-import { currentUser } from "../../middlewares/currentuser";
 import { User, UserDoc } from "../../models/User";
 
 const router = express.Router();
 
-router.get("/api/posts/:userid", async (req: Request, res: Response) => {
+router.get("/api/posts/:username", async (req: Request, res: Response) => {
   try {
-    const { userid } = req.params;
-
+    const { username } = req.params;
     const existingUser = await User.findOne({
-      _id: userid,
+      username: username,
     }).populate("posts");
 
     if (!existingUser) {

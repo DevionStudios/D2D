@@ -12,8 +12,6 @@ const router = express.Router();
 
 router.post(
   "/api/posts/create",
-  [body("content").trim().notEmpty()],
-  validateRequest,
   currentUser,
   upload.single("media"),
   async (req: Request, res: Response) => {
