@@ -16,7 +16,7 @@ router.post(
   upload.single("media"),
   async (req: Request, res: Response) => {
     try {
-      const { content, gifLink } = req.body;
+      const { caption, gifLink } = req.body;
       const result = req.file
         ? await cloudinary.uploader.upload(req.file.path)
         : null;
@@ -30,7 +30,7 @@ router.post(
       }
 
       const post = Post.build({
-        content,
+        caption,
         media,
         gifLink,
         author: existingUser as UserDoc,

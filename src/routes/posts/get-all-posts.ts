@@ -4,7 +4,7 @@ import { Post } from "../../models/Post";
 
 const router = express.Router();
 
-router.get("/api/posts", async (req: Request, res: Response) => {
+router.get("/api/posts/all", async (req: Request, res: Response) => {
   try {
     const posts = await Post.find({})
       .sort({ createdAt: -1 })

@@ -2,7 +2,7 @@ import mongoose, { StringExpressionOperatorReturningBoolean } from "mongoose";
 import { UserDoc } from "./User";
 
 interface PostAttrs {
-  content: string;
+  caption: string;
   author: UserDoc;
   hashtags?: string[];
   likes?: number;
@@ -17,7 +17,7 @@ interface PostModel extends mongoose.Model<PostDoc> {
 }
 
 export interface PostDoc extends mongoose.Document {
-  content: string;
+  caption: string;
   author: UserDoc;
   hashtags?: string[];
   likes?: number;
@@ -31,7 +31,7 @@ export interface PostDoc extends mongoose.Document {
 
 const PostSchema = new mongoose.Schema(
   {
-    content: {
+    caption: {
       type: String,
     },
     author: {
