@@ -35,7 +35,6 @@ export const CreatePostSchema = object({
 export function CreatePost({ currentUser }) {
   const [loading, setLoading] = useState(false);
   const [tags, setTags] = useState([]);
-
   function handleKeyDown(e) {
     if (e.key !== "Enter") return;
     const value = e.target.value;
@@ -196,7 +195,9 @@ export function CreatePost({ currentUser }) {
           />
         </Card.Body>
         <Card.Footer className="flex justify-end">
-          <Form.SubmitButton size="lg">Upload</Form.SubmitButton>
+          <Form.SubmitButton size="lg" disabled={loading}>
+            Upload
+          </Form.SubmitButton>
         </Card.Footer>
       </Form>
       {loading && <LoadingFallback />}

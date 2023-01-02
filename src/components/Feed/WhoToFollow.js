@@ -16,8 +16,8 @@ export function WhoToFollow() {
   if (error || !data) {
     return (
       <aside className="w-full sticky top-20">
-        <ErrorFallback
-          message="Failed to load suggestions."
+        {/* <ErrorFallback
+          message="2."
           action={() =>
             refetch({
               after: null,
@@ -25,7 +25,7 @@ export function WhoToFollow() {
             })
           }
           buttonText="Retry"
-        />
+        /> */}
       </aside>
     );
   }

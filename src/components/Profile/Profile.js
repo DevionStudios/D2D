@@ -18,7 +18,7 @@ import { UserPosts } from "./UserPosts";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export function Profile({ user, isMe, username }) {
+export function Profile({ user, isMe, username, currentUser }) {
   const isMobile = useMediaQuery(MEDIA_QUERIES.SMALL);
   const [userPosts, setUserPosts] = useState(undefined);
   const fetchUserPost = async function () {
@@ -147,7 +147,8 @@ export function Profile({ user, isMe, username }) {
           count={userPosts ? userPosts.length : 0}
           posts={userPosts || []}
           username={user.username}
-          currentUser={user}
+          currentUser={currentUser}
+          user={user}
         />
       </div>
     </div>

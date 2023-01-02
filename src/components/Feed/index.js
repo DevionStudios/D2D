@@ -45,15 +45,6 @@ export function Feed({ currentUser }) {
     return <h1></h1>;
   }
 
-  // function handleNext() {
-  //   fetchMore({
-  //     variables: {
-  //       first: 10,
-  //       after: data?.feed.pageInfo.endCursor,
-  //     },
-  //   });
-  // }
-
   return data ? (
     data.length > 0 ? (
       <>
@@ -64,8 +55,6 @@ export function Feed({ currentUser }) {
         <main className="lg:col-span-7 xl:col-span-6 lg:grid lg:grid-cols-12 lg:gap-3">
           <div className="px-4 lg:col-span-12 -mt-3">
             <InfiniteScroll
-              // hasMore={data.feed.pageInfo.hasNextPage}
-              // next={handleNext}
               dataLength={data.length}
               loader={<IndeterminateProgress />}
               endMessage={<EndMessage />}

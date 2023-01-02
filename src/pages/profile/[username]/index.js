@@ -28,7 +28,8 @@ export default function ProfilePage({ currentUser }) {
   return user ? (
     <Profile
       isMe={user.username == currentUser.username}
-      user={currentUser}
+      user={user}
+      currentUser={currentUser}
       username={username}
     />
   ) : (

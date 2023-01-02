@@ -17,7 +17,7 @@ export function WhoToFollow() {
     return (
       <aside className="w-full sticky top-20">
         <ErrorFallback
-          message="Failed to load suggestions."
+          message="1"
           action={() =>
             refetch({
               after: null,

@@ -9,7 +9,7 @@ import { Badge } from "../ui/Badge";
 import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
 import { EndMessage } from "../Feed";
 
-export function UserPosts({ username, count, posts, currentUser }) {
+export function UserPosts({ username, count, posts, currentUser, user }) {
   return (
     <Tab.Group>
       <Card.Body
@@ -63,6 +63,7 @@ export function UserPosts({ username, count, posts, currentUser }) {
                         <FeedPostCard
                           post={data}
                           username={username}
+                          user={user}
                           currentUser={currentUser}
                         />
                       </div>
