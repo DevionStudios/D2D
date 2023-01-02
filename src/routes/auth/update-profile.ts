@@ -16,7 +16,7 @@ router.put(
   async (req: Request, res: Response) => {
     console.log("Raw files:", req.files);
     try {
-      const { username, name, bio } = req.body;
+      const { username, name, bio, walletAddress } = req.body;
       var imageUrlList: any[] = [];
       const existingUser = await User.findOne({
         email: req.currentUser!.email,
@@ -45,6 +45,7 @@ router.put(
       existingUser.bio = bio || existingUser.bio;
       existingUser.image = imageUrlList[0] || existingUser.image;
       existingUser.coverImage = imageUrlList[1] || existingUser.coverImage;
+      existingUser.walletAddress = walletAddress || existingUser.walletAddress;
 
       await existingUser.save();
 
