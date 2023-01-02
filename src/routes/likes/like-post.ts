@@ -21,42 +21,57 @@ router.put(
   // validateRequest,
   currentUser,
   async (req: Request, res: Response) => {
-    const { id } = req.body;
-    const post = await Post.findOne({
-      _id: new mongoose.Types.ObjectId(id),
-    }).populate("author");
+    try {
+      const { id } = req.body;
+      console.log("id: ", id);
+      const post = await Post.findOne({
+        _id: new mongoose.Types.ObjectId(id),
+      }).populate("author");
 
-    if (!post) {
-      throw new BadRequestError("Post not found");
-    }
+      if (!post) {
+        throw new BadRequestError("Post not found");
+      }
 
-    const existingUser = await User.findOne({ _id: req.currentUser!.id });
+      const existingUser = await User.findOne({ _id: req.currentUser!.id });
 
-    if (!existingUser) {
-      throw new BadRequestError("User not found!");
-    }
+      if (!existingUser) {
+        throw new BadRequestError("User not found!");
+      }
 
-    if (post.author.id === existingUser.id) {
-      throw new BadRequestError("You cannot like your own post");
-    }
+      if (post.author.id === existingUser.id) {
+        throw new BadRequestError("You cannot like your own post");
+      }
 
-    console.log("post: ", post);
+      console.log("post: ", post);
 
-    if (!post.likes) {
-      post.likes = [];
-      post.likes.push(existingUser);
-    } else {
-      const index = post.likes.findIndex((user) => user.id === existingUser.id);
-      if (index === -1) {
+      if (!post.likes) {
+        post.likes = [];
         post.likes.push(existingUser);
       } else {
-        post.likes.splice(index, 1);
+        const existingLike = post.likes.find(
+          (like) => like.toString() === existingUser.id.toString()
+        );
+
+        console.log("existingLike: ", existingLike);
+
+        if (existingLike) {
+          post.likes = post.likes.filter(
+            (like) => like.toString() !== existingUser.id.toString()
+          );
+        } else {
+          post.likes.push(existingUser);
+        }
       }
+
+      await post.save();
+
+      res.send(post);
+    } catch (err: any) {
+      console.log(err);
+      res.status(400).send({
+        message: err?.message!,
+      });
     }
-
-    await post.save();
-
-    res.send(post);
   }
 );
 
