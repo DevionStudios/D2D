@@ -10,9 +10,16 @@ router.get("/api/post/:id", async (req: Request, res: Response) => {
   try {
     const post = await Post.findOne({
       _id: new mongoose.Types.ObjectId(req.params.id),
-    }).populate({
-      path: "author",
-    });
+    })
+      .populate({
+        path: "author",
+      })
+      .populate({
+        path: "comments",
+        populate: {
+          path: "author",
+        },
+      });
 
     res.status(200).send(post);
   } catch (err) {
