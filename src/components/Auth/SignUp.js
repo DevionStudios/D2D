@@ -1,4 +1,3 @@
-import router from "next/router";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import { Card } from "../ui/Card";
@@ -9,12 +8,15 @@ import { Link } from "../ui/Link";
 import { AuthLayout } from "./AuthLayout";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { Button } from "../ui/Button";
+import { useState, useEffect } from "react";
 
 const SignUpSchema = z.object({
   email: z.string().email(),
   name: z.string().min(1),
-  username: z.string().min(3),
-  password: z.string().min(4),
+  username: z.string().min(2),
+  password: z.string(),
+  verificationCode: z.string(),
 });
 
 export function SignUp() {
@@ -22,7 +24,18 @@ export function SignUp() {
     schema: SignUpSchema,
   });
   const router = useRouter();
+  const [disableSendButton, setDisableSendButton] = useState(false);
+  const [disableVerifyButton, setDisableVerifyButton] = useState(true);
+  const [disableSendButtonFinal, setDisableSendButtonFinal] = useState(false);
   const processSignUp = async (values) => {
+    //verify email first
+    if (
+      disableSendButton == false ||
+      disableVerifyButton == false ||
+      disableSendButtonFinal == false
+    ) {
+      return;
+    }
     // validate password format
     var re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{4,}$/;
     if (!re.test(values.password)) {
@@ -59,6 +72,56 @@ export function SignUp() {
       toast.error(error.message);
     }
   };
+
+  const sendVerificationCode = async () => {
+    const { email } = form.getValues();
+    var re = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
+    if (!re.test(email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/verification/generate",
+        { email: email },
+        { withCredentials: true }
+      );
+      console.log(response.data);
+      if (response.status == "200") {
+        toast.success("Verification Code Sent");
+        setDisableSendButton(true);
+        setDisableVerifyButton(false);
+      }
+    } catch (e) {
+      toast.error("Unable To Send Verification Code");
+      console.log(e);
+    }
+  };
+
+  const verifyVerificationCode = async () => {
+    const { email, verificationCode } = form.getValues();
+    var re = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
+    if (!re.test(email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/verification/compare",
+        { email: email, code: verificationCode },
+        { withCredentials: true }
+      );
+      console.log(response.data);
+      if (response.status == "200") {
+        toast.success("Email Verified");
+        setDisableVerifyButton(true);
+        setDisableSendButtonFinal(true);
+      }
+    } catch (e) {
+      toast.error("Please enter a valid code!");
+      console.log(e);
+    }
+  };
   return (
     <AuthLayout
       title="Sign Up."
@@ -76,29 +139,57 @@ export function SignUp() {
           placeholder="you@example.com"
           {...form.register("email")}
         />
-
         <Input
           label="Full Name"
           type="text"
           placeholder="Your Full Name"
           {...form.register("name")}
         />
-
         <Input
           label="Username"
           type="text"
-          placeholder="Your Username (min 3)"
+          placeholder="Your Username (min 2)"
           {...form.register("username")}
         />
-
         <Input
           label="Password"
           type="password"
           placeholder="Your password (min 4)"
           {...form.register("password")}
         />
-
-        <FormSubmitButton size="lg">Sign Up</FormSubmitButton>
+        <Input
+          label="Verification Code"
+          type="text"
+          placeholder="Type Verification Code Here"
+          {...form.register("verificationCode")}
+          hidden={!disableSendButton}
+        />
+        <Button
+          variant={disableSendButton ? "secondary" : "solid"}
+          onClick={() => {
+            sendVerificationCode();
+          }}
+          disabled={disableSendButtonFinal}
+        >
+          {disableSendButton ? "Resend Code" : "Send Code"}
+        </Button>
+        <Button
+          variant={disableVerifyButton ? "secondary" : "solid"}
+          onClick={() => {
+            verifyVerificationCode();
+          }}
+          disabled={disableVerifyButton}
+        >
+          Verify Code
+        </Button>
+        <FormSubmitButton
+          disabled={!(disableSendButton && disableVerifyButton)}
+          size="lg"
+        >
+          {disableSendButton && disableVerifyButton
+            ? "Sign Up"
+            : "Verify Email First"}
+        </FormSubmitButton>
       </Form>
       <div>
         <Card rounded="lg" className="mt-4">
