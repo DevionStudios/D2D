@@ -11,6 +11,8 @@ interface PostAttrs {
   reposts?: number;
   media?: string;
   gifLink?: string;
+  twitterId?: string;
+  createdAt?: Date;
 }
 
 interface PostModel extends mongoose.Model<PostDoc> {
@@ -28,6 +30,7 @@ export interface PostDoc extends mongoose.Document {
   createdAt?: Date;
   media?: String;
   gifLink?: String;
+  twitterId?: string;
 }
 
 const PostSchema = new mongoose.Schema(
@@ -69,6 +72,10 @@ const PostSchema = new mongoose.Schema(
     gifLink: {
       type: String,
       default: null,
+    },
+    twitterId: {
+      type: String,
+      default: "",
     },
   },
   {

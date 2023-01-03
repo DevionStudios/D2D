@@ -79,7 +79,9 @@ router.post(
           }
         }
       }
-      res.status(201).send(post);
+      res.status(201).send({
+        message: "Post created successfully",
+      });
     } catch (err) {
       console.log(err);
       res.status(500).send({ message: err });
