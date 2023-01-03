@@ -4,6 +4,7 @@ import { HiOutlineSearch } from "react-icons/hi";
 import { z } from "zod";
 import Form, { useZodForm } from "~/components/ui/Form/Form";
 import { Input } from "~/components/ui/Input";
+import toast from "react-hot-toast";
 
 const SearchSchema = z.object({
   query: z.string().optional(),
@@ -32,10 +33,14 @@ export function SearchBar() {
           form={form}
           onSubmit={(values) => {
             if (values.query?.startsWith("#")) {
+              if (values.query.match(new RegExp("#", "g")).length > 1) {
+                toast.error("You can only search for one hashtag at a time!");
+                return;
+              }
               const query = values.query.slice(1);
-              router.push(`/search?query=${query}&type=hashtag`);
+              window.location.href = `/search?query=${query}&type=hashtag`;
             } else {
-              router.push(`/search?query=${values.query}&type=user`);
+              window.location.href = `/search?query=${values.query}&type=user`;
             }
           }}
         >

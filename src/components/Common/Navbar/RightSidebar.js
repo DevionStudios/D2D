@@ -9,37 +9,57 @@ import { GradientBar } from "~/components/ui/GradientBar";
 import { Heading } from "~/components/ui/Heading";
 import { Link } from "~/components/ui/Link";
 import { Footer } from "../Footer";
-
+import { useState, useEffect } from "react";
+import axios from "axios";
 export let WHO_TO_FOLLOW_QUERYisFollowing;
 
-export function RightSidebar() {
-  let loading, error, refetch;
-  let data = {
-    whoToFollow: {
-      edges: [],
-    },
+export function RightSidebar({ currentUser }) {
+  const [suggestedUsers, setSuggestedUsers] = useState([]);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const getSuggestedUsers = async () => {
+    setLoading(true);
+    try {
+      setError(false);
+      const response = await axios.get(
+        "http://localhost:5000/api/users/active",
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
+      );
+      const usersData = response.data;
+      for (let i = 0; i < usersData.length; i++) {
+        if (usersData[i].id === currentUser.id) usersData.splice(i, 1);
+      }
+      console.log(usersData);
+      setSuggestedUsers(usersData);
+    } catch (e) {
+      setError(true);
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
   };
-
+  useEffect(() => {
+    getSuggestedUsers();
+  }, []);
   if (error) {
     return (
       <aside className="w-full sticky top-20">
         <ErrorFallback
           message="Failed to load suggestions."
-          action={() =>
-            refetch({
-              after: null,
-              first: 5,
-            })
-          }
+          action={() => getSuggestedUsers()}
           buttonText="Retry"
         />
       </aside>
     );
   }
 
-  if (loading || !data) return <LoadingFallback />;
+  if (loading || !suggestedUsers) return <LoadingFallback />;
 
-  if (data.whoToFollow.edges.length === 0) {
+  if (suggestedUsers.length === 0) {
     return (
       <>
         <Card rounded="lg" className="sticky top-20">
@@ -69,8 +89,8 @@ export function RightSidebar() {
                   role="list"
                   className="-my-4 divide-y divide-gray-200 dark:divide-gray-700"
                 >
-                  {data.whoToFollow.edges.map((edge) => {
-                    const user = edge?.node;
+                  {suggestedUsers.map((data) => {
+                    const user = data;
                     return (
                       <li
                         key={user?.id}
@@ -79,7 +99,7 @@ export function RightSidebar() {
                         <div className="flex-shrink-0">
                           <img
                             className="h-8 w-8 rounded-full object-cover"
-                            src={user?.avatar}
+                            src={user?.image}
                             alt=""
                           />
                         </div>
@@ -100,7 +120,9 @@ export function RightSidebar() {
                         <div className="flex-shrink-0">
                           <FollowButton
                             variant="dark"
-                            isFollowing={user?.isFollowing}
+                            isFollowing={user?.followers?.includes(
+                              currentUser.id
+                            )}
                             username={user?.username}
                           />
                         </div>

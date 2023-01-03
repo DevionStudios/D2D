@@ -3,7 +3,7 @@ import { FeedPostCard } from "../Post/FeedPostCard";
 import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
 import { Heading } from "../ui/Heading";
 
-export function HashtagSearchResult({ data }) {
+export function HashtagSearchResult({ data, currentUser }) {
   const router = useRouter();
 
   if (!data)
@@ -15,7 +15,7 @@ export function HashtagSearchResult({ data }) {
       />
     );
 
-  const posts = data.searchByHashtag.edges;
+  const posts = data;
 
   return (
     <div>
@@ -25,9 +25,15 @@ export function HashtagSearchResult({ data }) {
 
       {posts.length > 0 ? (
         posts.map((edge) => {
-          const data = edge?.node;
+          const data = edge;
           if (data) {
-            return <FeedPostCard key={data.id} post={data} />;
+            return (
+              <FeedPostCard
+                key={data.id}
+                post={data}
+                currentUser={currentUser}
+              />
+            );
           }
         })
       ) : (

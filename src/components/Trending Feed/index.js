@@ -9,7 +9,6 @@ import { ErrorFallback } from "~/components/ui/Fallbacks/ErrorFallback";
 import React, { useState, useEffect } from "react";
 import { SEO } from "../SEO";
 import { IndeterminateProgress } from "../ui/Progress";
-import { WhoToFollow } from "./WhoToFollow";
 import axios from "axios";
 
 export function TrendingFeed({ currentUser }) {

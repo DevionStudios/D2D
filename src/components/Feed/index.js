@@ -9,7 +9,6 @@ import { ErrorFallback } from "~/components/ui/Fallbacks/ErrorFallback";
 import React, { useState, useEffect } from "react";
 import { SEO } from "../SEO";
 import { IndeterminateProgress } from "../ui/Progress";
-import { WhoToFollow } from "./WhoToFollow";
 import axios from "axios";
 
 export function Feed({ currentUser }) {
@@ -67,7 +66,6 @@ export function Feed({ currentUser }) {
                           username={currentUser.username}
                           currentUser={currentUser}
                         />
-                        {index === 5 || index === 10 ? <WhoToFollow /> : null}
                       </div>
                     );
                   })

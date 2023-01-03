@@ -4,7 +4,7 @@ import { Card } from "../ui/Card";
 import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
 import { Heading } from "../ui/Heading";
 
-export function UserSearchResult({ data }) {
+export function UserSearchResult({ data, currentUser }) {
   const router = useRouter();
 
   if (!data)
@@ -16,7 +16,7 @@ export function UserSearchResult({ data }) {
       />
     );
 
-  const users = data.searchUser.edges;
+  const users = data;
 
   return (
     <div>
@@ -33,7 +33,7 @@ export function UserSearchResult({ data }) {
         <ul role="list" className=" divide-y divide-gray-200">
           {users.length > 0 ? (
             users.map((edge) => {
-              const user = edge?.node;
+              const user = edge;
 
               if (user) {
                 return (
@@ -42,7 +42,7 @@ export function UserSearchResult({ data }) {
                       <div className="flex-shrink-0">
                         <img
                           className="h-8 w-8 rounded-full"
-                          src={user.avatar}
+                          src={user.image}
                           alt=""
                         />
                       </div>

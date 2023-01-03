@@ -1,15 +1,52 @@
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Card } from "../ui/Card";
 import { HashtagSearchResult } from "./HashtagSearchResult";
 import { UserSearchResult } from "./UserSearchResult";
+import axios from "axios";
 
 export let SEARCH_FOR_POST_BY_HASHTAG;
 
 export let SEARCH_FOR_USERS_BY_KEYWORD;
 
-export function SearchResults() {
+export function SearchResults({ currentUser }) {
   const router = useRouter();
+  const [hashtagData, setHashtagData] = useState({});
+  const [userData, setUserData] = useState({});
 
+  const findHashTagPosts = async () => {
+    const res = await axios.get(
+      `http://localhost:5000/api/post/search/${router.query.query.toString()}`,
+      {
+        headers: {
+          cookies: document.cookie,
+        },
+      }
+    );
+    console.log(res.data);
+    setHashtagData(res.data);
+  };
+  const findUsers = async () => {
+    console.log(router.query);
+    const res = await axios.get(
+      `http://localhost:5000/api/users/search/${router.query.query.toString()}`,
+      {
+        headers: {
+          cookies: document.cookie,
+        },
+      }
+    );
+    console.log(res.data);
+    setUserData(res.data);
+  };
+  useEffect(() => {
+    console.log(router.query);
+    if (router.query.type === "hashtag") {
+      findHashTagPosts();
+    } else if (router.query.type === "user") {
+      findUsers();
+    }
+  }, []);
   // ! Insert hashtag posts here
   let HashtagData = {
     searchByHashtag: {
@@ -57,10 +94,12 @@ export function SearchResults() {
     <div className="max-w-7xl mt-20 mx-auto px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto overflow-hidden">
         <Card className="mt-2 overflow-hidden" rounded="lg">
-          {router.query.type === "hashtag" && (
-            <HashtagSearchResult data={HashtagData} />
+          {router.query.type === "hashtag" && hashtagData && (
+            <HashtagSearchResult data={hashtagData} currentUser={currentUser} />
           )}
-          {router.query.type === "user" && <UserSearchResult data={UserData} />}
+          {router.query.type === "user" && userData && (
+            <UserSearchResult data={userData} />
+          )}
         </Card>
       </div>
     </div>

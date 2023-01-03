@@ -56,7 +56,7 @@ export function FeedLayout({ currentUser }) {
           </div>
         </div>
         <div className="hidden lg:block lg:col-span-3">
-          <RightSidebar />
+          <RightSidebar currentUser={currentUser} />
         </div>
       </div>
     </div>
