@@ -8,22 +8,20 @@ const router = express.Router();
 
 router.post(
   "/api/verification/generate",
-  currentUser,
   async (req: Request, res: Response) => {
-    const { email } = req.currentUser!;
+    const { email } = req.body;
     const code = Math.floor(100000 + Math.random() * 900000).toString();
-    const hashed = await Password.toHash(code);
     try {
       // check if already exists
       const existingVerification = await Verification.findOne({ email: email });
       if (existingVerification) {
-        existingVerification.code = hashed;
+        existingVerification.code = code;
         await existingVerification.save();
       } else {
         // create new verification
         const verification = Verification.build({
           email: email,
-          code: hashed,
+          code: code,
         });
         await verification.save();
       }
@@ -33,13 +31,13 @@ router.post(
       var transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-          user: process.env.EMAIL_ADDRESS!,
-          pass: process.env.EMAIL_PASSWORD!,
+          user: "devionhackers@gmail.com",
+          pass: "cxhmkrjarxkjkqoc",
         },
       });
 
       var mailOptions = {
-        from: process.env.EMAIL_ADDRESS!,
+        from: "devionhackers@gmail.com",
         to: email,
         subject: subject,
         text: codeText,
@@ -59,3 +57,5 @@ router.post(
     }
   }
 );
+
+export { router as generateCodeRouter };

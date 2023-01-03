@@ -8,30 +8,32 @@ const router = express.Router();
 
 router.post(
   "/api/verification/compare",
-  currentUser,
   async (req: Request, res: Response) => {
-    const { code } = req.body;
+    const { code, email } = req.body;
 
     const existingVerification = await Verification.findOne({
-      email: req.currentUser!.email,
+      email: email,
     });
     if (!existingVerification) {
       throw new BadRequestError("Email not found");
     }
+    console.log(code);
+
     const passwordsMatch = await Password.compare(
       existingVerification.code!,
       code
     );
-
     if (!passwordsMatch) {
       throw new BadRequestError("Invalid Code Given");
     }
 
     const deletedVerification = await Verification.deleteOne({
-      email: req.currentUser!.email,
+      email: email,
     });
 
     console.log(deletedVerification);
     res.status(200).send({ message: "verified" });
   }
 );
+
+export { router as verifyCodeRouter };

@@ -27,6 +27,8 @@ import { createCommentRouter } from "./routes/comments/create-comment";
 import { updateCommentRouter } from "./routes/comments/update-comment";
 import { deleteCommentRouter } from "./routes/comments/delete-comment";
 import { importUserTweetsRouter } from "./routes/posts/import-user-tweets";
+import { generateCodeRouter } from "./routes/verification/generate-code";
+import { verifyCodeRouter } from "./routes/verification/verify-code";
 
 const app = express();
 // app.set("trust proxy", true);
@@ -52,6 +54,8 @@ app.use(
 app.use(getUserFeedRouter);
 app.use(signupRouter);
 app.use(signinRouter);
+app.use(generateCodeRouter);
+app.use(verifyCodeRouter);
 app.use(updateProfileRouter);
 app.use(signoutRouter);
 app.use(currentUserRouter);
