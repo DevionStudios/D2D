@@ -17,8 +17,6 @@ router.get("/api/posts/:username", async (req: Request, res: Response) => {
       populate: { path: "author" },
     });
 
-    console.log("existingUser: ", existingUser);
-
     if (!existingUser) {
       throw new BadRequestError("User not found!");
     }
