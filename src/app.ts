@@ -29,6 +29,8 @@ import { deleteCommentRouter } from "./routes/comments/delete-comment";
 import { importUserTweetsRouter } from "./routes/posts/import-user-tweets";
 import { generateCodeRouter } from "./routes/verification/generate-code";
 import { verifyCodeRouter } from "./routes/verification/verify-code";
+import { searchPostRouter } from "./routes/posts/search-post";
+import { searchUserRouter } from "./routes/auth/get-search-user";
 
 const app = express();
 // app.set("trust proxy", true);
@@ -61,6 +63,8 @@ app.use(signoutRouter);
 app.use(currentUserRouter);
 app.use(fetchUserRouter);
 app.use(followUserRouter);
+app.use(searchPostRouter);
+app.use(searchUserRouter);
 app.use(updatePasswordRouter);
 app.use(createPostRouter);
 app.use(getPostRouter);
