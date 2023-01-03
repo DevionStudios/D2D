@@ -37,7 +37,7 @@ router.get(
 
       const appOnlyClientFromConsumer = await TwitterClient.appLogin();
       const trendingApiResponse = await appOnlyClientFromConsumer.v2.search(
-        "trending",
+        "trending -is:retweet -is:reply -is:quote",
         {
           max_results: 90,
           "tweet.fields": ["created_at"],
