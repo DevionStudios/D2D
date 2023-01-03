@@ -1,6 +1,5 @@
-import { currentUser } from "@devion/common";
+import { currentUser } from "../../middlewares/currentuser";
 import express, { Request, Response } from "express";
-import mongoose from "mongoose";
 import axios from "axios";
 
 import { Post } from "../../models/Post";
@@ -12,7 +11,7 @@ router.post("/api/tweets", currentUser, async (req: Request, res: Response) => {
   const { twitterId } = req.body;
   try {
     const existingUser = await User.findOne({
-      _id: new mongoose.Types.ObjectId(req.currentUser!.id),
+      username: req.currentUser!.username,
     });
 
     if (!existingUser) {
@@ -29,6 +28,7 @@ router.post("/api/tweets", currentUser, async (req: Request, res: Response) => {
           caption: tweet.text,
           author: existingUser,
           createdAt: tweet.created_at,
+          media: tweet.attachments?.media_keys[0] || "",
         });
 
         await post.save();
@@ -44,4 +44,4 @@ router.post("/api/tweets", currentUser, async (req: Request, res: Response) => {
   }
 });
 
-export { router as getPostRouter };
+export { router as importUserTweetsRouter };

@@ -26,6 +26,7 @@ import { LikePostRouter } from "./routes/likes/like-post";
 import { createCommentRouter } from "./routes/comments/create-comment";
 import { updateCommentRouter } from "./routes/comments/update-comment";
 import { deleteCommentRouter } from "./routes/comments/delete-comment";
+import { importUserTweetsRouter } from "./routes/posts/import-user-tweets";
 
 const app = express();
 // app.set("trust proxy", true);
@@ -70,6 +71,7 @@ app.use(getAllPostsRouter);
 app.use(createCommentRouter);
 app.use(updateCommentRouter);
 app.use(deleteCommentRouter);
+app.use(importUserTweetsRouter);
 
 app.all("*", async (req: any, res: any) => {
   throw new Error("Route not found!!");
