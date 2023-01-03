@@ -1,5 +1,6 @@
 import { HiCheckCircle } from "react-icons/hi";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { TwitterApi } from "twitter-api-v2";
 
 import { Card } from "~/components/ui/Card";
 import { GradientBar } from "~/components/ui/GradientBar";
@@ -24,7 +25,28 @@ export function TrendingFeed({ currentUser }) {
         "http://localhost:5000/api/posts/trending"
       );
       setData(response.data);
-      console.log(response.data);
+      console.log(process.env.TWITTER_API_KEY);
+
+      // * Get trending tweets from Twitter API
+      const TwitterClient = new TwitterApi({
+        appKey: process.env.TWITTER_API_KEY,
+        appSecret: process.env.TWITTER_API_KEY_SECRET,
+        accessToken: process.env.ACCESS_TOKEN,
+        accessSecret: process.env.ACCESS_TOKEN_SECRET,
+      });
+      const appOnlyClientFromConsumer = await TwitterClient.appLogin();
+
+      const trendingApiResponse = await appOnlyClientFromConsumer.v2.search(
+        "trending",
+        {
+          maxResults: 10,
+          tweet: {
+            fields: ["created_at"],
+          },
+        }
+      );
+
+      console.log(trendingApiResponse);
     } catch (e) {
       console.log(e);
       setError(true);
