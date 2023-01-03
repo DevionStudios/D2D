@@ -9,13 +9,10 @@ import { ErrorFallback } from "~/components/ui/Fallbacks/ErrorFallback";
 import React, { useState, useEffect } from "react";
 import { SEO } from "../SEO";
 import { IndeterminateProgress } from "../ui/Progress";
-import { WhoToFollow } from "./WhoToFollow";
 import axios from "axios";
 
 export function TwitterFeed({ currentUser }) {
-  let fetchMore;
   const [data, setData] = useState({});
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   const FoxxiOfficialUser = {
@@ -23,13 +20,9 @@ export function TwitterFeed({ currentUser }) {
     username: "FoxxiOfficial",
     name: "Foxxi",
     image: "https://placekitten.com/200/300",
-    bio: "Foxxi is a social media platform for the community.",
-    email: "foxxi@foxxi.com",
-    coverImage: "https://placekitten.com/1980/300",
   };
 
   const fetchAllPosts = async () => {
-    setLoading(true);
     try {
       let tempData = [];
       const response = await axios.get(
@@ -55,8 +48,6 @@ export function TwitterFeed({ currentUser }) {
     } catch (e) {
       console.log(e);
       setError(true);
-    } finally {
-      setLoading(false);
     }
   };
   useEffect(() => {
