@@ -135,7 +135,7 @@ export function PostCard({ id, username, currentUser }) {
     );
 
   // const shareData = {
-  //   title: `${data.author.username} on D2D.`,
+  //   title: `${data.author.username} on Foxxi.`,
   //   text: `${
   //     data.seePost.caption ?? "Check it out now! See what they have to say."
   //   }`,
@@ -145,7 +145,7 @@ export function PostCard({ id, username, currentUser }) {
   return data && data.author ? (
     <>
       <SEO
-        title={`${data.author.username} on D2D: ${
+        title={`${data.author.username} on Foxxi: ${
           data.caption ? data.caption.slice(0, 255) : ""
         }`}
         description={data.caption ? data.caption.slice(0, 255) : ""}

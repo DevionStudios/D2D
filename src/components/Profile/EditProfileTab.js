@@ -157,7 +157,7 @@ export function EditProfileTab({ currentUser }) {
                 {...form.register("username")}
                 label="Username"
                 placeholder="Your username"
-                prefix="D2D.com/@"
+                prefix="Foxxi.com/@"
               />
             </div>
             <div className="flex space-x-3">

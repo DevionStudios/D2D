@@ -12,8 +12,8 @@ export function Hero() {
               Capture and share the world&apos;s moments
             </h1>
             <p className="text-base text-gray-500 sm:text-lg">
-              Welcome to D2D. A social media platform made for people like you!
-              Come, share and see what others are up to!
+              Welcome to Foxxi. A social media platform made for people like
+              you! Come, share and see what others are up to!
             </p>
             <div className="flex flex-col items-center w-full space-x-5 lg:flex-row">
               <a

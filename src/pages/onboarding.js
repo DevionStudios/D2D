@@ -7,7 +7,7 @@ import { Step2 } from "~/components/Onboarding/Step2";
 import { Button } from "~/components/ui/Button";
 import { Heading } from "~/components/ui/Heading";
 import { Link } from "~/components/ui/Link";
-import Logo from "../assets/D2D Logo Trans.png";
+import Logo from "../assets/Foxxi Logo Trans.png";
 import Image from "next/image";
 const onboardingTabs = [
   {
@@ -61,7 +61,7 @@ export default function Onboarding({ currentUser }) {
           <Link href="/">
             <Image src={Logo} width={100} height={100} alt="Logo" />{" "}
           </Link>
-          <Heading size="h5">D2D</Heading>
+          <Heading size="h5">Foxxi</Heading>
         </div>
         <div
           className={`w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5`}

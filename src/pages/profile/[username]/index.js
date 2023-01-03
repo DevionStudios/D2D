@@ -5,6 +5,8 @@ import { Profile } from "~/components/Profile/Profile";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+import { Status } from "~/components/ui/StatusPages/Status";
+
 export default function ProfilePage({ currentUser }) {
   const [user, setUser] = useState(undefined);
   let isMe = false;
@@ -36,7 +38,7 @@ export default function ProfilePage({ currentUser }) {
       />
     </>
   ) : (
-    <>Loading</>
+    <Status statusCode="404" href={!currentUser ? "/" : "/feed/"} />
   );
 }
 

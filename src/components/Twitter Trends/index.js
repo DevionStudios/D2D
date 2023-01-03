@@ -4,30 +4,50 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { Card } from "~/components/ui/Card";
 import { GradientBar } from "~/components/ui/GradientBar";
 import { LoadingFallback } from "~/components/ui/Fallbacks/LoadingFallback";
-import { FeedPostCard } from "../Post/FeedPostCard";
+import { TrendingTweetsPostCard } from "../Post/TrendingTweetsPostCard";
 import { ErrorFallback } from "~/components/ui/Fallbacks/ErrorFallback";
 import React, { useState, useEffect } from "react";
 import { SEO } from "../SEO";
 import { IndeterminateProgress } from "../ui/Progress";
 import axios from "axios";
 
-export function TrendingFeed({ currentUser }) {
-  let fetchMore;
+export function TwitterFeed({ currentUser }) {
   const [data, setData] = useState({});
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+
+  const FoxxiOfficialUser = {
+    id: "1",
+    username: "FoxxiOfficial",
+    name: "Foxxi",
+    image: "https://placekitten.com/200/300",
+  };
+
   const fetchAllPosts = async () => {
-    setLoading(true);
     try {
+      let tempData = [];
       const response = await axios.get(
-        "http://localhost:5000/api/posts/trending"
+        "http://localhost:5000/api/tweets/trending",
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
       );
-      setData(response.data);
+      response.data.forEach((tweet) => {
+        tempData.push({
+          author: FoxxiOfficialUser,
+          caption: tweet.text,
+          createdAt: tweet.created_at,
+          id: tweet.id,
+          hashtags: [],
+        });
+      });
+
+      setData(tempData);
+      console.log(tempData);
     } catch (e) {
       console.log(e);
       setError(true);
-    } finally {
-      setLoading(false);
     }
   };
   useEffect(() => {
@@ -37,22 +57,13 @@ export function TrendingFeed({ currentUser }) {
     return (
       <ErrorFallback
         action={() => {}}
-        message="Failed to fetch TrendingFeed for you. Try reloading."
+        message="Failed to fetch TwitterFeed for you. Try reloading."
       />
     );
   }
   if (!data) {
     return <h1></h1>;
   }
-
-  // function handleNext() {
-  //   fetchMore({
-  //     variables: {
-  //       first: 10,
-  //       after: data?.feed.pageInfo.endCursor,
-  //     },
-  //   });
-  // }
 
   return data ? (
     data.length > 0 ? (
@@ -64,8 +75,6 @@ export function TrendingFeed({ currentUser }) {
         <main className="lg:col-span-7 xl:col-span-6 lg:grid lg:grid-cols-12 lg:gap-3">
           <div className="px-4 lg:col-span-12 -mt-3">
             <InfiniteScroll
-              // hasMore={data.feed.pageInfo.hasNextPage}
-              // next={handleNext}
               dataLength={data.length}
               loader={<IndeterminateProgress />}
               endMessage={<EndMessage />}
@@ -74,7 +83,7 @@ export function TrendingFeed({ currentUser }) {
                 ? data.map((post, index) => {
                     return (
                       <div key={index}>
-                        <FeedPostCard
+                        <TrendingTweetsPostCard
                           post={post}
                           username={currentUser.username}
                           currentUser={currentUser}
@@ -89,8 +98,6 @@ export function TrendingFeed({ currentUser }) {
       </>
     ) : (
       <InfiniteScroll
-        // hasMore={data.feed.pageInfo.hasNextPage}
-        // next={handleNext}
         dataLength={0}
         loader={<IndeterminateProgress />}
         endMessage={<EndMessage />}
@@ -113,7 +120,7 @@ export function EndMessage() {
           <HiCheckCircle className="w-10 h-10 mb-1 text-brand-500" />
           <p className="font-medium ">You&apos;re All Caught Up ! </p>
           <span className="text-center">
-            Empty TrendingFeed? Follow people to see their posts.
+            Empty TwitterFeed? Follow people to see their posts.
           </span>
         </div>
       </div>

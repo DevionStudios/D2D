@@ -7,8 +7,8 @@ export default function Home({ currentUser }) {
   return (
     <>
       <SEO
-        title="D2D | Capture and share the world's moments"
-        description="D2D is a social media platform created for you. See what your friends are up to."
+        title="Foxxi | Capture and share the world's moments"
+        description="Foxxi is a social media platform created for you. See what your friends are up to."
         image="https://i.imgur.com/ni5JNk1.png"
         cardType="summary_large_image"
         path="/"

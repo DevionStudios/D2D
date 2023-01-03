@@ -94,7 +94,7 @@ export function LoginForm() {
               className="font-medium text-brand-600 hover:text-brand-400"
               href="/auth/signup"
             >
-              Join D2D™
+              Join Foxxi™
             </Link>
           </Card.Body>
         </Card>
