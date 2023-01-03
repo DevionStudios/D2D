@@ -6,22 +6,15 @@ import { User } from "../../models/User";
 const router = express.Router();
 
 router.get(
-  "/api/users/search/:searchWord",
+  "/api/users/active",
   currentUser,
   async (req: Request, res: Response) => {
-    console.log(req.params.searchWord!);
-    const searchWord = req.params.searchWord;
     try {
-      const existingUser = await User.find({
-        $or: [
-          { username: { $regex: searchWord, $options: "i" } },
-          { name: { $regex: searchWord, $options: "i" } },
-        ],
-      });
+      const existingUser = await User.find().sort({ updatedAt: -1 }).limit(3);
       if (!existingUser) {
         throw new BadRequestError("No Users found!");
       }
-      console.log(existingUser);
+      console.log("Active Users", existingUser);
       res.status(200).send(existingUser);
     } catch (err) {
       console.log(err);
@@ -30,4 +23,4 @@ router.get(
   }
 );
 
-export { router as searchUserRouter };
+export { router as activeUserRouter };
