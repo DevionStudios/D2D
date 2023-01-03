@@ -1,11 +1,14 @@
 import { currentUser } from "../../middlewares/currentuser";
 import express, { Request, Response } from "express";
 import axios from "axios";
+import { TwitterApi } from "twitter-api-v2";
 
 import { Post } from "../../models/Post";
 import { User } from "../../models/User";
+import dotenv from "dotenv";
 
 const router = express.Router();
+dotenv.config();
 
 router.post("/api/tweets", currentUser, async (req: Request, res: Response) => {
   const { twitterId } = req.body;
@@ -18,9 +21,17 @@ router.post("/api/tweets", currentUser, async (req: Request, res: Response) => {
       throw new Error("User not found");
     }
 
+    if (!process.env.TWITTER_BEARER_TOKEN) {
+      throw new Error("Twitter Bearer Token not found");
+    }
+
     const tweets = await axios.get(
       `https://api.twitter.com/2/users/${twitterId}/tweets`
     );
+
+    // Instantiate with desired auth type (here's Bearer v2 auth)
+    const twitterClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN!);
+    const readOnlyClient = twitterClient.readOnly;
 
     tweets.data.data.map(async (tweet: any) => {
       if (!tweet.in_reply_to_user_id) {
