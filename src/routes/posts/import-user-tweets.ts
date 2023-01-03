@@ -1,13 +1,11 @@
 import { currentUser } from "../../middlewares/currentuser";
 import express, { Request, Response } from "express";
-import axios from "axios";
 import { BadRequestError } from "@devion/common";
 import { TwitterApi } from "twitter-api-v2";
-
-import { Post } from "../../models/Post";
-import { User } from "../../models/User";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
+
+import { Post, PostDoc } from "../../models/Post";
+import { User, UserDoc } from "../../models/User";
 
 const router = express.Router();
 dotenv.config();
@@ -19,9 +17,6 @@ router.post("/api/tweets", currentUser, async (req: Request, res: Response) => {
     throw new BadRequestError("User not found!");
   }
 
-  const BEARER_TOKEN =
-    "AAAAAAAAAAAAAAAAAAAAAC6lcQEAAAAAJA3RDm04rVwek4E0hHnPU47lEys%3DRiw4aW4hsmRZmfyDjIArPk4zSFlvAxLNMT1IWDRZeDueGTMS9X";
-
   try {
     const existingUser = await User.findOne({
       username: currentUser.username,
@@ -32,10 +27,10 @@ router.post("/api/tweets", currentUser, async (req: Request, res: Response) => {
     }
 
     const TwitterClient = new TwitterApi({
-      appKey: "ZVQEkkCjxGn5QbynptoqwJNMP",
-      appSecret: "HONytp7seX6w6cxzcn9Ij0QOHfciTWNFxiHDyU1h5WcqeDM12o",
-      accessToken: "1499706059975720963-83VnJGjsYTEFiP1M8uVBRFl7fGjC7R",
-      accessSecret: "r4c2nWnUYKHB7fTRunIAYYNuLe44tXv7ZWqconLxflw3P",
+      appKey: process.env.TWITTER_API_KEY!,
+      appSecret: process.env.TWITTER_API_KEY_SECRET!,
+      accessToken: process.env.ACCESS_TOKEN!,
+      accessSecret: process.env.ACCESS_TOKEN_SECRET!,
     });
     const appOnlyClientFromConsumer = await TwitterClient.appLogin();
     const usernameResponse = await appOnlyClientFromConsumer.v2.userByUsername(
@@ -51,29 +46,34 @@ router.post("/api/tweets", currentUser, async (req: Request, res: Response) => {
     );
 
     const tweets = apiResponse.data.data;
+    const posts: PostDoc[] = [];
 
-    tweets.forEach(async (tweet: any) => {
+    tweets?.map(async (tweet: any) => {
       const existingPost = await Post.findOne({
         twitterId: tweet.id,
       });
       if (!existingPost) {
-        const post = new Post({
+        const post = Post.build({
           twitterId: tweet.id,
           caption: tweet.text,
-          author: existingUser,
-          createdAt: tweet.created_at,
+          author: existingUser as UserDoc,
+          createdAt: new Date(tweet.created_at),
         });
-        existingUser?.posts!.push(post);
+        posts.push(post);
 
         await post.save();
-        await existingUser.save();
       } else {
         console.log(`Post with ${tweet.id} already exists`);
       }
     });
 
+    // update existing user with new posts
+    existingUser.posts = existingUser!.posts?.concat(posts);
+    await existingUser.save();
+
     res.status(201).send({
-      message: `Imported tweets from ${username}`,
+      Posts: posts,
+      ExistingUserPosts: existingUser!.posts,
     });
   } catch (err) {
     console.log(err);

@@ -12,6 +12,7 @@ interface PostAttrs {
   media?: string;
   gifLink?: string;
   twitterId?: string;
+  createdAt?: Date;
 }
 
 interface PostModel extends mongoose.Model<PostDoc> {

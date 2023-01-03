@@ -17,8 +17,8 @@ router.post(
     body("email").isEmail().withMessage("Email must be valid"),
     body("password")
       .trim()
-      .notEmpty()
-      .withMessage("You must supply a password"),
+      .isLength({ min: 4, max: 30 })
+      .withMessage("You must supply a password between 4 and 30 characters"),
   ],
   validateRequest,
   async (req: Request, res: Response) => {
