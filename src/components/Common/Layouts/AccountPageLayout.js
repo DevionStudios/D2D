@@ -8,6 +8,7 @@ import {
 import { EditProfileTab } from "~/components/Profile/EditProfileTab";
 import { PasswordTab } from "~/components/Profile/Password";
 import { Preferences } from "~/components/Profile/Preferences";
+import { ImportTweetsTab } from "~/components/Profile/ImportTweetsTab";
 import { TabbedLayout } from "../Navbar/TabbedLayout";
 
 export function AccountPageLayout({ currentUser }) {
@@ -32,6 +33,12 @@ export function AccountPageLayout({ currentUser }) {
               component: <Preferences />,
               icon: HiOutlineSparkles,
               name: "Preferences",
+              id: "",
+            },
+            {
+              component: <ImportTweetsTab />,
+              icon: HiOutlineSparkles,
+              name: "Tweets Migration",
               id: "",
             },
           ]}
