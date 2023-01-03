@@ -3,6 +3,7 @@ import "express-async-errors";
 import { json, urlencoded } from "body-parser";
 import cookieSession from "cookie-session";
 import cors from "cors";
+import { TwitterApi } from "twitter-api-v2";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -29,6 +30,7 @@ import { deleteCommentRouter } from "./routes/comments/delete-comment";
 import { importUserTweetsRouter } from "./routes/posts/import-user-tweets";
 import { generateCodeRouter } from "./routes/verification/generate-code";
 import { verifyCodeRouter } from "./routes/verification/verify-code";
+import { getTrendingTweetsRouter } from "./routes/posts/get-twitter-trends";
 import { searchPostRouter } from "./routes/posts/search-post";
 import { searchUserRouter } from "./routes/auth/get-search-user";
 import { activeUserRouter } from "./routes/auth/active-user";
@@ -81,6 +83,7 @@ app.use(getAllPostsRouter);
 app.use(createCommentRouter);
 app.use(updateCommentRouter);
 app.use(deleteCommentRouter);
+app.use(getTrendingTweetsRouter);
 app.use(importUserTweetsRouter);
 
 app.all("*", async (req: any, res: any) => {

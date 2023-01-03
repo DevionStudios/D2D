@@ -27,6 +27,7 @@
     "mongoose": "^6.8.1",
     "multer": "^1.4.5-lts.1",
     "ts-node": "^10.9.1",
+    "twitter-api-sdk": "^1.2.1",
     "twitter-api-v2": "^1.13.0"
   },
   "devDependencies": {
