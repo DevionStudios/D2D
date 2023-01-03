@@ -199,7 +199,7 @@ export function SignUp() {
               className="font-medium text-brand-600 hover:text-brand-400"
               href="/auth/signin"
             >
-              Log into D2D™
+              Log into Foxxi™
             </Link>
           </Card.Body>
         </Card>

@@ -273,7 +273,9 @@ export function FeedPostCard(props) {
                   variant="dark"
                   onClick={async () => {
                     navigator.clipboard
-                      .writeText(`https://d2d.vercel.app/post/${props.post.id}`)
+                      .writeText(
+                        `https://foxxi.vercel.app/post/${props.post.id}`
+                      )
                       .then(() => toast.success("Link copied to clipboard"));
                   }}
                 >

@@ -24,7 +24,9 @@ export function TabbedLayout({ navigation }) {
   return (
     <>
       <Tab.Group
-        defaultIndex={currentPath === "/feed" ? 0 : 1}
+        defaultIndex={
+          currentPath === "/feed" ? 0 : currentPath === "/twittertrends" ? 2 : 1
+        }
         onChange={(idx) => handleChange(idx)}
         vertical
       >

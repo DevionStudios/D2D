@@ -11,6 +11,7 @@ import { CurrentUser } from "~/components/User/CurrentUser";
 import Spinner from "~/components/ui/Spinner";
 import { IndeterminateProgress } from "~/components/ui/Progress";
 import { TrendingFeed } from "../../Trending Feed";
+import { TwitterFeed } from "../../Twitter Trends";
 const RightSidebar = dynamic(
   async () => {
     const { RightSidebar } = await import("../Navbar/RightSidebar");
@@ -30,10 +31,16 @@ export function FeedLayout({ currentUser }) {
       id: "/feed",
     },
     {
-      component: <TrendingFeed currentUser={currentUser} />, //! Replace with trending posts later
+      component: <TrendingFeed currentUser={currentUser} />,
       icon: HiOutlineHashtag,
       name: "Trending",
       id: "/trending",
+    },
+    {
+      component: <TwitterFeed currentUser={currentUser} />,
+      icon: HiOutlineHashtag,
+      name: "Foxxi Trends",
+      id: "/twittertrends",
     },
   ];
   //   const { user, loading } = useUser();

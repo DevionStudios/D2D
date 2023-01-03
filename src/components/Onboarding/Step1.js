@@ -14,7 +14,7 @@ export function Step1() {
         <div className="absolute top-0 left-0 hidden w-full -mt-20 transform rotate-45 -translate-x-1/2 bg-pink-300 sm:block h-96 opacity-5"></div>
         <div className="relative p-4 rounded-lg md:p-0 ">
           <h2 className="text-3xl font-extrabold leading-9 tracking-tight text-white sm:text-4xl sm:leading-10">
-            <div>Welcome to D2D!</div>
+            <div>Welcome to Foxxi!</div>
           </h2>
           <p className="w-full mt-5 text-base leading-6 text-pink-100 md:w-3/4">
             A social network for people like you! See what your friends are up

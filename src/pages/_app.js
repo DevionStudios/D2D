@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps, currentUser }) {
   const getLayout = Component.getLayout ?? ((page) => page);
   return (
     <ThemeProvider storageKey="preferred-theme" attribute="class">
-      <DefaultSeo defaultTitle="D2D" titleTemplate="%s | D2D" />
+      <DefaultSeo defaultTitle="Foxxi" titleTemplate="%s | Foxxi" />
       <NProgress />
       <Toaster position="top-right" toastOptions={toastOptions} />
       <MoralisProvider initializeOnMount={false}>

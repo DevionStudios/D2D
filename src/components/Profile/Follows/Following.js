@@ -33,7 +33,7 @@ export function Following({ username }) {
 
   return (
     <>
-      <SEO title={`${username} / Following · D2D`} />
+      <SEO title={`${username} / Following · Foxxi`} />
       <div>
         <div className="flow-root">
           <ul role="list" className=" divide-y  divide-gray-600">

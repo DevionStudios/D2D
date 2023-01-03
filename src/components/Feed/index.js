@@ -48,7 +48,7 @@ export function Feed({ currentUser }) {
     data.length > 0 ? (
       <>
         <SEO
-          title="Explore · D2D"
+          title="Explore · Foxxi"
           description="Explore community posts and posts from people you follow."
         />
         <main className="lg:col-span-7 xl:col-span-6 lg:grid lg:grid-cols-12 lg:gap-3">
@@ -67,7 +67,6 @@ export function Feed({ currentUser }) {
                           username={currentUser.username}
                           currentUser={currentUser}
                         />
-                        {index === 5 || index === 10 ? <WhoToFollow /> : null}
                       </div>
                     );
                   })

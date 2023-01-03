@@ -16,7 +16,7 @@ export const SEO = ({
       <meta name="description" content={description} />
 
       <meta property="og:url" content={`${BASE_URL}${path}`} />
-      <meta property="og:site_name" content="D2D" />
+      <meta property="og:site_name" content="Foxxi" />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={image} />

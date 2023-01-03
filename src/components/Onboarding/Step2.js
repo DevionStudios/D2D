@@ -63,7 +63,7 @@ export function Step2({ currentUser }) {
         <div className="text-2xl font-bold">Your profile</div>
         <div className="text-gray-500">
           Tell us a little bit about yourself — this is how others will see you
-          on D2D. You’ll always be able to edit this later in your Settings.
+          on Foxxi. You’ll always be able to edit this later in your Settings.
         </div>
       </Card.Body>
       <Form
