@@ -7,7 +7,6 @@ export const authOptions = {
       clientId: "dnRaQzRicVVFeEhvYkZqWlVVNnU6MTpjaQ",
       clientSecret: "lUS7wq04Zja7BjiX6mBhnWkSoNC80ZxYf9aALc75dtaypitcmj",
       version: "2.0",
-      accessTokenUrl: "http://localhost:5000/api/accesstoken",
     }),
   ],
 };
