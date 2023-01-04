@@ -32,7 +32,7 @@ export function AccountPageLayout({ currentUser }) {
             {
               component: <Preferences />,
               icon: HiOutlineSparkles,
-              name: "Preferences",
+              name: "Options",
               id: "",
             },
             {

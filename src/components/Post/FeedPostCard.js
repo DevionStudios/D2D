@@ -13,6 +13,7 @@ import { format } from "date-fns";
 import { ethers } from "ethers";
 import { useMoralis } from "react-moralis";
 
+import { DonateModal } from "./DonateModal";
 import { Card } from "src/components/ui/Card";
 import { Interweave } from "../Interweave";
 import { ReplyModal } from "./ReplyModal";
@@ -24,18 +25,15 @@ import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
 import toast from "react-hot-toast";
 import axios from "axios";
 
-import D2DToken from "../../constants/ABIs/D2DToken.json";
-import networkMapping from "../../constants/networkMapping.json";
-
 export let TOGGLE_LIKE_MUTATION;
 
 export function FeedPostCard(props) {
   const [isOpen, setIsOpen] = useState(false);
-  const { account, chainId } = useMoralis();
   const [isLiked, setIsLiked] = useState(false);
   const [post, setPost] = useState(props.post);
   const [likes, setLikes] = useState(props.post.likes);
   const [comments, setComments] = useState(0);
+  const [isDonateModalOpen, setIsDonateModalOpen] = useState(false);
 
   let loading;
 
@@ -87,46 +85,6 @@ export function FeedPostCard(props) {
     return props.post.likes.includes(props.currentUser.id);
   };
 
-  // ! Test this after deploying the contract
-  const tip = async (receiverWalletAddress) => {
-    console.log("Token Address", networkMapping[5]["D2DToken"]);
-    const { ethereum } = window;
-    if (
-      ethereum &&
-      receiverWalletAddress &&
-      account &&
-      props.currentUser.walletAddress
-    ) {
-      try {
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
-        const D2DTokenContract = new ethers.Contract(
-          networkMapping[5]["D2DToken"].slice(-1)[0], //TODO fetch chainId from moralis
-          D2DToken, //TODO uncommment this
-          signer
-        );
-        let transfer = await D2DTokenContract.transferFrom(
-          (await signer.getAddress()).toString(),
-          receiverWalletAddress,
-          ethers.utils.parseEther("0.02"), //TODO send the amount from the input
-          {
-            gasLimit: 500000,
-          }
-        );
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
-      if (!account) {
-        toast.error("Please connect your wallet!");
-      } else if (!receiverWalletAddress) {
-        toast.error("Wallet Address of receiver not found!");
-      } else {
-        toast.error("Please install an Ethereum Wallet!");
-      }
-    }
-  };
-
   return (
     <>
       <ReplyModal
@@ -134,6 +92,12 @@ export function FeedPostCard(props) {
         comments={comments}
         setComments={setComments}
         onClose={() => setIsOpen(false)}
+        {...props}
+      />
+      <DonateModal
+        isOpen={isDonateModalOpen}
+        onClose={() => setIsDonateModalOpen(false)}
+        receiverWalletAddress={props.post.author.walletAddress}
         {...props}
       />
       <Card noPadding className="max-w-2xl overflow-hidden my-3 rounded-lg ">
@@ -267,7 +231,9 @@ export function FeedPostCard(props) {
                 <Button
                   variant="dark"
                   className="space-x-2"
-                  onClick={() => tip(props.post.author.walletAddress)}
+                  onClick={() => {
+                    setIsDonateModalOpen(true);
+                  }}
                 >
                   <HiOutlineCurrencyDollar className="w-10 h-6" />
                 </Button>

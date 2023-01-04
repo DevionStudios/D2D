@@ -1,13 +1,19 @@
 {
-  "1": { "FundContract": [], "D2DToken": [] },
+  "1": { "FundContract": [], "FoxxiToken": [] },
   "5": {
-    "FundContract": ["0x5D84cC314150Ff9dE186a410b831f0499d3ff2dF"],
-    "D2DToken": ["0x2F3E2C77b72dE939d72a18324885465c46a15e2c"]
+    "FundContract": [
+      "0x5E995eb3F19354c5f3F255e6B7BDdd21469F2c61",
+      "0xB5Ed21D3F89A80F924eC2b06b5D5Deb348C4BCbf",
+      "0x643bd8265636b7eF796834eCf4a25d25D3189ec7",
+      "0xb372Cbd621c56caa05adBC61663CA8Ed9821Bb9A"
+    ],
+    "FoxxiToken": [
+      "0x9779c234C31a0ae2C475A1340C15BdA32C95515f",
+      "0x3520762C9C4DFFc41dedE9670f8ccDaFa62F0833",
+      "0x9ee6bFdA08857212f10D8820b210d52b3d3d1109"
+    ]
   },
-  "137": { "FundContract": [], "D2DToken": [] },
-  "31337": {
-    "FundContract": ["0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"],
-    "D2DToken": ["0x5FbDB2315678afecb367f032d93F642f64180aa3"]
-  },
-  "80001": { "FundContract": [], "D2DToken": [] }
+  "137": { "FundContract": [], "FoxxiToken": [] },
+  "31337": { "FundContract": [], "FoxxiToken": [] },
+  "80001": { "FundContract": [], "FoxxiToken": [] }
 }
