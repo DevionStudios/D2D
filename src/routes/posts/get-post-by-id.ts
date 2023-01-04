@@ -11,6 +11,7 @@ router.get("/api/post/:id", async (req: Request, res: Response) => {
     const post = await Post.findOne({
       _id: new mongoose.Types.ObjectId(req.params.id),
     })
+      .sort({ createdAt: -1 })
       .populate({
         path: "author",
       })
