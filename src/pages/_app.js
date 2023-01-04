@@ -1,5 +1,6 @@
 import { MoralisProvider } from "react-moralis";
 import { NotificationProvider } from "@web3uikit/core";
+import { SessionProvider } from "next-auth/react";
 
 import { DefaultSeo } from "next-seo";
 import { NProgress } from "src/components/ui/NProgress";
@@ -11,6 +12,7 @@ import axios from "axios";
 
 function MyApp({ Component, pageProps, currentUser }) {
   const getLayout = Component.getLayout ?? ((page) => page);
+
   return (
     <ThemeProvider storageKey="preferred-theme" attribute="class">
       <DefaultSeo defaultTitle="Foxxi" titleTemplate="%s | Foxxi" />
@@ -18,7 +20,9 @@ function MyApp({ Component, pageProps, currentUser }) {
       <Toaster position="top-right" toastOptions={toastOptions} />
       <MoralisProvider initializeOnMount={false}>
         <NotificationProvider>
-          {getLayout(<Component {...pageProps} currentUser={currentUser} />)}
+          <SessionProvider session={pageProps.session}>
+            {getLayout(<Component {...pageProps} currentUser={currentUser} />)}
+          </SessionProvider>
         </NotificationProvider>
       </MoralisProvider>
     </ThemeProvider>
@@ -48,7 +52,8 @@ MyApp.getInitialProps = async (appContext) => {
     );
     data = responseData;
   }
-  console.log(data);
+  // console.log(data);
+
   let pageProps = {};
   if (appContext.Component.getInitialProps) {
     pageProps = await appContext.Component.getInitialProps(

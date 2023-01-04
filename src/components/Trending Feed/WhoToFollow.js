@@ -72,7 +72,7 @@ export function WhoToFollow() {
                     <div className="rounded-full mx-auto flex justify-center">
                       <Image
                         className="h-12 w-12 mx-auto"
-                        src={person?.avatar}
+                        src={person?.image}
                         height={48}
                         width={48}
                         alt=""

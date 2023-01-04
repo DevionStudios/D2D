@@ -74,10 +74,10 @@ export function EditProfileTab({ currentUser }) {
   const updateProfile = async ({ variables }) => {
     console.log(variables);
     const { input } = variables;
-    const images = [input.avatar, input.coverImage];
+    const images = [input.image, input.coverImage];
     const formdata = new FormData();
     formdata.append("bio", input.bio || user.bio);
-    formdata.append("images", input.avatar);
+    formdata.append("images", input.image);
     formdata.append("images", input.coverImage);
     formdata.append("name", input.name || user.name);
     formdata.append("username", input.username || user.username);
@@ -113,7 +113,7 @@ export function EditProfileTab({ currentUser }) {
 
           const input = {
             ...changedValues,
-            avatar: values?.avatar?.[0],
+            avatar: values?.image?.[0],
             coverImage: values?.coverImage?.[0],
             bio: values.bio,
           };
@@ -136,7 +136,7 @@ export function EditProfileTab({ currentUser }) {
             <div className="flex space-x-3 ">
               <div className="flex-[0.3]">
                 <FileInput
-                  existingimage={user.avatar}
+                  existingimage={user.image}
                   name="avatar"
                   accept="image/png, image/jpg, image/jpeg, image/gif"
                   multiple={false}
