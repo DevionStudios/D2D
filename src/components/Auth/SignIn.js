@@ -38,7 +38,7 @@ export function LoginForm() {
       );
       console.log(res.data);
       if (res.status == 200) {
-        const jwtToken = "jwt=" + res.data.jwt;
+        const jwtToken = "foxxi_jwt=" + res.data.jwt;
         var date = new Date();
         date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 days expiry
         document.cookie =
