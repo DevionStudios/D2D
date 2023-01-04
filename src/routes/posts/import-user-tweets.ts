@@ -13,6 +13,7 @@ dotenv.config();
 router.post("/api/tweets", currentUser, async (req: Request, res: Response) => {
   const { username } = req.body;
   const { currentUser } = req;
+
   if (!currentUser) {
     throw new BadRequestError("User not found!");
   }
@@ -59,7 +60,7 @@ router.post("/api/tweets", currentUser, async (req: Request, res: Response) => {
           author: existingUser as UserDoc,
           createdAt: new Date(tweet.created_at),
         });
-        posts.push(post);
+        existingUser.posts?.push(post);
 
         await post.save();
       } else {
@@ -68,7 +69,6 @@ router.post("/api/tweets", currentUser, async (req: Request, res: Response) => {
     });
 
     // update existing user with new posts
-    existingUser.posts = existingUser!.posts?.concat(posts);
     await existingUser.save();
 
     res.status(201).send({

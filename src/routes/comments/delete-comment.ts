@@ -5,6 +5,7 @@ import { currentUser } from "../../middlewares/currentuser";
 import { Comment } from "../../models/Comment";
 import mongoose from "mongoose";
 import { User } from "../../models/User";
+import { Post } from "../../models/Post";
 
 const router = express.Router();
 
@@ -37,6 +38,20 @@ router.delete(
         );
       }
 
+      const post = await Post.findOne({
+        _id: new mongoose.Types.ObjectId(comment.postId),
+      });
+
+      if (!post) {
+        throw new BadRequestError("Post not found!");
+      }
+
+      // filter out the comment from the post
+      post.comments = post?.comments!.filter(
+        (commentId) => commentId.toString() !== comment._id.toString()
+      );
+
+      await post.save();
       await comment.delete();
 
       res.status(204).send("Comment deleted successfully!");
