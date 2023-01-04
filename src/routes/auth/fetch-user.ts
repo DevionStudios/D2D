@@ -13,8 +13,8 @@ router.get(
       const existingUser = await User.findOne({
         username: req.params.nameUser,
       })
-        .populate({ path: "followers" })
-        .populate({ path: "following" });
+        .populate("followers")
+        .populate("following");
       if (!existingUser) {
         throw new BadRequestError("User not found!");
       }
