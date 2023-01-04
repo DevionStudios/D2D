@@ -36,6 +36,19 @@ router.post(
         },
       });
 
+      // await new Promise((resolve, reject) => {
+      //   // verify connection configuration
+      //   transporter.verify(function (error, success) {
+      //     if (error) {
+      //       console.log(error);
+      //       reject(error);
+      //     } else {
+      //       console.log("Server is ready to take our messages");
+      //       resolve(success);
+      //     }
+      //   });
+      // });
+
       var mailOptions = {
         from: process.env.EMAIL,
         to: email,
@@ -43,13 +56,18 @@ router.post(
         text: codeText,
       };
 
-      transporter.sendMail(mailOptions, function (error: any, info: any) {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log("Email sent: " + info.response);
-        }
+      await new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, function (error: any, info: any) {
+          if (error) {
+            console.log(error);
+            reject(error);
+          } else {
+            console.log("Email sent: " + info.response);
+            resolve(info);
+          }
+        });
       });
+
       res.status(200).send({ message: "Verification code sent!" });
     } catch (e) {
       console.log(e);
