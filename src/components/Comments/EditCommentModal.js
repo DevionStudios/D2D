@@ -21,7 +21,7 @@ export function EditCommentModal({ isOpen, onClose, id, caption, postId }) {
   const editComment = async ({ caption }) => {
     try {
       const response = await axios.post(
-        "https://foxxi-backend.onrender.com/api/comments/update",
+        "${process.env.NEXT_PUBLIC_BASE_URL}/api/comments/update",
         {
           caption: caption,
           id: id,

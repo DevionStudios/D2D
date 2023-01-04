@@ -52,7 +52,7 @@ export function FeedPostCard(props) {
   const toggleLike = async () => {
     try {
       const response = await axios.put(
-        `https://foxxi-backend.onrender.com/api/like`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/like`,
         {
           id: props.post.id,
         },

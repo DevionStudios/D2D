@@ -44,7 +44,7 @@ export function Step2({ currentUser }) {
     console.log(document.cookie);
     try {
       const res = await axios.put(
-        "https://foxxi-backend.onrender.com/api/users/update",
+        "${process.env.NEXT_PUBLIC_BASE_URL}/api/users/update",
         formdata,
         {
           headers: {

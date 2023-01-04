@@ -17,7 +17,7 @@ export function EditPost({ isOpen, onClose, id, caption, gifLink }) {
     const { caption } = values;
     try {
       const response = await axios.put(
-        `https://foxxi-backend.onrender.com/api/posts/edit/${id}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/edit/${id}`,
         { caption },
         {
           headers: {

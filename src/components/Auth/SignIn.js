@@ -29,7 +29,7 @@ export function LoginForm() {
 
     try {
       const res = await axios.post(
-        "https://foxxi-backend.onrender.com/api/users/signin",
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/signin`,
         {
           email: values.email,
           password: values.password,

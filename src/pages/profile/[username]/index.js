@@ -17,7 +17,7 @@ export default function ProfilePage({ currentUser }) {
   const fetchUserProfile = async function () {
     try {
       const { data } = await axios.get(
-        `https://foxxi-backend.onrender.com/api/users/otheruser/${username}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/otheruser/${username}`
       );
       setUser(data);
       console.log("profile page data:", data);

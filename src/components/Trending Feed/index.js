@@ -20,7 +20,7 @@ export function TrendingFeed({ currentUser }) {
     setLoading(true);
     try {
       const response = await axios.get(
-        "https://foxxi-backend.onrender.com/api/posts/trending"
+        "${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/trending"
       );
       setData(response.data);
     } catch (e) {

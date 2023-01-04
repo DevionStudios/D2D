@@ -24,7 +24,7 @@ export function Profile({ user, isMe, username, currentUser }) {
   const fetchUserPost = async function () {
     try {
       const { data } = await axios.get(
-        `https://foxxi-backend.onrender.com/api/posts/${user.username}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${user.username}`
       );
       setUserPosts(data);
       console.log(data);

@@ -23,7 +23,7 @@ export function ImportTweetsTab() {
     // import tweets request
     try {
       const res = await axios.post(
-        "https://foxxi-backend.onrender.com/api/tweets",
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/tweets`,
         {},
         {
           headers: {

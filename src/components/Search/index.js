@@ -16,7 +16,9 @@ export function SearchResults({ currentUser }) {
 
   const findHashTagPosts = async () => {
     const res = await axios.get(
-      `https://foxxi-backend.onrender.com/api/post/search/${router.query.query.toString()}`,
+      `${
+        process.env.NEXT_PUBLIC_BASE_URL
+      }/api/post/search/${router.query.query.toString()}`,
       {
         headers: {
           cookies: document.cookie,
@@ -29,7 +31,9 @@ export function SearchResults({ currentUser }) {
   const findUsers = async () => {
     console.log(router.query);
     const res = await axios.get(
-      `https://foxxi-backend.onrender.com/api/users/search/${router.query.query.toString()}`,
+      `${
+        process.env.NEXT_PUBLIC_BASE_URL
+      }/api/users/search/${router.query.query.toString()}`,
       {
         headers: {
           cookies: document.cookie,
