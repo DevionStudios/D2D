@@ -1,30 +1,41 @@
 import { useState } from "react";
-
+import axios from "axios";
 import { Button } from "../ui/Button";
+import { toast } from "react-hot-toast";
 
 export function FollowButton({ username, isFollowing, id, ...props }) {
   const [following, setIsFollowing] = useState(isFollowing);
   //   const [followLoading, setFollowLoading] = useState(false);
   //   const [unfollowLoading, setUnfollowLoading] = useState(false);
 
-  const unfollowUser = async ({ variables }) => {
-    // code
+  const followUser = async ({ variables }) => {
+    const response = await axios.post("http://localhost:5000/api/follows", {
+      username: username,
+      headers: {
+        cookies: document.cookie,
+      },
+    });
+    console.log(response);
   };
-  const followUser = async ({ variables }) => {};
+
   const handleClick = async () => {
+    await followUser({
+      variables: { input: { username } },
+    });
     if (following) {
-      await unfollowUser({
-        variables: { input: { username } },
-      });
       setIsFollowing(false);
+      toast.success("Followed user", {
+        icon: "👍",
+      });
     }
     if (!following) {
-      await followUser({
-        variables: { input: { username } },
-      });
       setIsFollowing(true);
+      toast.success("Unfollowed user", {
+        icon: "👍",
+      });
     }
   };
+
   return (
     <Button
       //   loading={followLoading || unfollowLoading}
