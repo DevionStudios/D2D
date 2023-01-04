@@ -89,8 +89,14 @@ export function FeedPostCard(props) {
 
   // ! Test this after deploying the contract
   const tip = async (receiverWalletAddress) => {
+    console.log("Token Address", networkMapping[5]["D2DToken"]);
     const { ethereum } = window;
-    if (ethereum && receiverWalletAddress && account) {
+    if (
+      ethereum &&
+      receiverWalletAddress &&
+      account &&
+      props.currentUser.walletAddress
+    ) {
       try {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
@@ -100,7 +106,7 @@ export function FeedPostCard(props) {
           signer
         );
         let transfer = await D2DTokenContract.transferFrom(
-          props.currentUser.walletAddress,
+          (await signer.getAddress()).toString(),
           receiverWalletAddress,
           ethers.utils.parseEther("0.02"), //TODO send the amount from the input
           {
@@ -108,7 +114,7 @@ export function FeedPostCard(props) {
           }
         );
       } catch (err) {
-        // console.log(err);
+        console.log(err);
       }
     } else {
       if (!account) {
