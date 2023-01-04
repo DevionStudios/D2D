@@ -95,7 +95,7 @@ export function EditProfileTab({ currentUser }) {
     console.log("Cookie: ", document.cookie);
     try {
       const res = await axios.put(
-        "http://localhost:5000/api/users/update",
+        "https://foxxi-backend.onrender.com/api/users/update",
         formdata,
         {
           headers: {

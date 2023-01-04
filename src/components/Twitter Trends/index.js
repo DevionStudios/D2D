@@ -26,7 +26,7 @@ export function TwitterFeed({ currentUser }) {
     try {
       let tempData = [];
       const response = await axios.get(
-        "http://localhost:5000/api/tweets/trending",
+        "https://foxxi-backend.onrender.com/api/tweets/trending",
         {
           headers: {
             cookies: document.cookie,

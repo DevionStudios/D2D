@@ -19,7 +19,9 @@ export function Feed({ currentUser }) {
   const fetchAllPosts = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:5000/api/posts");
+      const response = await axios.get(
+        "https://foxxi-backend.onrender.com/api/posts"
+      );
       setData(response.data);
       console.log(response.data);
     } catch (e) {

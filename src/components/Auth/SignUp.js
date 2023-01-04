@@ -47,7 +47,7 @@ export function SignUp() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/users/signup",
+        "https://foxxi-backend.onrender.com/api/users/signup",
         {
           email: values.email,
           name: values.name,
@@ -82,7 +82,7 @@ export function SignUp() {
     }
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/verification/generate",
+        "https://foxxi-backend.onrender.com/api/verification/generate",
         { email: email },
         { withCredentials: true }
       );
@@ -107,7 +107,7 @@ export function SignUp() {
     }
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/verification/compare",
+        "https://foxxi-backend.onrender.com/api/verification/compare",
         { email: email, code: verificationCode },
         { withCredentials: true }
       );

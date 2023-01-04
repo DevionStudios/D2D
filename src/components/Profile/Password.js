@@ -30,7 +30,7 @@ export function PasswordTab() {
     // change password request
     try {
       const res = await axios.put(
-        "http://localhost:5000/api/users/updatepassword",
+        "https://foxxi-backend.onrender.com/api/users/updatepassword",
         {
           oldPassword: variables.input.oldPassword,
           newPassword: variables.input.newPassword,

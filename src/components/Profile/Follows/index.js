@@ -22,7 +22,7 @@ export function Follows({ currentUser }) {
   const setUpFollowData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/users/otheruser/${username}`,
+        `https://foxxi-backend.onrender.com/api/users/otheruser/${username}`,
         {
           headers: { cookie: document.cookie },
         }

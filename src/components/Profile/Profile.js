@@ -24,7 +24,7 @@ export function Profile({ user, isMe, username, currentUser }) {
   const fetchUserPost = async function () {
     try {
       const { data } = await axios.get(
-        `http://localhost:5000/api/posts/${user.username}`
+        `https://foxxi-backend.onrender.com/api/posts/${user.username}`
       );
       setUserPosts(data);
       console.log(data);

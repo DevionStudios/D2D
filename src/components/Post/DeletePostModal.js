@@ -9,7 +9,7 @@ export function DeletePostModal({ isOpen, onClose, id }) {
   const deletePost = async () => {
     try {
       const response = await axios.delete(
-        "http://localhost:5000/api/posts/delete/" + id,
+        "https://foxxi-backend.onrender.com/api/posts/delete/" + id,
         {
           headers: {
             cookies: document.cookie,

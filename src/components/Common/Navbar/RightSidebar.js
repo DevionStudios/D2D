@@ -22,7 +22,7 @@ export function RightSidebar({ currentUser }) {
     try {
       setError(false);
       const response = await axios.get(
-        "http://localhost:5000/api/users/active",
+        "https://foxxi-backend.onrender.com/api/users/active",
         {
           headers: {
             cookies: document.cookie,

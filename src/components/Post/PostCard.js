@@ -49,7 +49,9 @@ export function PostCard({ id, username, currentUser }) {
   const fetchPostData = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`http://localhost:5000/api/post/${id}`);
+      const res = await axios.get(
+        `https://foxxi-backend.onrender.com/api/post/${id}`
+      );
       setData(res.data);
       setLikes(res.data?.likes);
       setComments(res.data?.comments);
@@ -69,7 +71,7 @@ export function PostCard({ id, username, currentUser }) {
   const toggleLike = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/like`,
+        `https://foxxi-backend.onrender.com/api/like`,
         {
           id: id,
         },
@@ -97,7 +99,7 @@ export function PostCard({ id, username, currentUser }) {
     console.log("Post ID: ", id);
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/comments/create",
+        "https://foxxi-backend.onrender.com/api/comments/create",
         {
           caption: values.variables.input.caption,
           postId: id,

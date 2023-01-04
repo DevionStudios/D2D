@@ -10,7 +10,7 @@ export function DeleteCommentModal({ id, isOpen, onClose, postId }) {
   const deleteComment = async () => {
     try {
       const response = await axios.delete(
-        `http://localhost:5000/api/comments/delete/${id}`,
+        `https://foxxi-backend.onrender.com/api/comments/delete/${id}`,
         {
           headers: {
             cookies: document.cookie,

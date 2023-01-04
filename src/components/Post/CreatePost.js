@@ -98,7 +98,7 @@ export function CreatePost({ currentUser }) {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/posts/create",
+        "https://foxxi-backend.onrender.com/api/posts/create",
         formdata,
         {
           headers: {

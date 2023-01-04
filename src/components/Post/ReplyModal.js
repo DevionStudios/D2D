@@ -26,7 +26,7 @@ export function ReplyModal({
     console.log("Post ID: ", props.post.id);
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/comments/create",
+        "https://foxxi-backend.onrender.com/api/comments/create",
         {
           caption: values.variables.input.caption,
           postId: props.post.id,

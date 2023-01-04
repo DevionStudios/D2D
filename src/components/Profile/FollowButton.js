@@ -12,7 +12,7 @@ export function FollowButton({ username, isFollowing, id, ...props }) {
     console.log("helmo");
     try {
       const response = await axios.put(
-        "http://localhost:5000/api/follow/users",
+        "https://foxxi-backend.onrender.com/api/follow/users",
         {
           username: username,
         },

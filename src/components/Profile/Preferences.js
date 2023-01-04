@@ -17,7 +17,7 @@ export function Preferences() {
     const networkChainId = chainId?.toString().split("0x")[1] || "5";
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/reward/check",
+        "https://foxxi-backend.onrender.com/api/reward/check",
         {
           headers: {
             cookies: document.cookie,
@@ -55,7 +55,7 @@ export function Preferences() {
         await tx.wait();
 
         const response2 = await axios.get(
-          "http://localhost:5000/api/reward/claim",
+          "https://foxxi-backend.onrender.com/api/reward/claim",
           {
             headers: {
               cookies: document.cookie,
