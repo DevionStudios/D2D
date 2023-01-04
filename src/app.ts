@@ -34,6 +34,8 @@ import { getTrendingTweetsRouter } from "./routes/posts/get-twitter-trends";
 import { searchPostRouter } from "./routes/posts/search-post";
 import { searchUserRouter } from "./routes/auth/get-search-user";
 import { activeUserRouter } from "./routes/auth/active-user";
+import { claimTokenRouter } from "./routes/reward/claim-token";
+import { checkClaimRouter } from "./routes/reward/check-claim-token";
 
 const app = express();
 // app.set("trust proxy", true);
@@ -60,6 +62,8 @@ app.use(activeUserRouter);
 app.use(searchPostRouter);
 app.use(searchUserRouter);
 app.use(getUserFeedRouter);
+app.use(checkClaimRouter);
+app.use(claimTokenRouter);
 app.use(signupRouter);
 app.use(signinRouter);
 app.use(generateCodeRouter);

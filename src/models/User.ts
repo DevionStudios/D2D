@@ -14,6 +14,7 @@ interface UserAttrs {
   followers?: UserDoc[];
   following?: UserDoc[];
   posts?: PostDoc[];
+  hasClaimed?: boolean;
 }
 
 interface UserModel extends mongoose.Model<UserDoc> {
@@ -35,6 +36,7 @@ export interface UserDoc extends mongoose.Document {
   posts?: PostDoc[];
   updatedAt?: Date;
   createdAt?: Date;
+  hasClaimed?: boolean;
 }
 
 const userSchema = new mongoose.Schema(
@@ -44,7 +46,6 @@ const userSchema = new mongoose.Schema(
     },
     username: {
       type: String,
-      // unique: true,
     },
     name: {
       type: String,
@@ -54,6 +55,10 @@ const userSchema = new mongoose.Schema(
     },
     walletAddress: {
       type: String,
+    },
+    hasClaimed: {
+      type: Boolean,
+      default: false,
     },
     image: {
       type: String,
