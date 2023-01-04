@@ -5,19 +5,21 @@ import { FollowButton } from "../FollowButton";
 import { UserHandle } from "src/components/Common/UserHandle";
 import { ErrorFallback } from "src/components/ui/Fallbacks/ErrorFallback";
 import { SEO } from "src/components/SEO";
+import Link from "next/link";
+import Image from "next/image";
 
 export function Followers({ currentUser, data, username }) {
-  let loading, error, fetchMore;
+  // let loading, error, fetchMore;
 
-  if (error) return <ErrorFallback message="Something went wrong." />;
+  // if (error) return <ErrorFallback message="Something went wrong." />;
 
-  if (loading) {
-    return (
-      <div className="py-6">
-        <Spinner className="w-6 h-6" />
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="py-6">
+  //       <Spinner className="w-6 h-6" />
+  //     </div>
+  //   );
+  // }
   if (!data || data.length === 0)
     return (
       <div className="px-4 py-5 sm:p-6 flex items-start justify-center">
@@ -39,6 +41,7 @@ export function Followers({ currentUser, data, username }) {
             >
               {data.map((edge) => {
                 const user = edge;
+                console.log(user);
                 if (!user) return <h1>TODO : No user </h1>;
                 return (
                   <li
@@ -46,9 +49,30 @@ export function Followers({ currentUser, data, username }) {
                     className="py-4 px-5 hover:bg-gray-100 dark:hover:bg-gray-900 hover:rounded-lg"
                   >
                     <div className="flex items-center space-x-4 ">
-                      <UserHandle user={user} />
+                      <div className="flex-shrink-0">
+                        <Link href={`/profile/${user.username}`} passHref>
+                          <img
+                            className="h-10 w-10 rounded-full object-cover"
+                            src={user.image}
+                            width="40px"
+                            height="40px"
+                            alt="User Avatar"
+                          />
+                        </Link>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium truncate">
+                          {user.name}
+                        </p>
+                        <p className="text-sm text-gray-500 truncate">
+                          {"@" + user.username}
+                        </p>
+                        <p className="text-sm truncate pt-1">
+                          {user.bio ? user.bio : ""}
+                        </p>
+                      </div>
                       <div>
-                        {user.isMe ? null : (
+                        {user.id == currentUser.id ? null : (
                           <FollowButton
                             isFollowing={user.followers.includes(
                               currentUser.id

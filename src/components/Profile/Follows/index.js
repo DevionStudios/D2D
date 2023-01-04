@@ -101,14 +101,14 @@ export function Follows({ currentUser }) {
               <Following
                 username={username}
                 currentUser={currentUser}
-                data={followers}
+                data={following}
               />
             </Tab.Panel>
             <Tab.Panel>
               <Followers
                 username={username}
                 currentUser={currentUser}
-                data={following}
+                data={followers}
               />
             </Tab.Panel>
           </Tab.Panels>

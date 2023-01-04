@@ -9,13 +9,25 @@ export function FollowButton({ username, isFollowing, id, ...props }) {
   //   const [unfollowLoading, setUnfollowLoading] = useState(false);
 
   const followUser = async ({ variables }) => {
-    const response = await axios.post("http://localhost:5000/api/follows", {
-      username: username,
-      headers: {
-        cookies: document.cookie,
-      },
-    });
-    console.log(response);
+    console.log("helmo");
+    try {
+      const response = await axios.put(
+        "http://localhost:5000/api/follow/users",
+        {
+          username: username,
+        },
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
+      );
+      console.log(response.data);
+      window.location.reload();
+    } catch (e) {
+      toast.error("Failed to follow user");
+      console.log(e);
+    }
   };
 
   const handleClick = async () => {
@@ -24,13 +36,12 @@ export function FollowButton({ username, isFollowing, id, ...props }) {
     });
     if (following) {
       setIsFollowing(false);
-      toast.success("Followed user", {
+      toast.success("Unfollowed user", {
         icon: "👍",
       });
-    }
-    if (!following) {
+    } else {
       setIsFollowing(true);
-      toast.success("Unfollowed user", {
+      toast.success("Followed user", {
         icon: "👍",
       });
     }
