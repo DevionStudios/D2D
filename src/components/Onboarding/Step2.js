@@ -36,7 +36,7 @@ export function Step2({ currentUser }) {
     const { input } = variables;
     const formdata = new FormData();
     formdata.append("bio", input.bio || user.bio);
-    formdata.append("images", input.avatar);
+    formdata.append("images", input.image);
     formdata.append("images", input.coverImage);
     formdata.append("name", user.name);
     formdata.append("username", user.username);
@@ -79,7 +79,7 @@ export function Step2({ currentUser }) {
 
           const input = {
             ...changedValues,
-            avatar: values.avatar?.[0] || user.image,
+            avatar: values.image?.[0] || user.image,
             coverImage: values.coverImage?.[0] || user.coverImage,
           };
 

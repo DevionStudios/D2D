@@ -9,7 +9,7 @@ export function UserHandle({ currentUser }) {
         <Link href={`/profile/${user.username}`} passHref>
           <Image
             className="h-10 w-10 rounded-full object-cover"
-            src={user.avatar}
+            src={user.image}
             width="40px"
             height="40px"
             alt="User Avatar"

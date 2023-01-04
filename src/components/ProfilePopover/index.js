@@ -31,7 +31,7 @@ export function UserProfilePopover({ username }) {
       <div className="max-w-md py-6 px-6 dark:bg-gray-800 rounded">
         <img
           className="w-16 h-16 rounded-full shadow"
-          src={user.avatar}
+          src={user.image}
           alt="profile"
         />
         <p className="text-xl font-semibold leading-tight mt-2.5 text-gray-800 dark:text-gray-100">

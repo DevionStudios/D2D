@@ -34,11 +34,10 @@ export function FeedPostCard(props) {
   const { account, chainId } = useMoralis();
   const [isLiked, setIsLiked] = useState(false);
   const [post, setPost] = useState(props.post);
-  const [likes, setLikes] = useState(props.post.likes);
-  const [comments, setComments] = useState(0);
-
+  const [likes, setLikes] = useState(props.post?.likes?.length);
+  const [comments, setComments] = useState(props.post?.comments?.length);
   let loading;
-
+  console.log("Post: ", props.post);
   useEffect(() => {
     setIsLiked(checkLiked());
     setPost(props.post);
@@ -74,9 +73,12 @@ export function FeedPostCard(props) {
           ...post,
           likes: response.data.likes,
         });
+      } else {
+        toast.error(response.data.message);
       }
     } catch (e) {
       console.log(e);
+      toast.error(e?.response?.data?.message);
     }
   };
 

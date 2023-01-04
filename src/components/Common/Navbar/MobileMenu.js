@@ -52,7 +52,7 @@ export function MobileMenu({ open, user, closeFx, signout }) {
               <div className="flex-shrink-0">
                 <Image
                   className="h-10 w-10 rounded-full"
-                  src={user.avatar}
+                  src={user.image}
                   height={40}
                   width={40}
                   alt={`Profile picture of ${user.name}`}
