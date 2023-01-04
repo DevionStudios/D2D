@@ -12,11 +12,6 @@ import { Input } from "../ui/Input";
 import { TextArea } from "../ui/TextArea";
 
 const EditProfileFormSchema = object({
-  username: z
-    .string()
-    .min(4, "Username is too short")
-    .max(15, "Username is too long. Consider making it shorter.")
-    .optional(),
   name: z
     .string()
     .min(1, "Name must be longer than one character.")
@@ -32,7 +27,7 @@ const EditProfileFormSchema = object({
     .nullable(),
   email: z.string().email("Must be a valid email address."),
   walletAddress: z.string().optional().nullable(),
-  avatar: z.any().optional(),
+  image: z.any().optional(),
   coverImage: z.any().optional(),
 });
 
@@ -123,7 +118,7 @@ export function EditProfileTab({ currentUser }) {
 
           const input = {
             ...changedValues,
-            avatar: values?.image?.[0],
+            image: values?.image?.[0],
             coverImage: values?.coverImage?.[0],
             bio: values.bio,
           };
@@ -147,7 +142,7 @@ export function EditProfileTab({ currentUser }) {
               <div className="flex-[0.3]">
                 <FileInput
                   existingimage={user.image}
-                  name="avatar"
+                  name="image"
                   accept="image/png, image/jpg, image/jpeg, image/gif"
                   multiple={false}
                 />
@@ -162,14 +157,7 @@ export function EditProfileTab({ currentUser }) {
                 />
               </div>
             </div>
-            <div>
-              <Input
-                {...form.register("username")}
-                label="Username"
-                placeholder="Your username"
-                prefix="Foxxi.com/@"
-              />
-            </div>
+
             <div className="flex space-x-3">
               <div className="flex-1">
                 <Input
@@ -179,15 +167,17 @@ export function EditProfileTab({ currentUser }) {
                 />
               </div>
             </div>
-            <div className="flex space-x-3">
-              <div className="flex-1">
-                <Input
-                  {...form.register("twitterUsername")}
-                  label="Username on Twitter (Cannot be changed once set)"
-                  placeholder="You cannot change this later"
-                />
+            {!user.twitterUsername && user.twitterUsername.length <= 0 && (
+              <div className="flex space-x-3">
+                <div className="flex-1">
+                  <Input
+                    {...form.register("twitterUsername")}
+                    label="Username on Twitter (Cannot be changed once set)"
+                    placeholder="You cannot change this later"
+                  />
+                </div>
               </div>
-            </div>
+            )}
             <div>
               <Input
                 {...form.register("email")}

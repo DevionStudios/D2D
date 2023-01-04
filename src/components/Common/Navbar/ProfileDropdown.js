@@ -13,10 +13,7 @@ export function ProfileDropdown({ user }) {
     <Menu
       dropdown={
         <>
-          <MenuItem
-            href={"/feed/all"}
-            icon={<HiOutlineHome className="w-5 h-5" />}
-          >
+          <MenuItem href={"/feed"} icon={<HiOutlineHome className="w-5 h-5" />}>
             Home
           </MenuItem>
           <MenuItem

@@ -17,7 +17,7 @@ export function Hero() {
             </p>
             <div className="flex flex-col items-center w-full space-x-5 lg:flex-row">
               <a
-                href={user?.id ? "/feed/all" : "/auth/signup"}
+                href={user?.id ? "/feed" : "/auth/signup"}
                 className="w-full px-6 py-6 text-xl font-medium text-center text-black bg-yellow-300 shadow-xl xl:px-12 xl:text-2xl lg:w-auto hover:bg-yellow-400 rounded "
               >
                 <span className="flex space-x-2 items-center justify-center">

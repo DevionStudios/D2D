@@ -124,7 +124,7 @@ export default function Onboarding({ currentUser }) {
             </Button>
           )}
           {currentStep === 2 && (
-            <Button href="/feed/all" className="my-5 ml-auto" size="xl">
+            <Button href="/feed" className="my-5 ml-auto" size="xl">
               Finish →
             </Button>
           )}

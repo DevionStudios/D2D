@@ -14,7 +14,7 @@ export const links = [
     icon: HiOutlineSparkles,
   },
   {
-    href: "/feed/all",
+    href: "/feed",
     label: "Home",
     icon: HiOutlineHome,
   },

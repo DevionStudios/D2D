@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
  * Guide by https://www.youtube.com/watch?v=1q5oOZE6o4c
  */
 export function ThemeToggle() {
-  const [mounted, setMounted] = useState(false);
+  const [mounted, setMounted] = useState(true);
 
   const { systemTheme, theme, setTheme } = useTheme();
 

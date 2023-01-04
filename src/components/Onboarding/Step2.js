@@ -15,7 +15,7 @@ const ProfileFormSchema = z.object({
     .max(400, "Exceeds 400 characters. Consider keeping bio shorter.")
     .optional()
     .nullable(),
-  avatar: z.any().optional(),
+  image: z.any().optional(),
   coverImage: z.any().optional(),
   walletAddress: z.string().optional().nullable(),
 });
@@ -79,7 +79,7 @@ export function Step2({ currentUser }) {
 
           const input = {
             ...changedValues,
-            avatar: values.image?.[0] || user.image,
+            image: values.image?.[0] || user.image,
             coverImage: values.coverImage?.[0] || user.coverImage,
           };
 
@@ -98,7 +98,7 @@ export function Step2({ currentUser }) {
           <div className="flex-[0.3]">
             <FileInput
               existingimage={user.image}
-              name="avatar"
+              name="image"
               accept="image/png, image/jpg, image/jpeg, image/gif"
               multiple={false}
             />
