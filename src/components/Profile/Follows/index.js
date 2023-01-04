@@ -6,15 +6,45 @@ import { Heading } from "src/components/ui/Heading";
 import { Link } from "src/components/ui/Link";
 import { Followers } from "./Followers";
 import { Following } from "./Following";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
-// tabs will go here
-export function Follows() {
+export function Follows({ currentUser }) {
   const router = useRouter();
 
   const username = router.query.username;
   const name = router.query.name;
-  console.log(username);
 
+  const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
+
+  const setUpFollowData = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/users/otheruser/${username}`,
+        {
+          headers: { cookie: document.cookie },
+        }
+      );
+      console.log(response.data);
+      setFollowers(response.data.followers);
+      setFollowing(response.data.following);
+    } catch (e) {
+      toast.error("Something went wrong");
+      console.log(e);
+    }
+  };
+  useEffect(() => {
+    setUpFollowData();
+  }, []);
+
+  const handleChange = (idx) => {
+    if (idx == 1)
+      router.push(`/profile/${username}/follows?name=${name}&type=followers`);
+    else
+      router.push(`/profile/${username}/follows?name=${name}&type=following`);
+  };
   return (
     <div className="max-w-3xl mx-auto max-h-screen ">
       <Card rounded="lg">
@@ -28,7 +58,10 @@ export function Follows() {
           </div>
         </Card.Body>
 
-        <Tab.Group defaultIndex={router.query.type === "followers" ? 1 : 0}>
+        <Tab.Group
+          defaultIndex={router.query.type === "followers" ? 1 : 0}
+          onChange={(idx) => handleChange(idx)}
+        >
           <Card.Body
             className="sticky top-20 bg-white dark:bg-gray-800 z-10"
             noPadding
@@ -65,10 +98,18 @@ export function Follows() {
           </Card.Body>
           <Tab.Panels>
             <Tab.Panel>
-              <Following username={username} />
+              <Following
+                username={username}
+                currentUser={currentUser}
+                data={followers}
+              />
             </Tab.Panel>
             <Tab.Panel>
-              <Followers username={username} />
+              <Followers
+                username={username}
+                currentUser={currentUser}
+                data={following}
+              />
             </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>
