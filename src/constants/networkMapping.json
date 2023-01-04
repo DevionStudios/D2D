@@ -1,19 +1,13 @@
 {
-  "1": { "FundContract": [], "FoxxiToken": [] },
+  "1": { "FoxxiToken": [] },
   "5": {
-    "FundContract": [
-      "0x5E995eb3F19354c5f3F255e6B7BDdd21469F2c61",
-      "0xB5Ed21D3F89A80F924eC2b06b5D5Deb348C4BCbf",
-      "0x643bd8265636b7eF796834eCf4a25d25D3189ec7",
-      "0xb372Cbd621c56caa05adBC61663CA8Ed9821Bb9A"
-    ],
     "FoxxiToken": [
       "0x9779c234C31a0ae2C475A1340C15BdA32C95515f",
       "0x3520762C9C4DFFc41dedE9670f8ccDaFa62F0833",
       "0x9ee6bFdA08857212f10D8820b210d52b3d3d1109"
     ]
   },
-  "137": { "FundContract": [], "FoxxiToken": [] },
-  "31337": { "FundContract": [], "FoxxiToken": [] },
-  "80001": { "FundContract": [], "FoxxiToken": [] }
+  "137": { "FoxxiToken": [] },
+  "31337": { "FoxxiToken": [] },
+  "80001": { "FoxxiToken": [] }
 }

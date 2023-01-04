@@ -7,7 +7,7 @@ export function UserHandle({ currentUser }) {
     <>
       <div className="flex-shrink-0">
         <Link href={`/profile/${user.username}`} passHref>
-          <Image
+          <img
             className="h-10 w-10 rounded-full object-cover"
             src={user.image}
             width="40px"

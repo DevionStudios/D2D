@@ -5,15 +5,16 @@ import { Button } from "../ui/Button";
 import { ethers } from "ethers";
 import { useMoralis } from "react-moralis";
 import FoxxiToken from "../../constants/ABIs/FoxxiToken.json";
-import FundContract from "../../constants/ABIs/FundContract.json";
 import networkMapping from "../../constants/networkMapping.json";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { useState } from "react";
 
 export function Preferences() {
   const { account, chainId } = useMoralis();
+  const [isDisabled, setIsDisabled] = useState(false);
   const claimToken = async () => {
-    const networkChainId = chainId?.toString().split("0x")[1] || "31337";
+    const networkChainId = chainId?.toString().split("0x")[1] || "5";
     try {
       const response = await axios.get(
         "http://localhost:5000/api/reward/check",
@@ -35,7 +36,7 @@ export function Preferences() {
         );
         console.log("reward", process.env.NEXT_PUBLIC_SIGN_UP_REWARD);
         const FoxxiTokenContract = new ethers.Contract(
-          networkMapping[5]["FoxxiToken"].slice(-1)[0],
+          networkMapping[networkChainId]["FoxxiToken"].slice(-1)[0],
           FoxxiToken,
           signer
         );
@@ -67,6 +68,8 @@ export function Preferences() {
     } catch (e) {
       toast.error("Something went wrong! Please try again later.");
       console.log(e);
+    } finally {
+      setIsDisabled(false);
     }
   };
   return (
@@ -100,8 +103,10 @@ export function Preferences() {
               size="sm"
               variant="solid"
               onClick={() => {
+                setIsDisabled(true);
                 claimToken();
               }}
+              disabled={isDisabled}
             >
               Claim Token{" "}
             </Button>

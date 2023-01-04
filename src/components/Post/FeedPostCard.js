@@ -193,7 +193,7 @@ export function FeedPostCard(props) {
                     layout="fill"
                     objectFit="cover"
                     placeholder="empty"
-                    alt={`Image posted by ${props.post.author.name} on D2D.`}
+                    alt={`image posted by ${props.post.author.name} on D2D.`}
                   />
                 </div>
               </div>

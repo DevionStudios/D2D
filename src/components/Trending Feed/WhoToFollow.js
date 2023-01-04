@@ -70,7 +70,7 @@ export function WhoToFollow() {
                 <div className="space-y-3">
                   <div className="flex-shrink-0 ">
                     <div className="rounded-full mx-auto flex justify-center">
-                      <Image
+                      <img
                         className="h-12 w-12 mx-auto"
                         src={person?.image}
                         height={48}

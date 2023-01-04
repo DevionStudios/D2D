@@ -27,16 +27,22 @@ export function DonateModal({
 }) {
   const { account, chainId } = useMoralis();
   const tip = async (values) => {
+    const networkChainId = chainId?.toString().split("0x")[1] || "5";
     const amountToSend = values.amount; // since 18 decimals for token is reserved
     console.log("Fund Contract Address: ", networkMapping[5]["FundContract"]);
     console.log(chainId);
     const { ethereum } = window;
-    if (ethereum && receiverWalletAddress && account) {
+    if (
+      ethereum &&
+      receiverWalletAddress &&
+      account &&
+      receiverWalletAddress.length > 0
+    ) {
       try {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const tokenContract = new ethers.Contract(
-          networkMapping[5]["FoxxiToken"].slice(-1)[0], //TODO fetch chainId from moralis
+          networkMapping[networkChainId]["FoxxiToken"].slice(-1)[0], //TODO fetch chainId from moralis
           FoxxiToken, //TODO uncommment this
           signer
         );
@@ -48,6 +54,7 @@ export function DonateModal({
           }
         );
       } catch (err) {
+        toast.error("Wallet Address of receiver not found!");
         console.log(err);
       }
     } else {
@@ -82,7 +89,7 @@ export function DonateModal({
               <div className="flex-shrink-0">
                 <img
                   className="h-10 w-10 rounded-full"
-                  src={props.post.author?.avatar}
+                  src={props.post.author?.image}
                   alt=""
                 />
               </div>
