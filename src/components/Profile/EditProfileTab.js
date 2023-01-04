@@ -21,6 +21,10 @@ const EditProfileFormSchema = object({
     .string()
     .min(1, "Name must be longer than one character.")
     .max(30, "Consider putting a shorter first name."),
+  twitterUsername: z
+    .string()
+    .min(1, "Name must be longer than one character.")
+    .max(30, "Consider putting a shorter first name."),
   bio: z
     .string()
     .max(400, "Exceeds 400 characters. Consider keeping bio shorter.")
@@ -42,6 +46,7 @@ export function EditProfileTab({ currentUser }) {
     bio: "I am a gamer",
     email: "azulul@gmail.com",
     walletAddress: "0x0000000000000000dEaD",
+    twitterUsername: "azulul",
   });
 
   const form = useZodForm({
@@ -64,6 +69,7 @@ export function EditProfileTab({ currentUser }) {
       name: currentUser.name,
       email: currentUser.email,
       walletAddress: currentUser.walletAddress,
+      twitterUsername: currentUser.twitterUsername,
     });
   }, [currentUser]);
 
@@ -82,6 +88,10 @@ export function EditProfileTab({ currentUser }) {
     formdata.append("name", input.name || user.name);
     formdata.append("username", input.username || user.username);
     formdata.append("walletAddress", input.walletAddress || user.walletAddress);
+    formdata.append(
+      "twitterUsername",
+      input.twitterUsername || user.twitterUsername
+    );
     console.log("Cookie: ", document.cookie);
     try {
       const res = await axios.put(
@@ -166,6 +176,15 @@ export function EditProfileTab({ currentUser }) {
                   {...form.register("name")}
                   label="Full Name"
                   placeholder="Your Full Name"
+                />
+              </div>
+            </div>
+            <div className="flex space-x-3">
+              <div className="flex-1">
+                <Input
+                  {...form.register("twitterUsername")}
+                  label="Username on Twitter (Cannot be changed once set)"
+                  placeholder="You cannot change this later"
                 />
               </div>
             </div>
