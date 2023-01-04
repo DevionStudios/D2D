@@ -15,11 +15,11 @@ const currentUser = (req: Request, res: Response, next: NextFunction) => {
     if (
       req.headers &&
       req.headers.cookies &&
-      req.headers.cookies.includes("jwt")
+      req.headers.cookies.includes("foxxi_jwt")
     ) {
       const token = req.headers.cookies
         .toString()
-        .split("jwt=")[1]
+        .split("foxxi_jwt=")[1]
         .split(";")[0];
       if (!token || token === "undefined") {
         req.currentUser = undefined;
