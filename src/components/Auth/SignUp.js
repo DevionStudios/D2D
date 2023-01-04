@@ -107,7 +107,7 @@ export function SignUp() {
     }
     try {
       const response = await axios.post(
-        "${process.env.NEXT_PUBLIC_BASE_URL}/api/verification/compare",
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/verification/compare`,
         { email: email, code: verificationCode },
         { withCredentials: true }
       );
