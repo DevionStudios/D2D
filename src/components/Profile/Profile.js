@@ -123,7 +123,7 @@ export function Profile({ user, isMe, username, currentUser }) {
             </div>
             <div className="flex space-x-4">
               <div className="flex">
-                <span className="font-bold mr-2">{user.followersCount}</span>
+                <span className="font-bold mr-2">{user.followers.length}</span>
                 <ButtonOrLink
                   href={`/profile/${user.username}/follows?name=${user.name}&type=followers`}
                   className="text-muted hover:underline"
@@ -132,9 +132,9 @@ export function Profile({ user, isMe, username, currentUser }) {
                 </ButtonOrLink>
               </div>
               <div className="flex">
-                <span className="font-bold mr-2">{user.followingCount}</span>
+                <span className="font-bold mr-2">{user.following.length}</span>
                 <ButtonOrLink
-                  href={`/profile/${user.username}/follows?name=${user.name}`}
+                  href={`/profile/${user.username}/follows?name=${user.name}&type=following`}
                   className="text-muted hover:underline"
                 >
                   Following

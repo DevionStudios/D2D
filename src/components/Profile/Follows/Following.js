@@ -1,4 +1,3 @@
-import { gql, useQuery } from "@apollo/client";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 import { LoadingFallback } from "src/components/ui/Fallbacks/LoadingFallback";
@@ -11,8 +10,8 @@ import { SEO } from "src/components/SEO";
 
 let FOLLOWING_LIST_QUERY;
 
-export function Following({ username }) {
-  let data, loading, error, fetchMore;
+export function Following({ data, currentUser, username }) {
+  let loading, error, fetchMore;
 
   if (loading) {
     return (
@@ -22,7 +21,7 @@ export function Following({ username }) {
     );
   }
 
-  if (!data || data.seeProfile.following.edges.length === 0)
+  if (!data || data.length === 0)
     return (
       <div className="px-4 py-5 sm:p-6 flex items-start justify-center">
         <h1 className="text-muted font-medium text-center">
@@ -38,25 +37,15 @@ export function Following({ username }) {
         <div className="flow-root">
           <ul role="list" className=" divide-y  divide-gray-600">
             <InfiniteScroll
-              hasMore={data.seeProfile.following.pageInfo.hasNextPage}
-              next={() => {
-                fetchMore({
-                  variables: {
-                    first: 10,
-                    after: data.seeProfile.following.pageInfo.endCursor,
-                    username,
-                  },
-                });
-              }}
-              dataLength={data.seeProfile.following.edges.length}
+              dataLength={data.length}
               loader={<LoadingFallback />}
             >
-              {data.seeProfile.following.edges.map((edge) => {
-                const user = edge?.node;
+              {data.map((edge) => {
+                const user = edge;
                 if (!user) return <h1>TODO : No user </h1>;
                 return (
                   <li
-                    key={edge.cursor}
+                    key={user.id}
                     className="py-4 px-5 hover:bg-gray-100 dark:hover:bg-gray-900 hover:rounded-lg"
                   >
                     <div className="flex items-center space-x-4 ">
@@ -65,7 +54,9 @@ export function Following({ username }) {
                         {user.isMe ? null : (
                           <FollowButton
                             variant="dark"
-                            isFollowing={user.isFollowing}
+                            isFollowing={user.followers?.includes(
+                              currentUser?.id
+                            )}
                             username={user.username}
                           />
                         )}

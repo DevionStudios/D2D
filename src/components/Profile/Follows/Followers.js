@@ -1,9 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
 import Spinner from "src/components/ui/Spinner";
-import {
-  FollowersListQuery,
-  FollowersListQueryVariables,
-} from "./__generated__/Followers.generated";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { LoadingFallback } from "src/components/ui/Fallbacks/LoadingFallback";
 import { FollowButton } from "../FollowButton";
@@ -11,10 +6,8 @@ import { UserHandle } from "src/components/Common/UserHandle";
 import { ErrorFallback } from "src/components/ui/Fallbacks/ErrorFallback";
 import { SEO } from "src/components/SEO";
 
-let FOLLOWERS_LIST_QUERY;
-
-export function Followers({ username }) {
-  let data, loading, error, fetchMore;
+export function Followers({ currentUser, data, username }) {
+  let loading, error, fetchMore;
 
   if (error) return <ErrorFallback message="Something went wrong." />;
 
@@ -25,7 +18,7 @@ export function Followers({ username }) {
       </div>
     );
   }
-  if (!data || data.seeProfile.followers.edges.length === 0)
+  if (!data || data.length === 0)
     return (
       <div className="px-4 py-5 sm:p-6 flex items-start justify-center">
         <h1 className="text-muted font-medium text-center">
@@ -41,26 +34,15 @@ export function Followers({ username }) {
         <div className="flow-root">
           <ul role="list" className=" divide-y  divide-gray-600">
             <InfiniteScroll
-              hasMore={data.seeProfile.followers.pageInfo.hasNextPage}
-              next={() => {
-                console.log("called");
-                fetchMore({
-                  variables: {
-                    first: 10,
-                    after: data.seeProfile.followers.pageInfo.endCursor,
-                    username,
-                  },
-                });
-              }}
-              dataLength={data.seeProfile.followers.edges.length}
+              dataLength={data.length}
               loader={<LoadingFallback />}
             >
-              {data.seeProfile.followers.edges.map((edge) => {
-                const user = edge?.node;
+              {data.map((edge) => {
+                const user = edge;
                 if (!user) return <h1>TODO : No user </h1>;
                 return (
                   <li
-                    key={edge.cursor}
+                    key={user.id}
                     className="py-4 px-5 hover:bg-gray-100 dark:hover:bg-gray-900 hover:rounded-lg"
                   >
                     <div className="flex items-center space-x-4 ">
@@ -68,7 +50,9 @@ export function Followers({ username }) {
                       <div>
                         {user.isMe ? null : (
                           <FollowButton
-                            isFollowing={user.isFollowing}
+                            isFollowing={user.followers.includes(
+                              currentUser.id
+                            )}
                             username={user.username}
                             variant="dark"
                           />
