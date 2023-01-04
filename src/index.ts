@@ -17,10 +17,10 @@ const start = async () => {
     if (!process.env.TWITTER_API_SECRET) {
       throw new Error("TWITTER_API_SECRET must be defined in .env");
     }
-    if (!process.env.TWITTER_ACCESS_TOKEN) {
+    if (!process.env.ACCESS_TOKEN) {
       throw new Error("TWITTER_ACCESS_TOKEN must be defined in .env");
     }
-    if (!process.env.TWITTER_ACCESS_TOKEN_SECRET) {
+    if (!process.env.ACCESS_TOKEN_SECRET) {
       throw new Error("TWITTER_ACCESS_TOKEN_SECRET must be defined in .env");
     }
     const PORT = process.env.PORT || 3000;

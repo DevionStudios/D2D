@@ -31,13 +31,13 @@ router.post(
       var transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-          user: "devionhackers@gmail.com",
-          pass: "cxhmkrjarxkjkqoc",
+          user: process.env.EMAIL,
+          pass: process.env.EMAIL_APP_PASSWORD,
         },
       });
 
       var mailOptions = {
-        from: "devionhackers@gmail.com",
+        from: process.env.EMAIL,
         to: email,
         subject: subject,
         text: codeText,

@@ -10,8 +10,13 @@ interface UserPayLoad {
 }
 
 const currentUser = (req: Request, res: Response, next: NextFunction) => {
+  console.log("cookeis", req.headers.cookies);
   try {
-    if (req.headers && req.headers.cookies) {
+    if (
+      req.headers &&
+      req.headers.cookies &&
+      req.headers.cookies.includes("jwt")
+    ) {
       const token = req.headers.cookies
         .toString()
         .split("jwt=")[1]
