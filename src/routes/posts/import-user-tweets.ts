@@ -11,7 +11,6 @@ const router = express.Router();
 dotenv.config();
 
 router.post("/api/tweets", currentUser, async (req: Request, res: Response) => {
-  const { username } = req.body;
   const { currentUser } = req;
 
   if (!currentUser) {
@@ -27,6 +26,10 @@ router.post("/api/tweets", currentUser, async (req: Request, res: Response) => {
       throw new Error("User not found");
     }
 
+    if (!existingUser.twitterUsername) {
+      throw new Error("User has not set a twitter username");
+    }
+
     const TwitterClient = new TwitterApi({
       appKey: process.env.TWITTER_API_KEY!,
       appSecret: process.env.TWITTER_API_SECRET!,
@@ -35,7 +38,7 @@ router.post("/api/tweets", currentUser, async (req: Request, res: Response) => {
     });
     const appOnlyClientFromConsumer = await TwitterClient.appLogin();
     const usernameResponse = await appOnlyClientFromConsumer.v2.userByUsername(
-      username
+      existingUser.twitterUsername
     );
     const apiResponse = await appOnlyClientFromConsumer.v2.userTimeline(
       usernameResponse.data.id,

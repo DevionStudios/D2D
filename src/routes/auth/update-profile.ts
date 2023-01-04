@@ -47,6 +47,10 @@ router.put(
       existingUser.coverImage = imageUrlList[1] || existingUser.coverImage;
       existingUser.walletAddress = walletAddress || existingUser.walletAddress;
 
+      if (!existingUser.twitterUsername) {
+        existingUser.twitterUsername = req.body.twitterUsername;
+      }
+
       await existingUser.save();
 
       res.status(200).send(existingUser);

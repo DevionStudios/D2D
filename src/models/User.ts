@@ -15,6 +15,7 @@ interface UserAttrs {
   following?: UserDoc[];
   posts?: PostDoc[];
   hasClaimed?: boolean;
+  twitterUsername?: string;
 }
 
 interface UserModel extends mongoose.Model<UserDoc> {
@@ -37,6 +38,7 @@ export interface UserDoc extends mongoose.Document {
   updatedAt?: Date;
   createdAt?: Date;
   hasClaimed?: boolean;
+  twitterUsername?: string;
 }
 
 const userSchema = new mongoose.Schema(
@@ -105,6 +107,11 @@ const userSchema = new mongoose.Schema(
         },
       ],
       default: [],
+    },
+
+    twitterUsername: {
+      type: String,
+      dafault: "",
     },
   },
   {
