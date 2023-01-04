@@ -4,7 +4,7 @@ import { BadRequestError } from "@devion/common";
 import { TwitterApi } from "twitter-api-v2";
 import dotenv from "dotenv";
 
-import { Post, PostDoc } from "../../models/Post";
+import { Post } from "../../models/Post";
 import { User, UserDoc } from "../../models/User";
 
 const router = express.Router();
@@ -13,6 +13,7 @@ dotenv.config();
 router.post("/api/tweets", currentUser, async (req: Request, res: Response) => {
   const { username } = req.body;
   const { currentUser } = req;
+
   if (!currentUser) {
     throw new BadRequestError("User not found!");
   }
@@ -27,10 +28,10 @@ router.post("/api/tweets", currentUser, async (req: Request, res: Response) => {
     }
 
     const TwitterClient = new TwitterApi({
-      appKey: "ZVQEkkCjxGn5QbynptoqwJNMP",
-      appSecret: "HONytp7seX6w6cxzcn9Ij0QOHfciTWNFxiHDyU1h5WcqeDM12o",
-      accessToken: "1499706059975720963-83VnJGjsYTEFiP1M8uVBRFl7fGjC7R",
-      accessSecret: "r4c2nWnUYKHB7fTRunIAYYNuLe44tXv7ZWqconLxflw3P",
+      appKey: process.env.TWITTER_API_KEY!,
+      appSecret: process.env.TWITTER_API_SECRET!,
+      accessToken: process.env.TWITTER_ACCESS_TOKEN!,
+      accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET!,
     });
     const appOnlyClientFromConsumer = await TwitterClient.appLogin();
     const usernameResponse = await appOnlyClientFromConsumer.v2.userByUsername(
@@ -40,17 +41,19 @@ router.post("/api/tweets", currentUser, async (req: Request, res: Response) => {
       usernameResponse.data.id,
       {
         max_results: 100,
-        exclude: ["replies"],
+        exclude: ["replies", "retweets"],
         "tweet.fields": ["created_at"],
       }
     );
 
     const tweets = apiResponse.data.data;
-    const posts: PostDoc[] = [];
 
-    tweets?.map(async (tweet: any) => {
+    tweets.map(async (tweet: any) => {
       const existingPost = await Post.findOne({
         twitterId: tweet.id,
+      });
+      const theUser = await User.findOne({
+        username: currentUser.username,
       });
       if (!existingPost) {
         const post = Post.build({
@@ -59,20 +62,16 @@ router.post("/api/tweets", currentUser, async (req: Request, res: Response) => {
           author: existingUser as UserDoc,
           createdAt: new Date(tweet.created_at),
         });
-        posts.push(post);
 
+        theUser!.posts!.push(post);
         await post.save();
+        await theUser!.save();
       } else {
         console.log(`Post with ${tweet.id} already exists`);
       }
     });
 
-    // update existing user with new posts
-    existingUser.posts = existingUser!.posts?.concat(posts);
-    await existingUser.save();
-
     res.status(201).send({
-      Posts: posts,
       ExistingUserPosts: existingUser!.posts,
     });
   } catch (err) {

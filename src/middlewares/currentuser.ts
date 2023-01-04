@@ -12,7 +12,10 @@ interface UserPayLoad {
 const currentUser = (req: Request, res: Response, next: NextFunction) => {
   try {
     if (req.headers && req.headers.cookies) {
-      const token = req.headers.cookies.toString().split("jwt=")[1];
+      const token = req.headers.cookies
+        .toString()
+        .split("jwt=")[1]
+        .split(";")[0];
       if (!token || token === "undefined") {
         req.currentUser = undefined;
       } else {

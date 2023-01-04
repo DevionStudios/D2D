@@ -6,10 +6,22 @@ dotenv.config();
 const start = async () => {
   try {
     if (!process.env.JWT_KEY) {
-      throw new Error("JWT_KEY must be defined");
+      throw new Error("JWT_KEY must be defined in .env");
     }
     if (!process.env.MONGO_URI) {
-      throw new Error("MONGO_URI must be defined");
+      throw new Error("MONGO_URI must be defined in .env");
+    }
+    if (!process.env.TWITTER_API_KEY) {
+      throw new Error("TWITTER_API_KEY must be defined in .env");
+    }
+    if (!process.env.TWITTER_API_SECRET) {
+      throw new Error("TWITTER_API_SECRET must be defined in .env");
+    }
+    if (!process.env.TWITTER_ACCESS_TOKEN) {
+      throw new Error("TWITTER_ACCESS_TOKEN must be defined in .env");
+    }
+    if (!process.env.TWITTER_ACCESS_TOKEN_SECRET) {
+      throw new Error("TWITTER_ACCESS_TOKEN_SECRET must be defined in .env");
     }
     const PORT = process.env.PORT || 3000;
 

@@ -3,20 +3,22 @@ import { body } from "express-validator";
 
 import { validateRequest, BadRequestError } from "@devion/common";
 import { currentUser } from "../../middlewares/currentuser";
-import { Post } from "../../models/Post";
 import mongoose from "mongoose";
 import { User } from "../../models/User";
+import { Comment } from "../../models/Comment";
 
 const router = express.Router();
 
-router.put(
+router.post(
   "/api/comments/update",
   currentUser,
   async (req: Request, res: Response) => {
     try {
       const { caption, id } = req.body;
 
-      const comment = await Post.findOne({
+      console.log("Updating caption: ", caption, " for comment id: ", id);
+
+      const comment = await Comment.findOne({
         _id: new mongoose.Types.ObjectId(id),
       });
 
@@ -45,7 +47,7 @@ router.put(
       res.status(201).send("Comment updated successfully!");
     } catch (err) {
       console.log(err);
-      res.status(500).send({ message: err });
+      res.status(400).send({ message: err });
     }
   }
 );

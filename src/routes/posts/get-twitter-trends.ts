@@ -29,10 +29,10 @@ router.get(
       }
 
       const TwitterClient = new TwitterApi({
-        appKey: "ZVQEkkCjxGn5QbynptoqwJNMP",
-        appSecret: "HONytp7seX6w6cxzcn9Ij0QOHfciTWNFxiHDyU1h5WcqeDM12o",
-        accessToken: "1499706059975720963-83VnJGjsYTEFiP1M8uVBRFl7fGjC7R",
-        accessSecret: "r4c2nWnUYKHB7fTRunIAYYNuLe44tXv7ZWqconLxflw3P",
+        appKey: process.env.TWITTER_API_KEY!,
+        appSecret: process.env.TWITTER_API_SECRET!,
+        accessToken: process.env.TWITTER_ACCESS_TOKEN!,
+        accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET!,
       });
 
       const appOnlyClientFromConsumer = await TwitterClient.appLogin();
