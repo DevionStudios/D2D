@@ -5,7 +5,7 @@ import {
   HiOutlineLogout,
   HiOutlineSparkles,
 } from "react-icons/hi";
-import { Menu, MenuItem } from "~/components/ui/Dropdown";
+import { Menu, MenuItem } from "src/components/ui/Dropdown";
 
 export function ProfileDropdown({ user }) {
   const signout = () => {};

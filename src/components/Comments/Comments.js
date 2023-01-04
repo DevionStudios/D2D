@@ -1,5 +1,5 @@
 import { Heading } from "../ui/Heading";
-import { Card } from "~/components/ui/Card";
+import { Card } from "src/components/ui/Card";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useEffect, useState } from "react";
 import { LoadingFallback } from "../ui/Fallbacks/LoadingFallback";

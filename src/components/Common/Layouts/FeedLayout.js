@@ -3,13 +3,13 @@ import dynamic from "next/dynamic";
 import { ConnectButton } from "@web3uikit/web3";
 
 import { HiOutlineFire, HiOutlineHashtag, HiOutlineHome } from "react-icons/hi";
-import { Feed } from "~/components/Feed";
+import { Feed } from "src/components/Feed";
 import { TabbedLayout } from "../Navbar/TabbedLayout";
-import { LoadingFallback } from "~/components/ui/Fallbacks/LoadingFallback";
-import { CurrentUser } from "~/components/User/CurrentUser";
-// import { useUser } from "~/utils/useUser";
-import Spinner from "~/components/ui/Spinner";
-import { IndeterminateProgress } from "~/components/ui/Progress";
+import { LoadingFallback } from "src/components/ui/Fallbacks/LoadingFallback";
+import { CurrentUser } from "src/components/User/CurrentUser";
+// import { useUser } from "src/utils/useUser";
+import Spinner from "src/components/ui/Spinner";
+import { IndeterminateProgress } from "src/components/ui/Progress";
 import { TrendingFeed } from "../../Trending Feed";
 import { TwitterFeed } from "../../Twitter Trends";
 const RightSidebar = dynamic(

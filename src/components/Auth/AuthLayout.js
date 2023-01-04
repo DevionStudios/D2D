@@ -1,9 +1,9 @@
 import React from "react";
-import { Card } from "~/components/ui/Card";
-import { Heading } from "~/components/ui/Heading";
+import { Card } from "src/components/ui/Card";
+import { Heading } from "src/components/ui/Heading";
 import { Footer } from "../Common/Footer";
 import { GradientBar } from "../ui/GradientBar";
-import Logo from "../../assets/Foxxi Logo Trans.png";
+import Logo from "../../assets/D2D Logo Trans.png";
 import Image from "next/image";
 export function AuthLayout({ title, subtitle, children }) {
   return (

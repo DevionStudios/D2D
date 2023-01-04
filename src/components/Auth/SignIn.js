@@ -1,6 +1,6 @@
 import { object, string } from "zod";
 import { Input } from "../ui/Input";
-import Form, { useZodForm } from "~/components/ui/Form/Form";
+import Form, { useZodForm } from "src/components/ui/Form/Form";
 import { Link } from "../ui/Link";
 import { AuthLayout } from "./AuthLayout";
 import { Card } from "../ui/Card";

@@ -5,10 +5,10 @@ import {
   HiOutlineUserCircle,
 } from "react-icons/hi";
 
-import { EditProfileTab } from "~/components/Profile/EditProfileTab";
-import { PasswordTab } from "~/components/Profile/Password";
-import { Preferences } from "~/components/Profile/Preferences";
-import { ImportTweetsTab } from "~/components/Profile/ImportTweetsTab";
+import { EditProfileTab } from "src/components/Profile/EditProfileTab";
+import { PasswordTab } from "src/components/Profile/Password";
+import { Preferences } from "src/components/Profile/Preferences";
+import { ImportTweetsTab } from "src/components/Profile/ImportTweetsTab";
 import { TabbedLayout } from "../Navbar/TabbedLayout";
 
 export function AccountPageLayout({ currentUser }) {

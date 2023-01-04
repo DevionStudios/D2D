@@ -6,15 +6,15 @@ import { HiX, HiMenu, HiOutlineBell } from "react-icons/hi";
 import clsx from "clsx";
 import { ConnectButton } from "@web3uikit/web3";
 
-import { GradientBar } from "~/components/ui/GradientBar";
-import { Button } from "~/components/ui/Button";
-import { ThemeToggle } from "~/components/ThemeSwitcher";
-import { Link } from "~/components/ui/Link";
+import { GradientBar } from "src/components/ui/GradientBar";
+import { Button } from "src/components/ui/Button";
+import { ThemeToggle } from "src/components/ThemeSwitcher";
+import { Link } from "src/components/ui/Link";
 
 import { SearchBar } from "./SearchBar";
 import { ProfileDropdown } from "./ProfileDropdown";
 import { MobileMenu } from "./MobileMenu";
-import Spinner from "~/components/ui/Spinner";
+import Spinner from "src/components/ui/Spinner";
 import { useState } from "react";
 import { UnauthorizedHeader } from "./UnauthorizedHeader";
 import Logo from "../../../assets/D2D Logo Trans.png";

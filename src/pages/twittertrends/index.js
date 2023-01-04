@@ -1,5 +1,5 @@
-import { FeedLayout } from "~/components/Common/Layouts/FeedLayout";
-import { Navbar } from "~/components/Common/Navbar";
+import { FeedLayout } from "src/components/Common/Layouts/FeedLayout";
+import { Navbar } from "src/components/Common/Navbar";
 
 export default function FeedPage({ currentUser }) {
   return (

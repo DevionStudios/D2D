@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { HiOutlineSparkles } from "react-icons/hi";
-import { Button } from "~/components/ui/Button";
+import { Button } from "src/components/ui/Button";
 
 export const ErrorFallback = ({
   action,

@@ -2,8 +2,8 @@ import React from "react";
 import { useRouter } from "next/router";
 import { HiOutlineSearch } from "react-icons/hi";
 import { z } from "zod";
-import Form, { useZodForm } from "~/components/ui/Form/Form";
-import { Input } from "~/components/ui/Input";
+import Form, { useZodForm } from "src/components/ui/Form/Form";
+import { Input } from "src/components/ui/Input";
 import toast from "react-hot-toast";
 
 const SearchSchema = z.object({

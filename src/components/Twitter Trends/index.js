@@ -1,11 +1,11 @@
 import { HiCheckCircle } from "react-icons/hi";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import { Card } from "~/components/ui/Card";
-import { GradientBar } from "~/components/ui/GradientBar";
-import { LoadingFallback } from "~/components/ui/Fallbacks/LoadingFallback";
+import { Card } from "src/components/ui/Card";
+import { GradientBar } from "src/components/ui/GradientBar";
+import { LoadingFallback } from "src/components/ui/Fallbacks/LoadingFallback";
 import { TrendingTweetsPostCard } from "../Post/TrendingTweetsPostCard";
-import { ErrorFallback } from "~/components/ui/Fallbacks/ErrorFallback";
+import { ErrorFallback } from "src/components/ui/Fallbacks/ErrorFallback";
 import React, { useState, useEffect } from "react";
 import { SEO } from "../SEO";
 import { IndeterminateProgress } from "../ui/Progress";

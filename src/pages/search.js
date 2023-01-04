@@ -1,6 +1,6 @@
-import { Navbar } from "~/components/Common/Navbar";
-import { SearchResults } from "~/components/Search";
-// import { authenticatedRoute } from "~/utils/redirection";
+import { Navbar } from "src/components/Common/Navbar";
+import { SearchResults } from "src/components/Search";
+// import { authenticatedRoute } from "src/utils/redirection";
 
 export default function SearchResultsPage({ currentUser }) {
   return (

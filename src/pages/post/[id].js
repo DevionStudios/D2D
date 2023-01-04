@@ -1,6 +1,6 @@
-import { PostPageLayout } from "~/components/Common/Layouts/PostPageLayout";
-import { Navbar } from "~/components/Common/Navbar";
-import { PostCard, POST_QUERY } from "~/components/Post/PostCard";
+import { PostPageLayout } from "src/components/Common/Layouts/PostPageLayout";
+import { Navbar } from "src/components/Common/Navbar";
+import { PostCard, POST_QUERY } from "src/components/Post/PostCard";
 import { useRouter } from "next/router";
 export default function Post({ currentUser }) {
   const router = useRouter();

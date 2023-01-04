@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 import { object, z } from "zod";
-import { Card } from "~/components/ui/Card";
+import { Card } from "src/components/ui/Card";
 import Form, { useZodForm } from "../ui/Form/Form";
 import { Heading } from "../ui/Heading";
 import { Input } from "../ui/Input";

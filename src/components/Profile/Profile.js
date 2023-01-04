@@ -6,7 +6,7 @@ import {
   HiOutlineCalendar,
   HiOutlineDotsVertical,
 } from "react-icons/hi";
-import useMediaQuery, { MEDIA_QUERIES } from "~/utils/useMediaQuery";
+import useMediaQuery, { MEDIA_QUERIES } from "src/utils/useMediaQuery";
 import { Button } from "../ui/Button";
 import ButtonOrLink from "../ui/ButtonOrLink";
 import { Menu, MenuItem } from "../ui/Dropdown";

@@ -1,11 +1,11 @@
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { Navbar } from "~/components/Common/Navbar";
-import { Profile } from "~/components/Profile/Profile";
+import { Navbar } from "src/components/Common/Navbar";
+import { Profile } from "src/components/Profile/Profile";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-import { Status } from "~/components/ui/StatusPages/Status";
+import { Status } from "src/components/ui/StatusPages/Status";
 
 export default function ProfilePage({ currentUser }) {
   const [user, setUser] = useState(undefined);

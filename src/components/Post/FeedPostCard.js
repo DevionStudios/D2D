@@ -13,11 +13,11 @@ import { format } from "date-fns";
 import { ethers } from "ethers";
 import { useMoralis } from "react-moralis";
 
-import { Card } from "~/components/ui/Card";
+import { Card } from "src/components/ui/Card";
 import { Interweave } from "../Interweave";
 import { ReplyModal } from "./ReplyModal";
 import { Button } from "../ui/Button";
-import { Link } from "~/components/ui/Link";
+import { Link } from "src/components/ui/Link";
 import { PostDropdown } from "./PostDropdown";
 import NextImage from "next/image";
 import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";

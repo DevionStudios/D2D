@@ -1,9 +1,9 @@
 import { Tab } from "@headlessui/react";
 import clsx from "clsx";
 import { useRouter } from "next/router";
-import { Card } from "~/components/ui/Card";
-import { Heading } from "~/components/ui/Heading";
-import { Link } from "~/components/ui/Link";
+import { Card } from "src/components/ui/Card";
+import { Heading } from "src/components/ui/Heading";
+import { Link } from "src/components/ui/Link";
 import { Followers } from "./Followers";
 import { Following } from "./Following";
 

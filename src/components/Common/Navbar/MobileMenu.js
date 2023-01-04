@@ -1,11 +1,11 @@
 import React from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { HiOutlineCog, HiOutlineHome, HiOutlineSparkles } from "react-icons/hi";
-import { Button } from "~/components/ui/Button";
-import { Link } from "~/components/ui/Link";
+import { Button } from "src/components/ui/Button";
+import { Link } from "src/components/ui/Link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import ButtonOrLink from "~/components/ui/ButtonOrLink";
+import ButtonOrLink from "src/components/ui/ButtonOrLink";
 
 export const links = [
   {

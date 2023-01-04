@@ -1,6 +1,6 @@
-import { Navbar } from "~/components/Common/Navbar";
+import { Navbar } from "src/components/Common/Navbar";
 
-import { Create } from "~/components/Post";
+import { Create } from "src/components/Post";
 export default function CreatePage({ currentUser }) {
   return (
     <>

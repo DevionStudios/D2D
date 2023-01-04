@@ -2,12 +2,12 @@ import { Tab } from "@headlessui/react";
 import clsx from "clsx";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { Step1 } from "~/components/Onboarding/Step1";
-import { Step2 } from "~/components/Onboarding/Step2";
-import { Button } from "~/components/ui/Button";
-import { Heading } from "~/components/ui/Heading";
-import { Link } from "~/components/ui/Link";
-import Logo from "../assets/Foxxi Logo Trans.png";
+import { Step1 } from "src/components/Onboarding/Step1";
+import { Step2 } from "src/components/Onboarding/Step2";
+import { Button } from "src/components/ui/Button";
+import { Heading } from "src/components/ui/Heading";
+import { Link } from "src/components/ui/Link";
+import Logo from "../assets/D2D Logo Trans.png";
 import Image from "next/image";
 const onboardingTabs = [
   {

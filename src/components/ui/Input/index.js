@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { ComponentProps, forwardRef } from "react";
-import { FieldError } from "~/components/ui/Form/Form";
+import { FieldError } from "src/components/ui/Form/Form";
 
 export const Input = forwardRef(function Input(
   { label, type = "text", className, prefix, noLabel, ...props },

@@ -1,4 +1,4 @@
-import { Navbar } from "~/components/Common/Navbar";
+import { Navbar } from "src/components/Common/Navbar";
 
 export default function AccountPage({ currentUser }) {
   return (

@@ -2,11 +2,11 @@ import { MoralisProvider } from "react-moralis";
 import { NotificationProvider } from "@web3uikit/core";
 
 import { DefaultSeo } from "next-seo";
-import { NProgress } from "~/components/ui/NProgress";
+import { NProgress } from "src/components/ui/NProgress";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "react-hot-toast";
 import "../styles.css";
-import { toastOptions } from "~/utils/toastOptions";
+import { toastOptions } from "src/utils/toastOptions";
 import axios from "axios";
 
 function MyApp({ Component, pageProps, currentUser }) {

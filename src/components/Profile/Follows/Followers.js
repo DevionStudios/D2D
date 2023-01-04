@@ -1,15 +1,15 @@
 import { gql, useQuery } from "@apollo/client";
-import Spinner from "~/components/ui/Spinner";
+import Spinner from "src/components/ui/Spinner";
 import {
   FollowersListQuery,
   FollowersListQueryVariables,
 } from "./__generated__/Followers.generated";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { LoadingFallback } from "~/components/ui/Fallbacks/LoadingFallback";
+import { LoadingFallback } from "src/components/ui/Fallbacks/LoadingFallback";
 import { FollowButton } from "../FollowButton";
-import { UserHandle } from "~/components/Common/UserHandle";
-import { ErrorFallback } from "~/components/ui/Fallbacks/ErrorFallback";
-import { SEO } from "~/components/SEO";
+import { UserHandle } from "src/components/Common/UserHandle";
+import { ErrorFallback } from "src/components/ui/Fallbacks/ErrorFallback";
+import { SEO } from "src/components/SEO";
 
 let FOLLOWERS_LIST_QUERY;
 

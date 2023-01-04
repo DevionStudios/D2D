@@ -1,10 +1,10 @@
 import { Popover, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
-import { Button } from "~/components/ui/Button";
-import { GradientBar } from "~/components/ui/GradientBar";
-import { Heading } from "~/components/ui/Heading";
-import { Link } from "~/components/ui/Link";
+import { Button } from "src/components/ui/Button";
+import { GradientBar } from "src/components/ui/GradientBar";
+import { Heading } from "src/components/ui/Heading";
+import { Link } from "src/components/ui/Link";
 // import { Logo } from "./Logo";
 import Logo from "../../../assets/D2D Logo Trans.png";
 

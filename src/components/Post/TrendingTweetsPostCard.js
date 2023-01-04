@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { format } from "date-fns";
-import { Card } from "~/components/ui/Card";
+import { Card } from "src/components/ui/Card";
 import { TwitterTrendingInterweave } from "../TwitterTrendingInterweave";
 
 import NextImage from "next/image";

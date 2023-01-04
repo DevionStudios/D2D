@@ -23,7 +23,7 @@ import { Comments } from "../Comments/Comments";
 import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
 import { LoadingFallback } from "../ui/Fallbacks/LoadingFallback";
 import Modal from "../ui/Modal";
-import { Link } from "~/components/ui/Link";
+import { Link } from "src/components/ui/Link";
 
 import { ViewLikes } from "./ViewLikes";
 import { SEO } from "../SEO";
