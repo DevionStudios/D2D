@@ -1,0 +1,13 @@
+{
+  "1": { "FoxxiToken": [] },
+  "5": {
+    "FoxxiToken": [
+      "0x9779c234C31a0ae2C475A1340C15BdA32C95515f",
+      "0x3520762C9C4DFFc41dedE9670f8ccDaFa62F0833",
+      "0x9ee6bFdA08857212f10D8820b210d52b3d3d1109"
+    ]
+  },
+  "137": { "FoxxiToken": [] },
+  "31337": { "FoxxiToken": [] },
+  "80001": { "FoxxiToken": [] }
+}
