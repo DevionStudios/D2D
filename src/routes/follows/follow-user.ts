@@ -8,10 +8,10 @@ const router = express.Router();
 
 router.put("/api/follows", currentUser, async (req: Request, res: Response) => {
   try {
-    const { userid, toFollow } = req.body;
+    const { username, toFollow } = req.body;
 
     const existingUser = await User.findOne({ _id: req.currentUser!.id });
-    const existingUserToFollow = await User.findOne({ _id: userid });
+    const existingUserToFollow = await User.findOne({ username: username });
 
     if (!existingUser) {
       throw new BadRequestError("User not found!");
@@ -27,11 +27,24 @@ router.put("/api/follows", currentUser, async (req: Request, res: Response) => {
 
     const existingFollow = await User.findOne({
       _id: req.currentUser!.id,
-      "following.id": userid,
+      "following.id": existingUser?.id!,
     });
 
     if (existingFollow) {
-      throw new BadRequestError("You are already following this user!");
+      // Remove the user from the following array
+      existingUser.following = existingUser.following?.filter(
+        (user) => user.id !== existingUserToFollow.id
+      );
+
+      // Remove the user from the followers array
+      existingUserToFollow.followers = existingUserToFollow.followers?.filter(
+        (user) => user.id !== existingUser.id
+      );
+
+      await existingUser.save();
+      await existingUserToFollow.save();
+
+      return res.status(200).send({ message: "User Unfollowed!" });
     }
 
     existingUser.following?.push(existingUserToFollow);
