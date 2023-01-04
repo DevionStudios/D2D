@@ -9,14 +9,14 @@ import { Menu, MenuItem } from "../ui/Dropdown";
 import { DeleteCommentModal } from "./DeleteCommentModal";
 import { EditCommentModal } from "./EditCommentModal";
 
-export function CommentDropdown({ id, isMine, postId, body }) {
+export function CommentDropdown({ id, isMine, postId, caption }) {
   const [editCommentModal, setEditCommentModal] = useState(false);
   const [deleteCommentModal, setDeleteCommentModal] = useState(false);
 
   return (
     <>
       <EditCommentModal
-        body={body}
+        caption={caption}
         id={id}
         postId={postId}
         isOpen={editCommentModal}

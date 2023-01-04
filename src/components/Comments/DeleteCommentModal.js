@@ -1,11 +1,32 @@
 import toast from "react-hot-toast";
+import axios from "axios";
+
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
 import { Heading } from "../ui/Heading";
 import Modal from "../ui/Modal";
 
 export function DeleteCommentModal({ id, isOpen, onClose, postId }) {
-  const deleteComment = async () => {};
+  console.log("Comment Id: ", id);
+  const deleteComment = async () => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:5000/api/comments/delete/${id}`,
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
+      );
+
+      console.log("Response: ", response);
+      toast.success("Comment has been deleted.");
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong.");
+    }
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="sm:max-w-lg">
@@ -20,11 +41,8 @@ export function DeleteCommentModal({ id, isOpen, onClose, postId }) {
           </Button>
           <Button
             onClick={async () => {
-              const response = await deleteComment({ variables: { id } });
-              if (response.data?.deleteComment.success) {
-                toast("Comment has been deleted.");
-                onClose();
-              }
+              await deleteComment();
+              onClose();
             }}
             size="lg"
           >

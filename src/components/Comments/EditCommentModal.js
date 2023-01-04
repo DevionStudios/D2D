@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { z } from "zod";
@@ -10,22 +11,43 @@ import Modal from "../ui/Modal";
 import { TextArea } from "../ui/TextArea";
 
 const EditCommentSchema = z.object({
-  body: z.string().min(1, "Comment should consist atleast one character."),
+  caption: z.string().min(1, "Comment should consist atleast one character."),
 });
 
-let EDIT_COMMENT_MUTATION;
-export function EditCommentModal({ isOpen, onClose, id, body, postId }) {
+export function EditCommentModal({ isOpen, onClose, id, caption, postId }) {
   const form = useZodForm({
     schema: EditCommentSchema,
   });
-  console.log(postId);
-  let editComment;
+  const editComment = async ({ caption }) => {
+    console.log("Comment Id: ", id);
+    console.log("Updated Caption: ", caption);
+    try {
+      const response = await axios.put(
+        "http://localhost:5000/api/comment/update",
+        {
+          caption: caption,
+          id: id,
+        },
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
+      );
+      toast.success("Comment has been edited.");
+      console.log("Response: ", response);
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong.");
+    }
+  };
 
   useEffect(() => {
     form.reset({
-      body,
+      caption,
     });
-  }, [form, body]);
+  }, [form, caption]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="sm:max-w-lg">
@@ -37,9 +59,7 @@ export function EditCommentModal({ isOpen, onClose, id, body, postId }) {
           form={form}
           onSubmit={async (values) => {
             await editComment({
-              variables: {
-                input: { body: values.body, id, postId },
-              },
+              caption: values.caption,
             });
             onClose();
             toast("Comment has been edited successfully.");
@@ -48,7 +68,7 @@ export function EditCommentModal({ isOpen, onClose, id, body, postId }) {
           <TextArea
             label="Comment"
             placeholder="Edit your comment."
-            {...form.register("body")}
+            {...form.register("caption")}
           />
 
           <div className="flex justify-end space-x-3">

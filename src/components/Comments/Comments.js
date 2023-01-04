@@ -103,7 +103,7 @@ export function Comments({ comments, postId, currentUser }) {
                             {edge?.author?.username ===
                             currentUser?.username ? (
                               <CommentDropdown
-                                body={edge?.caption}
+                                caption={edge?.caption}
                                 id={edge?.id}
                                 isMine={
                                   edge?.author?.username ===
