@@ -19,11 +19,9 @@ export function EditCommentModal({ isOpen, onClose, id, caption, postId }) {
     schema: EditCommentSchema,
   });
   const editComment = async ({ caption }) => {
-    console.log("Comment Id: ", id);
-    console.log("Updated Caption: ", caption);
     try {
-      const response = await axios.put(
-        "http://localhost:5000/api/comment/update",
+      const response = await axios.post(
+        "http://localhost:5000/api/comments/update",
         {
           caption: caption,
           id: id,
@@ -62,7 +60,6 @@ export function EditCommentModal({ isOpen, onClose, id, caption, postId }) {
               caption: values.caption,
             });
             onClose();
-            toast("Comment has been edited successfully.");
           }}
         >
           <TextArea

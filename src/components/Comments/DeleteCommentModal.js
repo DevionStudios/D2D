@@ -7,7 +7,6 @@ import { Heading } from "../ui/Heading";
 import Modal from "../ui/Modal";
 
 export function DeleteCommentModal({ id, isOpen, onClose, postId }) {
-  console.log("Comment Id: ", id);
   const deleteComment = async () => {
     try {
       const response = await axios.delete(
