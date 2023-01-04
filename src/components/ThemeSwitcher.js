@@ -7,16 +7,18 @@ import { useState, useEffect } from "react";
  * Guide by https://www.youtube.com/watch?v=1q5oOZE6o4c
  */
 export function ThemeToggle() {
-  const [mounted, setMounted] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
-  const { systemTheme, theme, setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+    setTheme(theme);
+  }, []);
 
   if (!mounted) return null;
-
   function toggleTheme() {
-    const currentTheme = theme === "system" ? systemTheme : theme;
+    const currentTheme = theme;
 
     if (currentTheme === "dark") {
       setTheme("light");

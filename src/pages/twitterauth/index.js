@@ -3,9 +3,17 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { Card } from "src/components/ui/Card";
 import { Heading } from "src/components/ui/Heading";
 
-export default function Component() {
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+
+export default function Component({ currentUser }) {
   const { data: session } = useSession();
   console.log("session: ", session);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!currentUser) router.push("/auth/signin");
+  }, [currentUser]);
 
   return (
     <>

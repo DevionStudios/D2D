@@ -52,7 +52,16 @@ MyApp.getInitialProps = async (appContext) => {
     );
     data = responseData;
   }
-  // console.log(data);
+
+  console.log("asdlsakdnwa", data);
+  if (data.currentuser === null) {
+    data.currentUser = {
+      username: "guest",
+      name: "Guest",
+      image: "https://i.imgur.com/6uY0X2A.png",
+      annonymous: true,
+    };
+  }
 
   let pageProps = {};
   if (appContext.Component.getInitialProps) {

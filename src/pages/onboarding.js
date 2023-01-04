@@ -28,8 +28,9 @@ export default function Onboarding({ currentUser }) {
   const [currentStep, setCurrentStep] = useState(
     router.query.step ? parseInt(router.query.step) : 0
   );
+
   useEffect(() => {
-    if (!currentUser) {
+    if (currentUser?.annonymous === true) {
       router.push("/auth/signin");
     }
   });

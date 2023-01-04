@@ -204,6 +204,19 @@ export function SignUp() {
           </Card.Body>
         </Card>
       </div>
+      <div>
+        <Card rounded="lg" className="mt-4">
+          <Card.Body>
+            <span className="mr-1">Don’t want to join yet ?</span>
+            <Link
+              className="font-medium text-brand-600 hover:text-brand-400"
+              href="/feed"
+            >
+              Browse Annonymously!
+            </Link>
+          </Card.Body>
+        </Card>
+      </div>
     </AuthLayout>
   );
 }

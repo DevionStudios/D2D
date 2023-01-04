@@ -4,8 +4,8 @@ import Router from "next/router";
 const Signin = ({ currentUser }) => {
   const router = Router;
   useEffect(() => {
-    if (currentUser) {
-      router.push("/onboarding");
+    if (currentUser.email) {
+      router.push("/feed");
     }
   }, []);
   return (

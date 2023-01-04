@@ -207,13 +207,15 @@ export function PostCard({ id, username, currentUser }) {
                     </p>
                   </div>
                   <div className="flex-shrink-0 self-center flex">
-                    {username === data.author.username ? (
-                      <PostDropdown
-                        id={data.id}
-                        isMine={username === data.author.username}
-                        caption={data.caption ?? ""}
-                        gifLink={data.gifLink ?? ""}
-                      />
+                    {currentUser.email ? (
+                      username === data.author.username ? (
+                        <PostDropdown
+                          id={data.id}
+                          isMine={username === data.author.username}
+                          caption={data.caption ?? ""}
+                          gifLink={data.gifLink ?? ""}
+                        />
+                      ) : null
                     ) : null}
                   </div>
                 </div>
@@ -287,53 +289,59 @@ export function PostCard({ id, username, currentUser }) {
               </Modal>
             </Card>
 
-            <Card className="py-2 px-4 flex justify-between space-x-8">
-              <div className="flex space-x-6">
-                <span className="inline-flex">
-                  <p className="font-bold">{data?.likes?.length || "0"}</p>
-                  <button onClick={() => setLikesModal(true)}>
-                    <p className="text-muted ml-1 ">Likes</p>{" "}
-                  </button>
-                  <ViewLikes
-                    isOpen={likesModal}
-                    onClose={() => setLikesModal(false)}
-                  />
-                </span>
-                <span className="inline-flex">
-                  <p className="font-bold">{comments?.length || "0"}</p>
-                  <p className="text-muted ml-1 ">Comments</p>{" "}
-                </span>
-              </div>
-            </Card>
+            {currentUser.email ? (
+              <Card className="py-2 px-4 flex justify-between space-x-8">
+                <div className="flex space-x-6">
+                  <span className="inline-flex">
+                    <p className="font-bold">{data?.likes?.length || "0"}</p>
+                    <button onClick={() => setLikesModal(true)}>
+                      <p className="text-muted ml-1 ">Likes</p>{" "}
+                    </button>
+                    <ViewLikes
+                      isOpen={likesModal}
+                      onClose={() => setLikesModal(false)}
+                    />
+                  </span>
+                  <span className="inline-flex">
+                    <p className="font-bold">{comments?.length || "0"}</p>
+                    <p className="text-muted ml-1 ">Comments</p>{" "}
+                  </span>
+                </div>
+              </Card>
+            ) : null}
 
-            <Card className="py-4 px-4 flex justify-between space-x-8 rounded-b-lg">
-              <div className="flex space-x-6">
-                <span className="inline-flex items-center text-sm">
-                  <Button
-                    loading={isLikeLoading}
-                    onClick={async () => {
-                      // setHasLiked(!hasLiked);
-                      // setLikesCount(hasLiked ? likesCount - 1 : likesCount + 1);
-                      await toggleLike({
-                        variables: { id: data.id },
-                      });
-                    }}
-                    variant="dark"
-                  >
-                    {isLiked ? (
-                      <HiHeart
-                        className="h-5 w-5 text-brand-600"
-                        aria-hidden="true"
-                      />
-                    ) : (
-                      <HiOutlineHeart className="h-5 w-5" aria-hidden="true" />
-                    )}
-                    <span className="ml-1">Like</span>
-                    <span className="sr-only">likes</span>{" "}
-                  </Button>
-                </span>
+            {currentUser.email ? (
+              <Card className="py-4 px-4 flex justify-between space-x-8 rounded-b-lg">
+                <div className="flex space-x-6">
+                  <span className="inline-flex items-center text-sm">
+                    <Button
+                      loading={isLikeLoading}
+                      onClick={async () => {
+                        // setHasLiked(!hasLiked);
+                        // setLikesCount(hasLiked ? likesCount - 1 : likesCount + 1);
+                        await toggleLike({
+                          variables: { id: data.id },
+                        });
+                      }}
+                      variant="dark"
+                    >
+                      {isLiked ? (
+                        <HiHeart
+                          className="h-5 w-5 text-brand-600"
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <HiOutlineHeart
+                          className="h-5 w-5"
+                          aria-hidden="true"
+                        />
+                      )}
+                      <span className="ml-1">Like</span>
+                      <span className="sr-only">likes</span>{" "}
+                    </Button>
+                  </span>
 
-                {/* <span className="inline-flex items-center text-sm">
+                  {/* <span className="inline-flex items-center text-sm">
                   <Button onClick={() => form.setFocus("body")} variant="dark">
                     <span>
                       <HiOutlineReply className="h-5 w-5" aria-hidden="true" />
@@ -342,56 +350,64 @@ export function PostCard({ id, username, currentUser }) {
                     <span className="sr-only">Reply</span>
                   </Button>
                 </span> */}
-              </div>
-              <div className="flex text-sm">
-                <span className="inline-flex items-center text-sm">
-                  <Button
-                    variant="dark"
-                    onClick={async () => {
-                      navigator.clipboard
-                        .writeText(`https://d2d.vercel.app/post/${data.id}`)
-                        .then(() => toast.success("Link copied to clipboard"));
-                    }}
-                  >
-                    <span>
-                      <HiOutlineShare className="h-5 w-5" aria-hidden="true" />
-                    </span>
-                    <span className="font-medium ml-1">Share</span>
-                    <span className="sr-only">Share</span>
-                  </Button>
-                </span>
-              </div>
-            </Card>
+                </div>
+                <div className="flex text-sm">
+                  <span className="inline-flex items-center text-sm">
+                    <Button
+                      variant="dark"
+                      onClick={async () => {
+                        navigator.clipboard
+                          .writeText(`https://d2d.vercel.app/post/${data.id}`)
+                          .then(() =>
+                            toast.success("Link copied to clipboard")
+                          );
+                      }}
+                    >
+                      <span>
+                        <HiOutlineShare
+                          className="h-5 w-5"
+                          aria-hidden="true"
+                        />
+                      </span>
+                      <span className="font-medium ml-1">Share</span>
+                      <span className="sr-only">Share</span>
+                    </Button>
+                  </span>
+                </div>
+              </Card>
+            ) : null}
           </div>
         </div>
-        <Card className="w-full" rounded="lg">
-          <Card.Body>
-            <Form
-              form={form}
-              onSubmit={async (values) => {
-                await createComment({
-                  variables: {
-                    input: {
-                      caption: values.caption,
+        {currentUser.email ? (
+          <Card className="w-full" rounded="lg">
+            <Card.Body>
+              <Form
+                form={form}
+                onSubmit={async (values) => {
+                  await createComment({
+                    variables: {
+                      input: {
+                        caption: values.caption,
+                      },
                     },
-                  },
-                });
-                toast.success("Your comment has been posted.");
-                form.reset();
-              }}
-            >
-              <TextArea
-                label="Your reply"
-                {...form.register("caption")}
-                placeholder="An interesting comment"
-              />
-              <div className="flex justify-end space-x-2">
-                <Form.SubmitButton>Reply</Form.SubmitButton>
-                <Button variant="dark">Cancel</Button>
-              </div>
-            </Form>
-          </Card.Body>
-        </Card>
+                  });
+                  toast.success("Your comment has been posted.");
+                  form.reset();
+                }}
+              >
+                <TextArea
+                  label="Your reply"
+                  {...form.register("caption")}
+                  placeholder="An interesting comment"
+                />
+                <div className="flex justify-end space-x-2">
+                  <Form.SubmitButton>Reply</Form.SubmitButton>
+                  <Button variant="dark">Cancel</Button>
+                </div>
+              </Form>
+            </Card.Body>
+          </Card>
+        ) : null}
         <div className="w-full relative">
           <Comments
             postId={data.id}

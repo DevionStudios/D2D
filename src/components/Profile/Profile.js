@@ -81,15 +81,6 @@ export function Profile({ user, isMe, username, currentUser }) {
                 <p className="text-muted text-sm">@{user.username}</p>
               </div>
               <div className=" flex items-center justify-stretch  sm:flex-row sm:space-y-0 sm:space-x-5">
-                <div className="mr-3">
-                  {!isMe ? (
-                    <Menu dropdown={<MenuItem>Report Profile</MenuItem>}>
-                      <span className="-m-2 p-2 rounded-full flex items-center dark:hover:bg-gray-700 hover:bg-gray-300">
-                        <HiOutlineDotsVertical className="w-5 h-5" />
-                      </span>
-                    </Menu>
-                  ) : null}
-                </div>
                 {isMe ? (
                   <Button
                     href={`/account/settings`}
@@ -97,7 +88,7 @@ export function Profile({ user, isMe, username, currentUser }) {
                   >
                     Edit Profile
                   </Button>
-                ) : (
+                ) : currentUser.email ? (
                   <FollowButton
                     isFollowing={
                       user.followers.length > 0
@@ -114,7 +105,7 @@ export function Profile({ user, isMe, username, currentUser }) {
                     id={user.id}
                     size={isMobile ? "base" : "lg"}
                   />
-                )}
+                ) : null}
               </div>
             </div>
 

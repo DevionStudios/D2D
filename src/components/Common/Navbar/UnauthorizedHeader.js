@@ -4,13 +4,16 @@ import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import { Button } from "src/components/ui/Button";
 import { GradientBar } from "src/components/ui/GradientBar";
 import { Heading } from "src/components/ui/Heading";
-import { Link } from "src/components/ui/Link";
+import Link from "next/link";
+import { ThemeToggle } from "src/components/ThemeSwitcher";
 // import { Logo } from "./Logo";
 import Logo from "../../../assets/D2D Logo Trans.png";
 
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 export function UnauthorizedHeader() {
+  const router = useRouter();
   return (
     <div>
       <header>
@@ -22,10 +25,12 @@ export function UnauthorizedHeader() {
         <Popover className="relative">
           <div className="flex justify-between items-center max-w-7xl mx-auto py-4 px-4 lg:px-0 md:justify-start md:space-x-10 ">
             <div className="flex justify-start lg:w-0 lg:flex-1">
-              <div className="flex items-center space-x-4">
-                <img src={Logo} alt="D2D Logo" width={67} height={67} />
-                <Heading size="h5">D2D</Heading>
-              </div>
+              <Link href="/feed" passHref={true}>
+                <div className="flex items-center space-x-4">
+                  <Image src={Logo} alt="Foxxi Logo" width={67} height={67} />
+                  <Heading size="h5">Foxxi</Heading>
+                </div>
+              </Link>
             </div>
             <div className="-mr-2 -my-2 md:hidden">
               <Popover.Button className=" rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-500">
@@ -35,12 +40,12 @@ export function UnauthorizedHeader() {
             </div>
 
             <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-              <Link
-                href="/auth/signin"
-                className="whitespace-nowrap no-underline text-base font-medium text-gray-500 hover:text-gray-900"
-              >
+              <div className="mx-8">
+                <ThemeToggle />
+              </div>
+              <Button href="/auth/signin" size="lg">
                 Sign in
-              </Link>
+              </Button>
               <Button size="lg" href="/auth/signup" className="ml-8">
                 Sign up
               </Button>
@@ -65,9 +70,18 @@ export function UnauthorizedHeader() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                       {/* <Logo />  */}
-                      <img src={Logo} alt="D2D Logo" width={67} height={67} />
+                      <Image
+                        src={Logo}
+                        alt="Foxxi Logo"
+                        width={67}
+                        height={67}
+                        onClick={() => {
+                          router.push("/feed");
+                        }}
+                      />
 
-                      <Heading size="h5">D2D</Heading>
+                      <Heading size="h5">Foxxi</Heading>
+                      <ThemeToggle />
                     </div>
                     <div className="-mr-2">
                       <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-500">

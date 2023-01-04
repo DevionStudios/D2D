@@ -72,15 +72,17 @@ export function Followers({ currentUser, data, username }) {
                         </p>
                       </div>
                       <div>
-                        {user.id == currentUser.id ? null : (
-                          <FollowButton
-                            isFollowing={user.followers.includes(
-                              currentUser.id
-                            )}
-                            username={user.username}
-                            variant="dark"
-                          />
-                        )}
+                        {currentUser.email ? (
+                          user.id == currentUser.id ? null : (
+                            <FollowButton
+                              isFollowing={user.followers.includes(
+                                currentUser.id
+                              )}
+                              username={user.username}
+                              variant="dark"
+                            />
+                          )
+                        ) : null}
                       </div>
                     </div>
                   </li>

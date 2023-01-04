@@ -10,7 +10,7 @@ export function AuthLayout({ title, subtitle, children }) {
     <main className="flex flex-col justify-center mx-auto w-full max-w-xl min-h-screen py-10">
       <div className="mb-8 text-center">
         <div className="inline-flex items-center mb-1 space-x-3">
-          <img src={Logo} alt="Foxxi Logo" width={110} height={110} />
+          <Image src={Logo} alt="Foxxi Logo" width={110} height={110} />
           <Heading size="h2">{title}</Heading>
         </div>
         <p className="mt-3 text-gray-500">{subtitle}</p>

@@ -13,6 +13,7 @@ export default function ProfilePage({ currentUser }) {
   let isMe = false;
   const router = useRouter();
   const username = router.query.username;
+  useEffect(() => {}, [currentUser]);
   console.log(username);
   const fetchUserProfile = async function () {
     try {

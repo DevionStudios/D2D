@@ -2,6 +2,7 @@ import { PostPageLayout } from "src/components/Common/Layouts/PostPageLayout";
 import { Navbar } from "src/components/Common/Navbar";
 import { PostCard, POST_QUERY } from "src/components/Post/PostCard";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 export default function Post({ currentUser }) {
   const router = useRouter();
   const id = router.query.id;

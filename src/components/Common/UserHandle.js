@@ -6,15 +6,28 @@ export function UserHandle({ currentUser }) {
   return (
     <>
       <div className="flex-shrink-0">
-        <Link href={`/profile/${user.username}`} passHref>
-          <img
-            className="h-10 w-10 rounded-full object-cover"
-            src={user.image}
-            width="40px"
-            height="40px"
-            alt="User Avatar"
-          />
-        </Link>
+        {currentUser.email ? (
+          <Link href={`/profile/${user.username}`} passHref>
+            <img
+              className="h-10 w-10 rounded-full object-cover"
+              src={user.image}
+              width="40px"
+              height="40px"
+              alt="User Avatar"
+            />
+          </Link>
+        ) : (
+          <>
+            {" "}
+            <img
+              className="h-10 w-10 rounded-full object-cover"
+              src={user.image}
+              width="40px"
+              height="40px"
+              alt="User Avatar"
+            />
+          </>
+        )}
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium truncate">{user.name}</p>

@@ -12,13 +12,10 @@ import Spinner from "src/components/ui/Spinner";
 import { IndeterminateProgress } from "src/components/ui/Progress";
 import { TrendingFeed } from "../../Trending Feed";
 import { TwitterFeed } from "../../Twitter Trends";
-const RightSidebar = dynamic(
-  async () => {
-    const { RightSidebar } = await import("../Navbar/RightSidebar");
-    return RightSidebar;
-  },
-  { loading: () => <LoadingFallback />, ssr: true }
-);
+const RightSidebar = dynamic(async () => {
+  const { RightSidebar } = await import("../Navbar/RightSidebar");
+  return RightSidebar;
+});
 
 RightSidebar.displayName = "RightSidebar";
 
@@ -47,7 +44,7 @@ export function FeedLayout({ currentUser }) {
   let user = currentUser;
   let loading = false;
 
-  if (loading || !user)
+  if (loading)
     return (
       <div className="mt-[74px]">
         <IndeterminateProgress />

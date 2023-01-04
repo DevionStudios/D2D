@@ -141,7 +141,8 @@ export function FeedPostCard(props) {
                 </p>
               </div>
               <div className="flex-shrink-0 self-center flex">
-                {props.post.author.username === props.username ? (
+                {!props.currentUser.email ? null : props.post.author
+                    .username === props.username ? (
                   <PostDropdown
                     id={props.post.id}
                     isMine={props.post.author.username === props.username}
@@ -202,33 +203,37 @@ export function FeedPostCard(props) {
           {/* Post Actions */}
           <div className="py-2 px-6 bg-gray-50 dark:bg-gray-900/30 flex border-t border-gray-200 dark:border-gray-700 justify-between space-x-8">
             <div className="flex space-x-6">
-              <span className="inline-flex items-center space-x-2  ">
-                <Button
-                  loading={loading}
-                  variant="dark"
-                  onClick={async () => {
-                    await toggleLike({ variables: { id: props.post.id } });
-                  }}
-                  className="rounded-full overflow-hidden space-x-2"
-                >
-                  {isLiked ? (
-                    <HiHeart className="w-5 h-5 text-brand-700" />
-                  ) : (
-                    <HiOutlineHeart className="w-5 h-5" />
-                  )}
-                  <p>{likes || "0"}</p>
-                </Button>
-              </span>
-              <span className="inline-flex items-center space-x-2">
-                <Button
-                  variant="dark"
-                  onClick={() => setIsOpen(true)}
-                  className="space-x-2"
-                >
-                  <HiOutlineReply className="w-5 h-5" />
-                  <p>{comments || "0"}</p>
-                </Button>
-              </span>
+              {props.currentUser.email ? (
+                <>
+                  <span className="inline-flex items-center space-x-2  ">
+                    <Button
+                      loading={loading}
+                      variant="dark"
+                      onClick={async () => {
+                        await toggleLike({ variables: { id: props.post.id } });
+                      }}
+                      className="rounded-full overflow-hidden space-x-2"
+                    >
+                      {isLiked ? (
+                        <HiHeart className="w-5 h-5 text-brand-700" />
+                      ) : (
+                        <HiOutlineHeart className="w-5 h-5" />
+                      )}
+                      <p>{likes || "0"}</p>
+                    </Button>
+                  </span>
+                  <span className="inline-flex items-center space-x-2">
+                    <Button
+                      variant="dark"
+                      onClick={() => setIsOpen(true)}
+                      className="space-x-2"
+                    >
+                      <HiOutlineReply className="w-5 h-5" />
+                      <p>{comments || "0"}</p>
+                    </Button>
+                  </span>
+                </>
+              ) : null}
               {/* To Tip on the posts */}
               <span className="inline-flex items-center space-x-2">
                 <Button

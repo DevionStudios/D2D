@@ -43,15 +43,29 @@ export function RightSidebar({ currentUser }) {
     }
   };
   useEffect(() => {
-    getSuggestedUsers();
+    if (document.cookie.includes("jwt")) getSuggestedUsers();
+    else {
+      setError(true);
+      setLoading(false);
+    }
   }, []);
   if (error) {
-    return (
+    return currentUser.email ? (
       <aside className="w-full sticky top-20">
         <ErrorFallback
           message="Failed to load suggestions."
           action={() => getSuggestedUsers()}
           buttonText="Retry"
+        />
+      </aside>
+    ) : (
+      <aside className="w-full sticky top-20">
+        <ErrorFallback
+          message="Please Sign Up To See Suggestions."
+          icon={
+            <HiOutlineCubeTransparent className="h-12 w-12 text-gray-500" />
+          }
+          noAction
         />
       </aside>
     );
@@ -63,13 +77,23 @@ export function RightSidebar({ currentUser }) {
     return (
       <>
         <Card rounded="lg" className="sticky top-20">
-          <ErrorFallback
-            message="No user suggestions for now. :)"
-            noAction
-            icon={
-              <HiOutlineCubeTransparent className="h-12 w-12 text-gray-500" />
-            }
-          />
+          {currentUser.email ? (
+            <ErrorFallback
+              message="No user suggestions for now. :)"
+              noAction
+              icon={
+                <HiOutlineCubeTransparent className="h-12 w-12 text-gray-500" />
+              }
+            />
+          ) : (
+            <ErrorFallback
+              message="Please Sign Up To See Suggestions."
+              icon={
+                <HiOutlineCubeTransparent className="h-12 w-12 text-gray-500" />
+              }
+              noAction
+            />
+          )}
         </Card>
         <Footer />
       </>

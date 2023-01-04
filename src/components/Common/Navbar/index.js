@@ -24,7 +24,7 @@ export function Navbar({ currentUser }) {
   const [openNotifications, setNotificationOpen] = useState(false);
 
   const user = currentUser;
-  if (!user) {
+  if (currentUser?.annonymous === true) {
     return (
       <>
         <UnauthorizedHeader />
@@ -66,7 +66,7 @@ export function Navbar({ currentUser }) {
                 <div className="flex md:absolute md:left-0 md:inset-y-0 lg:static xl:col-span-2">
                   <div className="flex-shrink-0 flex items-center">
                     <Link href={`/feed`}>
-                      <Image src={Logo} alt="D2D" width={67} height={67} />
+                      <Image src={Logo} alt="Foxxi" width={67} height={67} />
                     </Link>
                   </div>
                 </div>
@@ -127,7 +127,7 @@ export function Navbar({ currentUser }) {
             </div>
 
             <MobileMenu
-              user={user}
+              user={currentUser}
               open={open}
               closeFx={close}
               signout={signout}

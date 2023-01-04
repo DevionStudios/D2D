@@ -44,7 +44,7 @@ export function LoginForm() {
         document.cookie =
           jwtToken + ";expires=" + date.toUTCString() + ";path=/";
         toast.success("Signed In Successfully");
-        router.push("/onboarding/");
+        router.push("/feed");
       } else {
         toast.error(res.data.message);
       }
@@ -95,6 +95,19 @@ export function LoginForm() {
               href="/auth/signup"
             >
               Join Foxxi™
+            </Link>
+          </Card.Body>
+        </Card>
+      </div>
+      <div>
+        <Card rounded="lg" className="mt-4">
+          <Card.Body>
+            <span className="mr-1">Don’t want to join yet ?</span>
+            <Link
+              className="font-medium text-brand-600 hover:text-brand-400"
+              href="/feed"
+            >
+              Browse Annonymously!
             </Link>
           </Card.Body>
         </Card>
