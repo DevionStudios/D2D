@@ -108,7 +108,7 @@ export function Step2({ currentUser }) {
               existingimage={user.coverImage}
               accept="image/png, image/jpg, image/jpeg, image/gif"
               name="coverImage"
-              label="Cover Image"
+              label="Cover image"
               multiple={false}
             />
           </div>

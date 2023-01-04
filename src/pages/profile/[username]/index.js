@@ -9,6 +9,7 @@ import { Status } from "src/components/ui/StatusPages/Status";
 
 export default function ProfilePage({ currentUser }) {
   const [user, setUser] = useState(undefined);
+  const [unableToSetUser, setUnableToSetUser] = useState(false);
   let isMe = false;
   const router = useRouter();
   const username = router.query.username;
@@ -21,13 +22,16 @@ export default function ProfilePage({ currentUser }) {
       setUser(data);
       console.log("profile page data:", data);
     } catch (error) {
+      setUnableToSetUser(true);
       console.log(error);
     }
   };
   useEffect(() => {
     fetchUserProfile();
   }, []);
-  return user ? (
+  return unableToSetUser ? (
+    <Status statusCode="404" href={!currentUser ? "/" : "/feed/"} />
+  ) : user ? (
     <>
       <Navbar currentUser={currentUser} />
       <Profile
@@ -38,7 +42,9 @@ export default function ProfilePage({ currentUser }) {
       />
     </>
   ) : (
-    <Status statusCode="404" href={!currentUser ? "/" : "/feed/"} />
+    <div>
+      <h1>Loading</h1>
+    </div>
   );
 }
 

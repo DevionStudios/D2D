@@ -79,7 +79,7 @@ export function TrendingTweetsPostCard(props) {
                   layout="fill"
                   objectFit="cover"
                   placeholder="empty"
-                  alt={`Image posted by ${props.post.author.name} on Foxxi.`}
+                  alt={`image posted by ${props.post.author.name} on Foxxi.`}
                 />
               </div>
             </div>

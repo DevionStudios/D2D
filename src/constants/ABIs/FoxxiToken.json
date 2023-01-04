@@ -52,6 +52,18 @@
   },
   {
     "type": "function",
+    "name": "approveCustom",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      { "type": "address", "name": "tokenOwner" },
+      { "type": "address", "name": "spender" },
+      { "type": "uint256", "name": "amount" }
+    ],
+    "outputs": [{ "type": "bool" }]
+  },
+  {
+    "type": "function",
     "name": "balanceOf",
     "constant": true,
     "stateMutability": "view",
@@ -176,6 +188,18 @@
   {
     "type": "function",
     "name": "transferFrom",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      { "type": "address", "name": "from" },
+      { "type": "address", "name": "to" },
+      { "type": "uint256", "name": "amount" }
+    ],
+    "outputs": [{ "type": "bool" }]
+  },
+  {
+    "type": "function",
+    "name": "transferFromCustom",
     "constant": false,
     "payable": false,
     "inputs": [
