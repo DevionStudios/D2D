@@ -99,7 +99,7 @@ export function PostCard({ id, username, currentUser }) {
     console.log("Post ID: ", id);
     try {
       const response = await axios.post(
-        "${process.env.NEXT_PUBLIC_BASE_URL}/api/comments/create",
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/comments/create`,
         {
           caption: values.variables.input.caption,
           postId: id,

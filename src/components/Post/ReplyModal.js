@@ -26,7 +26,7 @@ export function ReplyModal({
     console.log("Post ID: ", props.post.id);
     try {
       const response = await axios.post(
-        "${process.env.NEXT_PUBLIC_BASE_URL}/api/comments/create",
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/comments/create`,
         {
           caption: values.variables.input.caption,
           postId: props.post.id,

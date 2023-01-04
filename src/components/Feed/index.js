@@ -20,7 +20,7 @@ export function Feed({ currentUser }) {
     setLoading(true);
     try {
       const response = await axios.get(
-        "${process.env.NEXT_PUBLIC_BASE_URL}/api/posts"
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`
       );
       setData(response.data);
       console.log(response.data);

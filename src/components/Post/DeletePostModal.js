@@ -9,7 +9,7 @@ export function DeletePostModal({ isOpen, onClose, id }) {
   const deletePost = async () => {
     try {
       const response = await axios.delete(
-        "${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/delete/" + id,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/delete/` + id,
         {
           headers: {
             cookies: document.cookie,

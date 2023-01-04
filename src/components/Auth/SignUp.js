@@ -47,7 +47,7 @@ export function SignUp() {
 
     try {
       const res = await axios.post(
-        "${process.env.NEXT_PUBLIC_BASE_URL}/api/users/signup",
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/signup`,
         {
           email: values.email,
           name: values.name,
@@ -82,7 +82,7 @@ export function SignUp() {
     }
     try {
       const response = await axios.post(
-        "${process.env.NEXT_PUBLIC_BASE_URL}/api/verification/generate",
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/verification/generate`,
         { email: email },
         { withCredentials: true }
       );

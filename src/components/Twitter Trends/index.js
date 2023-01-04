@@ -26,7 +26,7 @@ export function TwitterFeed({ currentUser }) {
     try {
       let tempData = [];
       const response = await axios.get(
-        "${process.env.NEXT_PUBLIC_BASE_URL}/api/tweets/trending",
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/tweets/trending`,
         {
           headers: {
             cookies: document.cookie,
