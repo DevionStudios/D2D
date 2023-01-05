@@ -36,6 +36,7 @@ import { searchUserRouter } from "./routes/auth/get-search-user";
 import { activeUserRouter } from "./routes/auth/active-user";
 import { claimTokenRouter } from "./routes/reward/claim-token";
 import { checkClaimRouter } from "./routes/reward/check-claim-token";
+import { updateProfileImageRouter } from "./routes/auth/update-profile-image";
 
 const app = express();
 // app.set("trust proxy", true);
@@ -73,6 +74,7 @@ app.use(signoutRouter);
 app.use(currentUserRouter);
 app.use(fetchUserRouter);
 app.use(followUserRouter);
+app.use(updateProfileImageRouter);
 app.use(updatePasswordRouter);
 app.use(createPostRouter);
 app.use(getPostRouter);
