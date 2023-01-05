@@ -10,7 +10,6 @@ interface UserPayLoad {
 }
 
 const currentUser = (req: Request, res: Response, next: NextFunction) => {
-  console.log("cookeis", req.headers.cookies);
   try {
     if (
       req.headers &&

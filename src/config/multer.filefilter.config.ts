@@ -9,14 +9,7 @@ export default multer({
     callback: FileFilterCallback
   ): void => {
     let ext = path.extname(file.originalname);
-    if (
-      ext !== ".jpg" &&
-      ext !== ".jpeg" &&
-      ext !== ".png" &&
-      ext !== ".mp4" &&
-      ext !== "m4v" &&
-      ext != "mov"
-    ) {
+    if (ext !== ".jpg" && ext !== ".jpeg" && ext !== ".png" && ext !== ".gif") {
       callback(null, false);
       return;
     }
