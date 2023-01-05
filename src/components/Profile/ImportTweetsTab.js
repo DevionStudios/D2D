@@ -13,13 +13,19 @@ const ImportTweetsSchema = object({
   twitterUsername: z.string().min(1, "Twitte Username is required."),
 });
 
-export function ImportTweetsTab() {
+export function ImportTweetsTab({ currentUser }) {
   const [loading, setLoading] = useState(false);
 
   // const form = useZodForm({
   //   schema: ImportTweetsSchema,
   // });
   const importTweets = async () => {
+    if (!currentUser.twitterUsername || currentUser.twitterUsername === "") {
+      toast.error(
+        "Please set your twitter username in the edit profile section."
+      );
+      return;
+    }
     // import tweets request
     try {
       const res = await axios.post(
@@ -32,6 +38,7 @@ export function ImportTweetsTab() {
         }
       );
       console.log(res.data);
+      toast("Your tweets have been imported.");
     } catch (e) {
       console.log(e);
     }
@@ -87,7 +94,6 @@ export function ImportTweetsTab() {
                   },
                 },
               });
-              toast("Your tweets have been imported.");
             }}
           >
             {" "}

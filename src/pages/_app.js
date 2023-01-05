@@ -53,7 +53,6 @@ MyApp.getInitialProps = async (appContext) => {
     data = responseData;
   }
 
-  console.log("asdlsakdnwa", data);
   if (data.currentuser === null) {
     data.currentUser = {
       username: "guest",

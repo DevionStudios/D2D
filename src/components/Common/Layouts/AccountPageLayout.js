@@ -30,13 +30,13 @@ export function AccountPageLayout({ currentUser }) {
               id: "",
             },
             {
-              component: <Preferences />,
+              component: <Preferences currentUser={currentUser} />,
               icon: HiOutlineSparkles,
               name: "Options",
               id: "",
             },
             {
-              component: <ImportTweetsTab />,
+              component: <ImportTweetsTab currentUser={currentUser} />,
               icon: HiOutlineSparkles,
               name: "Tweets Migration",
               id: "",

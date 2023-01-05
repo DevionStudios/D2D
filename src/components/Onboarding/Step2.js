@@ -36,8 +36,8 @@ export function Step2({ currentUser }) {
     const { input } = variables;
     const formdata = new FormData();
     formdata.append("bio", input.bio || user.bio);
-    formdata.append("images", input.image);
-    formdata.append("images", input.coverImage);
+    formdata.append("image", input.image);
+    formdata.append("coverImage", input.coverImage);
     formdata.append("name", user.name);
     formdata.append("username", user.username);
     formdata.append("walletAddress", input.walletAddress || user.walletAddress);

@@ -9,17 +9,16 @@ import { useState, useEffect } from "react";
 export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
 
-  const { theme, setTheme } = useTheme();
+  const { systemTheme, theme, setTheme } = useTheme();
 
   useEffect(() => {
     setMounted(true);
-    setTheme(theme);
+    setTheme("dark");
   }, []);
 
   if (!mounted) return null;
   function toggleTheme() {
     const currentTheme = theme;
-
     if (currentTheme === "dark") {
       setTheme("light");
     } else {

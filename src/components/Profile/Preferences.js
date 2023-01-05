@@ -66,7 +66,9 @@ export function Preferences() {
         toast.success("Reward claimed successfully!");
       }
     } catch (e) {
-      toast.error("Something went wrong! Please try again later.");
+      toast.error(
+        "Something went wrong! Please check if your wallet is connected!"
+      );
       console.log(e);
     } finally {
       setIsDisabled(false);

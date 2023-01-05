@@ -16,10 +16,7 @@ const EditProfileFormSchema = object({
     .string()
     .min(1, "Name must be longer than one character.")
     .max(30, "Consider putting a shorter first name."),
-  twitterUsername: z
-    .string()
-    .min(1, "Name must be longer than one character.")
-    .max(30, "Consider putting a shorter first name."),
+  twitterUsername: z.string(),
   bio: z
     .string()
     .max(400, "Exceeds 400 characters. Consider keeping bio shorter.")
@@ -78,15 +75,17 @@ export function EditProfileTab({ currentUser }) {
     const images = [input.image, input.coverImage];
     const formdata = new FormData();
     formdata.append("bio", input.bio || user.bio);
-    formdata.append("images", input.image);
-    formdata.append("images", input.coverImage);
+    formdata.append("image", input.image);
+    formdata.append("coverImage", input.coverImage);
     formdata.append("name", input.name || user.name);
     formdata.append("username", input.username || user.username);
     formdata.append("walletAddress", input.walletAddress || user.walletAddress);
-    formdata.append(
-      "twitterUsername",
-      input.twitterUsername || user.twitterUsername
-    );
+    if (input.twitterUsername && input.twitterUsername !== "") {
+      formdata.append(
+        "twitterUsername",
+        input.twitterUsername || user.twitterUsername
+      );
+    }
     console.log("Cookie: ", document.cookie);
     try {
       const res = await axios.put(
@@ -167,7 +166,7 @@ export function EditProfileTab({ currentUser }) {
                 />
               </div>
             </div>
-            {!user.twitterUsername && user.twitterUsername.length <= 0 && (
+            {!user.twitterUsername && (
               <div className="flex space-x-3">
                 <div className="flex-1">
                   <Input
@@ -178,13 +177,7 @@ export function EditProfileTab({ currentUser }) {
                 </div>
               </div>
             )}
-            <div>
-              <Input
-                {...form.register("email")}
-                readOnly
-                label="Email Address"
-              />
-            </div>
+
             <div>
               <Input
                 {...form.register("walletAddress")}
