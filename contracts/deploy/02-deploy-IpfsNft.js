@@ -1,12 +1,12 @@
 const { network } = require("hardhat");
 const { developmentChains } = require("../helper-hardhat-config");
 const { verify } = require("../utils/verify");
-module.exports = async ({ getNamedAccounts, deploymets }) => {
+module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deployer } = await getNamedAccounts();
   const { deploy, log } = deployments;
   const args = [];
   log("----Deploying----");
-  const d2dTokenContract = await deploy("IpfsNft", {
+  const d2dTokenContract = await deploy("IpfsNFT", {
     from: deployer,
     log: true,
     args: args,

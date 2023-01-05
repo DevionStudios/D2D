@@ -23,12 +23,17 @@ async function updateAbi() {
     `${FRONTEND_ABI_LOCATION}FoxxiToken.json`,
     FoxxiToken.interface.format(ethers.utils.FormatTypes.json)
   );
+  const IpfsNFT = await ethers.getContract("IpfsNFT");
+  fs.writeFileSync(
+    `${FRONTEND_ABI_LOCATION}IpfsNFT.json`,
+    IpfsNFT.interface.format(ethers.utils.FormatTypes.json)
+  );
 }
 
 async function updateContractAddresses() {
   const chainId = network.config.chainId.toString();
   const FoxxiToken = await ethers.getContract("FoxxiToken");
-  const FundContract = await ethers.getContract("Fund");
+  const IpfsNFT = await ethers.getContract("IpfsNFT");
   const contractAddresses = JSON.parse(
     fs.readFileSync(FRONTEND_ADDRESS_LOCATION, "utf8")
   );
@@ -38,8 +43,12 @@ async function updateContractAddresses() {
     ) {
       contractAddresses[chainId]["FoxxiToken"].push(FoxxiToken.address);
     }
+    if (!contractAddresses[chainId]["IpfsNFT"].includes(IpfsNFT.address)) {
+      contractAddresses[chainId]["IpfsNFT"].push(IpfsNFT.address);
+    }
   } else {
     contractAddresses[chainId]["FoxxiToken"] = [FoxxiToken.address];
+    contractAddresses[chainId]["IpfsNFT"] = [FoxxiToken.address];
   }
   fs.writeFileSync(
     FRONTEND_ADDRESS_LOCATION,

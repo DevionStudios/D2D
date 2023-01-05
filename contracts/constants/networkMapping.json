@@ -1,13 +1,18 @@
 {
-  "1": { "FoxxiToken": [] },
+  "1": { "FoxxiToken": [], "IpfsNFT": [] },
   "5": {
     "FoxxiToken": [
       "0x9779c234C31a0ae2C475A1340C15BdA32C95515f",
       "0x3520762C9C4DFFc41dedE9670f8ccDaFa62F0833",
-      "0x9ee6bFdA08857212f10D8820b210d52b3d3d1109"
-    ]
+      "0x9ee6bFdA08857212f10D8820b210d52b3d3d1109",
+      "0x7663d2e76E6e58C2ACc2f2a8418a802eAaC5ee08"
+    ],
+    "IpfsNFT": ["0xe5d7ed23ca823B38d0C245202910E3721097d5c9"]
   },
-  "137": { "FoxxiToken": [] },
-  "31337": { "FoxxiToken": [] },
-  "80001": { "FoxxiToken": [] }
+  "137": { "FoxxiToken": [], "IpfsNFT": [] },
+  "31337": {
+    "FoxxiToken": ["0x5FbDB2315678afecb367f032d93F642f64180aa3"],
+    "IpfsNFT": ["0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"]
+  },
+  "80001": { "FoxxiToken": [], "IpfsNFT": [] }
 }
