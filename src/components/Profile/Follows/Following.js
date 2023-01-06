@@ -11,16 +11,6 @@ import Link from "next/link";
 import Image from "next/image";
 
 export function Following({ data, currentUser, username }) {
-  // let loading, error, fetchMore;
-
-  // if (loading) {
-  //   return (
-  //     <div className="py-6">
-  //       <Spinner className="w-6 h-6" />
-  //     </div>
-  //   );
-  // }
-
   if (!data || data.length === 0)
     return (
       <div className="px-4 py-5 sm:p-6 flex items-start justify-center">
@@ -42,8 +32,7 @@ export function Following({ data, currentUser, username }) {
             >
               {data.map((edge) => {
                 const user = edge;
-                // !remove console.log(data);
-                if (!user) return <h1>TODO : No user </h1>;
+                if (!user) return <h1> No user </h1>;
                 return (
                   <li
                     key={user.id}
@@ -74,13 +63,15 @@ export function Following({ data, currentUser, username }) {
                       </div>
                       <div>
                         {!currentUser.annonymous ? (
-                          <FollowButton
-                            variant="dark"
-                            isFollowing={user.followers?.includes(
-                              currentUser?.id
-                            )}
-                            username={user.username}
-                          />
+                          user.id == currentUser.id ? null : (
+                            <FollowButton
+                              isFollowing={user.followers.includes(
+                                currentUser.id
+                              )}
+                              username={user.username}
+                              variant="dark"
+                            />
+                          )
                         ) : null}
                       </div>
                     </div>

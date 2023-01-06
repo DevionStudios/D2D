@@ -9,17 +9,6 @@ import Link from "next/link";
 import Image from "next/image";
 
 export function Followers({ currentUser, data, username }) {
-  // let loading, error, fetchMore;
-
-  // if (error) return <ErrorFallback message="Something went wrong." />;
-
-  // if (loading) {
-  //   return (
-  //     <div className="py-6">
-  //       <Spinner className="w-6 h-6" />
-  //     </div>
-  //   );
-  // }
   if (!data || data.length === 0)
     return (
       <div className="px-4 py-5 sm:p-6 flex items-start justify-center">
@@ -41,8 +30,7 @@ export function Followers({ currentUser, data, username }) {
             >
               {data.map((edge) => {
                 const user = edge;
-                // !remove console.log(user);
-                if (!user) return <h1>TODO : No user </h1>;
+                if (!user) return <h1>No user </h1>;
                 return (
                   <li
                     key={user.id}
