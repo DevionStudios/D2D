@@ -66,10 +66,10 @@ export function SignUp() {
         toast.success("Account Created Successfully");
         router.push("/onboarding");
       } else {
-        toast.error(res.data.message);
+        toast.error("Error Occured! Check If You Already Have An Account!");
       }
     } catch (error) {
-      toast.error(error.message);
+      toast.error("Error Occured! Check If You Already Have An Account!");
     }
   };
 
@@ -200,6 +200,19 @@ export function SignUp() {
               href="/auth/signin"
             >
               Log into Foxxi™
+            </Link>
+          </Card.Body>
+        </Card>
+      </div>
+      <div>
+        <Card rounded="lg" className="mt-4">
+          <Card.Body>
+            <span className="mr-1">Already have an account ?</span>
+            <Link
+              className="font-medium text-brand-600 hover:text-brand-400"
+              href="/auth/walletsignin"
+            >
+              Sign In With Wallet
             </Link>
           </Card.Body>
         </Card>

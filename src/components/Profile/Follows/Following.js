@@ -73,7 +73,7 @@ export function Following({ data, currentUser, username }) {
                         </p>
                       </div>
                       <div>
-                        {currentUser.email ? (
+                        {!currentUser.annonymous ? (
                           <FollowButton
                             variant="dark"
                             isFollowing={user.followers?.includes(

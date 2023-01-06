@@ -15,35 +15,61 @@ export function AccountPageLayout({ currentUser }) {
   return (
     <div className="max-w-7xl mt-20 mx-auto">
       <div className="lg:grid lg:grid-cols-12 lg:gap-x-5">
-        <TabbedLayout
-          navigation={[
-            {
-              component: <EditProfileTab currentUser={currentUser} />,
-              icon: HiOutlineUserCircle,
-              name: "Profile Settings",
-              id: "",
-            },
-            {
-              component: <PasswordTab />,
-              icon: HiOutlineKey,
-              name: "Security Settings",
-              id: "",
-            },
-            {
-              component: <Preferences currentUser={currentUser} />,
-              icon: HiOutlineSparkles,
-              name: "Options",
-              id: "",
-            },
-            {
-              component: <ImportTweetsTab currentUser={currentUser} />,
-              icon: HiOutlineSparkles,
-              name: "Tweets Migration",
-              id: "",
-            },
-          ]}
-          isTabbed={true}
-        />
+        {currentUser.email ? (
+          <TabbedLayout
+            navigation={[
+              {
+                component: <EditProfileTab currentUser={currentUser} />,
+                icon: HiOutlineUserCircle,
+                name: "Profile Settings",
+                id: "",
+              },
+              {
+                component: <PasswordTab />,
+                icon: HiOutlineKey,
+                name: "Security Settings",
+                id: "",
+              },
+              {
+                component: <Preferences currentUser={currentUser} />,
+                icon: HiOutlineSparkles,
+                name: "Options",
+                id: "",
+              },
+              {
+                component: <ImportTweetsTab currentUser={currentUser} />,
+                icon: HiOutlineSparkles,
+                name: "Tweets Migration",
+                id: "",
+              },
+            ]}
+            isTabbed={true}
+          />
+        ) : (
+          <TabbedLayout
+            navigation={[
+              {
+                component: <EditProfileTab currentUser={currentUser} />,
+                icon: HiOutlineUserCircle,
+                name: "Profile Settings",
+                id: "",
+              },
+              {
+                component: <Preferences currentUser={currentUser} />,
+                icon: HiOutlineSparkles,
+                name: "Options",
+                id: "",
+              },
+              {
+                component: <ImportTweetsTab currentUser={currentUser} />,
+                icon: HiOutlineSparkles,
+                name: "Tweets Migration",
+                id: "",
+              },
+            ]}
+            isTabbed={true}
+          />
+        )}
       </div>
     </div>
   );

@@ -53,7 +53,7 @@ export function PostCard({ id, username, currentUser }) {
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/post/${id}`
       );
       setData(res.data);
-      setLikes(res.data?.likes);
+      setLikes(res.data?.likes.length);
       setComments(res.data?.comments);
       setIsLiked(res.data?.likes?.includes(currentUser.id));
     } catch (e) {
@@ -81,14 +81,9 @@ export function PostCard({ id, username, currentUser }) {
           },
         }
       );
-
-      if (response.status === 200) {
-        if (isLiked) setLikes(likes - 1);
-        else setLikes(likes + 1);
-        setIsLiked(!isLiked);
-
-        setData(response.data);
-      }
+      console.log(response.data.likes.length);
+      setLikes(response.data.likes.length);
+      setIsLiked(!isLiked);
     } catch (e) {
       console.log(e);
     }
@@ -207,7 +202,7 @@ export function PostCard({ id, username, currentUser }) {
                     </p>
                   </div>
                   <div className="flex-shrink-0 self-center flex">
-                    {currentUser.email ? (
+                    {currentUser.annonymous ? (
                       username === data.author.username ? (
                         <PostDropdown
                           id={data.id}
@@ -289,11 +284,11 @@ export function PostCard({ id, username, currentUser }) {
               </Modal>
             </Card>
 
-            {currentUser.email ? (
+            {!currentUser.annonymous ? (
               <Card className="py-2 px-4 flex justify-between space-x-8">
                 <div className="flex space-x-6">
                   <span className="inline-flex">
-                    <p className="font-bold">{data?.likes?.length || "0"}</p>
+                    <p className="font-bold">{likes || "0"}</p>
                     <button onClick={() => setLikesModal(true)}>
                       <p className="text-muted ml-1 ">Likes</p>{" "}
                     </button>
@@ -310,7 +305,7 @@ export function PostCard({ id, username, currentUser }) {
               </Card>
             ) : null}
 
-            {currentUser.email ? (
+            {!currentUser.annonymous ? (
               <Card className="py-4 px-4 flex justify-between space-x-8 rounded-b-lg">
                 <div className="flex space-x-6">
                   <span className="inline-flex items-center text-sm">
@@ -378,7 +373,7 @@ export function PostCard({ id, username, currentUser }) {
             ) : null}
           </div>
         </div>
-        {currentUser.email ? (
+        {!currentUser.annonymous ? (
           <Card className="w-full" rounded="lg">
             <Card.Body>
               <Form

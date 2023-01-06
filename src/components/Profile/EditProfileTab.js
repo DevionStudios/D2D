@@ -22,7 +22,6 @@ const EditProfileFormSchema = object({
     .max(400, "Exceeds 400 characters. Consider keeping bio shorter.")
     .optional()
     .nullable(),
-  email: z.string().email("Must be a valid email address."),
   walletAddress: z.string().optional().nullable(),
   image: z.any().optional(),
   coverImage: z.any().optional(),
@@ -44,10 +43,8 @@ export function EditProfileTab({ currentUser }) {
   const form = useZodForm({
     schema: EditProfileFormSchema,
     defaultValues: {
-      username: user.username,
       bio: user.bio,
       name: user.name,
-      email: user.email,
       walletAddress: user.walletAddress,
     },
   });
@@ -56,10 +53,8 @@ export function EditProfileTab({ currentUser }) {
     setUser(currentUser);
 
     form.reset({
-      username: currentUser.username,
       bio: currentUser.bio,
       name: currentUser.name,
-      email: currentUser.email,
       walletAddress: currentUser.walletAddress,
       twitterUsername: currentUser.twitterUsername,
     });
@@ -78,7 +73,6 @@ export function EditProfileTab({ currentUser }) {
     formdata.append("image", input.image);
     formdata.append("coverImage", input.coverImage);
     formdata.append("name", input.name || user.name);
-    formdata.append("username", input.username || user.username);
     formdata.append("walletAddress", input.walletAddress || user.walletAddress);
     if (input.twitterUsername && input.twitterUsername !== "") {
       formdata.append(

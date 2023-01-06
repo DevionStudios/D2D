@@ -6,7 +6,7 @@ import { GradientBar } from "../ui/GradientBar";
 import Logo from "../../assets/D2D Logo Trans.png";
 import Image from "next/image";
 import { ConnectButton } from "@web3uikit/web3";
-export function AuthLayout({ title, subtitle, children }) {
+export function WalletAuthLayout({ title, subtitle, children }) {
   return (
     <main className="flex flex-col justify-center mx-auto w-full max-w-xl min-h-screen py-10">
       <div className="mb-8 text-center">
@@ -15,6 +15,9 @@ export function AuthLayout({ title, subtitle, children }) {
           <Heading size="h2">{title}</Heading>
         </div>
         <p className="mt-3 text-gray-500">{subtitle}</p>
+        <div className="inline-flex items-center mb-1 space-x-3 my-3">
+          <ConnectButton />
+        </div>
       </div>
       <Card
         rounded="md"

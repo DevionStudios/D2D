@@ -6,7 +6,7 @@ export function UserHandle({ currentUser }) {
   return (
     <>
       <div className="flex-shrink-0">
-        {currentUser.email ? (
+        {currentUser.annonymous ? (
           <Link href={`/profile/${user.username}`} passHref>
             <img
               className="h-10 w-10 rounded-full object-cover"

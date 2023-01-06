@@ -9,6 +9,9 @@ import { Heading } from "src/components/ui/Heading";
 import { Link } from "src/components/ui/Link";
 import Logo from "../assets/D2D Logo Trans.png";
 import Image from "next/image";
+import { useMoralis } from "react-moralis";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 const onboardingTabs = [
   {
     label: "Welcome",
@@ -34,6 +37,77 @@ export default function Onboarding({ currentUser }) {
       router.push("/auth/signin");
     }
   });
+  const { account, deactivateWeb3 } = useMoralis();
+  const [accountWallet, setAccountWallet] = useState(null);
+
+  const sendSignInRequest = async () => {
+    if (account == undefined) {
+      toast.error("Please connect your wallet first");
+      return;
+    }
+
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/signin`,
+        {
+          accountWallet: account,
+        },
+        { withCredentials: true }
+      );
+      console.log(res.data);
+      if (res.status == 200) {
+        const jwtToken = "foxxi_jwt=" + res.data.jwt;
+        var date = new Date();
+        date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 days expiry
+        document.cookie =
+          jwtToken + ";expires=" + date.toUTCString() + ";path=/";
+        toast.success("Signed In Successfully");
+        router.push("/feed");
+      } else {
+        toast.error("Wallet is not registered! Please sign up first!");
+        await deactivateWeb3();
+        // clear all cookies
+        document.cookie.split(";").forEach(function (c) {
+          document.cookie = c
+            .replace(/^ +/, "")
+            .replace(
+              /=.*/,
+              "=;expires=" + new Date().toUTCString() + ";path=/"
+            );
+        });
+        router.push("/auth/walletsignin");
+      }
+    } catch (error) {
+      toast.error("Wallet is not registered! Please sign up first!");
+      await deactivateWeb3();
+      // clear all cookies
+      document.cookie.split(";").forEach(function (c) {
+        document.cookie = c
+          .replace(/^ +/, "")
+          .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+      });
+      router.push("/auth/walletsignin");
+    }
+  };
+  useEffect(() => {
+    if (!currentUser?.email && !currentUser?.annonymous) {
+      if (!currentUser.accountWallet) {
+        toast.error(
+          "You are not signed in! You are being redirected to sign in page!"
+        );
+        router.push("/auth/walletsignin");
+        return;
+      }
+      if (
+        account &&
+        currentUser.accountWallet &&
+        account !== currentUser.accountWallet
+      ) {
+        toast.error("Detected Sign In With Different Wallet!");
+        sendSignInRequest();
+      }
+    }
+  }, [account]);
   function handleChange(idx) {
     setCurrentStep(idx);
     router.push(

@@ -50,7 +50,7 @@ export function RightSidebar({ currentUser }) {
     }
   }, []);
   if (error) {
-    return currentUser.email ? (
+    return !currentUser.annonymous ? (
       <aside className="w-full sticky top-20">
         <ErrorFallback
           message="Failed to load suggestions."
@@ -77,7 +77,7 @@ export function RightSidebar({ currentUser }) {
     return (
       <>
         <Card rounded="lg" className="sticky top-20">
-          {currentUser.email ? (
+          {currentUser.annonymous ? (
             <ErrorFallback
               message="No user suggestions for now. :)"
               noAction

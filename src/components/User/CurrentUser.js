@@ -4,7 +4,7 @@ export function CurrentUser({ currentUser }) {
   return (
     <>
       <span className="flex w-full justify-between items-center">
-        {currentUser.email ? (
+        {!currentUser.annonymous ? (
           <Link
             href={
               currentUser

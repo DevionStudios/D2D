@@ -88,7 +88,7 @@ export function Profile({ user, isMe, username, currentUser }) {
                   >
                     Edit Profile
                   </Button>
-                ) : currentUser.email ? (
+                ) : !currentUser.annonymous ? (
                   <FollowButton
                     isFollowing={
                       user.followers.length > 0

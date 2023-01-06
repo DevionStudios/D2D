@@ -2,7 +2,7 @@ import { object, string } from "zod";
 import { Input } from "../ui/Input";
 import Form, { useZodForm } from "src/components/ui/Form/Form";
 import { Link } from "../ui/Link";
-import { AuthLayout } from "./AuthLayout";
+import { WalletAuthLayout } from "./WalletAuthLayout";
 import { Card } from "../ui/Card";
 import toast from "react-hot-toast";
 import FormSubmitButton from "../ui/Form/SubmitButton";
@@ -10,20 +10,15 @@ import { useEffect, useState } from "react";
 import { Button } from "../ui/Button";
 import axios from "axios";
 import { useRouter } from "next/router";
-const loginSchema = object({
-  email: string().email(),
-  password: string().min(4),
-});
+import { useMoralis } from "react-moralis";
 
-export function LoginForm() {
+export function WalletSignIn() {
+  const { account, deactivateWeb3 } = useMoralis();
+  const [accountWallet, setAccountWallet] = useState();
   const router = useRouter();
-  const processSignIn = async (values) => {
-    // validate password format
-    var re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{4,}$/;
-    if (!re.test(values.password)) {
-      toast.error(
-        "Password must be at least 4 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character"
-      );
+  const processSignIn = async () => {
+    if (account == undefined) {
+      toast.error("Please connect your wallet first");
       return;
     }
 
@@ -31,8 +26,7 @@ export function LoginForm() {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/signin`,
         {
-          email: values.email,
-          password: values.password,
+          accountWallet: account,
         },
         { withCredentials: true }
       );
@@ -46,59 +40,23 @@ export function LoginForm() {
         toast.success("Signed In Successfully");
         router.push("/feed");
       } else {
-        toast.error("No User Found!");
+        toast.error("Wallet is not registered! Please sign up first!");
+        await deactivateWeb3();
       }
     } catch (error) {
-      toast.error("No User Found!");
+      toast.error("Wallet is not registered! Please sign up first!");
+      await deactivateWeb3();
     }
   };
-  const form = useZodForm({
-    schema: loginSchema,
-  });
+  useEffect(() => {
+    setAccountWallet(account);
+    if (account) processSignIn();
+  }, [account]);
   return (
-    <AuthLayout
+    <WalletAuthLayout
       title="Sign In."
       subtitle="Welcome back! Sign in to your Decentralised To Decentralised account."
     >
-      <Form
-        form={form}
-        onSubmit={async (values) => {
-          await processSignIn(values);
-        }}
-        className="w-full"
-      >
-        <Input
-          label="Email"
-          type="email"
-          placeholder="Type your email here"
-          autoComplete="email"
-          autoFocus
-          {...form.register("email")}
-        />
-
-        <Input
-          label="Password"
-          type="password"
-          placeholder="Type your password here"
-          autoComplete="current-password"
-          {...form.register("password")}
-        />
-
-        <FormSubmitButton size="lg">Login</FormSubmitButton>
-      </Form>
-      <div>
-        <Card rounded="lg" className="mt-4">
-          <Card.Body>
-            <span className="mr-1">Don’t have an account yet ?</span>
-            <Link
-              className="font-medium text-brand-600 hover:text-brand-400"
-              href="/auth/signup"
-            >
-              Join Foxxi™
-            </Link>
-          </Card.Body>
-        </Card>
-      </div>
       <div>
         <Card rounded="lg" className="mt-4">
           <Card.Body>
@@ -107,7 +65,20 @@ export function LoginForm() {
               className="font-medium text-brand-600 hover:text-brand-400"
               href="/auth/walletsignup"
             >
-              Sign Up With Wallet
+              Join with Wallet
+            </Link>
+          </Card.Body>
+        </Card>
+      </div>
+      <div>
+        <Card rounded="lg" className="mt-4">
+          <Card.Body>
+            <span className="mr-1">Already have an account ?</span>
+            <Link
+              className="font-medium text-brand-600 hover:text-brand-400"
+              href="/auth/signin"
+            >
+              Log in with Email
             </Link>
           </Card.Body>
         </Card>
@@ -125,6 +96,6 @@ export function LoginForm() {
           </Card.Body>
         </Card>
       </div>
-    </AuthLayout>
+    </WalletAuthLayout>
   );
 }

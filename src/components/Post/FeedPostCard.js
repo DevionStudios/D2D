@@ -141,7 +141,7 @@ export function FeedPostCard(props) {
                 </p>
               </div>
               <div className="flex-shrink-0 self-center flex">
-                {!props.currentUser.email ? null : props.post.author
+                {!props.currentUser.annonymous ? null : props.post.author
                     .username === props.username ? (
                   <PostDropdown
                     id={props.post.id}
@@ -203,7 +203,7 @@ export function FeedPostCard(props) {
           {/* Post Actions */}
           <div className="py-2 px-6 bg-gray-50 dark:bg-gray-900/30 flex border-t border-gray-200 dark:border-gray-700 justify-between space-x-8">
             <div className="flex space-x-6">
-              {props.currentUser.email ? (
+              {!props.currentUser.annonymous ? (
                 <>
                   <span className="inline-flex items-center space-x-2  ">
                     <Button
