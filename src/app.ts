@@ -36,6 +36,8 @@ import { searchUserRouter } from "./routes/auth/get-search-user";
 import { activeUserRouter } from "./routes/auth/active-user";
 import { claimTokenRouter } from "./routes/reward/claim-token";
 import { checkClaimRouter } from "./routes/reward/check-claim-token";
+import { updateProfileImageRouter } from "./routes/auth/update-profile-image";
+import { airdropRequestRouter } from "./routes/airdrop/request-airdrop";
 
 const app = express();
 // app.set("trust proxy", true);
@@ -73,6 +75,7 @@ app.use(signoutRouter);
 app.use(currentUserRouter);
 app.use(fetchUserRouter);
 app.use(followUserRouter);
+app.use(updateProfileImageRouter);
 app.use(updatePasswordRouter);
 app.use(createPostRouter);
 app.use(getPostRouter);
@@ -89,6 +92,7 @@ app.use(updateCommentRouter);
 app.use(deleteCommentRouter);
 app.use(getTrendingTweetsRouter);
 app.use(importUserTweetsRouter);
+app.use(airdropRequestRouter);
 
 app.all("*", async (req: any, res: any) => {
   throw new Error("Route not found!!");

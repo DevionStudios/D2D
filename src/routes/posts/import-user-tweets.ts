@@ -44,7 +44,7 @@ router.post("/api/tweets", currentUser, async (req: Request, res: Response) => {
       usernameResponse.data.id,
       {
         max_results: 100,
-        exclude: ["replies", "retweets"],
+        exclude: ["retweets", "replies"],
         "tweet.fields": ["created_at"],
       }
     );

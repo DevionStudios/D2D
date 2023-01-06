@@ -27,7 +27,6 @@ router.get(
       if (!existingUser) {
         throw new Error("User not found");
       }
-
       const TwitterClient = new TwitterApi({
         appKey: process.env.TWITTER_API_KEY!,
         appSecret: process.env.TWITTER_API_SECRET!,
