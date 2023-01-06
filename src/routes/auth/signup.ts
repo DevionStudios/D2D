@@ -13,11 +13,6 @@ const router = express.Router();
 router.post(
   "/api/users/signup",
   [
-    body("email").isEmail().withMessage("Email must be valid"),
-    body("password")
-      .trim()
-      .isLength({ min: 4, max: 20 })
-      .withMessage("Password must be between 4 and 20 characters"),
     body("username")
       .trim()
       .isLength({ min: 3, max: 20 })
@@ -27,31 +22,48 @@ router.post(
   validateRequest,
   async (req: Request, res: Response) => {
     try {
-      const { email, password, username, name } = req.body;
+      const { email, password, username, name, accountWallet } = req.body;
 
-      const existingUser = await User.findOne({ email });
+      // check if email is provided
+      let existingUser: any;
+      if (email && email.length > 0)
+        existingUser = await User.findOne({ email });
+      else existingUser = await User.findOne({ accountWallet });
 
       if (existingUser) {
-        throw new BadRequestError("Email already in use");
+        throw new BadRequestError("Account already in use");
       }
 
       const userWithSameUsername = await User.findOne({ username });
       if (userWithSameUsername) {
         throw new BadRequestError("Username already in use");
       }
-
-      const user = User.build({ email, password, username, name });
+      let user;
+      if (email && email.length > 0)
+        user = User.build({ email, password, username, name });
+      else user = User.build({ username, name, accountWallet });
       await user.save();
 
       // Generate JWT
-      const userJwt = jwt.sign(
-        {
-          email: user.email,
-          username: user.username,
-          id: user.id,
-        },
-        process.env.JWT_KEY!
-      );
+      let userJwt;
+      if (email && email.length > 0)
+        userJwt = jwt.sign(
+          {
+            email: user.email,
+            username: user.username,
+            id: user.id,
+          },
+          process.env.JWT_KEY!
+        );
+      else
+        userJwt = jwt.sign(
+          {
+            accountWallet: user.accountWallet,
+            username: user.username,
+            id: user.id,
+          },
+          process.env.JWT_KEY!
+        );
 
       // Store it on session object
       req.session = {

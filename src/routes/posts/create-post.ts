@@ -25,7 +25,7 @@ router.post(
         : null;
       const media = result?.secure_url || "";
       const existingUser = await User.findOne({
-        _id: req.currentUser!.id,
+        _id: req.foxxiUser!.id,
       });
 
       if (!existingUser) {

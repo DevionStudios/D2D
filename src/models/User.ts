@@ -3,8 +3,8 @@ import { Password } from "../services/password";
 import { PostDoc } from "./Post";
 
 interface UserAttrs {
-  email: string;
-  password: string;
+  email?: string;
+  password?: string;
   username: string;
   name: string;
   walletAddress?: string;
@@ -16,6 +16,7 @@ interface UserAttrs {
   posts?: PostDoc[];
   hasClaimed?: boolean;
   twitterUsername?: string;
+  accountWallet?: string;
 }
 
 interface UserModel extends mongoose.Model<UserDoc> {
@@ -39,12 +40,14 @@ export interface UserDoc extends mongoose.Document {
   createdAt?: Date;
   hasClaimed?: boolean;
   twitterUsername?: string;
+  accountWallet?: string;
 }
 
 const userSchema = new mongoose.Schema(
   {
     email: {
       type: String,
+      required: false,
     },
     username: {
       type: String,
@@ -54,6 +57,7 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
+      required: false,
     },
     walletAddress: {
       type: String,
@@ -112,6 +116,12 @@ const userSchema = new mongoose.Schema(
     twitterUsername: {
       type: String,
       dafault: "",
+    },
+
+    accountWallet: {
+      type: String,
+      default: "",
+      required: false,
     },
   },
   {

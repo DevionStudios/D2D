@@ -11,15 +11,15 @@ const router = express.Router();
 dotenv.config();
 
 router.post("/api/tweets", currentUser, async (req: Request, res: Response) => {
-  const { currentUser } = req;
+  const { foxxiUser } = req;
 
-  if (!currentUser) {
+  if (!foxxiUser) {
     throw new BadRequestError("User not found!");
   }
 
   try {
     const existingUser = await User.findOne({
-      username: currentUser.username,
+      username: foxxiUser.username,
     });
 
     if (!existingUser) {
@@ -56,7 +56,7 @@ router.post("/api/tweets", currentUser, async (req: Request, res: Response) => {
         twitterId: tweet.id,
       });
       const theUser = await User.findOne({
-        username: currentUser.username,
+        username: foxxiUser.username,
       });
       if (!existingPost) {
         const post = Post.build({

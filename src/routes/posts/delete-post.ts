@@ -19,7 +19,7 @@ router.delete(
         throw new BadRequestError("Post not found!");
       }
 
-      if (existingPost.author.id !== req.currentUser?.id) {
+      if (existingPost.author.id !== req.foxxiUser?.id) {
         throw new BadRequestError("You are not the author!");
       }
 

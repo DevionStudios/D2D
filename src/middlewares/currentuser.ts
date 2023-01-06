@@ -4,11 +4,19 @@ import dotenv from "dotenv";
 dotenv.config();
 
 interface UserPayLoad {
-  email: string;
+  email?: string;
   username: string;
   id: string;
+  accountWallet?: string;
 }
 
+declare global {
+  namespace Express {
+    interface Request {
+      foxxiUser?: UserPayLoad;
+    }
+  }
+}
 const currentUser = (req: Request, res: Response, next: NextFunction) => {
   try {
     if (
@@ -21,7 +29,7 @@ const currentUser = (req: Request, res: Response, next: NextFunction) => {
         .split("foxxi_jwt=")[1]
         .split(";")[0];
       if (!token || token === "undefined") {
-        req.currentUser = undefined;
+        req.foxxiUser = undefined;
       } else {
         const decoded = jwt.verify(token.toString(), process.env.JWT_KEY!);
         if (!decoded) {
@@ -30,7 +38,7 @@ const currentUser = (req: Request, res: Response, next: NextFunction) => {
             error: "User not Signed in, Sign in First.",
           });
         } else {
-          req.currentUser = decoded as UserPayLoad;
+          req.foxxiUser = decoded as UserPayLoad;
         }
       }
       next();

@@ -14,14 +14,14 @@ router.get(
   "/api/tweets/trending",
   currentUser,
   async (req: Request, res: Response) => {
-    const { currentUser } = req;
-    if (!currentUser) {
+    const { foxxiUser } = req;
+    if (!foxxiUser) {
       throw new BadRequestError("User not found!");
     }
 
     try {
       const existingUser = await User.findOne({
-        username: currentUser.username,
+        username: foxxiUser.username,
       });
 
       if (!existingUser) {

@@ -11,26 +11,19 @@ dotenv.config();
 
 const router = express.Router();
 
-router.post(
-  "/api/users/signin",
-  [
-    body("email").isEmail().withMessage("Email must be valid"),
-    body("password")
-      .trim()
-      .isLength({ min: 4, max: 30 })
-      .withMessage("You must supply a password between 4 and 30 characters"),
-  ],
-  validateRequest,
-  async (req: Request, res: Response) => {
-    try {
-      const { email, password } = req.body;
+router.post("/api/users/signin", async (req: Request, res: Response) => {
+  try {
+    const { email, password, accountWallet } = req.body;
 
-      const existingUser = await User.findOne({ email });
+    let existingUser: any;
+    if (email && email.length > 0) existingUser = await User.findOne({ email });
+    else existingUser = await User.findOne({ accountWallet });
 
-      if (!existingUser) {
-        throw new Error("User does not exist!");
-      }
+    if (!existingUser) {
+      throw new Error("User does not exist!");
+    }
 
+    if (existingUser.password) {
       const passwordsMatch = await Password.compare(
         existingUser.password!,
         password
@@ -38,9 +31,12 @@ router.post(
       if (!passwordsMatch) {
         throw new BadRequestError("Invalid Credentials");
       }
+    }
 
-      // Generate JWT
-      const userJwt = jwt.sign(
+    // Generate JWT
+    let userJwt;
+    if (email && email.length > 0)
+      userJwt = jwt.sign(
         {
           email: existingUser.email,
           username: existingUser.username,
@@ -48,20 +44,28 @@ router.post(
         },
         process.env.JWT_KEY!
       );
+    else
+      userJwt = jwt.sign(
+        {
+          accountWallet: existingUser.accountWallet,
+          username: existingUser.username,
+          id: existingUser.id,
+        },
+        process.env.JWT_KEY!
+      );
 
-      // Store it on session object
-      req.session = {
-        jwt: userJwt,
-      };
+    // Store it on session object
+    req.session = {
+      jwt: userJwt,
+    };
 
-      res.status(200).send({
-        jwt: userJwt,
-      });
-    } catch (err) {
-      console.log(err);
-      res.status(500).send({ message: err });
-    }
+    res.status(200).send({
+      jwt: userJwt,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ message: err });
   }
-);
+});
 
 export { router as signinRouter };

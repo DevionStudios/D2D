@@ -12,7 +12,7 @@ router.get(
     try {
       const { hasClaimed } = req.body;
       const existingUser = await User.findOne({
-        username: req.currentUser?.username,
+        username: req.foxxiUser?.username,
       });
       if (!existingUser) {
         throw new BadRequestError("User not found!");

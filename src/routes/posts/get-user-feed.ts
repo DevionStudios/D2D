@@ -11,13 +11,13 @@ router.get(
   currentUser,
   async (req: Request, res: Response) => {
     try {
-      const { currentUser } = req;
-      if (!currentUser) {
+      const { foxxiUser } = req;
+      if (!foxxiUser) {
         throw new BadRequestError("User not found!");
       }
 
       const existingUser = await User.findOne({
-        username: currentUser!.username,
+        username: foxxiUser!.username,
       })
         .populate({
           path: "following",

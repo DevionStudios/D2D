@@ -15,7 +15,7 @@ router.put(
       const { oldPassword, newPassword } = req.body;
 
       const existingUser = await User.findOne({
-        email: req.currentUser!.email,
+        username: req.foxxiUser!.username,
       });
 
       if (!existingUser) {

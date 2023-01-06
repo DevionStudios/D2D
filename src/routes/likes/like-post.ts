@@ -32,7 +32,7 @@ router.put(
         throw new BadRequestError("Post not found");
       }
 
-      const existingUser = await User.findOne({ _id: req.currentUser!.id });
+      const existingUser = await User.findOne({ _id: req.foxxiUser!.id });
 
       if (!existingUser) {
         throw new BadRequestError("User not found!");

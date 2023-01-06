@@ -14,7 +14,7 @@ router.put(
   async (req: Request, res: Response) => {
     const { caption } = req.body;
     const { id } = req.params;
-    const user = req.currentUser as UserDoc;
+    const user = req.foxxiUser as UserDoc;
     console.log("Caption is:", caption);
     const post = await Post.findById(new mongoose.Types.ObjectId(id)).populate(
       "author"

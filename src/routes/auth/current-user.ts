@@ -4,10 +4,14 @@ import { currentUser } from "../../middlewares/currentuser";
 const router = express.Router();
 
 router.get("/api/users/currentuser", currentUser, async (req, res) => {
-  const { currentUser } = req;
-  if (currentUser) {
-    const { email } = currentUser!;
-    const user = await User.findOne({ email: email });
+  const { foxxiUser } = req;
+  if (foxxiUser) {
+    const email = foxxiUser.email;
+    const accountWallet = foxxiUser.accountWallet;
+    let user;
+    if (email) user = await User.findOne({ email: email });
+    else if (accountWallet)
+      user = await User.findOne({ accountWallet: accountWallet });
     res.json({ currentUser: user });
   } else res.json({ currentUser: undefined });
 });

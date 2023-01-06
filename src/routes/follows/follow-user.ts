@@ -13,7 +13,7 @@ router.put(
     try {
       const { username, toFollow } = req.body;
 
-      const existingUser = await User.findOne({ _id: req.currentUser!.id });
+      const existingUser = await User.findOne({ _id: req.foxxiUser!.id });
       const existingUserToFollow = await User.findOne({ username: username });
 
       if (!existingUser) {
