@@ -14,8 +14,12 @@ import { FileInput } from "../ui/Form/FileInput";
 import { object, z } from "zod";
 import Form, { useZodForm } from "../ui/Form/Form";
 import { useRouter } from "next/router";
+import { Input } from "../ui/Input";
+import { Switch } from "@headlessui/react";
+import clsx from "clsx";
 
 export function Preferences({ currentUser }) {
+  const [haveNFT, setHaveNFT] = useState(false);
   const { account, chainId } = useMoralis();
   const [isDisabled, setIsDisabled] = useState(false);
   const [NFTMintDisabled, setNFTMintDisabled] = useState(false);
@@ -24,6 +28,7 @@ export function Preferences({ currentUser }) {
   const router = useRouter();
   const ImageFormSchema = object({
     image: z.any(),
+    ipfsUrl: z.any(),
   });
 
   const form = useZodForm({
@@ -173,12 +178,47 @@ export function Preferences({ currentUser }) {
       } catch (error) {
         console.log(error);
 
-        toast.error(`Error: ${error.message}`);
+        toast.error(`Error sending image to ipfs.`);
       }
 
       form.reset();
     } else {
       toast.error("Please select an image to upload");
+    }
+  };
+
+  const importIpfsNFT = async ({ variables }) => {
+    const { input } = variables;
+    const { ipfsUrl } = input;
+    let imageUrl;
+
+    console.log("Ipfs Url: ", variables);
+    if (ipfsUrl && ipfsUrl.length > 0 && ipfsUrl.includes("ipfs")) {
+      if (ipfsUrl.includes("ipfs://")) {
+        imageUrl = "https://ipfs.io/ipfs/" + ipfsUrl.split("ipfs://")[1];
+      } else {
+        imageUrl = ipfsUrl;
+      }
+      try {
+        const res = await axios.put(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/imageupdate`,
+          {
+            image: imageUrl,
+          },
+          {
+            headers: {
+              cookies: document.cookie,
+            },
+          }
+        );
+        console.log(res.data);
+        toast.success("Profile image updated successfully!");
+      } catch (e) {
+        console.log(e);
+        toast.error("Could not update profile image!");
+      }
+    } else {
+      toast.error("Please enter a valid ipfs url starting with ipfs://");
     }
   };
 
@@ -222,52 +262,109 @@ export function Preferences({ currentUser }) {
           <div className="flex items-center justify-between">
             <span className="flex-grow flex flex-col">
               <label className="text-sm font-medium dark:text-white text-gray-900">
-                Mint an NFT
+                {haveNFT ? "Don't have NFT?" : "Have NFT?"}
               </label>
               <span className="text-sm text-muted">
-                Upload an image to mint an NFT and update your profile picture
+                {haveNFT
+                  ? "Upload a picture to mint a NFT and set it as your profile image"
+                  : "Set your NFT as profile image here"}
               </span>
             </span>
+            <Switch.Group
+              as="div"
+              className="flex items-center justify-between"
+            >
+              <Switch
+                checked={haveNFT}
+                onChange={() => {
+                  setHaveNFT(!haveNFT);
+                }}
+                className={clsx(
+                  haveNFT ? "bg-brand-600" : "bg-gray-200",
+                  "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-300"
+                )}
+              >
+                <span
+                  aria-hidden="true"
+                  className={clsx(
+                    haveNFT ? "translate-x-5" : "translate-x-0",
+                    "pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"
+                  )}
+                />
+              </Switch>
+            </Switch.Group>
           </div>
-          <Form
-            form={form}
-            onSubmit={async (values) => {
-              const changedValues = Object.fromEntries(
-                Object.keys(form.formState.dirtyFields).map((key) => [
-                  key,
-                  values[key],
-                ])
-              );
 
-              const input = {
-                ...changedValues,
-                image: values?.image?.[0],
-                coverImage: values?.coverImage?.[0],
-                bio: values.bio,
-              };
+          {haveNFT ? (
+            <Form
+              form={form}
+              onSubmit={async (values) => {
+                const changedValues = Object.fromEntries(
+                  Object.keys(form.formState.dirtyFields).map((key) => [
+                    key,
+                    values[key],
+                  ])
+                );
 
-              await sendFileToIPFS({
-                variables: { input },
-              });
-            }}
-          >
-            <FileInput
-              name="image"
-              label="Image"
-              accept="image/png, image/jpg, image/jpeg"
-              multiple={false}
-            />
-            <Form.SubmitButton
-              disabled={NFTMintDisabled}
-              size="sm"
-              variant="solid"
-              onClick={() => {
-                setIsDisabled(true);
+                const input = {
+                  ...changedValues,
+                  ipfsUrl: values.ipfsUrl,
+                };
+
+                await importIpfsNFT({
+                  variables: { input },
+                });
               }}
             >
-              Mint
-            </Form.SubmitButton>
-          </Form>
+              <div className="flex space-x-3">
+                <div className="flex-1">
+                  <Input
+                    {...form.register("ipfsUrl")}
+                    label="Ipfs Image Url"
+                    placeholder="ipfs://Qm..."
+                  />
+                </div>
+              </div>
+              <Form.SubmitButton
+                disabled={NFTMintDisabled}
+                size="sm"
+                variant="solid"
+              >
+                Import NFT
+              </Form.SubmitButton>
+            </Form>
+          ) : (
+            <Form
+              form={form}
+              onSubmit={async (values) => {
+                const changedValues = Object.fromEntries(
+                  Object.keys(form.formState.dirtyFields).map((key) => [
+                    key,
+                    values[key],
+                  ])
+                );
+
+                const input = {
+                  ...changedValues,
+                  image: values?.image?.[0],
+                };
+
+                await sendFileToIPFS({
+                  variables: { input },
+                });
+              }}
+            >
+              <FileInput
+                name="image"
+                label="Image"
+                accept="image/png, image/jpg, image/jpeg"
+                multiple={false}
+              />
+              <Form.SubmitButton size="sm" variant="solid">
+                Mint
+              </Form.SubmitButton>
+            </Form>
+          )}
         </div>
       </Card.Body>
     </Card>
