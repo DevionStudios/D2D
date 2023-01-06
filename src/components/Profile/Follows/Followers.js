@@ -41,7 +41,7 @@ export function Followers({ currentUser, data, username }) {
             >
               {data.map((edge) => {
                 const user = edge;
-                console.log(user);
+                // !remove console.log(user);
                 if (!user) return <h1>TODO : No user </h1>;
                 return (
                   <li

@@ -47,7 +47,7 @@ export function Preferences({ currentUser }) {
           },
         }
       );
-      console.log(response.data);
+      // !remove console.log(response.data);
       const hasClaimed = response.data.hasClaimed;
       if (hasClaimed) {
         toast.error("You have already claimed the token!");
@@ -57,14 +57,14 @@ export function Preferences({ currentUser }) {
         const owner = provider.getSigner(
           process.env.NEXT_PUBLIC_TOKEN_DEPLOYER_PUBLIC_ADDRESS
         );
-        console.log("reward", process.env.NEXT_PUBLIC_SIGN_UP_REWARD);
+        // !remove console.log("reward", process.env.NEXT_PUBLIC_SIGN_UP_REWARD);
         const FoxxiTokenContract = new ethers.Contract(
           networkMapping[networkChainId]["FoxxiToken"].slice(-1)[0],
           FoxxiToken,
           signer
         );
-        console.log("owneraddress", (await owner.getAddress()).toString());
-        console.log("recieveraddress", (await signer.getAddress()).toString());
+        // !remove console.log("owneraddress", (await owner.getAddress()).toString());
+        // !remove console.log("recieveraddress", (await signer.getAddress()).toString());
         const receiverWalletAddress = (await signer.getAddress()).toString();
         const ownerWalletAddress = (await owner.getAddress()).toString();
         let tx = await FoxxiTokenContract.transferFromCustom(
@@ -85,14 +85,14 @@ export function Preferences({ currentUser }) {
             },
           }
         );
-        console.log(response2.data);
+        // !remove console.log(response2.data);
         toast.success("Reward claimed successfully!");
       }
     } catch (e) {
       toast.error(
         "Something went wrong! Please check if your wallet is connected!"
       );
-      console.log(e);
+      // !remove console.log(e);
     } finally {
       setIsDisabled(false);
     }
@@ -119,7 +119,7 @@ export function Preferences({ currentUser }) {
           },
         });
         const ImgHash = `ipfs://${resFile.data.IpfsHash}`;
-        console.log("Image Hash: ", ImgHash);
+        // !remove console.log("Image Hash: ", ImgHash);
         toast.success(`Image sent to ipfs.`);
 
         const resMeta = await axios({
@@ -137,7 +137,7 @@ export function Preferences({ currentUser }) {
         });
 
         const MetaHash = `ipfs://${resMeta.data.IpfsHash}`;
-        console.log("Meta Hash: ", MetaHash);
+        // !remove console.log("Meta Hash: ", MetaHash);
         toast.success(`MetaData sent to ipfs.`);
 
         // Calling the contract function to mint the NFT
@@ -169,14 +169,14 @@ export function Preferences({ currentUser }) {
               },
             }
           );
-          console.log(res.data);
+          // !remove console.log(res.data);
           if (res.status == 200)
             toast.success("Profile image updated successfully!");
         } catch (e) {
-          console.log(e);
+          // !remove console.log(e);
         }
       } catch (error) {
-        console.log(error);
+        // !remove console.log(error);
 
         toast.error(`Error sending image to ipfs.`);
       }
@@ -192,7 +192,7 @@ export function Preferences({ currentUser }) {
     const { ipfsUrl } = input;
     let imageUrl;
 
-    console.log("Ipfs Url: ", variables);
+    // !remove console.log("Ipfs Url: ", variables);
     if (ipfsUrl && ipfsUrl.length > 0 && ipfsUrl.includes("ipfs")) {
       if (ipfsUrl.includes("ipfs://")) {
         imageUrl = "https://ipfs.io/ipfs/" + ipfsUrl.split("ipfs://")[1];
@@ -211,10 +211,10 @@ export function Preferences({ currentUser }) {
             },
           }
         );
-        console.log(res.data);
+        // !remove console.log(res.data);
         toast.success("Profile image updated successfully!");
       } catch (e) {
-        console.log(e);
+        // !remove console.log(e);
         toast.error("Could not update profile image!");
       }
     } else {
@@ -231,7 +231,7 @@ export function Preferences({ currentUser }) {
         </p>
 
         <div className="container pt-5 space-y-6 mx-auto">
-          <div className="flex items-center justify-between">
+          {/* <div className="flex items-center justify-between">
             <span className="flex-grow flex flex-col">
               <label className="text-sm font-medium dark:text-white text-gray-900">
                 Dark Mode
@@ -241,7 +241,7 @@ export function Preferences({ currentUser }) {
               </span>
             </span>
             <ThemeToggle />
-          </div>
+          </div> */}
           <div className="flex items-center justify-between">
             <span className="flex-grow flex flex-col">
               <label className="text-sm font-medium dark:text-white text-gray-900">
@@ -262,12 +262,12 @@ export function Preferences({ currentUser }) {
           <div className="flex items-center justify-between">
             <span className="flex-grow flex flex-col">
               <label className="text-sm font-medium dark:text-white text-gray-900">
-                {haveNFT ? "Don't have NFT?" : "Have NFT?"}
+                {haveNFT ? "Have NFT?" : "Don't have NFT?"}
               </label>
               <span className="text-sm text-muted">
                 {haveNFT
-                  ? "Upload a picture to mint a NFT and set it as your profile image"
-                  : "Set your NFT as profile image here"}
+                  ? "Set your NFT as profile image here"
+                  : "Upload a picture to mint a NFT and set it as your profile image"}
               </span>
             </span>
             <Switch.Group

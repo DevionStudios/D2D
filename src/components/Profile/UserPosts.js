@@ -1,13 +1,12 @@
-import { Tab } from "@headlessui/react";
 import clsx from "clsx";
 import { Card } from "../ui/Card";
-
+import { Tab } from "@headlessui/react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { LoadingFallback } from "../ui/Fallbacks/LoadingFallback";
-import { FeedPostCard } from "../Post/FeedPostCard";
-import { Badge } from "../ui/Badge";
-import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
+
 import { EndMessage } from "../Feed";
+import { Badge } from "../ui/Badge";
+import { FeedPostCard } from "../Post/FeedPostCard";
+import { LoadingFallback } from "../ui/Fallbacks/LoadingFallback";
 
 export function UserPosts({ username, count, posts, currentUser, user }) {
   return (
@@ -41,16 +40,7 @@ export function UserPosts({ username, count, posts, currentUser, user }) {
           <main className="lg:col-span-7 xl:col-span-6 lg:grid lg:grid-cols-12 lg:gap-3">
             <div className=" lg:col-span-12 ">
               <InfiniteScroll
-                // hasMore={data.seeProfile.posts.pageInfo.hasNextPage}
-                next={() => {
-                  //   fetchMore({
-                  //     variables: {
-                  //       first: 10,
-                  //       after: data.seeProfile.posts.pageInfo.endCursor,
-                  //       username,
-                  //     },
-                  //   });
-                }}
+                next={() => {}}
                 dataLength={posts.length}
                 loader={<LoadingFallback />}
                 endMessage={<EndMessage />}

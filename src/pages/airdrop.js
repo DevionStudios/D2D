@@ -27,7 +27,6 @@ export default function AirdropPage({ currentUser }) {
 
   const sendEmail = async ({ variables }) => {
     const { input } = variables;
-    console.log("Input: ", input);
 
     try {
       const response = await axios.post(
@@ -43,9 +42,8 @@ export default function AirdropPage({ currentUser }) {
           },
         }
       );
-      console.log(response.data);
     } catch (err) {
-      console.log(err);
+      toast.error("Could not send the email. Please try again.");
     }
   };
 
@@ -67,7 +65,6 @@ export default function AirdropPage({ currentUser }) {
               ...changedValues,
               message: values.message,
             };
-            console.log(input);
             await sendEmail({
               variables: { input },
             });

@@ -1,7 +1,8 @@
-import { Navbar } from "src/components/Common/Navbar";
 import React from "react";
-import { Hero } from "src/components/Hero";
+
 import { SEO } from "src/components/SEO";
+import { Hero } from "src/components/Hero";
+import { Navbar } from "src/components/Common/Navbar";
 
 export default function Home({ currentUser }) {
   return (

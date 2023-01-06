@@ -57,7 +57,7 @@ export function PostCard({ id, username, currentUser }) {
       setComments(res.data?.comments);
       setIsLiked(res.data?.likes?.includes(currentUser.id));
     } catch (e) {
-      console.log(e);
+      // !remove console.log(e);
     }
     setLoading(false);
   };
@@ -81,17 +81,17 @@ export function PostCard({ id, username, currentUser }) {
           },
         }
       );
-      console.log(response.data.likes.length);
+      // !remove console.log(response.data.likes.length);
       setLikes(response.data.likes.length);
       setIsLiked(!isLiked);
     } catch (e) {
-      console.log(e);
+      // !remove console.log(e);
     }
   };
 
   const createComment = async (values) => {
-    console.log("Caption: ", values.variables.input.caption);
-    console.log("Post ID: ", id);
+    // !remove console.log("Caption: ", values.variables.input.caption);
+    // !remove console.log("Post ID: ", id);
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/comments/create`,
@@ -105,12 +105,12 @@ export function PostCard({ id, username, currentUser }) {
           },
         }
       );
-      console.log("Response: ", response.data);
+      // !remove console.log("Response: ", response.data);
       window.location.reload();
       setComments(response.data.comments);
       form.reset();
     } catch (error) {
-      console.log(error);
+      // !remove console.log(error);
     }
   };
 

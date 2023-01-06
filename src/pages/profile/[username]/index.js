@@ -1,21 +1,19 @@
-import { GetServerSideProps } from "next";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
+import { useMoralis } from "react-moralis";
+import { useEffect, useState } from "react";
+
 import { Navbar } from "src/components/Common/Navbar";
 import { Profile } from "src/components/Profile/Profile";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { useMoralis } from "react-moralis";
-import { toast } from "react-hot-toast";
 import { Status } from "src/components/ui/StatusPages/Status";
 
 export default function ProfilePage({ currentUser }) {
   const [user, setUser] = useState(undefined);
   const router = useRouter();
   const [unableToSetUser, setUnableToSetUser] = useState(false);
-  let isMe = false;
   const username = router.query.username;
   const { account, deactivateWeb3 } = useMoralis();
-  const [accountWallet, setAccountWallet] = useState(null);
 
   const sendSignInRequest = async () => {
     if (account == undefined) {
@@ -31,7 +29,6 @@ export default function ProfilePage({ currentUser }) {
         },
         { withCredentials: true }
       );
-      console.log(res.data);
       if (res.status == 200) {
         const jwtToken = "foxxi_jwt=" + res.data.jwt;
         var date = new Date();
@@ -85,17 +82,14 @@ export default function ProfilePage({ currentUser }) {
       }
     }
   }, [account]);
-  console.log(username);
   const fetchUserProfile = async function () {
     try {
       const { data } = await axios.get(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/otheruser/${username}`
       );
       setUser(data);
-      console.log("profile page data:", data);
     } catch (error) {
       setUnableToSetUser(true);
-      console.log(error);
     }
   };
   useEffect(() => {

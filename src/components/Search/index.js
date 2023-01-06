@@ -25,11 +25,11 @@ export function SearchResults({ currentUser }) {
         },
       }
     );
-    console.log(res.data);
+    // !remove console.log(res.data);
     setHashtagData(res.data);
   };
   const findUsers = async () => {
-    console.log(router.query);
+    // !remove console.log(router.query);
     const res = await axios.get(
       `${
         process.env.NEXT_PUBLIC_BASE_URL
@@ -40,11 +40,11 @@ export function SearchResults({ currentUser }) {
         },
       }
     );
-    console.log(res.data);
+    // !remove console.log(res.data);
     setUserData(res.data);
   };
   useEffect(() => {
-    console.log(router.query);
+    // !remove console.log(router.query);
     if (router.query.type === "hashtag") {
       findHashTagPosts();
     } else if (router.query.type === "user") {

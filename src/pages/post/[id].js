@@ -1,16 +1,15 @@
-import { PostPageLayout } from "src/components/Common/Layouts/PostPageLayout";
-import { Navbar } from "src/components/Common/Navbar";
-import { PostCard, POST_QUERY } from "src/components/Post/PostCard";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { useMoralis } from "react-moralis";
 import axios from "axios";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
+import { useMoralis } from "react-moralis";
+
+import { PostCard } from "src/components/Post/PostCard";
+import { PostPageLayout } from "src/components/Common/Layouts/PostPageLayout";
 export default function Post({ currentUser }) {
   const router = useRouter();
   const id = router.query.id;
   const { account, deactivateWeb3 } = useMoralis();
-  const [accountWallet, setAccountWallet] = useState(null);
 
   const sendSignInRequest = async () => {
     if (account == undefined) {
@@ -26,7 +25,6 @@ export default function Post({ currentUser }) {
         },
         { withCredentials: true }
       );
-      console.log(res.data);
       if (res.status == 200) {
         const jwtToken = "foxxi_jwt=" + res.data.jwt;
         var date = new Date();

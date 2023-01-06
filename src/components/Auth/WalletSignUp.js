@@ -42,7 +42,7 @@ export function WalletSignUp() {
         },
         { withCredentials: true }
       );
-      console.log(res.data);
+      // !remove console.log(res.data);
       if (res.status == 201) {
         const jwtToken = "foxxi_jwt=" + res.data.jwt;
         var date = new Date();

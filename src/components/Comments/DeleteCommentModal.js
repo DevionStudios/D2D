@@ -18,11 +18,11 @@ export function DeleteCommentModal({ id, isOpen, onClose, postId }) {
         }
       );
 
-      console.log("Response: ", response);
+      // !remove console.log("Response: ", response);
       toast.success("Comment has been deleted.");
       window.location.reload();
     } catch (error) {
-      console.log(error);
+      // !remove console.log(error);
       toast.error("Something went wrong.");
     }
   };

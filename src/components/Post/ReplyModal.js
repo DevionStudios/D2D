@@ -22,8 +22,8 @@ export function ReplyModal({
   ...props
 }) {
   const createComment = async (values) => {
-    console.log("Caption: ", values.variables.input.caption);
-    console.log("Post ID: ", props.post.id);
+    // !remove console.log("Caption: ", values.variables.input.caption);
+    // !remove console.log("Post ID: ", props.post.id);
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/comments/create`,
@@ -38,10 +38,10 @@ export function ReplyModal({
         }
       );
 
-      console.log("Response: ", response.data);
+      // !remove console.log("Response: ", response.data);
       setComments(comments + 1);
     } catch (error) {
-      console.log(error);
+      // !remove console.log(error);
     }
   };
 

@@ -32,7 +32,7 @@ export function Step2({ currentUser }) {
     },
   });
   const updateProfile = async ({ variables }) => {
-    console.log(variables);
+    // !remove console.log(variables);
     const { input } = variables;
     const formdata = new FormData();
     formdata.append("bio", input.bio || user.bio);
@@ -41,7 +41,7 @@ export function Step2({ currentUser }) {
     formdata.append("name", user.name);
     formdata.append("username", user.username);
     formdata.append("walletAddress", input.walletAddress || user.walletAddress);
-    console.log(document.cookie);
+    // !remove console.log(document.cookie);
     try {
       const res = await axios.put(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/update`,
@@ -52,9 +52,9 @@ export function Step2({ currentUser }) {
           },
         }
       );
-      console.log(res.data);
+      // !remove console.log(res.data);
     } catch (e) {
-      console.log(e);
+      // !remove console.log(e);
     }
   };
   return (

@@ -33,10 +33,10 @@ export function EditCommentModal({ isOpen, onClose, id, caption, postId }) {
         }
       );
       toast.success("Comment has been edited.");
-      console.log("Response: ", response);
+      // !remove console.log("Response: ", response);
       window.location.reload();
     } catch (error) {
-      console.log(error);
+      // !remove console.log(error);
       toast.error("Something went wrong.");
     }
   };

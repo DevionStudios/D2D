@@ -9,7 +9,7 @@ export function FollowButton({ username, isFollowing, id, ...props }) {
   //   const [unfollowLoading, setUnfollowLoading] = useState(false);
 
   const followUser = async ({ variables }) => {
-    console.log("helmo");
+    // !remove console.log("helmo");
     try {
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/follow/users`,
@@ -22,11 +22,11 @@ export function FollowButton({ username, isFollowing, id, ...props }) {
           },
         }
       );
-      console.log(response.data);
+      // !remove console.log(response.data);
       window.location.reload();
     } catch (e) {
       toast.error("Failed to follow user");
-      console.log(e);
+      // !remove console.log(e);
     }
   };
 

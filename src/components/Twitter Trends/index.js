@@ -44,9 +44,9 @@ export function TwitterFeed({ currentUser }) {
       });
 
       setData(tempData);
-      console.log(tempData);
+      // !remove console.log(tempData);
     } catch (e) {
-      console.log(e);
+      // !remove console.log(e);
       setError(true);
     }
   };

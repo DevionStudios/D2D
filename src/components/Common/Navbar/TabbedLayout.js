@@ -14,7 +14,7 @@ export function TabbedLayout({ navigation }) {
   const [currentPath, setCurrentPath] = useState(router.pathname);
   const [defaultidx, setDefaultIdx] = useState(0);
   function handleChange(idx) {
-    console.log("route_path," + currentPath);
+    // !remove console.log("route_path," + currentPath);
     const path = navigation[idx].id;
     setCurrentPath(path);
     setDefaultIdx(idx);

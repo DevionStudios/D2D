@@ -65,7 +65,7 @@ export function EditProfileTab({ currentUser }) {
   }
 
   const updateProfile = async ({ variables }) => {
-    console.log(variables);
+    // !remove console.log(variables);
     const { input } = variables;
     const images = [input.image, input.coverImage];
     const formdata = new FormData();
@@ -80,7 +80,7 @@ export function EditProfileTab({ currentUser }) {
         input.twitterUsername || user.twitterUsername
       );
     }
-    console.log("Cookie: ", document.cookie);
+    // !remove console.log("Cookie: ", document.cookie);
     try {
       const res = await axios.put(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/update`,
@@ -91,9 +91,9 @@ export function EditProfileTab({ currentUser }) {
           },
         }
       );
-      console.log(res.data);
+      // !remove console.log(res.data);
     } catch (e) {
-      console.log(e);
+      // !remove console.log(e);
     }
   };
 
@@ -115,7 +115,7 @@ export function EditProfileTab({ currentUser }) {
             coverImage: values?.coverImage?.[0],
             bio: values.bio,
           };
-          console.log(input);
+          // !remove console.log(input);
           await updateProfile({
             variables: { input },
           });

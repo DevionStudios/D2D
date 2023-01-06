@@ -27,12 +27,12 @@ export function Follows({ currentUser }) {
           headers: { cookie: document.cookie },
         }
       );
-      console.log(response.data);
+      // !remove console.log(response.data);
       setFollowers(response.data.followers);
       setFollowing(response.data.following);
     } catch (e) {
       toast.error("Something went wrong");
-      console.log(e);
+      // !remove console.log(e);
     }
   };
   useEffect(() => {

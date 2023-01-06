@@ -4,7 +4,7 @@ import { GradientBar } from "../GradientBar";
 import Spinner from "../Spinner";
 
 export const LoadingFallback = forwardRef((_, ref) => {
-  console.log("LOADING CALLED");
+  // !remove console.log("LOADING CALLED");
   return (
     <div ref={ref}>
       <Card

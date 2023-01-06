@@ -1,22 +1,20 @@
-import { Navbar } from "src/components/Common/Navbar";
+import axios from "axios";
+import { useEffect } from "react";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/router";
+import { useMoralis } from "react-moralis";
 
 import { Create } from "src/components/Post";
-
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { useMoralis } from "react-moralis";
-import axios from "axios";
-import { toast } from "react-hot-toast";
+import { Navbar } from "src/components/Common/Navbar";
 export default function CreatePage({ currentUser }) {
   const router = useRouter();
 
   useEffect(() => {
     if (currentUser?.annonymous === true) {
-      router.push("/auth/feed");
+      router.push("/feed");
     }
   }, [currentUser]);
   const { account, deactivateWeb3 } = useMoralis();
-  const [accountWallet, setAccountWallet] = useState(null);
 
   const sendSignInRequest = async () => {
     if (account == undefined) {
@@ -32,7 +30,6 @@ export default function CreatePage({ currentUser }) {
         },
         { withCredentials: true }
       );
-      console.log(res.data);
       if (res.status == 200) {
         const jwtToken = "foxxi_jwt=" + res.data.jwt;
         var date = new Date();

@@ -1,13 +1,13 @@
-import { FeedLayout } from "src/components/Common/Layouts/FeedLayout";
-import { Navbar } from "src/components/Common/Navbar";
-import { useEffect, useState } from "react";
-import { useMoralis } from "react-moralis";
-import { toast } from "react-hot-toast";
-import { useRouter } from "next/router";
 import axios from "axios";
+import { useRouter } from "next/router";
+import { useMoralis } from "react-moralis";
+
+import { useEffect } from "react";
+import { toast } from "react-hot-toast";
+import { Navbar } from "src/components/Common/Navbar";
+import { FeedLayout } from "src/components/Common/Layouts/FeedLayout";
 export default function FeedPage({ currentUser }) {
   const { account, deactivateWeb3 } = useMoralis();
-  const [accountWallet, setAccountWallet] = useState(null);
   const router = useRouter();
 
   const sendSignInRequest = async () => {
@@ -24,7 +24,6 @@ export default function FeedPage({ currentUser }) {
         },
         { withCredentials: true }
       );
-      console.log(res.data);
       if (res.status == 200) {
         const jwtToken = "foxxi_jwt=" + res.data.jwt;
         var date = new Date();

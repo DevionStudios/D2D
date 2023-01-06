@@ -1,15 +1,13 @@
-import { GetServerSideProps } from "next";
-import { Follows } from "src/components/Profile/Follows";
-
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { useMoralis } from "react-moralis";
-import { toast } from "react-hot-toast";
 import axios from "axios";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/router";
+import { useMoralis } from "react-moralis";
+import { useEffect, useState } from "react";
+
+import { Follows } from "src/components/Profile/Follows";
 
 const FollowPage = ({ currentUser }) => {
   const { account, deactivateWeb3 } = useMoralis();
-  const [accountWallet, setAccountWallet] = useState(null);
   const router = useRouter();
 
   const sendSignInRequest = async () => {
@@ -26,7 +24,6 @@ const FollowPage = ({ currentUser }) => {
         },
         { withCredentials: true }
       );
-      console.log(res.data);
       if (res.status == 200) {
         const jwtToken = "foxxi_jwt=" + res.data.jwt;
         var date = new Date();

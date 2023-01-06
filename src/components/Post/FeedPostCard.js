@@ -36,7 +36,7 @@ export function FeedPostCard(props) {
   const [likes, setLikes] = useState(props.post?.likes?.length);
   const [comments, setComments] = useState(props.post?.comments?.length);
   let loading;
-  console.log("Post: ", props.post);
+  // !remove console.log("Post: ", props.post);
   useEffect(() => {
     setIsLiked(checkLiked());
     setPost(props.post);
@@ -67,7 +67,7 @@ export function FeedPostCard(props) {
         if (isLiked) setLikes(likes - 1);
         else setLikes(likes + 1);
         setIsLiked(!isLiked);
-        // console.log("Response Data: ", response.data);
+        // // !remove console.log("Response Data: ", response.data);
         setPost({
           ...post,
           likes: response.data.likes,
@@ -76,13 +76,13 @@ export function FeedPostCard(props) {
         toast.error(response.data.message);
       }
     } catch (e) {
-      console.log(e);
+      // !remove console.log(e);
       toast.error(e?.response?.data?.message);
     }
   };
 
   const checkLiked = () => {
-    // console.log("Likes: ", props.post.likes);
+    // // !remove console.log("Likes: ", props.post.likes);
     if (!props.post.likes) return false;
 
     return props.post.likes.includes(props.currentUser.id);

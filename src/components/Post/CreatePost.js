@@ -86,7 +86,7 @@ export function CreatePost({ currentUser }) {
   }
   const createPost = async ({ variables }) => {
     //post data
-    console.log(tags);
+    // !remove console.log(tags);
     const { input } = variables;
     const formdata = new FormData();
     formdata.append("caption", input.caption);
@@ -106,11 +106,11 @@ export function CreatePost({ currentUser }) {
           },
         }
       );
-      console.log(response.data);
+      // !remove console.log(response.data);
       //route to feed
       router.push("/feed");
     } catch (e) {
-      console.log(e);
+      // !remove console.log(e);
     }
     setLoading(false);
   };

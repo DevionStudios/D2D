@@ -25,9 +25,9 @@ export function EditPost({ isOpen, onClose, id, caption, gifLink }) {
           },
         }
       );
-      console.log(response.data);
+      // !remove console.log(response.data);
     } catch (e) {
-      console.log(e);
+      // !remove console.log(e);
     }
   };
 

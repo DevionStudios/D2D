@@ -29,8 +29,8 @@ export function DonateModal({
   const tip = async (values) => {
     const networkChainId = chainId?.toString().split("0x")[1] || "5";
     const amountToSend = values.amount; // since 18 decimals for token is reserved
-    console.log("Fund Contract Address: ", networkMapping[5]["FundContract"]);
-    console.log(chainId);
+    // !remove console.log("Fund Contract Address: ", networkMapping[5]["FundContract"]);
+    // !remove console.log(chainId);
     const { ethereum } = window;
     if (
       ethereum &&
@@ -55,7 +55,7 @@ export function DonateModal({
         );
       } catch (err) {
         toast.error("Wallet Address of receiver not found!");
-        console.log(err);
+        // !remove console.log(err);
       }
     } else {
       if (!account) {

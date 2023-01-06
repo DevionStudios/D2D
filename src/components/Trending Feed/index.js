@@ -24,7 +24,7 @@ export function TrendingFeed({ currentUser }) {
       );
       setData(response.data);
     } catch (e) {
-      console.log(e);
+      // !remove console.log(e);
       setError(true);
     } finally {
       setLoading(false);

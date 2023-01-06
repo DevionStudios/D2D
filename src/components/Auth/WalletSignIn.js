@@ -30,7 +30,7 @@ export function WalletSignIn() {
         },
         { withCredentials: true }
       );
-      console.log(res.data);
+      // !remove console.log(res.data);
       if (res.status == 200) {
         const jwtToken = "foxxi_jwt=" + res.data.jwt;
         var date = new Date();

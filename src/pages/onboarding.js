@@ -1,17 +1,19 @@
-import { Tab } from "@headlessui/react";
 import clsx from "clsx";
+import axios from "axios";
+import Image from "next/image";
+import { Tab } from "@headlessui/react";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { Step1 } from "src/components/Onboarding/Step1";
-import { Step2 } from "src/components/Onboarding/Step2";
-import { Button } from "src/components/ui/Button";
-import { Heading } from "src/components/ui/Heading";
+
 import { Link } from "src/components/ui/Link";
 import Logo from "../assets/D2D Logo Trans.png";
-import Image from "next/image";
+import { Button } from "src/components/ui/Button";
+import { Heading } from "src/components/ui/Heading";
+import { Step1 } from "src/components/Onboarding/Step1";
 import { useMoralis } from "react-moralis";
-import axios from "axios";
 import { toast } from "react-hot-toast";
+import { Step2 } from "src/components/Onboarding/Step2";
+
 const onboardingTabs = [
   {
     label: "Welcome",
@@ -54,7 +56,7 @@ export default function Onboarding({ currentUser }) {
         },
         { withCredentials: true }
       );
-      console.log(res.data);
+      // !remove console.log(res.data);
       if (res.status == 200) {
         const jwtToken = "foxxi_jwt=" + res.data.jwt;
         var date = new Date();

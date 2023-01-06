@@ -37,10 +37,10 @@ export function ImportTweetsTab({ currentUser }) {
           },
         }
       );
-      console.log(res.data);
+      // !remove console.log(res.data);
       toast("Your tweets have been imported.");
     } catch (e) {
-      console.log(e);
+      // !remove console.log(e);
     }
   };
 

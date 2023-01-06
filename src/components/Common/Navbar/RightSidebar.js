@@ -33,11 +33,11 @@ export function RightSidebar({ currentUser }) {
       for (let i = 0; i < usersData.length; i++) {
         if (usersData[i].id === currentUser.id) usersData.splice(i, 1);
       }
-      console.log(usersData);
+      // !remove console.log(usersData);
       setSuggestedUsers(usersData);
     } catch (e) {
       setError(true);
-      console.log(e);
+      // !remove console.log(e);
     } finally {
       setLoading(false);
     }
@@ -138,7 +138,9 @@ export function RightSidebar({ currentUser }) {
                             </Link>
                           </p>
                           <p className="text-sm text-gray-500 dark:text-gray-400">
-                            <a href={user?.username}>@{user?.username}</a>
+                            <a href={`/profile/${user?.username}`}>
+                              @{user?.username}
+                            </a>
                           </p>
                         </div>
                         <div className="flex-shrink-0">

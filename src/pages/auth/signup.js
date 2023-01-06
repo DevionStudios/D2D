@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
-import { SignUp } from "../../components/Auth/SignUp";
 import Router from "next/router";
+
+import { SignUp } from "../../components/Auth/SignUp";
+
 const Signup = ({ currentUser }) => {
   const router = Router;
   useEffect(() => {

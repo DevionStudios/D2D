@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
+
 import { WalletSignUp } from "../../components/Auth/WalletSignUp";
-import Router from "next/router";
-const Signup = ({ currentUser }) => {
-  const router = Router;
+
+const Signup = () => {
   return (
     <>
       <WalletSignUp />

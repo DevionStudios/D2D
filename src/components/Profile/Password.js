@@ -41,9 +41,9 @@ export function PasswordTab() {
           },
         }
       );
-      console.log(res.data);
+      // !remove console.log(res.data);
     } catch (e) {
-      console.log(e);
+      // !remove console.log(e);
     }
   };
 

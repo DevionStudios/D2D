@@ -1,20 +1,25 @@
-import { MoralisProvider } from "react-moralis";
-import { NotificationProvider } from "@web3uikit/core";
-import { SessionProvider } from "next-auth/react";
-
-import { DefaultSeo } from "next-seo";
-import { NProgress } from "src/components/ui/NProgress";
-import { ThemeProvider } from "next-themes";
-import { Toaster } from "react-hot-toast";
-import "../styles.css";
-import { toastOptions } from "src/utils/toastOptions";
 import axios from "axios";
+import { useEffect } from "react";
+import { DefaultSeo } from "next-seo";
+import { useTheme } from "next-themes";
+import { Toaster } from "react-hot-toast";
+import { MoralisProvider } from "react-moralis";
+import { SessionProvider } from "next-auth/react";
+import { NotificationProvider } from "@web3uikit/core";
+
+import "../styles.css";
+import { NProgress } from "src/components/ui/NProgress";
+import { toastOptions } from "src/utils/toastOptions";
 
 function MyApp({ Component, pageProps, currentUser }) {
   const getLayout = Component.getLayout ?? ((page) => page);
+  const { setTheme } = useTheme();
 
+  useEffect(() => {
+    setTheme("light");
+  }, []);
   return (
-    <ThemeProvider storageKey="preferred-theme" attribute="class">
+    <>
       <DefaultSeo defaultTitle="Foxxi" titleTemplate="%s | Foxxi" />
       <NProgress />
       <Toaster position="top-right" toastOptions={toastOptions} />
@@ -25,7 +30,7 @@ function MyApp({ Component, pageProps, currentUser }) {
           </SessionProvider>
         </NotificationProvider>
       </MoralisProvider>
-    </ThemeProvider>
+    </>
   );
 }
 

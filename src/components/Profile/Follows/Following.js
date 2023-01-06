@@ -42,7 +42,7 @@ export function Following({ data, currentUser, username }) {
             >
               {data.map((edge) => {
                 const user = edge;
-                console.log(data);
+                // !remove console.log(data);
                 if (!user) return <h1>TODO : No user </h1>;
                 return (
                   <li

@@ -96,7 +96,7 @@ export function Navbar({ currentUser }) {
                   </Popover.Button>
                 </div>
                 <div className="hidden  lg:flex lg:items-center lg:justify-end xl:col-span-4 space-x-5">
-                  <ThemeToggle />
+                  {/* <ThemeToggle /> */}
                   {/* <button
                     onClick={() => setNotificationOpen((prev) => !prev)}
                     type="button"

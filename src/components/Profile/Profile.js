@@ -1,18 +1,8 @@
-import clsx from "clsx";
 import { format } from "date-fns";
-import { useRouter } from "next/router";
-import {
-  HiBadgeCheck,
-  HiOutlineCalendar,
-  HiOutlineDotsVertical,
-} from "react-icons/hi";
+import { HiBadgeCheck, HiOutlineCalendar } from "react-icons/hi";
 import useMediaQuery, { MEDIA_QUERIES } from "src/utils/useMediaQuery";
 import { Button } from "../ui/Button";
 import ButtonOrLink from "../ui/ButtonOrLink";
-import { Menu, MenuItem } from "../ui/Dropdown";
-import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
-import { LoadingFallback } from "../ui/Fallbacks/LoadingFallback";
-import { IndeterminateProgress } from "../ui/Progress";
 import { FollowButton } from "./FollowButton";
 import { UserPosts } from "./UserPosts";
 import { useEffect, useState } from "react";
@@ -27,9 +17,9 @@ export function Profile({ user, isMe, username, currentUser }) {
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${user.username}`
       );
       setUserPosts(data);
-      console.log(data);
+      // !remove console.log(data);
     } catch (error) {
-      console.log(error);
+      // !remove console.log(error);
     }
   };
   useEffect(() => {
@@ -37,25 +27,14 @@ export function Profile({ user, isMe, username, currentUser }) {
   }, []);
   return user ? (
     <div className="py-16">
-      <div>
+      <div className="pt-5">
         {user.coverImage ? (
           <img
-            className="h-32 w-full object-cover lg:h-48"
+            className="h-60 w-full object-cover lg:h-80"
             src={user.coverImage}
-            alt="TODO"
+            alt="User Cover Image"
           />
-        ) : (
-          <img
-            className="h-32 w-full object-cover lg:h-48"
-            src={user.coverImage} // profile cover image
-            alt={`Cover image for user ${user.username}. Contains patterns and colors.`}
-            style={{
-              backgroundColor: `#${user.coverImage}`,
-              backgroundImage: `#${user.coverImage}`,
-              backgroundSize: "50%",
-            }}
-          />
-        )}
+        ) : null}
       </div>
       <div className="max-w-5xl mx-auto px-2 sm:px-6 lg:px-8 ">
         <div className="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">

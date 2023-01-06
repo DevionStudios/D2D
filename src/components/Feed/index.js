@@ -23,9 +23,9 @@ export function Feed({ currentUser }) {
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`
       );
       setData(response.data);
-      console.log(response.data);
+      // !remove console.log(response.data);
     } catch (e) {
-      console.log(e);
+      // !remove console.log(e);
       setError(true);
     } finally {
       setLoading(false);
