@@ -5,14 +5,30 @@ import { Button } from "../ui/Button";
 import { ethers } from "ethers";
 import { useMoralis } from "react-moralis";
 import FoxxiToken from "../../constants/ABIs/FoxxiToken.json";
+import IpfsNFTABI from "../../constants/ABIs/IpfsNFT.json";
 import networkMapping from "../../constants/networkMapping.json";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useState } from "react";
+import { FileInput } from "../ui/Form/FileInput";
+import { object, z } from "zod";
+import Form, { useZodForm } from "../ui/Form/Form";
 
-export function Preferences() {
+export function Preferences({ currentUser }) {
   const { account, chainId } = useMoralis();
   const [isDisabled, setIsDisabled] = useState(false);
+  const [NFTMintDisabled, setNFTMintDisabled] = useState(false);
+  const [fileImg, setFileImg] = useState(null);
+
+  const ImageFormSchema = object({
+    image: z.any(),
+  });
+
+  const form = useZodForm({
+    schema: ImageFormSchema,
+    defaultValues: {},
+  });
+
   const claimToken = async () => {
     const networkChainId = chainId?.toString().split("0x")[1] || "5";
     try {
@@ -74,10 +90,100 @@ export function Preferences() {
       setIsDisabled(false);
     }
   };
+
+  const sendFileToIPFS = async ({ variables }) => {
+    const { input } = variables;
+    const { image: fileImg } = input;
+    const networkChainId = chainId?.toString().split("0x")[1] || "5";
+
+    if (fileImg) {
+      try {
+        const formData = new FormData();
+        formData.append("file", fileImg);
+
+        const resFile = await axios({
+          method: "post",
+          url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+          data: formData,
+          headers: {
+            pinata_api_key: `${process.env.NEXT_PUBLIC_PINATA_API_KEY}`,
+            pinata_secret_api_key: `${process.env.NEXT_PUBLIC_PINATA_API_SECRET}`,
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        const ImgHash = `ipfs://${resFile.data.IpfsHash}`;
+        console.log("Image Hash: ", ImgHash);
+        toast.success(`Image sent to ipfs.`);
+
+        const resMeta = await axios({
+          method: "post",
+          url: "https://api.pinata.cloud/pinning/pinJSONToIPFS",
+          data: {
+            name: fileImg.name,
+            image: ImgHash,
+          },
+          headers: {
+            pinata_api_key: `${process.env.NEXT_PUBLIC_PINATA_API_KEY}`,
+            pinata_secret_api_key: `${process.env.NEXT_PUBLIC_PINATA_API_SECRET}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        const MetaHash = `ipfs://${resMeta.data.IpfsHash}`;
+        console.log("Meta Hash: ", MetaHash);
+        toast.success(`MetaData sent to ipfs.`);
+
+        // Calling the contract function to mint the NFT
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        const IpfsNFT = new ethers.Contract(
+          networkMapping[networkChainId]["IpfsNFT"].slice(-1)[0],
+          IpfsNFTABI,
+          signer
+        );
+
+        let tx = await IpfsNFT.staticMint(MetaHash, {
+          gasLimit: 500000,
+        });
+        await tx.wait();
+
+        toast.success("NFT minted successfully!");
+
+        // Updating the user profile image here
+        try {
+          const res = await axios.put(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/imageupdate`,
+            {
+              image: `https://ipfs.io/ipfs/${resFile.data.IpfsHash}`,
+            },
+            {
+              headers: {
+                cookies: document.cookie,
+              },
+            }
+          );
+          console.log(res.data);
+          if (res.status == 200)
+            toast.success("Profile image updated successfully!");
+        } catch (e) {
+          console.log(e);
+        }
+      } catch (error) {
+        console.log(error);
+
+        toast.error(`Error: ${error.message}`);
+      }
+
+      form.reset();
+    } else {
+      toast.error("Please select an image to upload");
+    }
+  };
+
   return (
     <Card rounded="lg" className="lg:max-w-3xl">
       <Card.Body>
-        <Heading size="h3">Preferences</Heading>
+        <Heading size="h3">Options</Heading>
         <p className="text-muted text-sm">
           Adjust these setting according to your needs. Such as Dark Mode.
         </p>
@@ -113,6 +219,55 @@ export function Preferences() {
               Claim Token{" "}
             </Button>
           </div>
+          <div className="flex items-center justify-between">
+            <span className="flex-grow flex flex-col">
+              <label className="text-sm font-medium dark:text-white text-gray-900">
+                Mint an NFT
+              </label>
+              <span className="text-sm text-muted">
+                Upload an image to mint an NFT and update your profile picture
+              </span>
+            </span>
+          </div>
+          <Form
+            form={form}
+            onSubmit={async (values) => {
+              const changedValues = Object.fromEntries(
+                Object.keys(form.formState.dirtyFields).map((key) => [
+                  key,
+                  values[key],
+                ])
+              );
+
+              const input = {
+                ...changedValues,
+                image: values?.image?.[0],
+                coverImage: values?.coverImage?.[0],
+                bio: values.bio,
+              };
+
+              await sendFileToIPFS({
+                variables: { input },
+              });
+            }}
+          >
+            <FileInput
+              name="image"
+              label="Image"
+              accept="image/png, image/jpg, image/jpeg"
+              multiple={false}
+            />
+            <Form.SubmitButton
+              disabled={NFTMintDisabled}
+              size="sm"
+              variant="solid"
+              onClick={() => {
+                setIsDisabled(true);
+              }}
+            >
+              Mint
+            </Form.SubmitButton>
+          </Form>
         </div>
       </Card.Body>
     </Card>
