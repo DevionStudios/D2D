@@ -73,8 +73,6 @@ const userSchema = new mongoose.Schema(
     },
     coverImage: {
       type: String,
-      default:
-        "https://149369349.v2.pressablecdn.com/wp-caption/uploads/2012/10/twitter-cover.jpg",
     },
     bio: {
       type: String,
