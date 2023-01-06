@@ -14,9 +14,15 @@ router.put(
   async (req: any, res: Response) => {
     try {
       const { image } = req.body;
-      const existingUser = await User.findOne({
-        email: req.currentUser!.email,
-      });
+      let existingUser;
+      if (req.foxxiUser!.email)
+        existingUser = await User.findOne({
+          email: req.foxxiUser!.email,
+        });
+      else
+        existingUser = await User.findOne({
+          accountWallet: req.foxxiUser!.accountWallet,
+        });
 
       if (!existingUser) {
         throw new BadRequestError("User not found");
