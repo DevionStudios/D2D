@@ -13,6 +13,7 @@ import { useState } from "react";
 import { FileInput } from "../ui/Form/FileInput";
 import { object, z } from "zod";
 import Form, { useZodForm } from "../ui/Form/Form";
+import { useRouter } from "next/router";
 
 export function Preferences({ currentUser }) {
   const { account, chainId } = useMoralis();
@@ -20,6 +21,7 @@ export function Preferences({ currentUser }) {
   const [NFTMintDisabled, setNFTMintDisabled] = useState(false);
   const [fileImg, setFileImg] = useState(null);
 
+  const router = useRouter();
   const ImageFormSchema = object({
     image: z.any(),
   });
@@ -203,7 +205,7 @@ export function Preferences({ currentUser }) {
           <div className="flex items-center justify-between">
             <span className="flex-grow flex flex-col">
               <label className="text-sm font-medium dark:text-white text-gray-900">
-                Claim Tokens
+                Contact Us To Claim Free Tokens
               </label>
               <span className="text-sm text-muted">Claim free tokens</span>
             </span>
@@ -211,12 +213,10 @@ export function Preferences({ currentUser }) {
               size="sm"
               variant="solid"
               onClick={() => {
-                setIsDisabled(true);
-                claimToken();
+                router.push("/airdrop");
               }}
-              disabled={isDisabled}
             >
-              Claim Token{" "}
+              Claim Token
             </Button>
           </div>
           <div className="flex items-center justify-between">

@@ -77,7 +77,7 @@ export function RightSidebar({ currentUser }) {
     return (
       <>
         <Card rounded="lg" className="sticky top-20">
-          {currentUser.annonymous ? (
+          {!currentUser.annonymous ? (
             <ErrorFallback
               message="No user suggestions for now. :)"
               noAction
