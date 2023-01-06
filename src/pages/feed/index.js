@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { Navbar } from "src/components/Common/Navbar";
 import { FeedLayout } from "src/components/Common/Layouts/FeedLayout";
+import { ConnectButton } from "@web3uikit/web3";
 export default function FeedPage({ currentUser }) {
   const { account, deactivateWeb3 } = useMoralis();
   const router = useRouter();
@@ -26,10 +27,7 @@ export default function FeedPage({ currentUser }) {
       );
       if (res.status == 200) {
         const jwtToken = "foxxi_jwt=" + res.data.jwt;
-        var date = new Date();
-        date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 days expiry
-        document.cookie =
-          jwtToken + ";expires=" + date.toUTCString() + ";path=/";
+        document.cookie = jwtToken + ";path=/";
         toast.success("Signed In Successfully");
         window.location.reload();
       } else {
@@ -80,6 +78,7 @@ export default function FeedPage({ currentUser }) {
   return (
     <>
       <Navbar currentUser={currentUser} />
+
       <FeedLayout currentUser={currentUser} />
     </>
   );

@@ -6,7 +6,7 @@ import { LoginForm } from "../../components/Auth/SignIn";
 const Signin = ({ currentUser }) => {
   const router = Router;
   useEffect(() => {
-    if (currentUser.email) {
+    if (currentUser.email || currentUser.accountWallet) {
       router.push("/feed");
     }
   }, []);

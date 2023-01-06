@@ -6,7 +6,7 @@ import { SignUp } from "../../components/Auth/SignUp";
 const Signup = ({ currentUser }) => {
   const router = Router;
   useEffect(() => {
-    if (currentUser.email) {
+    if (currentUser.email || currentUser.accountWallet) {
       router.push("/feed");
     }
   }, []);

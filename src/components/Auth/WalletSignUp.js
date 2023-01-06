@@ -9,7 +9,6 @@ import { WalletAuthLayout } from "./WalletAuthLayout";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { ConnectButton } from "@web3uikit/web3";
 import { useMoralis } from "react-moralis";
 import clsx from "clsx";
 
@@ -45,10 +44,7 @@ export function WalletSignUp() {
       // !remove console.log(res.data);
       if (res.status == 201) {
         const jwtToken = "foxxi_jwt=" + res.data.jwt;
-        var date = new Date();
-        date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 days expiry
-        document.cookie =
-          jwtToken + ";expires=" + date.toUTCString() + ";path=/";
+        document.cookie = jwtToken + ";path=/";
         toast.success("Account Created Successfully");
         router.push("/onboarding");
       } else {

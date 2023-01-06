@@ -4,7 +4,6 @@ import Image from "next/image";
 import { Popover } from "@headlessui/react";
 import { HiX, HiMenu, HiOutlineBell } from "react-icons/hi";
 import clsx from "clsx";
-import { ConnectButton } from "@web3uikit/web3";
 
 import { GradientBar } from "src/components/ui/GradientBar";
 import { Button } from "src/components/ui/Button";
@@ -19,6 +18,7 @@ import { useState } from "react";
 import { UnauthorizedHeader } from "./UnauthorizedHeader";
 import Logo from "../../../assets/D2D Logo Trans.png";
 import Router from "next/router";
+import { ConnectButton } from "@web3uikit/web3";
 
 export function Navbar({ currentUser }) {
   const [openNotifications, setNotificationOpen] = useState(false);
@@ -73,9 +73,9 @@ export function Navbar({ currentUser }) {
                 <div className="min-w-0 flex-1  lg:px-0 lg:max-w-5xl xl:col-span-6 flex-grow">
                   <div className="flex items-center px-6 py-4 md:max-w-5xl md:mx-auto lg:mx-0 xl:px-0">
                     <SearchBar />
-                    {/* <ConnectButton /> */}
                   </div>
                 </div>
+
                 <div className="flex items-center md:absolute md:right-0 md:inset-y-0 lg:hidden">
                   {/* Mobile menu button */}
                   {/* <button
@@ -125,7 +125,6 @@ export function Navbar({ currentUser }) {
                 </div>
               </div>
             </div>
-
             <MobileMenu
               user={currentUser}
               open={open}

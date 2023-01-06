@@ -67,9 +67,8 @@ export function TabbedLayout({ navigation }) {
                     </Tab>
                   );
                 })}
-                <div className="h-16 w-30 bg-white rounded-lg">
+                <div className="h-16 rounded-lg">
                   <span className="truncate flex items-center">
-                    <RiWallet3Fill className="text-gray-800 group-hover:text-white dark:group-hover:text-white flex-shrink-0 h-6 w-6" />
                     <ConnectButton />
                   </span>
                 </div>

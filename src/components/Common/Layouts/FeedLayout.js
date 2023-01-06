@@ -1,6 +1,5 @@
 import React from "react";
 import dynamic from "next/dynamic";
-import { ConnectButton } from "@web3uikit/web3";
 
 import { HiOutlineFire, HiOutlineHashtag, HiOutlineHome } from "react-icons/hi";
 import { Feed } from "src/components/Feed";
@@ -9,6 +8,7 @@ import { LoadingFallback } from "src/components/ui/Fallbacks/LoadingFallback";
 import { CurrentUser } from "src/components/User/CurrentUser";
 // import { useUser } from "src/utils/useUser";
 import Spinner from "src/components/ui/Spinner";
+import { ConnectButton } from "@web3uikit/web3";
 import { IndeterminateProgress } from "src/components/ui/Progress";
 import { TrendingFeed } from "../../Trending Feed";
 import { TwitterFeed } from "../../Twitter Trends";
@@ -58,6 +58,7 @@ export function FeedLayout({ currentUser }) {
           <div className="hidden lg:block fixed bottom-8">
             <CurrentUser currentUser={currentUser} />
           </div>
+
         </div>
         <div className="hidden lg:block lg:col-span-3">
           <RightSidebar currentUser={currentUser} />

@@ -8,7 +8,9 @@ import Form, { useZodForm } from "src/components/ui/Form/Form";
 import { Heading } from "src/components/ui/Heading";
 import { Input } from "src/components/ui/Input";
 import { TextArea } from "src/components/ui/TextArea";
-
+import { useMoralis } from "react-moralis";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 const EditProfileFormSchema = object({
   walletAddress: z.string().min(1, "Wallet Address must be provided."),
   message: z
@@ -20,6 +22,73 @@ const EditProfileFormSchema = object({
 });
 
 export default function AirdropPage({ currentUser }) {
+  const router = useRouter();
+  const { account, deactivateWeb3 } = useMoralis();
+
+  const sendSignInRequest = async () => {
+    if (account == undefined) {
+      toast.error("Please connect your wallet first");
+      return;
+    }
+
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/signin`,
+        {
+          accountWallet: account,
+        },
+        { withCredentials: true }
+      );
+      if (res.status == 200) {
+        const jwtToken = "foxxi_jwt=" + res.data.jwt;
+        document.cookie = jwtToken + ";path=/";
+        toast.success("Signed In Successfully");
+        router.push("/feed");
+      } else {
+        toast.error("Wallet is not registered! Please sign up first!");
+        await deactivateWeb3();
+        // clear all cookies
+        document.cookie.split(";").forEach(function (c) {
+          document.cookie = c
+            .replace(/^ +/, "")
+            .replace(
+              /=.*/,
+              "=;expires=" + new Date().toUTCString() + ";path=/"
+            );
+        });
+        router.push("/auth/walletsignin");
+      }
+    } catch (error) {
+      toast.error("Wallet is not registered! Please sign up first!");
+      await deactivateWeb3();
+      // clear all cookies
+      document.cookie.split(";").forEach(function (c) {
+        document.cookie = c
+          .replace(/^ +/, "")
+          .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+      });
+      router.push("/auth/walletsignin");
+    }
+  };
+  useEffect(() => {
+    if (!currentUser?.email && !currentUser?.annonymous) {
+      if (!currentUser.accountWallet) {
+        toast.error(
+          "You are not signed in! You are being redirected to sign in page!"
+        );
+        router.push("/auth/walletsignin");
+        return;
+      }
+      if (
+        account &&
+        currentUser.accountWallet &&
+        account !== currentUser.accountWallet
+      ) {
+        toast.error("Detected Sign In With Different Wallet!");
+        sendSignInRequest();
+      }
+    }
+  }, [account]);
   const form = useZodForm({
     schema: EditProfileFormSchema,
     defaultValues: {},

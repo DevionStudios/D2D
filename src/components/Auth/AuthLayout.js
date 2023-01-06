@@ -5,7 +5,6 @@ import { Footer } from "../Common/Footer";
 import { GradientBar } from "../ui/GradientBar";
 import Logo from "../../assets/D2D Logo Trans.png";
 import Image from "next/image";
-import { ConnectButton } from "@web3uikit/web3";
 export function AuthLayout({ title, subtitle, children }) {
   return (
     <main className="flex flex-col justify-center mx-auto w-full max-w-xl min-h-screen py-10">

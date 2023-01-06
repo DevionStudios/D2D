@@ -26,10 +26,7 @@ export default function FeedPage({ currentUser }) {
       );
       if (res.status == 200) {
         const jwtToken = "foxxi_jwt=" + res.data.jwt;
-        var date = new Date();
-        date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 days expiry
-        document.cookie =
-          jwtToken + ";expires=" + date.toUTCString() + ";path=/";
+        document.cookie = jwtToken + ";path=/";
         toast.success("Signed In Successfully");
         router.push("/feed");
       } else {

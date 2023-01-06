@@ -10,7 +10,7 @@ import React, { useState, useEffect } from "react";
 import { SEO } from "../SEO";
 import { IndeterminateProgress } from "../ui/Progress";
 import axios from "axios";
-
+import { ConnectButton } from "@web3uikit/web3";
 export function Feed({ currentUser }) {
   let fetchMore;
   const [data, setData] = useState({});
