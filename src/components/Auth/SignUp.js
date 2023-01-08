@@ -123,10 +123,7 @@ export function SignUp() {
     }
   };
   return (
-    <AuthLayout
-      title="Sign Up."
-      subtitle="Sign up and join the Decentralised To Decentralised!"
-    >
+    <AuthLayout title="Sign Up." subtitle="Sign up and join the Foxxi!">
       <Form
         form={form}
         onSubmit={async (values) => {

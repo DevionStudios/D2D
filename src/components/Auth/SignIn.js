@@ -6,10 +6,9 @@ import { AuthLayout } from "./AuthLayout";
 import { Card } from "../ui/Card";
 import toast from "react-hot-toast";
 import FormSubmitButton from "../ui/Form/SubmitButton";
-import { useEffect, useState } from "react";
-import { Button } from "../ui/Button";
 import axios from "axios";
 import { useRouter } from "next/router";
+
 const loginSchema = object({
   email: string().email(),
   password: string().min(4),
@@ -36,7 +35,6 @@ export function LoginForm() {
         },
         { withCredentials: true }
       );
-      // !remove console.log(res.data);
       if (res.status == 200) {
         const jwtToken = "foxxi_jwt=" + res.data.jwt;
         var date = new Date();
@@ -58,7 +56,7 @@ export function LoginForm() {
   return (
     <AuthLayout
       title="Sign In."
-      subtitle="Welcome back! Sign in to your Decentralised To Decentralised account."
+      subtitle="Welcome back! Sign in to your Foxxi account."
     >
       <Form
         form={form}
@@ -121,6 +119,19 @@ export function LoginForm() {
               href="/feed"
             >
               Browse Annonymously!
+            </Link>
+          </Card.Body>
+        </Card>
+      </div>
+      <div>
+        <Card rounded="lg" className="mt-4">
+          <Card.Body>
+            <span className="mr-1">Forgot your Password ?</span>
+            <Link
+              className="font-medium text-brand-600 hover:text-brand-400"
+              href="/auth/resetpassword"
+            >
+              Reset Password
             </Link>
           </Card.Body>
         </Card>

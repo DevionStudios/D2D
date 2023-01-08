@@ -52,7 +52,7 @@ export function WalletSignIn() {
   return (
     <WalletAuthLayout
       title="Sign In."
-      subtitle="Welcome back! Sign in to your Decentralised To Decentralised account."
+      subtitle="Welcome back! Sign in to your Foxxi account."
     >
       <div>
         <Card rounded="lg" className="mt-4">

@@ -59,10 +59,7 @@ export function WalletSignUp() {
   }, [account]);
   return (
     <>
-      <WalletAuthLayout
-        title="Sign Up."
-        subtitle="Sign up and join the Decentralised To Decentralised!"
-      >
+      <WalletAuthLayout title="Sign Up." subtitle="Sign up and join the Foxxi!">
         {accountWallet ? (
           <Form
             form={form}
