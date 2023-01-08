@@ -19,10 +19,15 @@ const currentuser_1 = require("../../middlewares/currentuser");
 const router = express_1.default.Router();
 exports.currentUserRouter = router;
 router.get("/api/users/currentuser", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { currentUser } = req;
-    if (currentUser) {
-        const { email } = currentUser;
-        const user = yield User_1.User.findOne({ email: email });
+    const { foxxiUser } = req;
+    if (foxxiUser) {
+        const email = foxxiUser.email;
+        const accountWallet = foxxiUser.accountWallet;
+        let user;
+        if (email)
+            user = yield User_1.User.findOne({ email: email });
+        else if (accountWallet)
+            user = yield User_1.User.findOne({ accountWallet: accountWallet });
         res.json({ currentUser: user });
     }
     else

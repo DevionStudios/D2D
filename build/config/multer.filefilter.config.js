@@ -9,12 +9,7 @@ exports.default = (0, multer_1.default)({
     storage: multer_1.default.diskStorage({}),
     fileFilter: (request, file, callback) => {
         let ext = path_1.default.extname(file.originalname);
-        if (ext !== ".jpg" &&
-            ext !== ".jpeg" &&
-            ext !== ".png" &&
-            ext !== ".mp4" &&
-            ext !== "m4v" &&
-            ext != "mov") {
+        if (ext !== ".jpg" && ext !== ".jpeg" && ext !== ".png" && ext !== ".gif") {
             callback(null, false);
             return;
         }

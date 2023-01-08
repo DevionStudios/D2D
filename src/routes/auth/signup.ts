@@ -1,8 +1,8 @@
-import express, { Request, Response } from "express";
-import { body } from "express-validator";
 import jwt from "jsonwebtoken";
-
+import { body } from "express-validator";
+import express, { Request, Response } from "express";
 import { validateRequest, BadRequestError } from "@devion/common";
+
 import { User } from "../../models/User";
 
 import dotenv from "dotenv";

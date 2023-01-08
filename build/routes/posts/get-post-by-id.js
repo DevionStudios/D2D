@@ -13,8 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPostRouter = void 0;
-const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const express_1 = __importDefault(require("express"));
 const Post_1 = require("../../models/Post");
 const router = express_1.default.Router();
 exports.getPostRouter = router;
@@ -24,6 +24,7 @@ router.get("/api/post/:id", (req, res) => __awaiter(void 0, void 0, void 0, func
         const post = yield Post_1.Post.findOne({
             _id: new mongoose_1.default.Types.ObjectId(req.params.id),
         })
+            .sort({ createdAt: -1 })
             .populate({
             path: "author",
         })

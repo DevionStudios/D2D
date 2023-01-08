@@ -23,7 +23,9 @@ router.get("/api/posts/:username", (req, res) => __awaiter(void 0, void 0, void 
         const { username } = req.params;
         const existingUser = yield User_1.User.findOne({
             username: username,
-        }).populate({
+        })
+            .sort({ createdAt: -1 })
+            .populate({
             path: "posts",
             populate: { path: "author" },
         });

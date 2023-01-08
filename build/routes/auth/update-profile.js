@@ -16,18 +16,23 @@ exports.updateProfileRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const cloudinaryConfig_1 = __importDefault(require("../../config/cloudinaryConfig"));
 const multer_filefilter_config_1 = __importDefault(require("../../config/multer.filefilter.config"));
+const User_1 = require("../../models/User");
 const common_1 = require("@devion/common");
 const currentuser_1 = require("../../middlewares/currentuser");
-const User_1 = require("../../models/User");
 const router = express_1.default.Router();
 exports.updateProfileRouter = router;
-router.put("/api/users/update", currentuser_1.currentUser, multer_filefilter_config_1.default.array("images", 5), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("Raw files:", req.files);
+router.put("/api/users/update", currentuser_1.currentUser, multer_filefilter_config_1.default.fields([
+    { name: "image", maxCount: 1 },
+    { name: "coverImage", maxCount: 1 },
+]), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { username, name, bio, walletAddress } = req.body;
-        var imageUrlList = [];
+        let imageFilePath;
+        let coverImageFilePath;
+        let imageSecureUrl;
+        let coverImageSecureUrl;
         const existingUser = yield User_1.User.findOne({
-            email: req.currentUser.email,
+            username: req.foxxiUser.username,
         });
         if (!existingUser) {
             throw new common_1.BadRequestError("User not found");
@@ -35,22 +40,23 @@ router.put("/api/users/update", currentuser_1.currentUser, multer_filefilter_con
         // Upload image to cloudinary and create url
         if (req.files) {
             const files = req.files;
-            console.log("files", files);
-            for (var i = 0; i < files.length; i++) {
-                var locaFilePath = files[i].path;
-                // Upload the local image to Cloudinary
-                // and get image url as response
-                var result = yield cloudinaryConfig_1.default.uploader.upload(locaFilePath);
-                imageUrlList.push(result.secure_url);
+            if (files.image && files.image.length > 0) {
+                imageFilePath = files.image[0].path;
+                var result = yield cloudinaryConfig_1.default.uploader.upload(imageFilePath);
+                imageSecureUrl = result.secure_url;
+            }
+            if (files.coverImage && files.coverImage.length > 0) {
+                coverImageFilePath = files.coverImage[0].path;
+                var result = yield cloudinaryConfig_1.default.uploader.upload(coverImageFilePath);
+                coverImageSecureUrl = result.secure_url;
             }
         }
-        console.log("imageUrl:", imageUrlList);
         // Update user details if they are different, otherwise fallback to existing values
         existingUser.username = username || existingUser.username;
         existingUser.name = name || existingUser.name;
         existingUser.bio = bio || existingUser.bio;
-        existingUser.image = imageUrlList[0] || existingUser.image;
-        existingUser.coverImage = imageUrlList[1] || existingUser.coverImage;
+        existingUser.image = imageSecureUrl || existingUser.image;
+        existingUser.coverImage = coverImageSecureUrl || existingUser.coverImage;
         existingUser.walletAddress = walletAddress || existingUser.walletAddress;
         if (!existingUser.twitterUsername) {
             existingUser.twitterUsername = req.body.twitterUsername;

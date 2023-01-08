@@ -3,7 +3,6 @@ import "express-async-errors";
 import { json, urlencoded } from "body-parser";
 import cookieSession from "cookie-session";
 import cors from "cors";
-import { TwitterApi } from "twitter-api-v2";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -38,9 +37,9 @@ import { claimTokenRouter } from "./routes/reward/claim-token";
 import { checkClaimRouter } from "./routes/reward/check-claim-token";
 import { updateProfileImageRouter } from "./routes/auth/update-profile-image";
 import { airdropRequestRouter } from "./routes/airdrop/request-airdrop";
+import { resetPasswordRouter } from "./routes/auth/reset-password";
 
 const app = express();
-// app.set("trust proxy", true);
 app.use(
   cors({
     origin: true,
@@ -76,6 +75,7 @@ app.use(currentUserRouter);
 app.use(fetchUserRouter);
 app.use(followUserRouter);
 app.use(updateProfileImageRouter);
+app.use(resetPasswordRouter);
 app.use(updatePasswordRouter);
 app.use(createPostRouter);
 app.use(getPostRouter);

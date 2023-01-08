@@ -1,5 +1,5 @@
-import express, { Request, Response } from "express";
 import mongoose from "mongoose";
+import express, { Request, Response } from "express";
 
 import { Post } from "../../models/Post";
 

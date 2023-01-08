@@ -13,10 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyCodeRouter = void 0;
-const express_1 = __importDefault(require("express"));
-const Verification_1 = require("../../models/Verification");
-const password_1 = require("../../services/password");
 const common_1 = require("@devion/common");
+const express_1 = __importDefault(require("express"));
+const password_1 = require("../../services/password");
+const Verification_1 = require("../../models/Verification");
 const router = express_1.default.Router();
 exports.verifyCodeRouter = router;
 router.post("/api/verification/compare", (req, res) => __awaiter(void 0, void 0, void 0, function* () {

@@ -1,24 +1,16 @@
-import express, { Request, Response } from "express";
-
-import { BadRequestError, validateRequest } from "@devion/common";
-import { currentUser } from "../../middlewares/currentuser";
-import { User, UserDoc } from "../../models/User";
-import { Post } from "../../models/Post";
 import mongoose from "mongoose";
-import { body } from "express-validator";
+import express, { Request, Response } from "express";
+import { BadRequestError } from "@devion/common";
+
+import { Post } from "../../models/Post";
+import { User, UserDoc } from "../../models/User";
+import { currentUser } from "../../middlewares/currentuser";
 
 const router = express.Router();
 
 router.put(
   "/api/like",
-  // [
-  //   body("id")
-  //     .not()
-  //     .isEmpty()
-  //     .matches(/^[0-9a-fA-F]{24}$/)
-  //     .withMessage("Post Id is not valid"),
-  // ],
-  // validateRequest,
+
   currentUser,
   async (req: Request, res: Response) => {
     try {

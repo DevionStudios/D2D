@@ -13,18 +13,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updatePasswordRouter = void 0;
-const express_1 = __importDefault(require("express"));
-const password_1 = require("../../services/password");
 const common_1 = require("@devion/common");
-const currentuser_1 = require("../../middlewares/currentuser");
+const express_1 = __importDefault(require("express"));
 const User_1 = require("../../models/User");
+const password_1 = require("../../services/password");
+const currentuser_1 = require("../../middlewares/currentuser");
 const router = express_1.default.Router();
 exports.updatePasswordRouter = router;
 router.put("/api/users/updatepassword", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { oldPassword, newPassword } = req.body;
         const existingUser = yield User_1.User.findOne({
-            email: req.currentUser.email,
+            username: req.foxxiUser.username,
         });
         if (!existingUser) {
             throw new common_1.BadRequestError("User not found");

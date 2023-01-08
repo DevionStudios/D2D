@@ -35,42 +35,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateCodeRouter = void 0;
-const nodemailer = __importStar(require("nodemailer"));
+exports.airdropRequestRouter = void 0;
 const express_1 = __importDefault(require("express"));
-const Verification_1 = require("../../models/Verification");
+const nodemailer = __importStar(require("nodemailer"));
 const router = express_1.default.Router();
-exports.generateCodeRouter = router;
-router.post("/api/verification/generate", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email } = req.body;
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
+exports.airdropRequestRouter = router;
+router.post("/api/airdrop/request", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, walletAddress, message } = req.body;
     try {
-        // check if already exists
-        const existingVerification = yield Verification_1.Verification.findOne({ email: email });
-        if (existingVerification) {
-            existingVerification.code = code;
-            yield existingVerification.save();
-        }
-        else {
-            // create new verification
-            const verification = Verification_1.Verification.build({
-                email: email,
-                code: code,
-            });
-            yield verification.save();
-        }
-        const codeText = `Your verification code is: ${code}. Please Enter this code to verify your account.`;
-        const subject = `Verification code from Foxxi`;
+        const codeText = `${email} has requested for Foxxi Token Airdrop. Please send 50 Foxxi Tokens to ${walletAddress}. 
+
+Message from ${email}: 
+${message}`;
+        const subject = `Foxxi Token Airdrop Request`;
         var transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
-                user: process.env.EMAIL,
-                pass: process.env.EMAIL_APP_PASSWORD,
+                user: process.env.HELPLINE_EMAIL,
+                pass: process.env.HELPLINE_EMAIL_APP_PASSWORD,
             },
         });
         var mailOptions = {
-            from: process.env.EMAIL,
-            to: email,
+            from: process.env.HELPLINE_EMAIL,
+            to: process.env.HELPLINE_EMAIL,
             subject: subject,
             text: codeText,
         };
@@ -86,7 +73,9 @@ router.post("/api/verification/generate", (req, res) => __awaiter(void 0, void 0
                 }
             });
         });
-        res.status(200).send({ message: "Verification code sent!" });
+        res.status(200).send({
+            message: "Airdrop request sent. You will soon receive the foxxi tokens.",
+        });
     }
     catch (e) {
         console.log(e);

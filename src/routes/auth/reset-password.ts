@@ -1,38 +1,27 @@
 import jwt from "jsonwebtoken";
-import { BadRequestError } from "@devion/common";
 import express, { Request, Response } from "express";
 
+import { BadRequestError } from "@devion/common";
 import { User } from "../../models/User";
-import { Password } from "../../services/password";
-
-import dotenv from "dotenv";
-dotenv.config();
 
 const router = express.Router();
 
-router.post("/api/users/signin", async (req: Request, res: Response) => {
+router.put("/api/users/resetpassword", async (req: Request, res: Response) => {
   try {
-    const { email, password, accountWallet } = req.body;
+    const { email, password } = req.body;
 
-    let existingUser: any;
-    if (email && email.length > 0) existingUser = await User.findOne({ email });
-    else existingUser = await User.findOne({ accountWallet });
+    const existingUser = await User.findOne({
+      email: email,
+    });
 
     if (!existingUser) {
-      throw new Error("User does not exist!");
+      throw new BadRequestError("User not found");
     }
 
-    if (existingUser.password) {
-      const passwordsMatch = await Password.compare(
-        existingUser.password!,
-        password
-      );
-      if (!passwordsMatch) {
-        throw new BadRequestError("Invalid Credentials");
-      }
-    }
+    existingUser.password = password;
 
-    // Generate JWT
+    await existingUser.save();
+
     let userJwt;
     if (email && email.length > 0)
       userJwt = jwt.sign(
@@ -63,8 +52,8 @@ router.post("/api/users/signin", async (req: Request, res: Response) => {
     });
   } catch (err) {
     console.log(err);
-    res.status(400).send({ message: err });
+    res.status(500).send({ message: err });
   }
 });
 
-export { router as signinRouter };
+export { router as resetPasswordRouter };

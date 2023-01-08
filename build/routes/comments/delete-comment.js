@@ -13,13 +13,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteCommentRouter = void 0;
-const express_1 = __importDefault(require("express"));
-const common_1 = require("@devion/common");
-const currentuser_1 = require("../../middlewares/currentuser");
-const Comment_1 = require("../../models/Comment");
 const mongoose_1 = __importDefault(require("mongoose"));
-const User_1 = require("../../models/User");
+const common_1 = require("@devion/common");
+const express_1 = __importDefault(require("express"));
 const Post_1 = require("../../models/Post");
+const User_1 = require("../../models/User");
+const Comment_1 = require("../../models/Comment");
+const currentuser_1 = require("../../middlewares/currentuser");
 const router = express_1.default.Router();
 exports.deleteCommentRouter = router;
 router.delete("/api/comments/delete/:id", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -32,7 +32,7 @@ router.delete("/api/comments/delete/:id", currentuser_1.currentUser, (req, res) 
             throw new common_1.BadRequestError("Comment not found!");
         }
         const existingUser = yield User_1.User.findOne({
-            username: req.currentUser.username,
+            username: req.foxxiUser.username,
         });
         if (!existingUser) {
             throw new common_1.BadRequestError("User not found!");

@@ -13,17 +13,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.followUserRouter = void 0;
-const express_1 = __importDefault(require("express"));
 const common_1 = require("@devion/common");
-const currentuser_1 = require("../../middlewares/currentuser");
+const express_1 = __importDefault(require("express"));
 const User_1 = require("../../models/User");
+const currentuser_1 = require("../../middlewares/currentuser");
 const router = express_1.default.Router();
 exports.followUserRouter = router;
 router.put("/api/follow/users", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c, _d;
     try {
-        const { username, toFollow } = req.body;
-        const existingUser = yield User_1.User.findOne({ _id: req.currentUser.id });
+        const { username } = req.body;
+        const existingUser = yield User_1.User.findOne({ _id: req.foxxiUser.id });
         const existingUserToFollow = yield User_1.User.findOne({ username: username });
         if (!existingUser) {
             throw new common_1.BadRequestError("User not found!");
@@ -43,24 +43,8 @@ router.put("/api/follow/users", currentuser_1.currentUser, (req, res) => __await
         if (existingFollow) {
             // Remove the user from the following array
             existingUser.following = (_a = existingUser.following) === null || _a === void 0 ? void 0 : _a.filter((user) => user._id.toString() !== existingUserToFollow._id.toString());
-            // for (let i = 0; i < existingUser.following!.length; i++) {
-            //   if (
-            //     existingUser.following![i].id.toString() ===
-            //     existingUserToFollow.id.toString()
-            //   ) {
-            //     existingUser.following!.splice(i, 1);
-            //   }
-            // }
             // Remove the user from the followers array
             existingUserToFollow.followers = (_b = existingUserToFollow.followers) === null || _b === void 0 ? void 0 : _b.filter((user) => user._id.toString() !== existingUser._id.toString());
-            // for (let i = 0; i < existingUserToFollow.followers!.length; i++) {
-            //   if (
-            //     existingUserToFollow.followers![i].id.toString() ===
-            //     existingUser.id.toString()
-            //   ) {
-            //     existingUserToFollow.followers!.splice(i, 1);
-            //   }
-            // }
             yield existingUser.save();
             yield existingUserToFollow.save();
             return res.status(200).send({ message: "User Unfollowed!" });

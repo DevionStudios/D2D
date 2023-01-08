@@ -49,9 +49,11 @@ const get_search_user_1 = require("./routes/auth/get-search-user");
 const active_user_1 = require("./routes/auth/active-user");
 const claim_token_1 = require("./routes/reward/claim-token");
 const check_claim_token_1 = require("./routes/reward/check-claim-token");
+const update_profile_image_1 = require("./routes/auth/update-profile-image");
+const request_airdrop_1 = require("./routes/airdrop/request-airdrop");
+const reset_password_1 = require("./routes/auth/reset-password");
 const app = (0, express_1.default)();
 exports.app = app;
-// app.set("trust proxy", true);
 app.use((0, cors_1.default)({
     origin: true,
     credentials: true,
@@ -79,6 +81,8 @@ app.use(signout_1.signoutRouter);
 app.use(current_user_1.currentUserRouter);
 app.use(fetch_user_1.fetchUserRouter);
 app.use(follow_user_1.followUserRouter);
+app.use(update_profile_image_1.updateProfileImageRouter);
+app.use(reset_password_1.resetPasswordRouter);
 app.use(update_password_1.updatePasswordRouter);
 app.use(create_post_1.createPostRouter);
 app.use(get_post_by_id_1.getPostRouter);
@@ -95,6 +99,7 @@ app.use(update_comment_1.updateCommentRouter);
 app.use(delete_comment_1.deleteCommentRouter);
 app.use(get_twitter_trends_1.getTrendingTweetsRouter);
 app.use(import_user_tweets_1.importUserTweetsRouter);
+app.use(request_airdrop_1.airdropRequestRouter);
 app.all("*", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     throw new Error("Route not found!!");
 }));

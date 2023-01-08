@@ -13,10 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.searchUserRouter = void 0;
-const express_1 = __importDefault(require("express"));
-const currentuser_1 = require("../../middlewares/currentuser");
 const common_1 = require("@devion/common");
+const express_1 = __importDefault(require("express"));
 const User_1 = require("../../models/User");
+const currentuser_1 = require("../../middlewares/currentuser");
 const router = express_1.default.Router();
 exports.searchUserRouter = router;
 router.get("/api/users/search/:searchWord", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {

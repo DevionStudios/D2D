@@ -18,6 +18,7 @@ const password_1 = require("../services/password");
 const userSchema = new mongoose_1.default.Schema({
     email: {
         type: String,
+        required: false,
     },
     username: {
         type: String,
@@ -27,6 +28,7 @@ const userSchema = new mongoose_1.default.Schema({
     },
     password: {
         type: String,
+        required: false,
     },
     walletAddress: {
         type: String,
@@ -41,7 +43,6 @@ const userSchema = new mongoose_1.default.Schema({
     },
     coverImage: {
         type: String,
-        default: "https://149369349.v2.pressablecdn.com/wp-caption/uploads/2012/10/twitter-cover.jpg",
     },
     bio: {
         type: String,
@@ -82,6 +83,11 @@ const userSchema = new mongoose_1.default.Schema({
     twitterUsername: {
         type: String,
         dafault: "",
+    },
+    accountWallet: {
+        type: String,
+        default: "",
+        required: false,
     },
 }, {
     toJSON: {

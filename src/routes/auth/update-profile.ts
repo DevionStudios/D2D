@@ -1,10 +1,10 @@
-import express, { Request, Response } from "express";
+import express, { Response } from "express";
 import cloudinary from "../../config/cloudinaryConfig";
 import upload from "../../config/multer.filefilter.config";
 
+import { User } from "../../models/User";
 import { BadRequestError } from "@devion/common";
 import { currentUser } from "../../middlewares/currentuser";
-import { User } from "../../models/User";
 
 const router = express.Router();
 
@@ -31,16 +31,6 @@ router.put(
       }
       // Upload image to cloudinary and create url
       if (req.files) {
-        // const files = req.files as Express.Multer.File[];
-        // console.log("files", files);
-        // for (var i = 0; i < files.length; i++) {
-        //   var locaFilePath = files[i].path;
-
-        //   // Upload the local image to Cloudinary
-        //   // and get image url as response
-        //   var result = await cloudinary.uploader.upload(locaFilePath);
-        //   imageUrlList.push(result.secure_url);
-        // }
         const files = req.files;
         if (files.image && files.image.length > 0) {
           imageFilePath = files.image[0].path;
@@ -53,7 +43,6 @@ router.put(
           coverImageSecureUrl = result.secure_url;
         }
       }
-      // console.log("imageUrl:", imageUrlList);
       // Update user details if they are different, otherwise fallback to existing values
       existingUser.username = username || existingUser.username;
       existingUser.name = name || existingUser.name;

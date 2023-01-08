@@ -13,24 +13,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.importUserTweetsRouter = void 0;
-const currentuser_1 = require("../../middlewares/currentuser");
-const express_1 = __importDefault(require("express"));
-const common_1 = require("@devion/common");
-const twitter_api_v2_1 = require("twitter-api-v2");
 const dotenv_1 = __importDefault(require("dotenv"));
+const twitter_api_v2_1 = require("twitter-api-v2");
+const common_1 = require("@devion/common");
+const express_1 = __importDefault(require("express"));
 const Post_1 = require("../../models/Post");
 const User_1 = require("../../models/User");
+const currentuser_1 = require("../../middlewares/currentuser");
 const router = express_1.default.Router();
 exports.importUserTweetsRouter = router;
 dotenv_1.default.config();
 router.post("/api/tweets", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { currentUser } = req;
-    if (!currentUser) {
+    const { foxxiUser } = req;
+    if (!foxxiUser) {
         throw new common_1.BadRequestError("User not found!");
     }
     try {
         const existingUser = yield User_1.User.findOne({
-            username: currentUser.username,
+            username: foxxiUser.username,
         });
         if (!existingUser) {
             throw new Error("User not found");
@@ -48,7 +48,7 @@ router.post("/api/tweets", currentuser_1.currentUser, (req, res) => __awaiter(vo
         const usernameResponse = yield appOnlyClientFromConsumer.v2.userByUsername(existingUser.twitterUsername);
         const apiResponse = yield appOnlyClientFromConsumer.v2.userTimeline(usernameResponse.data.id, {
             max_results: 100,
-            exclude: ["replies", "retweets"],
+            exclude: ["retweets", "replies"],
             "tweet.fields": ["created_at"],
         });
         const tweets = apiResponse.data.data;
@@ -57,7 +57,7 @@ router.post("/api/tweets", currentuser_1.currentUser, (req, res) => __awaiter(vo
                 twitterId: tweet.id,
             });
             const theUser = yield User_1.User.findOne({
-                username: currentUser.username,
+                username: foxxiUser.username,
             });
             if (!existingPost) {
                 const post = Post_1.Post.build({

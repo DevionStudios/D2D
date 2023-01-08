@@ -1,11 +1,11 @@
-import { currentUser } from "../../middlewares/currentuser";
-import express, { Request, Response } from "express";
-import { BadRequestError } from "@devion/common";
-import { TwitterApi } from "twitter-api-v2";
 import dotenv from "dotenv";
+import { TwitterApi } from "twitter-api-v2";
+import { BadRequestError } from "@devion/common";
+import express, { Request, Response } from "express";
 
 import { Post } from "../../models/Post";
 import { User, UserDoc } from "../../models/User";
+import { currentUser } from "../../middlewares/currentuser";
 
 const router = express.Router();
 dotenv.config();

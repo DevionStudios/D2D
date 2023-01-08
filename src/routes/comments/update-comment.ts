@@ -1,11 +1,10 @@
-import express, { Request, Response } from "express";
-import { body } from "express-validator";
-
-import { validateRequest, BadRequestError } from "@devion/common";
-import { currentUser } from "../../middlewares/currentuser";
 import mongoose from "mongoose";
+import { BadRequestError } from "@devion/common";
+import express, { Request, Response } from "express";
+
 import { User } from "../../models/User";
 import { Comment } from "../../models/Comment";
+import { currentUser } from "../../middlewares/currentuser";
 
 const router = express.Router();
 

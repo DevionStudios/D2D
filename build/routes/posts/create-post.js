@@ -13,14 +13,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createPostRouter = void 0;
-const express_1 = __importDefault(require("express"));
 const common_1 = require("@devion/common");
-const currentuser_1 = require("../../middlewares/currentuser");
-const User_1 = require("../../models/User");
+const express_1 = __importDefault(require("express"));
 const Post_1 = require("../../models/Post");
 const HashTags_1 = require("../../models/HashTags");
+const User_1 = require("../../models/User");
 const cloudinaryConfig_1 = __importDefault(require("../../config/cloudinaryConfig"));
 const multer_filefilter_config_1 = __importDefault(require("../../config/multer.filefilter.config"));
+const currentuser_1 = require("../../middlewares/currentuser");
 const router = express_1.default.Router();
 exports.createPostRouter = router;
 router.post("/api/posts/create", currentuser_1.currentUser, multer_filefilter_config_1.default.single("media"), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -32,7 +32,7 @@ router.post("/api/posts/create", currentuser_1.currentUser, multer_filefilter_co
             : null;
         const media = (result === null || result === void 0 ? void 0 : result.secure_url) || "";
         const existingUser = yield User_1.User.findOne({
-            _id: req.currentUser.id,
+            _id: req.foxxiUser.id,
         });
         if (!existingUser) {
             throw new common_1.BadRequestError("User not found!");

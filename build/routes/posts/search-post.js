@@ -13,9 +13,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.searchPostRouter = void 0;
+const Post_1 = require("../../models/Post");
 const express_1 = __importDefault(require("express"));
 const currentuser_1 = require("../../middlewares/currentuser");
-const Post_1 = require("../../models/Post");
 const router = express_1.default.Router();
 exports.searchPostRouter = router;
 router.get("/api/post/search/:searchWord", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {

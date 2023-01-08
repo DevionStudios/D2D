@@ -1,8 +1,8 @@
+import { BadRequestError } from "@devion/common";
 import express, { Request, Response } from "express";
 
-import { BadRequestError } from "@devion/common";
-import { currentUser } from "../../middlewares/currentuser";
 import { User } from "../../models/User";
+import { currentUser } from "../../middlewares/currentuser";
 
 const router = express.Router();
 

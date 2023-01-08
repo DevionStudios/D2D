@@ -1,5 +1,4 @@
-import mongoose, { StringExpressionOperatorReturningBoolean } from "mongoose";
-import { PostDoc } from "./Post";
+import mongoose from "mongoose";
 
 interface HashTagAttrs {
   content: string;

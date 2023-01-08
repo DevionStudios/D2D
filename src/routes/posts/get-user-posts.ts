@@ -1,9 +1,7 @@
 import express, { Request, Response } from "express";
-import { body } from "express-validator";
-import mongoose, { mongo } from "mongoose";
-import { Post, PostSchema } from "../../models/Post";
 import { BadRequestError } from "@devion/common";
-import { User, UserDoc } from "../../models/User";
+
+import { User } from "../../models/User";
 
 const router = express.Router();
 

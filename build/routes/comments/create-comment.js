@@ -13,13 +13,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCommentRouter = void 0;
-const express_1 = __importDefault(require("express"));
+const mongoose_1 = __importDefault(require("mongoose"));
 const common_1 = require("@devion/common");
-const currentuser_1 = require("../../middlewares/currentuser");
-const User_1 = require("../../models/User");
+const express_1 = __importDefault(require("express"));
 const Post_1 = require("../../models/Post");
 const Comment_1 = require("../../models/Comment");
-const mongoose_1 = __importDefault(require("mongoose"));
+const User_1 = require("../../models/User");
+const currentuser_1 = require("../../middlewares/currentuser");
 const router = express_1.default.Router();
 exports.createCommentRouter = router;
 router.post("/api/comments/create", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -32,7 +32,7 @@ router.post("/api/comments/create", currentuser_1.currentUser, (req, res) => __a
             throw new common_1.BadRequestError("Post not found!");
         }
         const existingUser = yield User_1.User.findOne({
-            username: req.currentUser.username,
+            username: req.foxxiUser.username,
         });
         if (!existingUser) {
             throw new common_1.BadRequestError("User not found!");

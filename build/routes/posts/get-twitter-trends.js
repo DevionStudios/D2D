@@ -13,23 +13,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getTrendingTweetsRouter = void 0;
-const currentuser_1 = require("../../middlewares/currentuser");
-const express_1 = __importDefault(require("express"));
-const common_1 = require("@devion/common");
 const dotenv_1 = __importDefault(require("dotenv"));
-const User_1 = require("../../models/User");
 const twitter_api_v2_1 = require("twitter-api-v2");
+const common_1 = require("@devion/common");
+const User_1 = require("../../models/User");
+const express_1 = __importDefault(require("express"));
+const currentuser_1 = require("../../middlewares/currentuser");
 const router = express_1.default.Router();
 exports.getTrendingTweetsRouter = router;
 dotenv_1.default.config();
 router.get("/api/tweets/trending", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { currentUser } = req;
-    if (!currentUser) {
+    const { foxxiUser } = req;
+    if (!foxxiUser) {
         throw new common_1.BadRequestError("User not found!");
     }
     try {
         const existingUser = yield User_1.User.findOne({
-            username: currentUser.username,
+            username: foxxiUser.username,
         });
         if (!existingUser) {
             throw new Error("User not found");

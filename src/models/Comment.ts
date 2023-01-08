@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { PostDoc } from "./Post";
 import { UserDoc } from "./User";
 
 interface CommentAttrs {

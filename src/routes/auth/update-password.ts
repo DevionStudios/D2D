@@ -1,9 +1,9 @@
-import express, { Request, Response } from "express";
-import { Password } from "../../services/password";
-
 import { BadRequestError } from "@devion/common";
-import { currentUser } from "../../middlewares/currentuser";
+import express, { Request, Response } from "express";
+
 import { User } from "../../models/User";
+import { Password } from "../../services/password";
+import { currentUser } from "../../middlewares/currentuser";
 
 const router = express.Router();
 

@@ -1,8 +1,7 @@
-import express, { Request, Response } from "express";
-import { Verification } from "../../models/Verification";
-import { currentUser } from "../../middlewares/currentuser";
 import * as nodemailer from "nodemailer";
-import { Password } from "../../services/password";
+import express, { Request, Response } from "express";
+
+import { Verification } from "../../models/Verification";
 
 const router = express.Router();
 
@@ -35,19 +34,6 @@ router.post(
           pass: process.env.EMAIL_APP_PASSWORD,
         },
       });
-
-      // await new Promise((resolve, reject) => {
-      //   // verify connection configuration
-      //   transporter.verify(function (error, success) {
-      //     if (error) {
-      //       console.log(error);
-      //       reject(error);
-      //     } else {
-      //       console.log("Server is ready to take our messages");
-      //       resolve(success);
-      //     }
-      //   });
-      // });
 
       var mailOptions = {
         from: process.env.EMAIL,

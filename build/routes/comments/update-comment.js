@@ -13,12 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateCommentRouter = void 0;
-const express_1 = __importDefault(require("express"));
-const common_1 = require("@devion/common");
-const currentuser_1 = require("../../middlewares/currentuser");
 const mongoose_1 = __importDefault(require("mongoose"));
+const common_1 = require("@devion/common");
+const express_1 = __importDefault(require("express"));
 const User_1 = require("../../models/User");
 const Comment_1 = require("../../models/Comment");
+const currentuser_1 = require("../../middlewares/currentuser");
 const router = express_1.default.Router();
 exports.updateCommentRouter = router;
 router.post("/api/comments/update", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {

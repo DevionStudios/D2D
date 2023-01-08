@@ -1,7 +1,6 @@
-import express, { Request, Response } from "express";
-import mongoose from "mongoose";
-import { currentUser } from "../../middlewares/currentuser";
 import { Post } from "../../models/Post";
+import express, { Request, Response } from "express";
+import { currentUser } from "../../middlewares/currentuser";
 
 const router = express.Router();
 

@@ -13,24 +13,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LikePostRouter = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
 const express_1 = __importDefault(require("express"));
 const common_1 = require("@devion/common");
-const currentuser_1 = require("../../middlewares/currentuser");
-const User_1 = require("../../models/User");
 const Post_1 = require("../../models/Post");
-const mongoose_1 = __importDefault(require("mongoose"));
+const User_1 = require("../../models/User");
+const currentuser_1 = require("../../middlewares/currentuser");
 const router = express_1.default.Router();
 exports.LikePostRouter = router;
-router.put("/api/like", 
-// [
-//   body("id")
-//     .not()
-//     .isEmpty()
-//     .matches(/^[0-9a-fA-F]{24}$/)
-//     .withMessage("Post Id is not valid"),
-// ],
-// validateRequest,
-currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.put("/api/like", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.body;
         console.log("id: ", id);
@@ -40,7 +31,7 @@ currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, funct
         if (!post) {
             throw new common_1.BadRequestError("Post not found");
         }
-        const existingUser = yield User_1.User.findOne({ _id: req.currentUser.id });
+        const existingUser = yield User_1.User.findOne({ _id: req.foxxiUser.id });
         if (!existingUser) {
             throw new common_1.BadRequestError("User not found!");
         }

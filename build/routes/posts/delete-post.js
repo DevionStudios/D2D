@@ -13,10 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deletePostRouter = void 0;
-const express_1 = __importDefault(require("express"));
 const common_1 = require("@devion/common");
-const currentuser_1 = require("../../middlewares/currentuser");
+const express_1 = __importDefault(require("express"));
 const Post_1 = require("../../models/Post");
+const currentuser_1 = require("../../middlewares/currentuser");
 const router = express_1.default.Router();
 exports.deletePostRouter = router;
 router.delete("/api/posts/delete/:id", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -27,7 +27,7 @@ router.delete("/api/posts/delete/:id", currentuser_1.currentUser, (req, res) => 
         if (!existingPost) {
             throw new common_1.BadRequestError("Post not found!");
         }
-        if (existingPost.author.id !== ((_a = req.currentUser) === null || _a === void 0 ? void 0 : _a.id)) {
+        if (existingPost.author.id !== ((_a = req.foxxiUser) === null || _a === void 0 ? void 0 : _a.id)) {
             throw new common_1.BadRequestError("You are not the author!");
         }
         yield Post_1.Post.deleteOne({ _id: id });

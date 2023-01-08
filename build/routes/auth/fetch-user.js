@@ -13,8 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.fetchUserRouter = void 0;
-const express_1 = __importDefault(require("express"));
 const common_1 = require("@devion/common");
+const express_1 = __importDefault(require("express"));
 const User_1 = require("../../models/User");
 const router = express_1.default.Router();
 exports.fetchUserRouter = router;

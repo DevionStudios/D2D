@@ -8,17 +8,16 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const currentUser = (req, res, next) => {
-    console.log("cookeis", req.headers.cookies);
     try {
         if (req.headers &&
             req.headers.cookies &&
-            req.headers.cookies.includes("jwt")) {
+            req.headers.cookies.includes("foxxi_jwt")) {
             const token = req.headers.cookies
                 .toString()
-                .split("jwt=")[1]
+                .split("foxxi_jwt=")[1]
                 .split(";")[0];
             if (!token || token === "undefined") {
-                req.currentUser = undefined;
+                req.foxxiUser = undefined;
             }
             else {
                 const decoded = jsonwebtoken_1.default.verify(token.toString(), process.env.JWT_KEY);
@@ -29,7 +28,7 @@ const currentUser = (req, res, next) => {
                     });
                 }
                 else {
-                    req.currentUser = decoded;
+                    req.foxxiUser = decoded;
                 }
             }
             next();
