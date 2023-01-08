@@ -130,7 +130,7 @@ export function PasswordReset() {
         />
 
         <Input
-          label="Password"
+          label="New Password"
           type="password"
           placeholder="Your password (min 4)"
           {...form.register("password")}
