@@ -3,6 +3,7 @@ import express, { Request, Response } from "express";
 
 import { Post } from "../../models/Post";
 import { currentAdmin } from "../../middlewares/currentadmin";
+import mongoose from "mongoose";
 
 const router = express.Router();
 
@@ -13,13 +14,15 @@ router.delete(
     try {
       const { id } = req.params;
 
-      const existingPost = await Post.findOne({ _id: id }).populate("author");
+      const existingPost = await Post.findOne({
+        _id: new mongoose.Types.ObjectId(id),
+      });
 
       if (!existingPost) {
         throw new BadRequestError("Post not found!");
       }
 
-      await Post.deleteOne({ _id: id });
+      await Post.deleteOne({ _id: new mongoose.Types.ObjectId(id) });
 
       res.status(204).send({ message: "Post deleted!" });
     } catch (err) {

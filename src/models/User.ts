@@ -17,6 +17,8 @@ interface UserAttrs {
   hasClaimed?: boolean;
   twitterUsername?: string;
   accountWallet?: string;
+  reports?: string[];
+  isBanned?: boolean;
 }
 
 interface UserModel extends mongoose.Model<UserDoc> {
@@ -41,6 +43,8 @@ export interface UserDoc extends mongoose.Document {
   hasClaimed?: boolean;
   twitterUsername?: string;
   accountWallet?: string;
+  reports?: string[];
+  isBanned?: boolean;
 }
 
 const userSchema = new mongoose.Schema(
@@ -115,11 +119,22 @@ const userSchema = new mongoose.Schema(
       type: String,
       dafault: "",
     },
-
     accountWallet: {
       type: String,
       default: "",
       required: false,
+    },
+    reports: {
+      type: [
+        {
+          type: String,
+        },
+      ],
+      default: [],
+    },
+    isBanned: {
+      type: Boolean,
+      default: false,
     },
   },
   {

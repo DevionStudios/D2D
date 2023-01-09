@@ -44,6 +44,9 @@ import { adminSigninRouter } from "./routes/admin/signin";
 import { deletePostAdminRouter } from "./routes/admin/delete-post";
 import { currentAdminRouter } from "./routes/admin/current-admin";
 import { resetAdminPasswordRouter } from "./routes/admin/reset-password";
+import { reportPostRouter } from "./routes/posts/report-post";
+import { reportUserRouter } from "./routes/auth/report-user";
+import { toggleBanRouter } from "./routes/admin/ban-user";
 
 const app = express();
 app.use(
@@ -104,6 +107,9 @@ app.use(adminSigninRouter);
 app.use(currentAdminRouter);
 app.use(deletePostAdminRouter);
 app.use(resetAdminPasswordRouter);
+app.use(reportPostRouter);
+app.use(reportUserRouter);
+app.use(toggleBanRouter);
 
 app.all("*", async (req: any, res: any) => {
   throw new Error("Route not found!!");
