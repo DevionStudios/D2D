@@ -1,12 +1,19 @@
 import { format } from "date-fns";
-import { HiBadgeCheck, HiOutlineCalendar } from "react-icons/hi";
+import {
+  HiBadgeCheck,
+  HiOutlineFlag,
+  HiOutlineCalendar,
+  HiOutlineDotsVertical,
+} from "react-icons/hi";
 import useMediaQuery, { MEDIA_QUERIES } from "src/utils/useMediaQuery";
 import { Button } from "../ui/Button";
 import ButtonOrLink from "../ui/ButtonOrLink";
 import { FollowButton } from "./FollowButton";
 import { UserPosts } from "./UserPosts";
 import { useEffect, useState } from "react";
+import { Menu, MenuItem } from "../ui/Dropdown";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 
 export function Profile({ user, isMe, username, currentUser }) {
   const isMobile = useMediaQuery(MEDIA_QUERIES.SMALL);
@@ -17,11 +24,36 @@ export function Profile({ user, isMe, username, currentUser }) {
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${user.username}`
       );
       setUserPosts(data);
-      // !remove console.log(data);
     } catch (error) {
       // !remove console.log(error);
     }
   };
+
+  const reportUser = async () => {
+    try {
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/report`,
+        {
+          userId: user.id,
+        },
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        toast.success("User reported");
+      } else {
+        toast.error("You have already reported this user");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message || "Failed to report user");
+    }
+  };
+
   useEffect(() => {
     fetchUserPost();
   }, []);
@@ -60,6 +92,22 @@ export function Profile({ user, isMe, username, currentUser }) {
                 <p className="text-muted text-sm">@{user.username}</p>
               </div>
               <div className=" flex items-center justify-stretch  sm:flex-row sm:space-y-0 sm:space-x-5">
+                <div className="mr-3">
+                  <Menu
+                    dropdown={
+                      <MenuItem
+                        onClick={() => reportUser()}
+                        icon={<HiOutlineFlag />}
+                      >
+                        Report Profile
+                      </MenuItem>
+                    }
+                  >
+                    <span className="-m-2 p-2 rounded-full flex items-center dark:hover:bg-gray-700 hover:bg-gray-300">
+                      <HiOutlineDotsVertical className="w-5 h-5" />
+                    </span>
+                  </Menu>
+                </div>
                 {isMe ? (
                   <Button
                     href={`/account/settings`}

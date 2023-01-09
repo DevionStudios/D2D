@@ -141,15 +141,14 @@ export function FeedPostCard(props) {
                 </p>
               </div>
               <div className="flex-shrink-0 self-center flex">
-                {!props.currentUser.annonymous ? null : props.post.author
-                    .username === props.username ? (
+                {props.currentUser.annonymous ? null : (
                   <PostDropdown
                     id={props.post.id}
                     isMine={props.post.author.username === props.username}
                     caption={props.post.caption ?? ""}
                     gifLink={props.post.gifLink ?? ""}
                   />
-                ) : null}
+                )}
               </div>
             </div>
           </div>
