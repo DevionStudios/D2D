@@ -1,9 +1,10 @@
-import express from "express";
-import "express-async-errors";
-import { json, urlencoded } from "body-parser";
-import cookieSession from "cookie-session";
 import cors from "cors";
 import dotenv from "dotenv";
+import "express-async-errors";
+import express from "express";
+import cookieSession from "cookie-session";
+import { json, urlencoded } from "body-parser";
+
 dotenv.config();
 
 import { signupRouter } from "./routes/auth/signup";
@@ -38,6 +39,11 @@ import { checkClaimRouter } from "./routes/reward/check-claim-token";
 import { updateProfileImageRouter } from "./routes/auth/update-profile-image";
 import { airdropRequestRouter } from "./routes/airdrop/request-airdrop";
 import { resetPasswordRouter } from "./routes/auth/reset-password";
+import { adminSignupRouter } from "./routes/admin/signup";
+import { adminSigninRouter } from "./routes/admin/signin";
+import { deletePostAdminRouter } from "./routes/admin/delete-post";
+import { currentAdminRouter } from "./routes/admin/current-admin";
+import { resetAdminPasswordRouter } from "./routes/admin/reset-password";
 
 const app = express();
 app.use(
@@ -93,6 +99,11 @@ app.use(deleteCommentRouter);
 app.use(getTrendingTweetsRouter);
 app.use(importUserTweetsRouter);
 app.use(airdropRequestRouter);
+app.use(adminSignupRouter);
+app.use(adminSigninRouter);
+app.use(currentAdminRouter);
+app.use(deletePostAdminRouter);
+app.use(resetAdminPasswordRouter);
 
 app.all("*", async (req: any, res: any) => {
   throw new Error("Route not found!!");
