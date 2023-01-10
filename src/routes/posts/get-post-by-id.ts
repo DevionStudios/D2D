@@ -25,7 +25,7 @@ router.get("/api/post/:id", async (req: Request, res: Response) => {
     res.status(200).send(post);
   } catch (err) {
     console.log(err);
-    res.status(500).send({ message: err });
+    res.status(200).send({ message: err });
   }
 });
 

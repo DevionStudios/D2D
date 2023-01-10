@@ -28,9 +28,9 @@ router.put(
       res.status(200).send({ message: "User Banned!" });
     } catch (err) {
       console.log(err);
-      res.status(400).send({ message: err });
+      res.status(200).send({ message: err });
     }
-  } 
+  }
 );
 
 export { router as toggleBanRouter };

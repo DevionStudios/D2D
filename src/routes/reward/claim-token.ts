@@ -24,7 +24,7 @@ router.get(
       res.status(200).send({ message: "Token Claimed Successfully!" });
     } catch (err) {
       console.log(err);
-      res.status(400).send({ message: err });
+      res.status(200).send({ message: err });
     }
   }
 );

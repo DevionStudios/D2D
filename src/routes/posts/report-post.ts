@@ -25,7 +25,7 @@ router.put(
 
       if (post.reports?.includes(req.foxxiUser!.id.toString()!)) {
         return res
-          .status(400)
+          .status(200)
           .send({ message: "You have already reported this post!" });
       }
 
@@ -36,7 +36,7 @@ router.put(
       res.status(200).send({ message: "Post reported!" });
     } catch (err) {
       console.log(err);
-      res.status(400).send({ message: err });
+      res.status(200).send({ message: err });
     }
   }
 );

@@ -34,7 +34,7 @@ const currentUser = (req: Request, res: Response, next: NextFunction) => {
         const decoded = jwt.verify(token.toString(), process.env.JWT_KEY!);
         if (!decoded) {
           //If some error occurs
-          res.status(400).json({
+          res.status(200).json({
             error: "User not Signed in, Sign in First.",
           });
         } else {

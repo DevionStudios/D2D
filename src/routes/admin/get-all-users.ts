@@ -17,7 +17,7 @@ router.get("/api/admin/getusers", async (req: Request, res: Response) => {
     res.status(200).send(existingUser);
   } catch (err) {
     console.log(err);
-    res.status(400).send({ message: err });
+    res.status(200).send({ message: err });
   }
 });
 

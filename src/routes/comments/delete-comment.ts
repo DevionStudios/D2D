@@ -57,7 +57,7 @@ router.delete(
       res.status(204).send("Comment deleted successfully!");
     } catch (err) {
       console.log(err);
-      res.status(500).send({ message: err });
+      res.status(200).send({ message: err });
     }
   }
 );
