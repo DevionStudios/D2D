@@ -34,6 +34,4 @@ router.get("/api/users/currentuser", currentuser_1.currentUser, (req, res) => __
                 .json({ message: "You are temporarily banned from Foxxi" });
         res.json({ currentUser: user });
     }
-    else
-        res.json({ currentUser: undefined });
 }));

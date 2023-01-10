@@ -46,8 +46,9 @@ const currentUser = (req: Request, res: Response, next: NextFunction) => {
       res.send({ currentuser: null });
     }
   } catch (e) {
-    res.status(400).json({
-      error: "Malformed jwt token",
+    res.json({
+      currentUser: undefined,
+      message: "Malformed jwt token",
     });
   }
 };
