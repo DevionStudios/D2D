@@ -136,7 +136,8 @@ const UserCard = ({ user }) => {
             color="danger"
             onClick={async () => {
               await banUser();
-              toast.success("User Banned!");
+              if (user.isBanned) toast.success("User Unbanned!");
+              else toast.success("User Banned!");
             }}
           >
             {user?.isBanned ? "Unban" : "Ban"} {banLoading && <Spinner />}
