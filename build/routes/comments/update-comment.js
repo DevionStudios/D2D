@@ -32,7 +32,7 @@ router.post("/api/comments/update", currentuser_1.currentUser, (req, res) => __a
             throw new common_1.BadRequestError("Comment not found!");
         }
         const existingUser = yield User_1.User.findOne({
-            username: req.currentUser.username,
+            username: req.foxxiUser.username,
         });
         if (!existingUser) {
             throw new common_1.BadRequestError("User not found!");

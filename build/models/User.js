@@ -89,6 +89,18 @@ const userSchema = new mongoose_1.default.Schema({
         default: "",
         required: false,
     },
+    reports: {
+        type: [
+            {
+                type: String,
+            },
+        ],
+        default: [],
+    },
+    isBanned: {
+        type: Boolean,
+        default: false,
+    },
 }, {
     toJSON: {
         transform(doc, ret) {

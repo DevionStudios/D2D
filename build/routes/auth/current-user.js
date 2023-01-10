@@ -28,6 +28,10 @@ router.get("/api/users/currentuser", currentuser_1.currentUser, (req, res) => __
             user = yield User_1.User.findOne({ email: email });
         else if (accountWallet)
             user = yield User_1.User.findOne({ accountWallet: accountWallet });
+        if (user === null || user === void 0 ? void 0 : user.isBanned)
+            return res
+                .status(403)
+                .json({ message: "You are temporarily banned from Foxxi" });
         res.json({ currentUser: user });
     }
     else

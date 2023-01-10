@@ -24,9 +24,8 @@ router.post(
       if (!comment) {
         throw new BadRequestError("Comment not found!");
       }
-
       const existingUser = await User.findOne({
-        username: req.currentUser!.username,
+        username: req.foxxiUser!.username,
       });
 
       if (!existingUser) {

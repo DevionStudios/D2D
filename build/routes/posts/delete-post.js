@@ -17,20 +17,23 @@ const common_1 = require("@devion/common");
 const express_1 = __importDefault(require("express"));
 const Post_1 = require("../../models/Post");
 const currentuser_1 = require("../../middlewares/currentuser");
+const mongoose_1 = __importDefault(require("mongoose"));
 const router = express_1.default.Router();
 exports.deletePostRouter = router;
 router.delete("/api/posts/delete/:id", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
         const { id } = req.params;
-        const existingPost = yield Post_1.Post.findOne({ _id: id }).populate("author");
+        const existingPost = yield Post_1.Post.findOne({
+            _id: new mongoose_1.default.Types.ObjectId(id),
+        }).populate("author");
         if (!existingPost) {
             throw new common_1.BadRequestError("Post not found!");
         }
         if (existingPost.author.id !== ((_a = req.foxxiUser) === null || _a === void 0 ? void 0 : _a.id)) {
             throw new common_1.BadRequestError("You are not the author!");
         }
-        yield Post_1.Post.deleteOne({ _id: id });
+        yield Post_1.Post.deleteOne({ _id: new mongoose_1.default.Types.ObjectId(id) });
         res.status(204).send({ message: "Post deleted!" });
     }
     catch (err) {
