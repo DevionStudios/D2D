@@ -2,7 +2,7 @@ import React from "react";
 import Admin from "../components/Admin/Admin";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-const AdminPage = (currentUser) => {
+const AdminPage = ({ currentUser }) => {
   const router = useRouter();
 
   useEffect(() => {
