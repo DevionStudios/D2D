@@ -118,7 +118,7 @@ const Admin = () => {
             {posts?.length === undefined ? <Spinner /> : posts.length}
           </h5>
         </div>
-        <div
+        {/* <div
           className="mx-5 my-2"
           style={{
             backgroundColor: "#011E19",
@@ -130,7 +130,7 @@ const Admin = () => {
             No. Of Comments:{" "}
             {comments?.length === undefined ? <Spinner /> : comments?.length}
           </h5>
-        </div>
+        </div> */}
       </div>
       <MDBContainer className="p-3 my-5 d-flex flex-column w-90">
         <MDBTabs
