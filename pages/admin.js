@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 const AdminPage = (currentUser) => {
   const router = useRouter();
+
   useEffect(() => {
     if (currentUser.email === undefined) {
       router.push("/auth/access");
