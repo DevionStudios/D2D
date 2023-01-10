@@ -47,6 +47,9 @@ import { resetAdminPasswordRouter } from "./routes/admin/reset-password";
 import { reportPostRouter } from "./routes/posts/report-post";
 import { reportUserRouter } from "./routes/auth/report-user";
 import { toggleBanRouter } from "./routes/admin/ban-user";
+import { getAllUserRouter } from "./routes/admin/get-all-users";
+import { getAllCommentRouter } from "./routes/comments/get-all-commnet";
+import { deleteUserRouter } from "./routes/admin/delete-user";
 
 const app = express();
 app.use(
@@ -97,6 +100,7 @@ app.use(getPostRouter);
 app.use(getUserPostsRouter);
 app.use(getAllPostsRouter);
 app.use(createCommentRouter);
+app.use(getAllCommentRouter);
 app.use(updateCommentRouter);
 app.use(deleteCommentRouter);
 app.use(getTrendingTweetsRouter);
@@ -107,8 +111,10 @@ app.use(adminSigninRouter);
 app.use(currentAdminRouter);
 app.use(deletePostAdminRouter);
 app.use(resetAdminPasswordRouter);
+app.use(getAllUserRouter);
 app.use(reportPostRouter);
 app.use(reportUserRouter);
+app.use(deleteUserRouter);
 app.use(toggleBanRouter);
 
 app.all("*", async (req: any, res: any) => {
