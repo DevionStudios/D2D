@@ -24,7 +24,7 @@ router.get("/api/posts/:username", async (req: Request, res: Response) => {
     res.status(200).send(existingUser.posts);
   } catch (err) {
     console.log(err);
-    res.status(200).send({ message: err });
+    res.status(500).send({ message: err });
   }
 });
 

@@ -60,7 +60,7 @@ router.put(
       res.send(post);
     } catch (err: any) {
       console.log(err);
-      res.status(200).send({
+      res.status(400).send({
         message: err?.message!,
       });
     }

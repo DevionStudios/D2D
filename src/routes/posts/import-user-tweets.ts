@@ -79,7 +79,7 @@ router.post("/api/tweets", currentUser, async (req: Request, res: Response) => {
     });
   } catch (err) {
     console.log(err);
-    res.status(200).send({ message: err });
+    res.status(500).send({ message: err });
   }
 });
 

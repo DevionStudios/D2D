@@ -60,7 +60,7 @@ router.put(
       res.status(200).send(existingUser);
     } catch (err) {
       console.log(err);
-      res.status(200).send({ message: err });
+      res.status(500).send({ message: err });
     }
   }
 );

@@ -57,7 +57,7 @@ router.post(
       res.status(200).send({ message: "Verification code sent!" });
     } catch (e) {
       console.log(e);
-      res.status(200).send({ message: e });
+      res.status(400).send({ message: e });
     }
   }
 );

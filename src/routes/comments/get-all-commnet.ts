@@ -10,7 +10,7 @@ router.get("/api/comments/getall", async (req: Request, res: Response) => {
     res.status(200).send(comments);
   } catch (err) {
     console.log(err);
-    res.status(200).send({ message: err });
+    res.status(500).send({ message: err });
   }
 });
 

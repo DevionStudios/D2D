@@ -34,7 +34,7 @@ const currentAdmin = (req: Request, res: Response, next: NextFunction) => {
         const decoded = jwt.verify(token.toString(), process.env.JWT_KEY!);
         if (!decoded) {
           //If some error occurs
-          res.status(200).json({
+          res.status(400).json({
             error: "Admin not Signed in, Sign in First.",
           });
         } else {
@@ -46,7 +46,7 @@ const currentAdmin = (req: Request, res: Response, next: NextFunction) => {
       res.send({ currentAdmin: null });
     }
   } catch (e) {
-    res.status(200).json({
+    res.status(400).json({
       error: "Malformed jwt token",
     });
   }

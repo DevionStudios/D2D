@@ -63,7 +63,7 @@ router.post("/api/users/signin", async (req: Request, res: Response) => {
     });
   } catch (err) {
     console.log(err);
-    res.status(200).send({ message: err });
+    res.status(400).send({ message: err });
   }
 });
 

@@ -46,7 +46,7 @@ router.post(
       res.status(201).send("Comment updated successfully!");
     } catch (err) {
       console.log(err);
-      res.status(200).send({ message: err });
+      res.status(400).send({ message: err });
     }
   }
 );
