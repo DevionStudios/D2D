@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps, currentUser }) {
   const { setTheme, theme } = useTheme();
 
   useEffect(() => {
-    setTheme("black");
+    setTheme("light");
     if (currentUser.annonymous) {
       // clear all cookies
       document.cookie.split(";").forEach(function (c) {
