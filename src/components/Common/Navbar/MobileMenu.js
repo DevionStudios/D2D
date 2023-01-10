@@ -52,15 +52,15 @@ export function MobileMenu({ open, user, closeFx, signout }) {
               <div className="flex-shrink-0">
                 <img
                   className="h-10 w-10 rounded-full"
-                  src={user.image}
+                  src={user?.image}
                   height={40}
                   width={40}
-                  alt={`Profile picture of ${user.name}`}
+                  alt={`Profile picture of ${user?.name}`}
                 />
               </div>
               <div className="ml-3">
                 <div className="text-base font-medium text-gray-800 dark:text-gray-100">
-                  Hi! {user.name}
+                  Hi! {user?.name}
                 </div>
               </div>
             </div>
