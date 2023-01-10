@@ -9,7 +9,6 @@ import {
   MDBBtn,
   MDBIcon,
   MDBInput,
-  MDBCheckbox,
 } from "mdb-react-ui-kit";
 import Link from "next/link";
 import toast, { Toaster } from "react-hot-toast";
