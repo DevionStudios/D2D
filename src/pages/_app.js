@@ -17,6 +17,14 @@ function MyApp({ Component, pageProps, currentUser }) {
 
   useEffect(() => {
     setTheme("black");
+    if (currentUser.annonymous) {
+      // clear all cookies
+      document.cookie.split(";").forEach(function (c) {
+        document.cookie = c
+          .replace(/^ +/, "")
+          .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+      });
+    }
   }, []);
   return (
     <>
@@ -78,7 +86,6 @@ MyApp.getInitialProps = async (appContext) => {
       image: "https://i.imgur.com/6uY0X2A.png",
       annonymous: true,
     };
-    document ? (document.cookie = null) : "";
   }
 
   let pageProps = {};
