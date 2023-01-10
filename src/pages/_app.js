@@ -78,7 +78,7 @@ MyApp.getInitialProps = async (appContext) => {
       image: "https://i.imgur.com/6uY0X2A.png",
       annonymous: true,
     };
-    document?.cookie = null;
+    document ? (document.cookie = null) : "";
   }
 
   let pageProps = {};
