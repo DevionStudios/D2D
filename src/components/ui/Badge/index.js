@@ -11,7 +11,7 @@ const BadgeVariants = {
   pink: "text-pink-700 bg-pink-200",
   red: "text-red-700 bg-red-200",
   orange: "text-orange-700 bg-orange-200",
-  yellow: "text-yellow-800 bg-yellow-300",
+  blue: "text-blue-800 bg-blue-300",
 };
 
 const BadgeSizes = {

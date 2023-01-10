@@ -2,16 +2,12 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import {
   HiHeart,
-  HiOutlineBadgeCheck,
   HiOutlineCurrencyDollar,
   HiOutlineHeart,
   HiOutlineReply,
   HiOutlineShare,
-  HiOutlineSupport,
 } from "react-icons/hi";
 import { format } from "date-fns";
-import { ethers } from "ethers";
-import { useMoralis } from "react-moralis";
 
 import { DonateModal } from "./DonateModal";
 import { Card } from "src/components/ui/Card";
@@ -25,8 +21,6 @@ import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
 import toast from "react-hot-toast";
 import axios from "axios";
 
-export let TOGGLE_LIKE_MUTATION;
-
 export function FeedPostCard(props) {
   const [isOpen, setIsOpen] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
@@ -36,7 +30,6 @@ export function FeedPostCard(props) {
   const [likes, setLikes] = useState(props.post?.likes?.length);
   const [comments, setComments] = useState(props.post?.comments?.length);
   let loading;
-  // !remove console.log("Post: ", props.post);
   useEffect(() => {
     setIsLiked(checkLiked());
     setPost(props.post);
@@ -67,7 +60,6 @@ export function FeedPostCard(props) {
         if (isLiked) setLikes(likes - 1);
         else setLikes(likes + 1);
         setIsLiked(!isLiked);
-        // // !remove console.log("Response Data: ", response.data);
         setPost({
           ...post,
           likes: response.data.likes,
@@ -76,13 +68,11 @@ export function FeedPostCard(props) {
         toast.error(response.data.message);
       }
     } catch (e) {
-      // !remove console.log(e);
       toast.error(e?.response?.data?.message);
     }
   };
 
   const checkLiked = () => {
-    // // !remove console.log("Likes: ", props.post.likes);
     if (!props.post.likes) return false;
 
     return props.post.likes.includes(props.currentUser.id);
@@ -103,7 +93,10 @@ export function FeedPostCard(props) {
         receiverWalletAddress={props.post.author.walletAddress}
         {...props}
       />
-      <Card noPadding className="max-w-2xl overflow-hidden my-3 rounded-lg ">
+      <Card
+        noPadding
+        className="max-w-2xl bg-gray-100 dark:bg-black overflow-hidden my-3 rounded-lg "
+      >
         <article>
           <div className="px-6 py-4">
             <div className="flex space-x-3">
@@ -121,9 +114,6 @@ export function FeedPostCard(props) {
                 >
                   <p className="text-sm font-medium ">
                     {props.post.author.name}
-                    {/* {props.post?.user?.lastName
-                    ? props.post?.user?.lastName
-                    : null} */}
                     <span className="text-muted text-sm ml-2">
                       @{props.post.author.username}
                     </span>
@@ -200,7 +190,7 @@ export function FeedPostCard(props) {
             )}
           </Link>
           {/* Post Actions */}
-          <div className="py-2 px-6 bg-gray-50 dark:bg-gray-900/30 flex border-t border-gray-200 dark:border-gray-700 justify-between space-x-8">
+          <div className="py-2 px-6 bg-gray-50 dark:bg-gray-900/70 flex border-t border-gray-200 dark:border-gray-700 justify-between space-x-8">
             <div className="flex space-x-6">
               {!props.currentUser.annonymous ? (
                 <>
@@ -214,7 +204,7 @@ export function FeedPostCard(props) {
                       className="rounded-full overflow-hidden space-x-2"
                     >
                       {isLiked ? (
-                        <HiHeart className="w-5 h-5 text-brand-700" />
+                        <HiHeart className="w-5 h-5 text-red-700" />
                       ) : (
                         <HiOutlineHeart className="w-5 h-5" />
                       )}
@@ -253,7 +243,7 @@ export function FeedPostCard(props) {
                   onClick={async () => {
                     navigator.clipboard
                       .writeText(
-                        `https://foxxi.vercel.app/post/${props.post.id}`
+                        `https://foxxi-frontend.vercel.app/post/${props.post.id}`
                       )
                       .then(() => toast.success("Link copied to clipboard"));
                   }}

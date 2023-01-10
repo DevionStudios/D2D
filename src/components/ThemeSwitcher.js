@@ -7,16 +7,10 @@ import { useState, useEffect } from "react";
  * Guide by https://www.youtube.com/watch?v=1q5oOZE6o4c
  */
 export function ThemeToggle() {
-  const [mounted, setMounted] = useState(false);
+  const [mounted, setMounted] = useState(true);
 
   const { systemTheme, theme, setTheme } = useTheme();
 
-  useEffect(() => {
-    setMounted(true);
-    setTheme("dark");
-  }, []);
-
-  if (!mounted) return null;
   function toggleTheme() {
     const currentTheme = theme;
     if (currentTheme === "dark") {
@@ -33,8 +27,8 @@ export function ThemeToggle() {
           checked={theme === "dark"}
           onChange={toggleTheme}
           className={clsx(
-            theme !== "dark" ? "bg-brand-600" : "bg-gray-200",
-            "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-300"
+            theme !== "dark" ? "bg-brand-500" : "bg-gray-200",
+            "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300"
           )}
         >
           <span

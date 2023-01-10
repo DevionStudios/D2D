@@ -141,7 +141,7 @@ export default function Onboarding({ currentUser }) {
           className={`w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5`}
         >
           <div
-            className="bg-yellow-300 h-2.5 rounded-full"
+            className="bg-blue-300 h-2.5 rounded-full"
             style={{
               width: currentStep === 0 ? `${100 / 2}%` : `${100 / 1}%`,
             }}
@@ -163,7 +163,7 @@ export default function Onboarding({ currentUser }) {
                   key={step.id}
                   className={clsx(
                     currentStep === step.id
-                      ? "bg-brand-100 text-brand-700 dark:bg-gray-700 dark:text-yellow-300"
+                      ? "bg-brand-100 text-brand-500 dark:bg-gray-700 dark:text-blue-300"
                       : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
                     tabIdx === 0 ? "rounded-l-lg" : "",
                     tabIdx === onboardingTabs.length - 1 ? "rounded-r-lg" : "",

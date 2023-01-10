@@ -10,7 +10,6 @@ import React, { useState, useEffect } from "react";
 import { SEO } from "../SEO";
 import { IndeterminateProgress } from "../ui/Progress";
 import axios from "axios";
-import { ConnectButton } from "@web3uikit/web3";
 export function Feed({ currentUser }) {
   let fetchMore;
   const [data, setData] = useState({});
@@ -23,7 +22,6 @@ export function Feed({ currentUser }) {
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`
       );
       setData(response.data);
-      // !remove console.log(response.data);
     } catch (e) {
       // !remove console.log(e);
       setError(true);
@@ -78,8 +76,6 @@ export function Feed({ currentUser }) {
       </>
     ) : (
       <InfiniteScroll
-        // hasMore={data.feed.pageInfo.hasNextPage}
-        // next={handleNext}
         dataLength={0}
         loader={<IndeterminateProgress />}
         endMessage={<EndMessage />}
@@ -94,7 +90,7 @@ export function EndMessage() {
   return (
     <Card
       rounded="lg"
-      className="bg-white max-w-2xl dark:bg-gray-700 mt-2 overflow-hidden"
+      className="bg-white text-gray-900  max-w-2xl  dark:bg-gray-900 dark:text-gray-400 mt-2 overflow-hidden"
     >
       <GradientBar color="pink" />
       <div className="px-4 py-3">

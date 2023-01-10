@@ -3,7 +3,7 @@
 @tailwind components;
 
 body {
-  @apply text-gray-900 bg-gray-100 dark:text-gray-100 dark:bg-gray-900 antialiased font-sans;
+  @apply text-gray-900 bg-gray-100 dark:text-gray-100 dark:bg-black antialiased font-sans;
   font-feature-settings: "cv11", "cv04";
 }
 
@@ -37,7 +37,7 @@ input:-webkit-autofill:active {
   @apply z-50 pointer-events-none;
 }
 #nprogress .bar {
-  @apply bg-yellow-300 fixed z-50 top-0 left-0 w-full h-1;
+  @apply bg-blue-700 fixed z-50 top-0 left-0 w-full h-1;
 }
 
 /* Image Loading Logic Starts */
@@ -130,8 +130,8 @@ input:-webkit-autofill:active {
 
   ::-webkit-scrollbar-thumb {
     border-radius: 5px;
-    background-color: theme("colors.yellow.300");
-    border: 2px solid theme("colors.yellow.300");
+    background-color: theme("colors.blue.500");
+    border: 2px solid theme("colors.blue.500");
   }
 
   ::-webkit-scrollbar-track {
@@ -184,7 +184,7 @@ div.css-n21wkn {
   background-image: linear-gradient(
     to right,
     transparent 0%,
-    theme("colors.amber.300") 50%,
+    theme("colors.blue.300") 50%,
     transparent 100%
   );
 }
@@ -193,7 +193,7 @@ div.css-h5ends {
   background-image: linear-gradient(
     to right,
     transparent 0%,
-    theme("colors.amber.300") 50%,
+    theme("colors.blue.300") 50%,
     transparent 100%
   );
   bottom: 0px;

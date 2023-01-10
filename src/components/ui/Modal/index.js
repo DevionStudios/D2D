@@ -53,7 +53,7 @@ const Modal = ({ isOpen, onClose, children, className }) => {
                   className
                 )}
               >
-                <GradientBar color="pink" size="md" />
+                <GradientBar color="indigo" size="md" />
                 <div className="px-4 pt-5 pb-4  sm:p-6">{children}</div>
               </div>
             </Transition.Child>

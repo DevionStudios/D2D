@@ -81,7 +81,6 @@ export function PostCard({ id, username, currentUser }) {
           },
         }
       );
-      // !remove console.log(response.data.likes.length);
       setLikes(response.data.likes.length);
       setIsLiked(!isLiked);
     } catch (e) {
@@ -90,8 +89,6 @@ export function PostCard({ id, username, currentUser }) {
   };
 
   const createComment = async (values) => {
-    // !remove console.log("Caption: ", values.variables.input.caption);
-    // !remove console.log("Post ID: ", id);
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/comments/create`,
@@ -105,7 +102,6 @@ export function PostCard({ id, username, currentUser }) {
           },
         }
       );
-      // !remove console.log("Response: ", response.data);
       window.location.reload();
       setComments(response.data.comments);
       form.reset();
@@ -158,7 +154,7 @@ export function PostCard({ id, username, currentUser }) {
         </div>
         <div className="w-full md:pb-0">
           <div>
-            <Card className="rounded-t-lg ">
+            <Card className="rounded-t-lg bg-gray-100 dark:bg-black ">
               <div className="px-4 py-4  sm:p-4 sm:rounded-lg">
                 <div className="flex space-x-3">
                   <div className="flex-shrink-0">
@@ -285,7 +281,7 @@ export function PostCard({ id, username, currentUser }) {
             </Card>
 
             {!currentUser.annonymous ? (
-              <Card className="py-2 px-4 flex justify-between space-x-8">
+              <Card className="py-2 px-4 flex justify-between space-x-8 bg-gray-100 dark:bg-black">
                 <div className="flex space-x-6">
                   <span className="inline-flex">
                     <p className="font-bold">{likes || "0"}</p>
@@ -306,7 +302,7 @@ export function PostCard({ id, username, currentUser }) {
             ) : null}
 
             {!currentUser.annonymous ? (
-              <Card className="py-4 px-4 flex justify-between space-x-8 rounded-b-lg">
+              <Card className="py-4 px-4 flex justify-between space-x-8 rounded-b-lg bg-gray-100 dark:bg-black">
                 <div className="flex space-x-6">
                   <span className="inline-flex items-center text-sm">
                     <Button
@@ -335,16 +331,6 @@ export function PostCard({ id, username, currentUser }) {
                       <span className="sr-only">likes</span>{" "}
                     </Button>
                   </span>
-
-                  {/* <span className="inline-flex items-center text-sm">
-                  <Button onClick={() => form.setFocus("body")} variant="dark">
-                    <span>
-                      <HiOutlineReply className="h-5 w-5" aria-hidden="true" />
-                    </span>
-                    <span className="ml-1">Reply</span>
-                    <span className="sr-only">Reply</span>
-                  </Button>
-                </span> */}
                 </div>
                 <div className="flex text-sm">
                   <span className="inline-flex items-center text-sm">
@@ -374,7 +360,11 @@ export function PostCard({ id, username, currentUser }) {
           </div>
         </div>
         {!currentUser.annonymous ? (
-          <Card className="w-full" rounded="lg">
+          <Card
+            className="w-full bg-gray-100 dark:bg-black"
+            rounded="lg"
+            style={{}}
+          >
             <Card.Body>
               <Form
                 form={form}

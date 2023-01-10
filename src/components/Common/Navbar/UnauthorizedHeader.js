@@ -18,7 +18,7 @@ export function UnauthorizedHeader() {
     <div>
       <header>
         <GradientBar
-          color="pink"
+          color="indigo"
           size="md"
           className="fixed max-w-full top-0 z-10"
         />
@@ -40,9 +40,7 @@ export function UnauthorizedHeader() {
             </div>
 
             <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-              <div className="mx-8">
-                {/* <ThemeToggle /> */}
-              </div>
+              <div className="mx-8">{<ThemeToggle />}</div>
               <Button href="/auth/signin" size="lg">
                 Sign in
               </Button>
@@ -79,9 +77,8 @@ export function UnauthorizedHeader() {
                           router.push("/feed");
                         }}
                       />
-
                       <Heading size="h5">Foxxi</Heading>
-                      {/* <ThemeToggle /> */}
+                      <ThemeToggle />
                     </div>
                     <div className="-mr-2">
                       <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-500">

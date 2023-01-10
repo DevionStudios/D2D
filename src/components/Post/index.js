@@ -8,7 +8,7 @@ import { CreatePost } from "./CreatePost";
 export function Create({ currentUser }) {
   return (
     <Card className="max-w-3xl mx-auto my-20 overflow-hidden" rounded="lg">
-      <GradientBar color="pink" />
+      <GradientBar color="indigo" />
       <Card.Body className="mt-4" noPadding>
         <Heading className="px-3">Upload</Heading>
         <div className="sm:block">

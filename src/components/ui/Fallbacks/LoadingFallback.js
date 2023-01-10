@@ -4,7 +4,6 @@ import { GradientBar } from "../GradientBar";
 import Spinner from "../Spinner";
 
 export const LoadingFallback = forwardRef((_, ref) => {
-  // !remove console.log("LOADING CALLED");
   return (
     <div ref={ref}>
       <Card
@@ -12,7 +11,7 @@ export const LoadingFallback = forwardRef((_, ref) => {
         className="dark:bg-gray-700 bg-white max-w-2xl overflow-hidden"
       >
         <Card.Body noPadding>
-          <GradientBar color="pink" />
+          <GradientBar color="indigo" />
           <div className="px-4 py-3">
             <div className="flex flex-col items-center justify-center">
               <Spinner className="w-5 h-5 mb-1" />

@@ -117,7 +117,7 @@ export function Footer() {
           </div>
         </Modal.Content>
       </Modal>
-      <p>&copy; Foxxi™, 2022</p>
+      <p>&copy; Foxxi™, 2023</p>
       <div className="flex space-x-2 justify-center mt-2">
         {/* <div>
           <a

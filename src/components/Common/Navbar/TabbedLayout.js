@@ -14,7 +14,6 @@ export function TabbedLayout({ navigation }) {
   const [currentPath, setCurrentPath] = useState(router.pathname);
   const [defaultidx, setDefaultIdx] = useState(0);
   function handleChange(idx) {
-    // !remove console.log("route_path," + currentPath);
     const path = navigation[idx].id;
     setCurrentPath(path);
     setDefaultIdx(idx);
@@ -45,8 +44,8 @@ export function TabbedLayout({ navigation }) {
                       className={({ selected }) =>
                         clsx(
                           selected
-                            ? "bg-brand-800 text-white dark:bg-brand-700   dark:text-white"
-                            : "text-gray-600 hover:text-white hover:bg-brand-600 dark:hover:bg-yellow-300 dark:hover:text-gray-100",
+                            ? "bg-brand-500 text-white dark:bg-brand-500   dark:text-white"
+                            : "text-gray-500 hover:text-white hover:bg-brand-300 dark:hover:bg-blue-300 dark:hover:text-gray-100",
                           "group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full "
                         )
                       }

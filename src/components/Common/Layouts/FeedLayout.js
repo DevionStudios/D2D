@@ -40,7 +40,6 @@ export function FeedLayout({ currentUser }) {
       id: "/twittertrends",
     },
   ];
-  //   const { user, loading } = useUser();
   let user = currentUser;
   let loading = false;
 
@@ -58,7 +57,6 @@ export function FeedLayout({ currentUser }) {
           <div className="hidden lg:block fixed bottom-8">
             <CurrentUser currentUser={currentUser} />
           </div>
-
         </div>
         <div className="hidden lg:block lg:col-span-3">
           <RightSidebar currentUser={currentUser} />

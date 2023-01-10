@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { DefaultSeo } from "next-seo";
-import { useTheme } from "next-themes";
+import { useTheme, ThemeProvider } from "next-themes";
 import { Toaster } from "react-hot-toast";
 import { MoralisProvider } from "react-moralis";
 import { SessionProvider } from "next-auth/react";
@@ -13,23 +13,31 @@ import { toastOptions } from "src/utils/toastOptions";
 
 function MyApp({ Component, pageProps, currentUser }) {
   const getLayout = Component.getLayout ?? ((page) => page);
-  const { setTheme } = useTheme();
+  const { setTheme, theme } = useTheme();
 
   useEffect(() => {
-    setTheme("light");
+    setTheme("black");
   }, []);
   return (
     <>
-      <DefaultSeo defaultTitle="Foxxi" titleTemplate="%s | Foxxi" />
-      <NProgress />
-      <Toaster position="top-right" toastOptions={toastOptions} />
-      <MoralisProvider initializeOnMount={false}>
-        <NotificationProvider>
-          <SessionProvider session={pageProps.session}>
-            {getLayout(<Component {...pageProps} currentUser={currentUser} />)}
-          </SessionProvider>
-        </NotificationProvider>
-      </MoralisProvider>
+      <ThemeProvider
+        defaultTheme={theme}
+        storageKey="preferred-theme"
+        attribute="class"
+      >
+        <DefaultSeo defaultTitle="Foxxi" titleTemplate="%s | Foxxi" />
+        <NProgress />
+        <Toaster position="top-right" toastOptions={toastOptions} />
+        <MoralisProvider initializeOnMount={false}>
+          <NotificationProvider>
+            <SessionProvider session={pageProps.session}>
+              {getLayout(
+                <Component {...pageProps} currentUser={currentUser} />
+              )}
+            </SessionProvider>
+          </NotificationProvider>
+        </MoralisProvider>
+      </ThemeProvider>
     </>
   );
 }

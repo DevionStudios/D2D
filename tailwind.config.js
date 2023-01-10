@@ -1,8 +1,8 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 const colors = require("tailwindcss/colors");
-const { yellow } = require("tailwindcss/colors");
+const { blue } = require("tailwindcss/colors");
 
-const brandColor = colors.yellow;
+const brandColor = colors.blue;
 
 /**
  * @type {import('tailwindcss/tailwind-config').TailwindConfig }
@@ -20,7 +20,7 @@ module.exports = {
         brand: brandColor,
       },
       ringColor: {
-        DEFAULT: yellow,
+        DEFAULT: blue,
       },
     },
   },

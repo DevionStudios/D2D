@@ -114,7 +114,7 @@ export function EndMessage() {
       rounded="lg"
       className="bg-white max-w-2xl dark:bg-gray-700 mt-2 overflow-hidden"
     >
-      <GradientBar color="pink" />
+      <GradientBar color="indigo" />
       <div className="px-4 py-3">
         <div className="flex flex-col items-center justify-center">
           <HiCheckCircle className="w-10 h-10 mb-1 text-brand-500" />
