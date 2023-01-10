@@ -16,9 +16,10 @@ router.get("/api/users/currentuser", currentUser, async (req, res) => {
       user = await User.findOne({ accountWallet: accountWallet });
 
     if (user?.isBanned)
-      return res
-        .status(403)
-        .json({ message: "You are temporarily banned from Foxxi" });
+      return res.status(403).json({
+        message: "You are temporarily banned from Foxxi",
+        currentUser: undefined,
+      });
 
     res.json({ currentUser: user });
   } else res.json({ currentUser: undefined });

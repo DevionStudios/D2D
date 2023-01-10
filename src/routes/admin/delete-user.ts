@@ -3,6 +3,8 @@ import { BadRequestError } from "@devion/common";
 import express, { Request, Response } from "express";
 
 import { User } from "../../models/User";
+import { Comment } from "../../models/Comment";
+import { Post } from "../../models/Post";
 import { currentAdmin } from "../../middlewares/currentadmin";
 
 const router = express.Router();
@@ -21,7 +23,10 @@ router.delete(
       if (!deletedUser) {
         throw new BadRequestError("User not found!");
       }
-      console.log(deletedUser);
+
+      // delete all posts  and comments by userId
+      await Post.deleteMany({ author: new mongoose.Types.ObjectId(userId) });
+      await Comment.deleteMany({ author: new mongoose.Types.ObjectId(userId) });
 
       res.status(200).send({ message: "User Deleted!" });
     } catch (err) {
