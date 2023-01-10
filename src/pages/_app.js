@@ -78,12 +78,7 @@ MyApp.getInitialProps = async (appContext) => {
       image: "https://i.imgur.com/6uY0X2A.png",
       annonymous: true,
     };
-    // clear all cookies
-    document?.cookie?.split(";").forEach(function (c) {
-      document.cookie = c
-        .replace(/^ +/, "")
-        .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-    });
+    document?.cookie = null;
   }
 
   let pageProps = {};
