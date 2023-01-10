@@ -48,6 +48,14 @@ const PostSchema = new mongoose_1.default.Schema({
         type: String,
         default: "",
     },
+    reports: {
+        type: [
+            {
+                type: String,
+            },
+        ],
+        default: [],
+    },
 }, {
     toJSON: {
         transform(doc, ret) {

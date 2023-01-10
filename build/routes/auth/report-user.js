@@ -12,33 +12,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserFeedRouter = void 0;
+exports.reportUserRouter = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
 const common_1 = require("@devion/common");
 const express_1 = __importDefault(require("express"));
 const User_1 = require("../../models/User");
 const currentuser_1 = require("../../middlewares/currentuser");
 const router = express_1.default.Router();
-exports.getUserFeedRouter = router;
-router.get("/api/posts/feed", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.reportUserRouter = router;
+router.put("/api/users/report", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
     try {
-        const { foxxiUser } = req;
-        if (!foxxiUser) {
-            throw new common_1.BadRequestError("User not found!");
+        const { userId } = req.body;
+        const user = yield User_1.User.findOne({
+            _id: new mongoose_1.default.Types.ObjectId(userId),
+        });
+        if (!user) {
+            throw new common_1.BadRequestError("Post not found!");
         }
-        const existingUser = yield User_1.User.findOne({
-            username: foxxiUser.username,
-        })
-            .populate({
-            path: "following",
-            populate: {
-                path: "posts",
-            },
-        })
-            .sort({ createdAt: -1 });
-        if (!existingUser) {
-            throw new common_1.BadRequestError("User not found!");
+        if ((_a = user.reports) === null || _a === void 0 ? void 0 : _a.includes(req.foxxiUser.id.toString())) {
+            return res.status(200).send({
+                message: "You have already reported this user!",
+            });
         }
-        res.status(200).send(existingUser.following);
+        (_b = user.reports) === null || _b === void 0 ? void 0 : _b.push(req.foxxiUser.id.toString());
+        yield user.save();
+        res.status(200).send({ message: "Post reported!" });
     }
     catch (err) {
         console.log(err);
