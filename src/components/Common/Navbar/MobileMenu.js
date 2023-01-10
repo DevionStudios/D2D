@@ -45,7 +45,7 @@ export function MobileMenu({ open, user, closeFx, signout }) {
       >
         <div className="border-t border-gray-200 pt-4 pb-3 mt-16">
           <Link
-            href={`/profile/${user.username}`}
+            href={`/profile/${user?.username}`}
             className="inline-block no-underline"
           >
             <div className="max-w-3xl mx-auto px-4 flex items-center sm:px-6">
@@ -75,7 +75,7 @@ export function MobileMenu({ open, user, closeFx, signout }) {
                     closeFx();
                     router.push(
                       typeof link.href === "function"
-                        ? link.href(user.username)
+                        ? link.href(user?.username)
                         : link.href,
                       undefined,
                       { shallow: true }
