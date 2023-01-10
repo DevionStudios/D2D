@@ -66,13 +66,24 @@ MyApp.getInitialProps = async (appContext) => {
     data = responseData;
   }
 
-  if (data.currentuser === null) {
+  if (
+    data.currentuser === null ||
+    data.currentUser === undefined ||
+    data.currentUser == "undefined" ||
+    data.currentUser == "null"
+  ) {
     data.currentUser = {
       username: "guest",
       name: "Guest",
       image: "https://i.imgur.com/6uY0X2A.png",
       annonymous: true,
     };
+    // clear all cookies
+    document?.cookie?.split(";").forEach(function (c) {
+      document.cookie = c
+        .replace(/^ +/, "")
+        .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+    });
   }
 
   let pageProps = {};
