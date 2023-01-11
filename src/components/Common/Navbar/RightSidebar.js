@@ -1,7 +1,5 @@
-import { ConnectButton } from "@web3uikit/web3";
 import { HiOutlineCubeTransparent } from "react-icons/hi";
 import { FollowButton } from "src/components/Profile/FollowButton";
-import { Button } from "src/components/ui/Button";
 import { Card } from "src/components/ui/Card";
 import { ErrorFallback } from "src/components/ui/Fallbacks/ErrorFallback";
 import { LoadingFallback } from "src/components/ui/Fallbacks/LoadingFallback";
@@ -11,7 +9,6 @@ import { Link } from "src/components/ui/Link";
 import { Footer } from "../Footer";
 import { useState, useEffect } from "react";
 import axios from "axios";
-export let WHO_TO_FOLLOW_QUERYisFollowing;
 
 export function RightSidebar({ currentUser }) {
   const [suggestedUsers, setSuggestedUsers] = useState([]);
@@ -33,11 +30,9 @@ export function RightSidebar({ currentUser }) {
       for (let i = 0; i < usersData.length; i++) {
         if (usersData[i].id === currentUser.id) usersData.splice(i, 1);
       }
-      // !remove console.log(usersData);
       setSuggestedUsers(usersData);
     } catch (e) {
       setError(true);
-      // !remove console.log(e);
     } finally {
       setLoading(false);
     }

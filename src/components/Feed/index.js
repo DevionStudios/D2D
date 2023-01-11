@@ -23,7 +23,6 @@ export function Feed({ currentUser }) {
       );
       setData(response.data);
     } catch (e) {
-      // !remove console.log(e);
       setError(true);
     } finally {
       setLoading(false);

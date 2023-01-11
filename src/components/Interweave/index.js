@@ -1,7 +1,5 @@
 import { stripHexcode } from "emojibase";
-import BaseInterwave, {
-  InterweaveProps as BaseInterwaveProps,
-} from "interweave";
+import BaseInterwave from "interweave";
 import { HashtagMatcher, UrlMatcher } from "interweave-autolink";
 import { EmojiMatcher, useEmojiData } from "interweave-emoji";
 import { useRouter } from "next/router";

@@ -6,7 +6,6 @@ import { GradientBar } from "src/components/ui/GradientBar";
 import { Heading } from "src/components/ui/Heading";
 import Link from "next/link";
 import { ThemeToggle } from "src/components/ThemeSwitcher";
-// import { Logo } from "./Logo";
 import Logo from "../../../assets/D2D Logo Trans.png";
 
 import Image from "next/image";

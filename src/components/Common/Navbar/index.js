@@ -19,7 +19,7 @@ import Logo from "../../../assets/D2D Logo Trans.png";
 import { useRouter } from "next/router";
 
 export function Navbar({ currentUser }) {
-  const router = useRouter;
+  const router = useRouter();
 
   const user = currentUser;
   if (currentUser?.annonymous === true) {
