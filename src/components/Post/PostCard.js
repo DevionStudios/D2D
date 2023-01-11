@@ -133,7 +133,7 @@ export function PostCard({ id, username, currentUser }) {
   //   text: `${
   //     data.seePost.caption ?? "Check it out now! See what they have to say."
   //   }`,
-  //   url: `https://d2d.vercel.app/post/${data.seePost.id}`,
+  //   url: `https://foxxi.vercel.app/post/${data.seePost.id}`,
   // };
 
   return data && data.author ? (
@@ -172,7 +172,6 @@ export function PostCard({ id, username, currentUser }) {
                         className="no-underline"
                       >
                         {data.author.name}
-                        {/* {post.user.lastName ? post.user.lastName : ""} */}
                         <span className="text-muted ml-1 text-sm">
                           @{data.author.username}
                         </span>
@@ -309,8 +308,6 @@ export function PostCard({ id, username, currentUser }) {
                     <Button
                       loading={isLikeLoading}
                       onClick={async () => {
-                        // setHasLiked(!hasLiked);
-                        // setLikesCount(hasLiked ? likesCount - 1 : likesCount + 1);
                         await toggleLike({
                           variables: { id: data.id },
                         });
@@ -339,7 +336,7 @@ export function PostCard({ id, username, currentUser }) {
                       variant="dark"
                       onClick={async () => {
                         navigator.clipboard
-                          .writeText(`https://d2d.vercel.app/post/${data.id}`)
+                          .writeText(`https://foxxi.vercel.app/post/${data.id}`)
                           .then(() =>
                             toast.success("Link copied to clipboard")
                           );

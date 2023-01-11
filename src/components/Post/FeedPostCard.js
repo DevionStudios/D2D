@@ -137,6 +137,7 @@ export function FeedPostCard(props) {
                     isMine={props.post.author.username === props.username}
                     caption={props.post.caption ?? ""}
                     gifLink={props.post.gifLink ?? ""}
+                    currentUser={props.currentUser}
                   />
                 )}
               </div>

@@ -1,15 +1,17 @@
 import React from "react";
 import dynamic from "next/dynamic";
-
-import { HiOutlineFire, HiOutlineHashtag, HiOutlineHome } from "react-icons/hi";
+import {
+  HiOutlineFire,
+  HiOutlineHashtag,
+  HiOutlineHome,
+  HiOutlineSupport,
+  HiOutlineUser,
+} from "react-icons/hi";
 import { Feed } from "src/components/Feed";
 import { TabbedLayout } from "../Navbar/TabbedLayout";
-import { LoadingFallback } from "src/components/ui/Fallbacks/LoadingFallback";
 import { CurrentUser } from "src/components/User/CurrentUser";
-// import { useUser } from "src/utils/useUser";
-import Spinner from "src/components/ui/Spinner";
-import { ConnectButton } from "@web3uikit/web3";
 import { IndeterminateProgress } from "src/components/ui/Progress";
+import { Redirect } from "./Redirect";
 import { TrendingFeed } from "../../Trending Feed";
 import { TwitterFeed } from "../../Twitter Trends";
 const RightSidebar = dynamic(async () => {
@@ -35,8 +37,20 @@ export function FeedLayout({ currentUser }) {
     },
     {
       component: <TwitterFeed currentUser={currentUser} />,
-      icon: HiOutlineHashtag,
+      icon: HiOutlineFire,
       name: "Foxxi Trends",
+      id: "/twittertrends",
+    },
+    {
+      component: <Redirect pageName={`/profile/${currentUser.username}`} />,
+      icon: HiOutlineUser,
+      name: "Profile",
+      id: "/twittertrends",
+    },
+    {
+      component: <Redirect pageName={"/account/settings"} />,
+      icon: HiOutlineSupport,
+      name: "Settings",
       id: "/twittertrends",
     },
   ];

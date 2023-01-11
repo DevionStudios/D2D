@@ -98,7 +98,8 @@ export function Profile({ user, isMe, username, currentUser }) {
                 </div>
                 <div className=" flex items-center justify-stretch  sm:flex-row sm:space-y-0 sm:space-x-5">
                   <div className="mr-3">
-                    {currentUser.username !== username ? (
+                    {currentUser.username !== username ||
+                    currentUser.annonymous !== true ? (
                       <Menu
                         dropdown={
                           <MenuItem

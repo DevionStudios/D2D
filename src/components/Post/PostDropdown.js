@@ -12,7 +12,7 @@ import { EditPost } from "./EditPostModal";
 import { Menu, MenuItem } from "../ui/Dropdown";
 import { DeletePostModal } from "./DeletePostModal";
 
-export function PostDropdown({ id, caption, isMine, gifLink }) {
+export function PostDropdown({ id, caption, isMine, gifLink, currentUser }) {
   const [editPostModal, setEditPostModal] = useState(false);
   const [deletePostModal, setDeletePostModal] = useState(false);
 
@@ -36,7 +36,6 @@ export function PostDropdown({ id, caption, isMine, gifLink }) {
         toast.error("You have already reported this post");
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.response.data.message || "Failed to report post");
     }
   };
@@ -76,7 +75,7 @@ export function PostDropdown({ id, caption, isMine, gifLink }) {
               </MenuItem>
             )}
 
-            {!isMine && (
+            {!isMine && currentUser.anonymous !== true && (
               <MenuItem onClick={() => reportPost()} icon={<HiOutlineFlag />}>
                 Report Post
               </MenuItem>
