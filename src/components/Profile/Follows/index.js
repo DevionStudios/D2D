@@ -27,12 +27,10 @@ export function Follows({ currentUser }) {
           headers: { cookie: document.cookie },
         }
       );
-      // !remove console.log(response.data);
       setFollowers(response.data.followers);
       setFollowing(response.data.following);
-    } catch (e) {
-      toast.error("Something went wrong");
-      // !remove console.log(e);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Failed to follow user!");
     }
   };
   useEffect(() => {

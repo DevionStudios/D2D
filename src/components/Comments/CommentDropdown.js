@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   HiOutlineDotsVertical,
-  HiOutlineFlag,
   HiOutlinePencil,
   HiOutlineTrash,
 } from "react-icons/hi";

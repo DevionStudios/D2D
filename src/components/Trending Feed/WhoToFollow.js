@@ -2,13 +2,10 @@ import { HiOutlineCubeTransparent } from "react-icons/hi";
 
 import { Card } from "../ui/Card";
 import { Heading } from "../ui/Heading";
-import { WHO_TO_FOLLOW_QUERY } from "../Common/Navbar/RightSidebar";
 import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
 import { LoadingFallback } from "../ui/Fallbacks/LoadingFallback";
 import { Link } from "../ui/Link";
 import { FollowButton } from "../Profile/FollowButton";
-
-import Image from "next/image";
 
 export function WhoToFollow() {
   let data, loading, error, refetch;

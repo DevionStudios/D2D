@@ -36,7 +36,7 @@ export function PostDropdown({ id, caption, isMine, gifLink, currentUser }) {
         toast.error("You have already reported this post");
       }
     } catch (error) {
-      toast.error(error.response.data.message || "Failed to report post");
+      toast.error(error.response?.data?.message || "Failed to report post");
     }
   };
 

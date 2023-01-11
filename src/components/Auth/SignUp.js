@@ -56,7 +56,6 @@ export function SignUp() {
         },
         { withCredentials: true }
       );
-      // !remove console.log(res.data);
       if (res.status == 201) {
         const jwtToken = "foxxi_jwt=" + res.data.jwt;
         var date = new Date();
@@ -86,7 +85,6 @@ export function SignUp() {
         { email: email },
         { withCredentials: true }
       );
-      // !remove console.log(response.data);
       if (response.status == "200") {
         toast.success("Verification Code Sent");
         setDisableSendButton(true);
@@ -94,7 +92,6 @@ export function SignUp() {
       }
     } catch (e) {
       toast.error("Unable To Send Verification Code");
-      // !remove console.log(e);
     }
   };
 
@@ -111,7 +108,6 @@ export function SignUp() {
         { email: email, code: verificationCode },
         { withCredentials: true }
       );
-      // !remove console.log(response.data);
       if (response.status == "200") {
         toast.success("Email Verified");
         setDisableVerifyButton(true);
@@ -119,7 +115,6 @@ export function SignUp() {
       }
     } catch (e) {
       toast.error("Please enter a valid code!");
-      // !remove console.log(e);
     }
   };
   return (

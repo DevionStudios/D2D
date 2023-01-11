@@ -3,8 +3,6 @@ import { Card } from "../ui/Card";
 import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
 import Spinner from "../ui/Spinner";
 
-let USER_POPOVER_QUERY;
-
 export function UserProfilePopover({ username }) {
   let data, loading, error;
 

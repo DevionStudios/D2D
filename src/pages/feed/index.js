@@ -6,7 +6,6 @@ import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { Navbar } from "src/components/Common/Navbar";
 import { FeedLayout } from "src/components/Common/Layouts/FeedLayout";
-import { ConnectButton } from "@web3uikit/web3";
 export default function FeedPage({ currentUser }) {
   const { account, deactivateWeb3 } = useMoralis();
   const router = useRouter();

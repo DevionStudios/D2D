@@ -3,7 +3,6 @@ import { Popover, Transition } from "@headlessui/react";
 import { HiOutlineCog, HiOutlineHome, HiOutlineSparkles } from "react-icons/hi";
 import { Button } from "src/components/ui/Button";
 import { Link } from "src/components/ui/Link";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import ButtonOrLink from "src/components/ui/ButtonOrLink";
 
@@ -27,7 +26,6 @@ export const links = [
 
 export function MobileMenu({ open, user, closeFx, signout }) {
   const router = useRouter();
-  // const signout = () => {};
   return (
     <Transition
       show={open}

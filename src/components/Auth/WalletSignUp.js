@@ -10,7 +10,6 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { useMoralis } from "react-moralis";
-import clsx from "clsx";
 
 const WalletSignUpSchema = z.object({
   name: z.string().min(1),
@@ -41,7 +40,6 @@ export function WalletSignUp() {
         },
         { withCredentials: true }
       );
-      // !remove console.log(res.data);
       if (res.status == 201) {
         const jwtToken = "foxxi_jwt=" + res.data.jwt;
         document.cookie = jwtToken + ";path=/";

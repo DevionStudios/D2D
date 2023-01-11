@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import { Button } from "../ui/Button";
-import { Card } from "../ui/Card";
 import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
 import { Heading } from "../ui/Heading";
 

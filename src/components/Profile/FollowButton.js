@@ -5,11 +5,8 @@ import { toast } from "react-hot-toast";
 
 export function FollowButton({ username, isFollowing, id, ...props }) {
   const [following, setIsFollowing] = useState(isFollowing);
-  //   const [followLoading, setFollowLoading] = useState(false);
-  //   const [unfollowLoading, setUnfollowLoading] = useState(false);
 
   const followUser = async ({ variables }) => {
-    // !remove console.log("helmo");
     try {
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/follow/users`,
@@ -22,11 +19,9 @@ export function FollowButton({ username, isFollowing, id, ...props }) {
           },
         }
       );
-      // !remove console.log(response.data);
       window.location.reload();
-    } catch (e) {
-      toast.error("Failed to follow user");
-      // !remove console.log(e);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Failed to follow user!");
     }
   };
 
@@ -49,7 +44,6 @@ export function FollowButton({ username, isFollowing, id, ...props }) {
 
   return (
     <Button
-      //   loading={followLoading || unfollowLoading}
       onClick={() => {
         handleClick();
       }}

@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 
 import { Popover } from "@headlessui/react";
-import { HiX, HiMenu, HiOutlineBell } from "react-icons/hi";
+import { HiX, HiMenu } from "react-icons/hi";
 import clsx from "clsx";
 
 import { GradientBar } from "src/components/ui/GradientBar";
@@ -14,14 +14,12 @@ import { SearchBar } from "./SearchBar";
 import { ProfileDropdown } from "./ProfileDropdown";
 import { MobileMenu } from "./MobileMenu";
 import Spinner from "src/components/ui/Spinner";
-import { useState } from "react";
 import { UnauthorizedHeader } from "./UnauthorizedHeader";
 import Logo from "../../../assets/D2D Logo Trans.png";
-import Router from "next/router";
-import { ConnectButton } from "@web3uikit/web3";
+import { useRouter } from "next/router";
 
 export function Navbar({ currentUser }) {
-  const [openNotifications, setNotificationOpen] = useState(false);
+  const router = useRouter;
 
   const user = currentUser;
   if (currentUser?.annonymous === true) {
@@ -40,7 +38,7 @@ export function Navbar({ currentUser }) {
         .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
     });
     // redirect to home page
-    Router.push("/");
+    router.push("/");
   };
 
   return (
@@ -61,7 +59,7 @@ export function Navbar({ currentUser }) {
               size="sm"
               className="fixed max-w-full top-0 z-10"
             />
-            <div className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-md px-4 sm:px-6 lg:px-8 fixed top-0.5 z-10 w-full">
+            <div className="bg-white/70 dark:bg-black backdrop-blur-md px-4 sm:px-6 lg:px-8 fixed top-0.5 z-10 w-full">
               <div className="mx-auto max-w-7xl relative flex justify-between xl:grid xl:grid-cols-12 lg:gap-8">
                 <div className="flex md:absolute md:left-0 md:inset-y-0 lg:static xl:col-span-2">
                   <div className="flex-shrink-0 flex items-center">

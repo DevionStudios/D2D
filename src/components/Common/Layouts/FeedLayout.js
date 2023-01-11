@@ -1,10 +1,10 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import {
+  HiOutlineCog,
   HiOutlineFire,
   HiOutlineHashtag,
   HiOutlineHome,
-  HiOutlineSupport,
   HiOutlineUser,
 } from "react-icons/hi";
 import { Feed } from "src/components/Feed";
@@ -45,13 +45,13 @@ export function FeedLayout({ currentUser }) {
       component: <Redirect pageName={`/profile/${currentUser.username}`} />,
       icon: HiOutlineUser,
       name: "Profile",
-      id: "/twittertrends",
+      id: "/profile",
     },
     {
       component: <Redirect pageName={"/account/settings"} />,
-      icon: HiOutlineSupport,
+      icon: HiOutlineCog,
       name: "Settings",
-      id: "/twittertrends",
+      id: "/settings",
     },
   ];
   let user = currentUser;

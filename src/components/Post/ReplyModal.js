@@ -39,7 +39,7 @@ export function ReplyModal({
       toast.success("Comment created successfully");
       onClose();
     } catch (error) {
-      // !remove console.log(error);
+      toast.error(error?.response?.data?.message || "Something went Wrong!");
     }
   };
 
