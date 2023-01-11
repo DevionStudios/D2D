@@ -20,7 +20,7 @@ export function DeleteCommentModal({ id, isOpen, onClose, postId }) {
       toast.success("Comment has been deleted.");
       window.location.reload();
     } catch (error) {
-      toast.error("Something went wrong.");
+      toast.error(error.response?.data?.message || "Something went wrong.");
     }
   };
 

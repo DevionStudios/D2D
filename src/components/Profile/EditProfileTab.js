@@ -65,7 +65,6 @@ export function EditProfileTab({ currentUser }) {
   }
 
   const updateProfile = async ({ variables }) => {
-    // !remove console.log(variables);
     const { input } = variables;
     const images = [input.image, input.coverImage];
     const formdata = new FormData();
@@ -80,7 +79,6 @@ export function EditProfileTab({ currentUser }) {
         input.twitterUsername || user.twitterUsername
       );
     }
-    // !remove console.log("Cookie: ", document.cookie);
     try {
       const res = await axios.put(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/update`,
@@ -91,9 +89,8 @@ export function EditProfileTab({ currentUser }) {
           },
         }
       );
-      // !remove console.log(res.data);
-    } catch (e) {
-      // !remove console.log(e);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Failed to update data!");
     }
   };
 

@@ -50,7 +50,7 @@ export function Profile({ user, isMe, username, currentUser }) {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message || "Failed to report user");
+      toast.error(error?.response?.data?.message || "Failed to report user");
     }
   };
 

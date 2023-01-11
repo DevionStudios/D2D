@@ -1,5 +1,4 @@
 import React from "react";
-import { UrlProps as BaseUrlProps } from "interweave-autolink";
 
 export function Url({ children, href, url }) {
   let nextUrl = href || url || "";

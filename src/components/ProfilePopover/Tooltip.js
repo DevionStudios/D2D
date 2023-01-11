@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useLayer, useHover, Arrow } from "react-laag";
-import { Fragment } from "react";
 
 export function Tooltip({ children, content }) {
   const [isOver, hoverProps] = useHover({

@@ -167,8 +167,10 @@ export function Preferences({ currentUser }) {
           );
           if (res.status == 200)
             toast.success("Profile image updated successfully!");
-        } catch (e) {
-          // !remove console.log(e);
+        } catch (error) {
+          toast.error(
+            error?.response?.data?.message || "Failed to update profile image!"
+          );
         }
       } catch (error) {
         toast.error(`Error sending image to ipfs.`);

@@ -21,7 +21,6 @@ export function ViewLikes({ isOpen, onClose }) {
 
   useEffect(() => {
     if (isOpen) {
-      // !remove console.log("TRUE");
       loadLikedBy();
     }
   }, [isOpen]);

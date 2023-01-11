@@ -2,7 +2,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
 import { useMoralis } from "react-moralis";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { Follows } from "src/components/Profile/Follows";
 

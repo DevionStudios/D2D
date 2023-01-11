@@ -1,14 +1,10 @@
 import InfiniteScroll from "react-infinite-scroll-component";
 
 import { LoadingFallback } from "src/components/ui/Fallbacks/LoadingFallback";
-import Spinner from "src/components/ui/Spinner";
 
 import { FollowButton } from "../FollowButton";
-import { UserHandle } from "src/components/Common/UserHandle";
-import { ErrorFallback } from "src/components/ui/Fallbacks/ErrorFallback";
 import { SEO } from "src/components/SEO";
 import Link from "next/link";
-import Image from "next/image";
 
 export function Following({ data, currentUser, username }) {
   if (!data || data.length === 0)

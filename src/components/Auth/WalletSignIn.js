@@ -1,13 +1,8 @@
-import { object, string } from "zod";
-import { Input } from "../ui/Input";
-import Form, { useZodForm } from "src/components/ui/Form/Form";
 import { Link } from "../ui/Link";
 import { WalletAuthLayout } from "./WalletAuthLayout";
 import { Card } from "../ui/Card";
 import toast from "react-hot-toast";
-import FormSubmitButton from "../ui/Form/SubmitButton";
 import { useEffect, useState } from "react";
-import { Button } from "../ui/Button";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useMoralis } from "react-moralis";
@@ -30,7 +25,6 @@ export function WalletSignIn() {
         },
         { withCredentials: true }
       );
-      // !remove console.log(res.data);
       if (res.status == 200) {
         const jwtToken = "foxxi_jwt=" + res.data.jwt;
         document.cookie = jwtToken + ";path=/";

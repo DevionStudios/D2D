@@ -35,7 +35,7 @@ export function EditCommentModal({ isOpen, onClose, id, caption, postId }) {
       toast.success("Comment has been edited.");
       window.location.reload();
     } catch (error) {
-      toast.error("Something went wrong.");
+      toast.error(error.response?.data?.message || "Something went wrong.");
     }
   };
 
