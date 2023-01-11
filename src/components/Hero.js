@@ -5,7 +5,7 @@ export function Hero() {
 
   return (
     //   <section className="antialiased h-full pt-6 bg-white bg-gradient-to-b from-white to-gray-200 dark:bg-gray-800 dark:bg-gradient-to-t dark:from-gray-800 dark:to-black">
-    <section>
+    <section className="antialiased h-full pt-12 pt-sm-6">
       <div className="px-12 mx-auto max-w-7xl ">
         <div className="flex flex-col items-center w-full py-10 lg:space-x-10 lg:flex-row">
           <div className="relative z-10 w-full space-y-10 lg:w-1/2">

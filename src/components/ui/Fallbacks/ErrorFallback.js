@@ -10,7 +10,7 @@ export const ErrorFallback = ({
   noAction,
 }) => {
   return (
-    <div className="flex flex-1 flex-col justify-center items-center space-y-4 my-12">
+    <div className="flex flex-1 flex-col justify-center items-center space-y-4 my-12 ">
       {icon ? icon : <HiOutlineSparkles className="h-12 w-12 text-gray-500" />}
       <p className="font-medium text-gray-500">
         {message ? message : "Something went wrong."}

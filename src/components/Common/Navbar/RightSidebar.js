@@ -76,7 +76,7 @@ export function RightSidebar({ currentUser }) {
   if (suggestedUsers.length === 0) {
     return (
       <>
-        <Card rounded="lg" className="sticky top-20">
+        <Card rounded="lg" className="sticky top-20 dark:bg-black">
           {!currentUser.annonymous ? (
             <ErrorFallback
               message="No user suggestions for now. :)"
@@ -95,7 +95,6 @@ export function RightSidebar({ currentUser }) {
             />
           )}
         </Card>
-        <Footer />
       </>
     );
   }

@@ -155,7 +155,7 @@ export function FeedPostCard(props) {
                     <span
                       key={index}
                       className={clsx(
-                        "bg-gray-50 dark:bg-gray-700 mr-2 shadow-sm border  dark:border-gray-500 border-gray-300 rounded-l-md rounded-r-md px-3 inline-flex items-center text-gray-500 dark:text-gray-100 sm:text-sm"
+                        "bg-gray-50 dark:bg-gray-900 mr-2 shadow-sm border  dark:border-gray-700 border-gray-700 rounded-l-md rounded-r-md px-3 inline-flex items-center text-blue-600 dark:text-blue-600 sm:text-sm"
                       )}
                     >
                       {hashtag}
