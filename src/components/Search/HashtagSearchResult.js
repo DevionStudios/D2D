@@ -18,8 +18,8 @@ export function HashtagSearchResult({ data, currentUser }) {
   const posts = data;
 
   return (
-    <div>
-      <Heading size="h4" className="py-4 px-4">
+    <div className="dark:bg-black">
+      <Heading size="h4" className="py-4 px-4 ">
         Posts tagged #{router.query.query}
       </Heading>
 
@@ -30,7 +30,7 @@ export function HashtagSearchResult({ data, currentUser }) {
             return (
               <FeedPostCard
                 key={data.id}
-                post={data}
+                post={data}   
                 currentUser={currentUser}
               />
             );

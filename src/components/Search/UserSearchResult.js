@@ -18,7 +18,7 @@ export function UserSearchResult({ data, currentUser }) {
   const users = data;
 
   return (
-    <div>
+    <div className="dark:bg-gray-900">
       <Heading size="h4" className="py-4 px-4">
         Search Results for &quot;{router.query.query}&quot; in{" "}
         {router.query.type}s
@@ -28,7 +28,7 @@ export function UserSearchResult({ data, currentUser }) {
         eg. #doge
       </p>
 
-      <div className="flow-root mt-2 px-4">
+      <div className="flow-root mt-2 px-4 dark:bg-gray-900">
         <ul role="list" className=" divide-y divide-gray-200">
           {users.length > 0 ? (
             users.map((edge) => {

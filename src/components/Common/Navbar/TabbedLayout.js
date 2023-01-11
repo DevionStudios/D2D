@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { ConnectButton } from "@web3uikit/web3";
 
-export function TabbedLayout({ navigation }) {
+export function TabbedLayout({ navigation, currentUser }) {
   const router = useRouter();
 
   const [currentPath, setCurrentPath] = useState(router.pathname);
@@ -35,6 +35,9 @@ export function TabbedLayout({ navigation }) {
               {navigation && navigation.length > 0 && (
                 <Tab.List className="space-y-2">
                   {navigation.map((item, index) => {
+                    if (item.name === "Profile" || item.name === "Settings") {
+                      if (currentUser.annonymous) return null;
+                    }
                     const Icon = item.icon;
                     return (
                       <Tab
@@ -42,8 +45,8 @@ export function TabbedLayout({ navigation }) {
                         className={({ selected }) =>
                           clsx(
                             selected
-                              ? "bg-brand-500 text-white dark:bg-brand-500   dark:text-white"
-                              : "text-gray-500 hover:text-white hover:bg-brand-300 dark:hover:bg-blue-300 dark:hover:text-gray-100",
+                              ? " text-blue-600  dark:text-blue-500"
+                              : "text-gray-500 hover:text-white hover:text-blue-300 dark:hover:text-blue-400",
                             "group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full "
                           )
                         }
@@ -53,8 +56,8 @@ export function TabbedLayout({ navigation }) {
                             <Icon
                               className={clsx(
                                 selected
-                                  ? "text-white"
-                                  : "text-gray-400 group-hover:text-white dark:group-hover:text-white",
+                                  ? "text-blue-700"
+                                  : "text-gray-400 group-hover:text-black dark:group-hover:text-white text-blue-500",
                                 "flex-shrink-0 mr-3 h-6 w-6"
                               )}
                             />

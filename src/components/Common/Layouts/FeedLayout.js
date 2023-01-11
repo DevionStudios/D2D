@@ -41,29 +41,41 @@ export function FeedLayout({ currentUser }) {
       name: "Foxxi Trends",
       id: "/twittertrends",
     },
+    {
+      component: <Redirect pageName={`/profile/${currentUser.username}`} />,
+      icon: HiOutlineUser,
+      name: "Profile",
+      id: `/profile/${currentUser.username}`,
+    },
+    {
+      component: <Redirect pageName={"/account/settings"} />,
+      icon: HiOutlineCog,
+      name: "Settings",
+      id: "/account/settings",
+    },
   ]);
   let user = currentUser;
   let loading = false;
 
-  useEffect(() => {
-    if (!currentUser.annonymous && navigation.length < 5) {
-      navigation.push(
-        {
-          component: <Redirect pageName={`/profile/${currentUser.username}`} />,
-          icon: HiOutlineUser,
-          name: "Profile",
-          id: `/profile/${currentUser.username}`,
-        },
-        {
-          component: <Redirect pageName={"/account/settings"} />,
-          icon: HiOutlineCog,
-          name: "Settings",
-          id: "/account/settings",
-        }
-      );
-      setNavigation(navigation);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!currentUser.annonymous && navigation.length < 5) {
+  //     navigation.push(
+  //       {
+  //         component: <Redirect pageName={`/profile/${currentUser.username}`} />,
+  //         icon: HiOutlineUser,
+  //         name: "Profile",
+  //         id: `/profile/${currentUser.username}`,
+  //       },
+  //       {
+  //         component: <Redirect pageName={"/account/settings"} />,
+  //         icon: HiOutlineCog,
+  //         name: "Settings",
+  //         id: "/account/settings",
+  //       }
+  //     );
+  //     setNavigation(navigation);
+  //   }
+  // }, []);
   if (loading)
     return (
       <div className="mt-[74px]">
@@ -75,7 +87,11 @@ export function FeedLayout({ currentUser }) {
     <div className="pt-20">
       <div className="max-w-3xl  mx-auto sm:px-6 lg:max-w-full xl:max-w-[90rem] lg:grid lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-9 lg:grid lg:grid-cols-12 lg:gap-8 ">
-          <TabbedLayout isTabbed={true} navigation={navigation} />
+          <TabbedLayout
+            isTabbed={true}
+            navigation={navigation}
+            currentUser={currentUser}
+          />
           {/* <div className="hidden lg:block fixed bottom-8">
             <CurrentUser currentUser={currentUser} />
           </div> */}

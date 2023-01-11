@@ -41,7 +41,7 @@ export function PostDropdown({ id, caption, isMine, gifLink, currentUser }) {
   };
 
   return (
-    <>
+    <div>
       <EditPost
         id={id}
         isOpen={editPostModal}
@@ -87,6 +87,6 @@ export function PostDropdown({ id, caption, isMine, gifLink, currentUser }) {
           <HiOutlineDotsVertical className="w-5 h-5" />
         </span>
       </Menu>
-    </>
+    </div>
   );
 }
