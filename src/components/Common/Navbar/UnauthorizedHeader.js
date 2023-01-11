@@ -1,20 +1,20 @@
-import { Popover, Transition } from "@headlessui/react";
-import { Fragment } from "react";
-import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
-import { Button } from "src/components/ui/Button";
-import { GradientBar } from "src/components/ui/GradientBar";
-import { Heading } from "src/components/ui/Heading";
 import Link from "next/link";
-import { ThemeToggle } from "src/components/ThemeSwitcher";
-import Logo from "../../../assets/D2D Logo Trans.png";
-
 import Image from "next/image";
+import { Fragment } from "react";
 import { useRouter } from "next/router";
+import { Popover, Transition } from "@headlessui/react";
+import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
+import { ThemeToggle } from "src/components/ThemeSwitcher";
+
+import { Button } from "src/components/ui/Button";
+import { Heading } from "src/components/ui/Heading";
+import Logo from "../../../assets/D2D Logo Trans.png";
+import { GradientBar } from "src/components/ui/GradientBar";
 
 export function UnauthorizedHeader() {
   const router = useRouter();
   return (
-    <div>
+    <div className="mb-[-90px]">
       <header>
         <GradientBar
           color="indigo"

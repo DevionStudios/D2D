@@ -46,7 +46,7 @@ export function FeedLayout({ currentUser }) {
   let loading = false;
 
   useEffect(() => {
-    if (currentUser.anonymous !== true) {
+    if (!currentUser.annonymous && navigation.length < 5) {
       navigation.push(
         {
           component: <Redirect pageName={`/profile/${currentUser.username}`} />,
@@ -72,7 +72,7 @@ export function FeedLayout({ currentUser }) {
     );
 
   return (
-    <div className="py-20">
+    <div className="pt-20">
       <div className="max-w-3xl  mx-auto sm:px-6 lg:max-w-full xl:max-w-[90rem] lg:grid lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-9 lg:grid lg:grid-cols-12 lg:gap-8 ">
           <TabbedLayout isTabbed={true} navigation={navigation} />
@@ -80,7 +80,7 @@ export function FeedLayout({ currentUser }) {
             <CurrentUser currentUser={currentUser} />
           </div>
         </div>
-        <div className="hidden lg:block lg:col-span-3">
+        <div className=" lg:block lg:col-span-3">
           <RightSidebar currentUser={currentUser} />
         </div>
       </div>
