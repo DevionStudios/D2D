@@ -85,14 +85,12 @@ export function Preferences({ currentUser }) {
             },
           }
         );
-        // !remove console.log(response2.data);
         toast.success("Reward claimed successfully!");
       }
     } catch (e) {
       toast.error(
         "Something went wrong! Please check if your wallet is connected!"
       );
-      // !remove console.log(e);
     } finally {
       setIsDisabled(false);
     }
@@ -119,7 +117,6 @@ export function Preferences({ currentUser }) {
           },
         });
         const ImgHash = `ipfs://${resFile.data.IpfsHash}`;
-        // !remove console.log("Image Hash: ", ImgHash);
         toast.success(`Image sent to ipfs.`);
 
         const resMeta = await axios({
@@ -137,7 +134,6 @@ export function Preferences({ currentUser }) {
         });
 
         const MetaHash = `ipfs://${resMeta.data.IpfsHash}`;
-        // !remove console.log("Meta Hash: ", MetaHash);
         toast.success(`MetaData sent to ipfs.`);
 
         // Calling the contract function to mint the NFT
@@ -169,15 +165,12 @@ export function Preferences({ currentUser }) {
               },
             }
           );
-          // !remove console.log(res.data);
           if (res.status == 200)
             toast.success("Profile image updated successfully!");
         } catch (e) {
           // !remove console.log(e);
         }
       } catch (error) {
-        // !remove console.log(error);
-
         toast.error(`Error sending image to ipfs.`);
       }
 
@@ -192,7 +185,6 @@ export function Preferences({ currentUser }) {
     const { ipfsUrl } = input;
     let imageUrl;
 
-    // !remove console.log("Ipfs Url: ", variables);
     if (ipfsUrl && ipfsUrl.length > 0 && ipfsUrl.includes("ipfs")) {
       if (ipfsUrl.includes("ipfs://")) {
         imageUrl = "https://ipfs.io/ipfs/" + ipfsUrl.split("ipfs://")[1];
@@ -211,10 +203,8 @@ export function Preferences({ currentUser }) {
             },
           }
         );
-        // !remove console.log(res.data);
         toast.success("Profile image updated successfully!");
       } catch (e) {
-        // !remove console.log(e);
         toast.error("Could not update profile image!");
       }
     } else {

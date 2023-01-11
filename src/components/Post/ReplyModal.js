@@ -22,8 +22,6 @@ export function ReplyModal({
   ...props
 }) {
   const createComment = async (values) => {
-    // !remove console.log("Caption: ", values.variables.input.caption);
-    // !remove console.log("Post ID: ", props.post.id);
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/comments/create`,
@@ -37,9 +35,9 @@ export function ReplyModal({
           },
         }
       );
-
-      // !remove console.log("Response: ", response.data);
       setComments(comments + 1);
+      toast.success("Comment created successfully");
+      onClose();
     } catch (error) {
       // !remove console.log(error);
     }
@@ -118,9 +116,6 @@ export function ReplyModal({
                     },
                   },
                 });
-
-                toast.success("Comment created successfully");
-                onClose();
               }}
             >
               <TextArea

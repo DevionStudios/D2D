@@ -104,6 +104,7 @@ export function PostCard({ id, username, currentUser }) {
       );
       window.location.reload();
       setComments(response.data.comments);
+      toast.success("Your comment has been posted.");
       form.reset();
     } catch (error) {
       // !remove console.log(error);
@@ -376,8 +377,6 @@ export function PostCard({ id, username, currentUser }) {
                       },
                     },
                   });
-                  toast.success("Your comment has been posted.");
-                  form.reset();
                 }}
               >
                 <TextArea

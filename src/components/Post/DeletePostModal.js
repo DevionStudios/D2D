@@ -16,12 +16,10 @@ export function DeletePostModal({ isOpen, onClose, id }) {
           },
         }
       );
-      // !remove console.log(response.data);
       onClose();
       toast.success("Requested post has been deleted.");
     } catch (e) {
       toast.error("There was some error when deleting post.");
-      // !remove console.log(e);
     }
   };
 

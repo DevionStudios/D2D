@@ -56,7 +56,6 @@ export default function Onboarding({ currentUser }) {
         },
         { withCredentials: true }
       );
-      // !remove console.log(res.data);
       if (res.status == 200) {
         const jwtToken = "foxxi_jwt=" + res.data.jwt;
         document.cookie = jwtToken + ";path=/";
