@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import {
   HiOutlineCog,
@@ -22,7 +22,7 @@ const RightSidebar = dynamic(async () => {
 RightSidebar.displayName = "RightSidebar";
 
 export function FeedLayout({ currentUser }) {
-  const navigation = [
+  const [navigation, setNavigation] = useState([
     {
       component: <Feed currentUser={currentUser} />,
       icon: HiOutlineHome,
@@ -41,30 +41,38 @@ export function FeedLayout({ currentUser }) {
       name: "Foxxi Trends",
       id: "/twittertrends",
     },
-    {
-      component: <Redirect pageName={`/profile/${currentUser.username}`} />,
-      icon: HiOutlineUser,
-      name: "Profile",
-      id: "/profile",
-    },
-    {
-      component: <Redirect pageName={"/account/settings"} />,
-      icon: HiOutlineCog,
-      name: "Settings",
-      id: "/settings",
-    },
-  ];
+  ]);
   let user = currentUser;
   let loading = false;
 
+  useEffect(() => {
+    if (!currentUser.annonymous && navigation.length < 5) {
+      navigation.push(
+        {
+          component: <Redirect pageName={`/profile/${currentUser.username}`} />,
+          icon: HiOutlineUser,
+          name: "Profile",
+          id: `/profile/${currentUser.username}`,
+        },
+        {
+          component: <Redirect pageName={"/account/settings"} />,
+          icon: HiOutlineCog,
+          name: "Settings",
+          id: "/account/settings",
+        }
+      );
+      setNavigation(navigation);
+    }
+  }, []);
   if (loading)
     return (
       <div className="mt-[74px]">
         <IndeterminateProgress />
       </div>
     );
+
   return (
-    <div className="py-20">
+    <div className="pt-20">
       <div className="max-w-3xl  mx-auto sm:px-6 lg:max-w-full xl:max-w-[90rem] lg:grid lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-9 lg:grid lg:grid-cols-12 lg:gap-8 ">
           <TabbedLayout isTabbed={true} navigation={navigation} />
@@ -72,7 +80,7 @@ export function FeedLayout({ currentUser }) {
             <CurrentUser currentUser={currentUser} />
           </div> */}
         </div>
-        <div className="hidden lg:block lg:col-span-3">
+        <div className=" lg:block lg:col-span-3">
           <RightSidebar currentUser={currentUser} />
         </div>
       </div>

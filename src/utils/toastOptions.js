@@ -6,4 +6,11 @@ export const toastOptions = {
       secondary: "white",
     },
   },
+  error: {
+    className: "border border-red-500",
+    iconTheme: {
+      primary: "#red",
+      secondary: "white",
+    },
+  },
 };
