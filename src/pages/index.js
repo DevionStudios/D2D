@@ -14,7 +14,7 @@ export default function Home({ currentUser }) {
         cardType="summary_large_image"
         path="/"
       />
-      <div className="min-h-screen overflow-hidden bg-white dark:bg-gray-900 ">
+      <div className="min-h-screen overflow-hidden bg-white dark:bg-black ">
         <Navbar currentUser={currentUser} />
         <Hero />
       </div>

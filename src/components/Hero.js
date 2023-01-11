@@ -4,7 +4,8 @@ export function Hero() {
   const user = undefined;
 
   return (
-    <section className="antialiased h-full pt-6 bg-white bg-gradient-to-b from-white to-gray-200 dark:bg-gray-800 dark:bg-gradient-to-t dark:from-gray-800 dark:to-black">
+    //   <section className="antialiased h-full pt-6 bg-white bg-gradient-to-b from-white to-gray-200 dark:bg-gray-800 dark:bg-gradient-to-t dark:from-gray-800 dark:to-black">
+    <section>
       <div className="px-12 mx-auto max-w-7xl ">
         <div className="flex flex-col items-center w-full py-10 lg:space-x-10 lg:flex-row">
           <div className="relative z-10 w-full space-y-10 lg:w-1/2">
@@ -33,11 +34,11 @@ export function Hero() {
             </div>
           </div>
           <div className="relative z-0 w-full mt-8 lg:w-1/2">
-            <img
+            {/* <img
               src="https://res.cloudinary.com/dogecorp/image/upload/q_69/v1635767865/Saly-1245_eqly7l.png"
               className="transform xl:translate-x-20 lg:ml-0 lg:scale-125"
               alt="Illustration showing a social media website on a mobile device."
-            />
+            /> */}
           </div>
         </div>
       </div>
