@@ -2,7 +2,8 @@ import jwt from "jsonwebtoken";
 import { body } from "express-validator";
 import express, { Request, Response } from "express";
 import { validateRequest, BadRequestError } from "@devion/common";
-
+import { Verification } from "../../models/Verification";
+import { Password } from "../../services/password";
 import { User } from "../../models/User";
 
 import dotenv from "dotenv";
@@ -39,9 +40,26 @@ router.post(
         throw new BadRequestError("Username already in use");
       }
       let user;
-      if (email && email.length > 0)
+      if (email && email.length > 0) {
         user = User.build({ email, password, username, name });
-      else user = User.build({ username, name, accountWallet });
+        const existingVerification = await Verification.findOne({
+          email: email,
+        });
+        if (!existingVerification) {
+          return res.status(400).send({ message: "Verify Yourself First!" });
+        }
+        const passwordsMatch = await Password.compare(
+          existingVerification.code!,
+          "verified"
+        );
+        if (!passwordsMatch) {
+          return res.status(400).send({ message: "Verify Yourself First!" });
+        }
+        const deleteVerification = await Verification.deleteOne({
+          email: email,
+        });
+        console.log(deleteVerification);
+      } else user = User.build({ username, name, accountWallet });
       await user.save();
 
       // Generate JWT
