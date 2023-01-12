@@ -9,7 +9,7 @@ export const toastOptions = {
   error: {
     className: "border border-red-500",
     iconTheme: {
-      primary: "#red",
+      primary: "red",
       secondary: "white",
     },
   },

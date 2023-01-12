@@ -303,7 +303,7 @@ export function FeedPostCard(props) {
               </span>
             </div>
             <div>
-              <span className="inline-flex items-center space-x-2  ">
+              {/* <span className="inline-flex items-center space-x-2  ">
                 <Button
                   variant="dark"
                   onClick={async () => {
@@ -316,7 +316,7 @@ export function FeedPostCard(props) {
                 >
                   <HiOutlineShare className="w-6 h-6 " />
                 </Button>
-              </span>
+              </span> */}
             </div>
           </div>
         </article>

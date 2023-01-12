@@ -2,6 +2,7 @@ import {
   HiOutlineDotsVertical,
   HiOutlineFlag,
   HiOutlinePencil,
+  HiOutlineShare,
   HiOutlineTrash,
 } from "react-icons/hi";
 import axios from "axios";
@@ -89,6 +90,18 @@ export function PostDropdown({
                 Report Post
               </MenuItem>
             )}
+            <MenuItem
+              icon={<HiOutlineShare />}
+              onClick={async () => {
+                navigator.clipboard
+                  .writeText(
+                    `https://foxxi-frontend.vercel.app/post/${post.id}`
+                  )
+                  .then(() => toast.success("Link copied to clipboard"));
+              }}
+            >
+              Share
+            </MenuItem>
           </>
         }
       >
