@@ -17,8 +17,6 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const common_1 = require("@devion/common");
 const express_1 = __importDefault(require("express"));
 const User_1 = require("../../models/User");
-const Comment_1 = require("../../models/Comment");
-const Post_1 = require("../../models/Post");
 const currentadmin_1 = require("../../middlewares/currentadmin");
 const router = express_1.default.Router();
 exports.deleteUserRouter = router;
@@ -31,9 +29,7 @@ router.delete("/api/admin/users/:userId", currentadmin_1.currentAdmin, (req, res
         if (!deletedUser) {
             throw new common_1.BadRequestError("User not found!");
         }
-        // delete all posts  and comments by userId
-        yield Post_1.Post.deleteMany({ author: new mongoose_1.default.Types.ObjectId(userId) });
-        yield Comment_1.Comment.deleteMany({ author: new mongoose_1.default.Types.ObjectId(userId) });
+        console.log(deletedUser);
         res.status(200).send({ message: "User Deleted!" });
     }
     catch (err) {
