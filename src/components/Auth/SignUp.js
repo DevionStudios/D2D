@@ -156,24 +156,28 @@ export function SignUp() {
           {...form.register("verificationCode")}
           hidden={!disableSendButton}
         />
-        <Button
-          variant={disableSendButton ? "secondary" : "solid"}
-          onClick={() => {
-            sendVerificationCode();
-          }}
-          disabled={disableSendButtonFinal}
-        >
-          {disableSendButton ? "Resend Code" : "Send Code"}
-        </Button>
-        <Button
-          variant={disableVerifyButton ? "secondary" : "solid"}
-          onClick={() => {
-            verifyVerificationCode();
-          }}
-          disabled={disableVerifyButton}
-        >
-          Verify Code
-        </Button>
+        {!(disableSendButton && disableVerifyButton) ? (
+          <Button
+            variant={disableSendButton ? "secondary" : "solid"}
+            onClick={() => {
+              sendVerificationCode();
+            }}
+            disabled={disableSendButtonFinal}
+          >
+            {disableSendButton ? "Resend Code" : "Send Code"}
+          </Button>
+        ) : null}
+        {!(disableSendButton && disableVerifyButton) ? (
+          <Button
+            variant={disableVerifyButton ? "secondary" : "solid"}
+            onClick={() => {
+              verifyVerificationCode();
+            }}
+            disabled={disableVerifyButton}
+          >
+            Verify Code
+          </Button>
+        ) : null}
         <FormSubmitButton
           disabled={!(disableSendButton && disableVerifyButton)}
           size="lg"
