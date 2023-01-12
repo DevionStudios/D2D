@@ -50,6 +50,7 @@ import { toggleBanRouter } from "./routes/admin/ban-user";
 import { getAllUserRouter } from "./routes/admin/get-all-users";
 import { getAllCommentRouter } from "./routes/comments/get-all-commnet";
 import { deleteUserRouter } from "./routes/admin/delete-user";
+import { repostRouter } from "./routes/reposts/repost";
 
 const app = express();
 app.use(
@@ -116,6 +117,7 @@ app.use(reportPostRouter);
 app.use(reportUserRouter);
 app.use(deleteUserRouter);
 app.use(toggleBanRouter);
+app.use(repostRouter);
 
 app.all("*", async (req: any, res: any) => {
   throw new Error("Route not found!!");

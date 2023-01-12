@@ -26,6 +26,20 @@ router.delete(
         throw new BadRequestError("You are not the author!");
       }
 
+      // decrement original posts reposts
+      if (existingPost.originalPostId) {
+        const originalPost = await Post.findOne({
+          _id: new mongoose.Types.ObjectId(existingPost.originalPostId),
+        });
+
+        if (!originalPost) {
+          throw new BadRequestError("Original post not found!");
+        }
+
+        originalPost.reposts = originalPost!.reposts! - 1;
+        await originalPost.save();
+      }
+
       await Post.deleteOne({ _id: new mongoose.Types.ObjectId(id) });
 
       res.status(204).send({ message: "Post deleted!" });
