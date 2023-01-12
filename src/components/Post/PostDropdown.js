@@ -12,9 +12,18 @@ import { EditPost } from "./EditPostModal";
 import { Menu, MenuItem } from "../ui/Dropdown";
 import { DeletePostModal } from "./DeletePostModal";
 
-export function PostDropdown({ id, caption, isMine, gifLink, currentUser }) {
+export function PostDropdown({
+  id,
+  caption,
+  isMine,
+  gifLink,
+  currentUser,
+  post,
+}) {
   const [editPostModal, setEditPostModal] = useState(false);
   const [deletePostModal, setDeletePostModal] = useState(false);
+
+  console.log("post", post.originalPostId);
 
   const reportPost = async () => {
     try {
@@ -57,7 +66,7 @@ export function PostDropdown({ id, caption, isMine, gifLink, currentUser }) {
       <Menu
         dropdown={
           <>
-            {isMine && (
+            {isMine && post?.originalPostId?.length <= 0 && (
               <MenuItem
                 icon={<HiOutlinePencil />}
                 onClick={() => setEditPostModal(true)}

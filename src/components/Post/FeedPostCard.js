@@ -173,6 +173,7 @@ export function FeedPostCard(props) {
                     caption={props.post.caption ?? ""}
                     gifLink={props.post.gifLink ?? ""}
                     currentUser={props.currentUser}
+                    post={props.post}
                   />
                 )}
               </div>

@@ -198,13 +198,14 @@ export function PostCard({ id, username, currentUser }) {
                     </p>
                   </div>
                   <div className="flex-shrink-0 self-center flex">
-                    {currentUser.annonymous ? (
+                    {!currentUser.annonymous ? (
                       username === data.author.username ? (
                         <PostDropdown
                           id={data.id}
                           isMine={username === data.author.username}
                           caption={data.caption ?? ""}
                           gifLink={data.gifLink ?? ""}
+                          post={data}
                         />
                       ) : null
                     ) : null}
