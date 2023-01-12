@@ -4,6 +4,9 @@ import { UserDoc } from "./User";
 interface NotificationAttrs {
   notification: string;
   userId: string;
+  notificationType: string;
+  username: string;
+  postId?: string;
 }
 
 interface NotificationModel extends mongoose.Model<NotificationDoc> {
@@ -13,6 +16,9 @@ interface NotificationModel extends mongoose.Model<NotificationDoc> {
 export interface NotificationDoc extends mongoose.Document {
   notification: string;
   userId: string;
+  notificationType: string;
+  username: string;
+  postId?: string;
 }
 
 const NotificationSchema = new mongoose.Schema(
@@ -23,6 +29,16 @@ const NotificationSchema = new mongoose.Schema(
     },
     userId: {
       type: String,
+    },
+    notificationType: {
+      type: String,
+    },
+    username: {
+      type: String,
+    },
+    postId: {
+      type: String,
+      required: false,
     },
   },
   {

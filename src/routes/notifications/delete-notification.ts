@@ -11,7 +11,7 @@ router.delete(
   async (req: Request, res: Response) => {
     try {
       const deletedNotifications = await Notification.deleteMany({
-        userId: req.currentUser?.id,
+        userId: req.foxxiUser?.id.toString(),
       });
       console.log(deletedNotifications);
       res.status(201).send({ message: "Notifications deleted!" });

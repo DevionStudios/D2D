@@ -6,12 +6,14 @@ import { currentUser } from "../../middlewares/currentuser";
 const router = express.Router();
 
 router.get(
-  "/api/notification/create",
+  "/api/notification/get",
   currentUser,
   async (req: Request, res: Response) => {
     try {
+      console.log("No string", req.foxxiUser?.id);
+      console.log("currentId", req.foxxiUser?.id.toString());
       const notifications = await Notification.find({
-        userId: req.currentUser?.id,
+        userId: req.foxxiUser?.id.toString(),
       }).sort({
         createdAt: -1,
       });

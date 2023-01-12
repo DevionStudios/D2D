@@ -10,11 +10,15 @@ router.post(
   currentUser,
   async (req: Request, res: Response) => {
     try {
-      const { notification, userId } = req.body;
+      const { notification, userId, notificationType, username, postId } =
+        req.body;
 
       const notificationBuild = Notification.build({
         notification: notification,
         userId: userId,
+        notificationType: notificationType,
+        username: username,
+        postId: postId || null,
       });
       await notificationBuild.save();
       res.status(201).send({ message: "Notification created!" });
