@@ -54,6 +54,8 @@ import { createNotificationRouter } from "./routes/notifications/add-notificatio
 import { getNotificationRouter } from "./routes/notifications/get-notification";
 import { deleteNotificationRouter } from "./routes/notifications/delete-notification";
 
+import { repostRouter } from "./routes/reposts/repost";
+
 const app = express();
 app.use(
   cors({
@@ -122,6 +124,7 @@ app.use(toggleBanRouter);
 app.use(createNotificationRouter);
 app.use(getNotificationRouter);
 app.use(deleteNotificationRouter);
+app.use(repostRouter);
 
 app.all("*", async (req: any, res: any) => {
   throw new Error("Route not found!!");
