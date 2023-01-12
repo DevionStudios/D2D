@@ -144,6 +144,8 @@ export function RightSidebar({ currentUser }) {
                               currentUser.id
                             )}
                             username={user?.username}
+                            currentUser={currentUser}
+                            id={user?.id}
                           />
                         </div>
                       </li>

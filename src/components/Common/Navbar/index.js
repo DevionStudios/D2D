@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
 import { Popover } from "@headlessui/react";
@@ -17,10 +17,12 @@ import Spinner from "src/components/ui/Spinner";
 import { UnauthorizedHeader } from "./UnauthorizedHeader";
 import Logo from "../../../assets/D2D Logo Trans.png";
 import { useRouter } from "next/router";
+import { HiOutlineBell } from "react-icons/hi";
+import { NotificationOverlay } from "src/components/ui/Notifications/NotificationOverlay";
 
 export function Navbar({ currentUser }) {
   const router = useRouter();
-
+  const [openNotifications, setNotificationOpen] = useState(false);
   const user = currentUser;
   if (currentUser?.annonymous === true) {
     return (
@@ -75,6 +77,14 @@ export function Navbar({ currentUser }) {
                 </div>
 
                 <div className="flex items-center md:absolute md:right-0 md:inset-y-0 lg:hidden">
+                  <button
+                    onClick={() => setNotificationOpen(!openNotifications)}
+                    type="button"
+                    className="mx-3 ml-auto flex-shrink-0 bg-white dark:bg-gray-800 rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
+                  >
+                    <span className="sr-only">View notifications</span>
+                    <HiOutlineBell className="h-6 w-6" aria-hidden="true" />
+                  </button>
                   <Popover.Button className="-mx-2 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-300">
                     <span className="sr-only">Open menu</span>
                     {open ? (
@@ -86,6 +96,14 @@ export function Navbar({ currentUser }) {
                 </div>
                 <div className="hidden  lg:flex lg:items-center lg:justify-end xl:col-span-4 space-x-5">
                   <ThemeToggle />
+                  <button
+                    onClick={() => setNotificationOpen(!openNotifications)}
+                    type="button"
+                    className="ml-auto flex-shrink-0 bg-white dark:bg-gray-800 rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-none"
+                  >
+                    <span className="sr-only">View notifications</span>
+                    <HiOutlineBell className="h-6 w-6" aria-hidden="true" />
+                  </button>
                   {!user ? (
                     <Spinner className="w-5 h-5" />
                   ) : (
@@ -103,6 +121,11 @@ export function Navbar({ currentUser }) {
                 </div>
               </div>
             </div>
+            <NotificationOverlay
+              open={openNotifications}
+              setOpen={setNotificationOpen}
+            />
+
             <MobileMenu
               user={currentUser}
               open={open}

@@ -139,6 +139,7 @@ export function Profile({ user, isMe, username, currentUser }) {
                       username={user.username}
                       id={user.id}
                       size={isMobile ? "base" : "lg"}
+                      currentUser={currentUser}
                     />
                   ) : null}
                 </div>

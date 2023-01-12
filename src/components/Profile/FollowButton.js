@@ -3,7 +3,13 @@ import axios from "axios";
 import { Button } from "../ui/Button";
 import { toast } from "react-hot-toast";
 
-export function FollowButton({ username, isFollowing, id, ...props }) {
+export function FollowButton({
+  username,
+  isFollowing,
+  currentUser,
+  id,
+  ...props
+}) {
   const [following, setIsFollowing] = useState(isFollowing);
 
   const followUser = async ({ variables }) => {
@@ -19,6 +25,24 @@ export function FollowButton({ username, isFollowing, id, ...props }) {
           },
         }
       );
+      if (isFollowing === false) {
+        const notification = ` followed you`;
+        const response2 = await axios.post(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/notification/create`,
+          {
+            notification: notification,
+            userId: id,
+            notificationType: "USER_FOLLOW",
+            username: currentUser?.username,
+          },
+          {
+            headers: {
+              cookies: document.cookie,
+            },
+          }
+        );
+        console.log(response2.data);
+      }
       window.location.reload();
     } catch (error) {
       toast.error(error?.response?.data?.message || "Failed to follow user!");

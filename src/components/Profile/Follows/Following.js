@@ -66,6 +66,8 @@ export function Following({ data, currentUser, username }) {
                               )}
                               username={user.username}
                               variant="dark"
+                              currentUser={currentUser}
+                              id={user.id}
                             />
                           )
                         ) : null}

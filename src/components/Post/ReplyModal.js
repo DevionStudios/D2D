@@ -12,8 +12,6 @@ import Modal from "../ui/Modal";
 import { TextArea } from "../ui/TextArea";
 import Link from "next/link";
 
-export let CREATE_COMMENT_MUTATION;
-
 export function ReplyModal({
   isOpen,
   onClose,
@@ -37,6 +35,23 @@ export function ReplyModal({
       );
       setComments(comments + 1);
       toast.success("Comment created successfully");
+      const notification = ` replied to your `;
+      const response2 = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/notification/create`,
+        {
+          notification: notification,
+          userId: props.post.author?.id,
+          notificationType: "POST_REPLY",
+          username: props.currentUser?.username,
+          postId: props.post?.id,
+        },
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
+      );
+      console.log(response2.data);
       onClose();
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went Wrong!");

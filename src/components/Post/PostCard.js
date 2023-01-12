@@ -83,6 +83,25 @@ export function PostCard({ id, username, currentUser }) {
       );
       setLikes(response.data.likes.length);
       setIsLiked(!isLiked);
+      if (!isLiked) {
+        const notification = ` liked your `;
+        const response2 = await axios.post(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/notification/create`,
+          {
+            notification: notification,
+            userId: data.author?.id,
+            notificationType: "POST_LIKE",
+            username: currentUser?.username,
+            postId: data.id,
+          },
+          {
+            headers: {
+              cookies: document.cookie,
+            },
+          }
+        );
+        console.log(response2.data);
+      }
     } catch (e) {
       // !remove console.log(e);
     }
@@ -102,6 +121,23 @@ export function PostCard({ id, username, currentUser }) {
           },
         }
       );
+      const notification = ` replied to your `;
+      const response2 = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/notification/create`,
+        {
+          notification: notification,
+          userId: data.author?.id,
+          notificationType: "POST_REPLY",
+          username: currentUser?.username,
+          postId: data.id,
+        },
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
+      );
+      console.log(response2.data);
       window.location.reload();
       setComments(response.data.comments);
       toast.success("Your comment has been posted.");

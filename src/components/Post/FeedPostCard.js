@@ -68,6 +68,25 @@ export function FeedPostCard(props) {
           ...post,
           likes: response.data.likes,
         });
+        if (!isLiked) {
+          const notification = ` liked your `;
+          const response2 = await axios.post(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/notification/create`,
+            {
+              notification: notification,
+              userId: props.post.author?.id,
+              notificationType: "POST_LIKE",
+              username: props.currentUser?.username,
+              postId: props.post?.id,
+            },
+            {
+              headers: {
+                cookies: document.cookie,
+              },
+            }
+          );
+          console.log(response2.data);
+        }
       } else {
         toast.error(response.data.message);
       }

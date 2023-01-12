@@ -64,6 +64,8 @@ export function Followers({ currentUser, data, username }) {
                               )}
                               username={user.username}
                               variant="dark"
+                              currentUser={currentUser}
+                              id={user.id}
                             />
                           )
                         ) : null}
