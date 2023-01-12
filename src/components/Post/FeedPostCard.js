@@ -7,6 +7,8 @@ import {
   HiOutlineReply,
   HiOutlineShare,
 } from "react-icons/hi";
+import { BiRepost } from "react-icons/bi";
+
 import { format } from "date-fns";
 
 import { DonateModal } from "./DonateModal";
@@ -29,6 +31,8 @@ export function FeedPostCard(props) {
 
   const [likes, setLikes] = useState(props.post?.likes?.length);
   const [comments, setComments] = useState(props.post?.comments?.length);
+  const [reposts, setReposts] = useState(props.post?.reposts);
+
   let loading;
   useEffect(() => {
     setIsLiked(checkLiked());
@@ -76,6 +80,37 @@ export function FeedPostCard(props) {
     if (!props.post.likes) return false;
 
     return props.post.likes.includes(props.currentUser.id);
+  };
+
+  const repost = async () => {
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/reposts/create`,
+        {
+          postId: props.post.id,
+        },
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        setReposts(reposts + 1);
+        toast.success("Reposted!", {
+          icon: "🎉",
+        });
+      } else {
+        toast.error(response.data.message || "Oops...Failed to repost", {
+          icon: "❌",
+        });
+      }
+    } catch (e) {
+      toast.error(e?.response?.data?.message || "Oops...Failed to repost", {
+        icon: "❌",
+      });
+    }
   };
 
   return (
@@ -220,6 +255,16 @@ export function FeedPostCard(props) {
                     >
                       <HiOutlineReply className="w-5 h-5" />
                       <p>{comments || "0"}</p>
+                    </Button>
+                  </span>
+                  <span className="inline-flex items-center space-x-2">
+                    <Button
+                      variant="dark"
+                      onClick={() => repost()}
+                      className="space-x-2"
+                    >
+                      <BiRepost className="w-5 h-5" />
+                      <p>{reposts || "0"}</p>
                     </Button>
                   </span>
                 </>
