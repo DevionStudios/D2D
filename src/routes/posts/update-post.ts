@@ -25,7 +25,11 @@ router.put(
     }
 
     if (post.author.id !== user.id) {
-      throw new BadRequestError("You are not authorized to edit this post");
+      return res.send({ message: "You are not authorized to edit this post" });
+    }
+
+    if (post.originalPostId) {
+      throw new BadRequestError("You can't edit reposted posts");
     }
 
     post.caption = caption;
