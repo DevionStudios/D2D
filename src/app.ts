@@ -48,9 +48,11 @@ import { reportPostRouter } from "./routes/posts/report-post";
 import { reportUserRouter } from "./routes/auth/report-user";
 import { toggleBanRouter } from "./routes/admin/ban-user";
 import { getAllUserRouter } from "./routes/admin/get-all-users";
-import { getAllCommentRouter } from "./routes/comments/get-all-commnet";
+import { getAllCommentRouter } from "./routes/comments/get-all-comment";
 import { deleteUserRouter } from "./routes/admin/delete-user";
 import { repostRouter } from "./routes/reposts/repost";
+import { createStoryRouter } from "./routes/story/create-story";
+import { getFollowingUserStoriesRouter } from "./routes/story/get-following-user-stories";
 
 const app = express();
 app.use(
@@ -118,6 +120,8 @@ app.use(reportUserRouter);
 app.use(deleteUserRouter);
 app.use(toggleBanRouter);
 app.use(repostRouter);
+app.use(createStoryRouter);
+app.use(getFollowingUserStoriesRouter);
 
 app.all("*", async (req: any, res: any) => {
   throw new Error("Route not found!!");
