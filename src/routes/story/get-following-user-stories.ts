@@ -14,13 +14,15 @@ router.get(
     try {
       const existingUser = await User.findOne({
         _id: new mongoose.Types.ObjectId(req.foxxiUser!.id),
-      }).populate({
-        path: "following",
-        populate: {
-          path: "stories",
-          model: "Story",
-        },
-      });
+      })
+        .populate({
+          path: "following",
+          populate: {
+            path: "stories",
+            model: "Story",
+          },
+        })
+        .sort({ createdAt: -1 });
 
       if (!existingUser) {
         throw new BadRequestError("User not found!");

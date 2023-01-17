@@ -12,9 +12,14 @@ router.get("/api/users/currentuser", currentUser, async (req, res) => {
       const email = foxxiUser.email;
       const accountWallet = foxxiUser.accountWallet;
       let user;
-      if (email) user = await User.findOne({ email: email });
+      if (email)
+        user = await User.findOne({ email: email }).populate({
+          path: "following",
+        });
       else if (accountWallet)
-        user = await User.findOne({ accountWallet: accountWallet });
+        user = await User.findOne({ accountWallet: accountWallet }).populate({
+          path: "following",
+        });
 
       if (user?.isBanned)
         return res.json({
