@@ -11,7 +11,7 @@ const ChatContainer = ({ currentUser, otherUser, socket }) => {
   useEffect(() => {
     const fetchMessages = async () => {
       const response = await axios["post"](
-        "http://localhost:5000/api/getmessages",
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/getmessages`,
         {
           from: currentUser.id,
           to: otherUser,
@@ -30,7 +30,7 @@ const ChatContainer = ({ currentUser, otherUser, socket }) => {
   const handleSendMessage = async (message) => {
     try {
       const response = await axios["post"](
-        "http://localhost:5000/api/addmessage",
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/addmessage`,
         {
           text: message,
           from: currentUser.id,
@@ -120,7 +120,6 @@ const ChatContainer = ({ currentUser, otherUser, socket }) => {
         </div>
         <ChatInput handleSendMessage={handleSendMessage} />
       </div>
-      <Toaster />
     </>
   );
 };
