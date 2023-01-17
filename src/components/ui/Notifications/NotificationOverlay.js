@@ -8,7 +8,7 @@ import axios from "axios";
 import { useState } from "react";
 import { Button } from "../Button";
 import { toast } from "react-hot-toast";
-export function NotificationOverlay({ open, setOpen }) {
+export function NotificationOverlay({ open, setOpen, setHasNotification }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -24,8 +24,9 @@ export function NotificationOverlay({ open, setOpen }) {
           },
         }
       );
-      console.log(response.data.data);
+      console.log("notification", response.data.data);
       setData(response.data.data);
+      setHasNotification(response.data.data.length > 0 ? true : false);
     } catch (error) {
       setError(true);
       console.log(error);
@@ -45,6 +46,7 @@ export function NotificationOverlay({ open, setOpen }) {
       );
       console.log(response.data);
       setData([]);
+      setHasNotification(false);
       toast.success("Notifications cleared");
     } catch (error) {
       toast.error("Failed to clear notifications");

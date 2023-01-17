@@ -159,10 +159,10 @@ export function Footer() {
         </div> */}
       </div>
       <div className="mt-4 mx-auto">
-        <Alert
+        {/* <Alert
           status="warning"
           message="Do not store any sensitive information. Any sensitive information will be lost."
-        />
+        /> */}
       </div>
     </div>
   );

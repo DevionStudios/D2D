@@ -124,23 +124,31 @@ export function Profile({ user, isMe, username, currentUser }) {
                       Edit Profile
                     </Button>
                   ) : !currentUser.annonymous ? (
-                    <FollowButton
-                      isFollowing={
-                        user.followers.length > 0
-                          ? user.followers.map((follower, index) => {
-                              if (follower.id === currentUser.id) {
-                                return true;
-                              }
-                              if (index === user.followers.length - 1)
-                                return false;
-                            })
-                          : false
-                      }
-                      username={user.username}
-                      id={user.id}
-                      size={isMobile ? "base" : "lg"}
-                      currentUser={currentUser}
-                    />
+                    <>
+                      <FollowButton
+                        isFollowing={
+                          user.followers.length > 0
+                            ? user.followers.map((follower, index) => {
+                                if (follower.id === currentUser.id) {
+                                  return true;
+                                }
+                                if (index === user.followers.length - 1)
+                                  return false;
+                              })
+                            : false
+                        }
+                        username={user.username}
+                        id={user.id}
+                        size={isMobile ? "base" : "lg"}
+                        currentUser={currentUser}
+                      />
+                      <Button
+                        href={`/chat/${user.id}`}
+                        size={isMobile ? "base" : "lg"}
+                      >
+                        Message
+                      </Button>
+                    </>
                   ) : null}
                 </div>
               </div>

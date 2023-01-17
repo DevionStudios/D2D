@@ -5,6 +5,7 @@ import {
   HiOutlineFire,
   HiOutlineHashtag,
   HiOutlineHome,
+  HiOutlineMail,
   HiOutlineUser,
 } from "react-icons/hi";
 import { Feed } from "src/components/Feed";
@@ -14,6 +15,7 @@ import { IndeterminateProgress } from "src/components/ui/Progress";
 import { Redirect } from "./Redirect";
 import { TrendingFeed } from "../../Trending Feed";
 import { TwitterFeed } from "../../Twitter Trends";
+import { BiWallet } from "react-icons/bi";
 const RightSidebar = dynamic(async () => {
   const { RightSidebar } = await import("../Navbar/RightSidebar");
   return RightSidebar;
@@ -42,6 +44,12 @@ export function FeedLayout({ currentUser }) {
       id: "/twittertrends",
     },
     {
+      component: <Redirect pageName={"/messages"} />,
+      icon: HiOutlineMail,
+      name: "Messages",
+      id: "/messages",
+    },
+    {
       component: <Redirect pageName={`/profile/${currentUser.username}`} />,
       icon: HiOutlineUser,
       name: "Profile",
@@ -52,6 +60,11 @@ export function FeedLayout({ currentUser }) {
       icon: HiOutlineCog,
       name: "Settings",
       id: "/account/settings",
+    },
+    {
+      name: "Connect Wallet",
+      id: "connectwallet",
+      component: <Redirect pageName={"/account/settings"} />,
     },
   ]);
   let user = currentUser;

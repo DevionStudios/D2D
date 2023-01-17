@@ -7,6 +7,7 @@ const NOTIFICATION_ICON = {
   USER_FOLLOW: <HiOutlineUserAdd className="text-gray-500" />,
   POST_LIKE: <HiHeart className="text-red-600" />,
   POST_REPLY: <HiOutlineReply className="text-gray-500" />,
+  MESSAGE: <HiOutlineReply className="text-gray-500" />,
 };
 
 export function Notification({ notification }) {
@@ -33,6 +34,14 @@ export function Notification({ notification }) {
                 className="dark:text-blue-300 text-blue-300"
               >
                 post
+              </a>
+            )}
+            {notification.notificationType === "MESSAGE" && (
+              <a
+                href={`/messages`}
+                className="dark:text-blue-300 text-blue-300"
+              >
+                message
               </a>
             )}
           </p>

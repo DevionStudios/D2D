@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
 import { Link } from "src/components/ui/Link";
-import Logo from "../assets/D2D Logo Trans.png";
+import Logo from "../assets/Foxxi Logo.png";
 import { Button } from "src/components/ui/Button";
 import { Heading } from "src/components/ui/Heading";
 import { Step1 } from "src/components/Onboarding/Step1";

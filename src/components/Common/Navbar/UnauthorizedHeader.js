@@ -8,7 +8,7 @@ import { ThemeToggle } from "src/components/ThemeSwitcher";
 
 import { Button } from "src/components/ui/Button";
 import { Heading } from "src/components/ui/Heading";
-import Logo from "../../../assets/D2D Logo Trans.png";
+import Logo from "../../../assets/Foxxi Logo.png";
 import { GradientBar } from "src/components/ui/GradientBar";
 
 export function UnauthorizedHeader() {
@@ -67,15 +67,20 @@ export function UnauthorizedHeader() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                       {/* <Logo />  */}
-                      <Image
-                        src={Logo}
-                        alt="Foxxi Logo"
-                        width={67}
-                        height={67}
-                        onClick={() => {
-                          router.push("/feed");
-                        }}
-                      />
+                      <div
+                        className="flex-shrink-0 flex items-center"
+                        style={{ position: "relative", right: "20%" }}
+                      >
+                        <Link href={`/feed`} passHref>
+                          <Image
+                            src={Logo}
+                            alt="Foxxi"
+                            width={67}
+                            height={67}
+                          />
+                        </Link>
+                        <h1 className="navheader">FOXXI</h1>
+                      </div>
                       <Heading size="h5">Foxxi</Heading>
                       <ThemeToggle />
                     </div>

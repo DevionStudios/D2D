@@ -15,7 +15,7 @@ import { ProfileDropdown } from "./ProfileDropdown";
 import { MobileMenu } from "./MobileMenu";
 import Spinner from "src/components/ui/Spinner";
 import { UnauthorizedHeader } from "./UnauthorizedHeader";
-import Logo from "../../../assets/D2D Logo Trans.png";
+import Logo from "../../../assets/Foxxi Logo.png";
 import { useRouter } from "next/router";
 import { HiOutlineBell } from "react-icons/hi";
 import { NotificationOverlay } from "src/components/ui/Notifications/NotificationOverlay";
@@ -23,6 +23,7 @@ import { NotificationOverlay } from "src/components/ui/Notifications/Notificatio
 export function Navbar({ currentUser }) {
   const router = useRouter();
   const [openNotifications, setNotificationOpen] = useState(false);
+  const [hasNotification, setHasNotification] = useState(false);
   const user = currentUser;
   if (currentUser?.annonymous === true) {
     return (
@@ -64,10 +65,14 @@ export function Navbar({ currentUser }) {
             <div className="bg-white/70 dark:bg-black backdrop-blur-md px-4 sm:px-6 lg:px-8 fixed top-0.5 z-10 w-full">
               <div className="mx-auto max-w-7xl relative flex justify-between xl:grid xl:grid-cols-12 lg:gap-8">
                 <div className="flex md:absolute md:left-0 md:inset-y-0 lg:static xl:col-span-2">
-                  <div className="flex-shrink-0 flex items-center">
+                  <div
+                    className="flex-shrink-0 flex items-center"
+                    style={{ position: "relative", right: "20%" }}
+                  >
                     <Link href={`/feed`}>
                       <Image src={Logo} alt="Foxxi" width={67} height={67} />
                     </Link>
+                    <h1 className="navheader">FOXXI</h1>
                   </div>
                 </div>
                 <div className="min-w-0 flex-1  lg:px-0 lg:max-w-5xl xl:col-span-6 flex-grow">
@@ -102,7 +107,15 @@ export function Navbar({ currentUser }) {
                     className="ml-auto flex-shrink-0 bg-white dark:bg-gray-800 rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-none"
                   >
                     <span className="sr-only">View notifications</span>
-                    <HiOutlineBell className="h-6 w-6" aria-hidden="true" />
+                    <HiOutlineBell
+                      className={
+                        hasNotification
+                          ? "h-6 w-6 text-blue-600  dark:text-blue-500 bg-blue-800"
+                          : "h-6 w-6"
+                      }
+                      style={{ borderRadius: "100%" }}
+                      aria-hidden="true"
+                    />
                   </button>
                   {!user ? (
                     <Spinner className="w-5 h-5" />
@@ -124,6 +137,7 @@ export function Navbar({ currentUser }) {
             <NotificationOverlay
               open={openNotifications}
               setOpen={setNotificationOpen}
+              setHasNotification={setHasNotification}
             />
 
             <MobileMenu
