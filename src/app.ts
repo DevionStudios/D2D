@@ -53,8 +53,10 @@ import { deleteUserRouter } from "./routes/admin/delete-user";
 import { createNotificationRouter } from "./routes/notifications/add-notification";
 import { getNotificationRouter } from "./routes/notifications/get-notification";
 import { deleteNotificationRouter } from "./routes/notifications/delete-notification";
-
+import { addMessageRouter } from "./routes/message/add-message";
 import { repostRouter } from "./routes/reposts/repost";
+import { getMessageRouter } from "./routes/message/get-all-message";
+import { getAssociatedUsersRouter } from "./routes/message/get-associated-users";
 
 const app = express();
 app.use(
@@ -122,6 +124,10 @@ app.use(reportUserRouter);
 app.use(deleteUserRouter);
 app.use(toggleBanRouter);
 app.use(createNotificationRouter);
+app.use(addMessageRouter);
+app.use(getMessageRouter);
+app.use(getAssociatedUsersRouter);
+
 app.use(getNotificationRouter);
 app.use(deleteNotificationRouter);
 app.use(repostRouter);
