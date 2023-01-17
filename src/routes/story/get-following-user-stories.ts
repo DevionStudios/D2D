@@ -1,10 +1,7 @@
 import { BadRequestError } from "@devion/common";
 import express, { Request, Response } from "express";
 
-import { Story } from "../../models/Story";
-import { User, UserDoc } from "../../models/User";
-import cloudinary from "../../config/cloudinaryConfig";
-import upload from "../../config/multer.filefilter.config";
+import { User } from "../../models/User";
 import { currentUser } from "../../middlewares/currentuser";
 import mongoose from "mongoose";
 
@@ -29,10 +26,7 @@ router.get(
         throw new BadRequestError("User not found!");
       }
 
-      res.status(200).send({
-        message: "Stories fetched successfully",
-        stories: existingUser.following,
-      });
+      res.status(200).send(existingUser.following);
     } catch (error) {
       console.log(error);
       res.status(400).send({ message: error });

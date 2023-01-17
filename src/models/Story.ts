@@ -34,7 +34,7 @@ const StorySchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    expire_at: {
+    expireAt: {
       type: Date,
       default: Date.now,
       expires: 86400,

@@ -52,6 +52,7 @@ import { getAllCommentRouter } from "./routes/comments/get-all-comment";
 import { deleteUserRouter } from "./routes/admin/delete-user";
 import { repostRouter } from "./routes/reposts/repost";
 import { createStoryRouter } from "./routes/story/create-story";
+import { getAllStoriesRouter } from "./routes/story/get-stories";
 import { getFollowingUserStoriesRouter } from "./routes/story/get-following-user-stories";
 
 const app = express();
@@ -120,6 +121,7 @@ app.use(reportUserRouter);
 app.use(deleteUserRouter);
 app.use(toggleBanRouter);
 app.use(repostRouter);
+app.use(getAllStoriesRouter);
 app.use(createStoryRouter);
 app.use(getFollowingUserStoriesRouter);
 
