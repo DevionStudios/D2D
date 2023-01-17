@@ -26,12 +26,10 @@ router.post(
     if (!passwordsMatch) {
       throw new BadRequestError("Invalid Code Given");
     }
+    existingVerification.code = "verified";
+    await existingVerification.save();
+    console.log(existingVerification);
 
-    const deletedVerification = await Verification.deleteOne({
-      email: email,
-    });
-
-    console.log(deletedVerification);
     res.status(200).send({ message: "verified" });
   }
 );

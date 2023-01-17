@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import { app } from "./app";
 import dotenv from "dotenv";
+const socket = require("socket.io");
+import { Socket } from "socket.io";
 dotenv.config();
 
 const start = async () => {
@@ -29,8 +31,30 @@ const start = async () => {
     await mongoose.connect(process.env.MONGO_URI, {});
     console.log("Connected to MongoDb");
 
-    app.listen(PORT || 3000, () => {
+    const server = app.listen(PORT || 3000, () => {
       console.log(`Listening on port ${PORT}!`);
+    });
+    const io = socket(server, {
+      cors: {
+        origin: "http://localhost:3000",
+        credentials: true,
+      },
+    });
+
+    let onlineUsers = new Map();
+    io.on("connection", (socket: Socket) => {
+      let chatSocket = socket;
+
+      socket.on("add-user", (userId: string) => {
+        onlineUsers.set(userId, socket.id);
+      });
+
+      socket.on("send-msg", (data: { to: string; message: string }) => {
+        const sendUserSocket = onlineUsers.get(data.to);
+        if (sendUserSocket) {
+          io.to(sendUserSocket).emit("recieve-msg", data.message);
+        }
+      });
     });
   } catch (err) {
     console.error(err);

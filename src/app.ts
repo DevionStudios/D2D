@@ -50,10 +50,16 @@ import { toggleBanRouter } from "./routes/admin/ban-user";
 import { getAllUserRouter } from "./routes/admin/get-all-users";
 import { getAllCommentRouter } from "./routes/comments/get-all-comment";
 import { deleteUserRouter } from "./routes/admin/delete-user";
+import { createNotificationRouter } from "./routes/notifications/add-notification";
+import { getNotificationRouter } from "./routes/notifications/get-notification";
+import { deleteNotificationRouter } from "./routes/notifications/delete-notification";
+import { addMessageRouter } from "./routes/message/add-message";
 import { repostRouter } from "./routes/reposts/repost";
 import { createStoryRouter } from "./routes/story/create-story";
 import { getAllStoriesRouter } from "./routes/story/get-stories";
 import { getFollowingUserStoriesRouter } from "./routes/story/get-following-user-stories";
+import { getMessageRouter } from "./routes/message/get-all-message";
+import { getAssociatedUsersRouter } from "./routes/message/get-associated-users";
 
 const app = express();
 app.use(
@@ -120,6 +126,13 @@ app.use(reportPostRouter);
 app.use(reportUserRouter);
 app.use(deleteUserRouter);
 app.use(toggleBanRouter);
+app.use(createNotificationRouter);
+app.use(addMessageRouter);
+app.use(getMessageRouter);
+app.use(getAssociatedUsersRouter);
+
+app.use(getNotificationRouter);
+app.use(deleteNotificationRouter);
 app.use(repostRouter);
 app.use(getAllStoriesRouter);
 app.use(createStoryRouter);
