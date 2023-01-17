@@ -4,7 +4,6 @@ import { DefaultSeo } from "next-seo";
 import { useTheme, ThemeProvider } from "next-themes";
 import { Toaster } from "react-hot-toast";
 import { MoralisProvider } from "react-moralis";
-import { SessionProvider } from "next-auth/react";
 import { NotificationProvider } from "@web3uikit/core";
 
 import "../styles.css";
@@ -38,11 +37,7 @@ function MyApp({ Component, pageProps, currentUser }) {
         <Toaster position="top-right" toastOptions={toastOptions} />
         <MoralisProvider initializeOnMount={false}>
           <NotificationProvider>
-            <SessionProvider session={pageProps.session}>
-              {getLayout(
-                <Component {...pageProps} currentUser={currentUser} />
-              )}
-            </SessionProvider>
+            {getLayout(<Component {...pageProps} currentUser={currentUser} />)}
           </NotificationProvider>
         </MoralisProvider>
       </ThemeProvider>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import {
+  HiOutlineBookOpen,
   HiOutlineCog,
   HiOutlineFire,
   HiOutlineHashtag,
@@ -9,7 +10,6 @@ import {
 } from "react-icons/hi";
 import { Feed } from "src/components/Feed";
 import { TabbedLayout } from "../Navbar/TabbedLayout";
-import { CurrentUser } from "src/components/User/CurrentUser";
 import { IndeterminateProgress } from "src/components/ui/Progress";
 import { Redirect } from "./Redirect";
 import { TrendingFeed } from "../../Trending Feed";
@@ -57,25 +57,6 @@ export function FeedLayout({ currentUser }) {
   let user = currentUser;
   let loading = false;
 
-  // useEffect(() => {
-  //   if (!currentUser.annonymous && navigation.length < 5) {
-  //     navigation.push(
-  //       {
-  //         component: <Redirect pageName={`/profile/${currentUser.username}`} />,
-  //         icon: HiOutlineUser,
-  //         name: "Profile",
-  //         id: `/profile/${currentUser.username}`,
-  //       },
-  //       {
-  //         component: <Redirect pageName={"/account/settings"} />,
-  //         icon: HiOutlineCog,
-  //         name: "Settings",
-  //         id: "/account/settings",
-  //       }
-  //     );
-  //     setNavigation(navigation);
-  //   }
-  // }, []);
   if (loading)
     return (
       <div className="mt-[74px]">
@@ -92,9 +73,6 @@ export function FeedLayout({ currentUser }) {
             navigation={navigation}
             currentUser={currentUser}
           />
-          {/* <div className="hidden lg:block fixed bottom-8">
-            <CurrentUser currentUser={currentUser} />
-          </div> */}
         </div>
         <div className=" lg:block lg:col-span-3">
           <RightSidebar currentUser={currentUser} />

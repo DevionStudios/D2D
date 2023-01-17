@@ -164,14 +164,6 @@ export function PostCard({ id, username, currentUser }) {
       />
     );
 
-  // const shareData = {
-  //   title: `${data.author.username} on Foxxi.`,
-  //   text: `${
-  //     data.seePost.caption ?? "Check it out now! See what they have to say."
-  //   }`,
-  //   url: `https://foxxi.vercel.app/post/${data.seePost.id}`,
-  // };
-
   return data && data.author ? (
     <>
       <SEO
@@ -185,7 +177,6 @@ export function PostCard({ id, username, currentUser }) {
       <div className="max-w-2xl mx-auto flex flex-wrap space-y-4 relative">
         <div className="absolute -left-24 top-5">
           <Button variant="dark" onClick={() => router.push("/feed")}>
-            {" "}
             ← Back
           </Button>
         </div>

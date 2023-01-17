@@ -29,8 +29,6 @@ export function DonateModal({
   const tip = async (values) => {
     const networkChainId = chainId?.toString().split("0x")[1] || "5";
     const amountToSend = values.amount; // since 18 decimals for token is reserved
-    // !remove console.log("Fund Contract Address: ", networkMapping[5]["FundContract"]);
-    // !remove console.log(chainId);
     const { ethereum } = window;
     if (
       ethereum &&

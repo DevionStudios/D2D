@@ -103,6 +103,19 @@ export function MobileMenu({ open, user, closeFx, signout }) {
           </div>
           <div className="mt-3 max-w-3xl mx-auto px-2 space-y-1 sm:px-4">
             <Button
+              className="mt-2"
+              fullWidth
+              onClick={() => {
+                closeFx();
+                router.push("/stories/new", undefined, { shallow: true });
+              }}
+              size="lg"
+            >
+              New Story
+            </Button>
+          </div>
+          <div className="mt-3 max-w-3xl mx-auto px-2 space-y-1 sm:px-4">
+            <Button
               variant="dark"
               className="mt-2"
               fullWidth

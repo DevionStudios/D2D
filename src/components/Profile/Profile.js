@@ -18,12 +18,23 @@ import { toast } from "react-hot-toast";
 export function Profile({ user, isMe, username, currentUser }) {
   const isMobile = useMediaQuery(MEDIA_QUERIES.SMALL);
   const [userPosts, setUserPosts] = useState(undefined);
+  const [userStories, setUserStories] = useState(undefined);
   const fetchUserPost = async function () {
     try {
       const { data } = await axios.get(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${user.username}`
       );
       setUserPosts(data);
+    } catch (error) {
+      // !remove console.log(error);
+    }
+  };
+  const fetchUserStories = async function () {
+    try {
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/story/${user.username}`
+      );
+      setUserStories(data);
     } catch (error) {
       // !remove console.log(error);
     }
@@ -56,6 +67,7 @@ export function Profile({ user, isMe, username, currentUser }) {
 
   useEffect(() => {
     fetchUserPost();
+    fetchUserStories();
   }, []);
   return user ? (
     !user.isBanned ? (
@@ -190,6 +202,8 @@ export function Profile({ user, isMe, username, currentUser }) {
             username={user.username}
             currentUser={currentUser}
             user={user}
+            storiesCount={userStories ? userStories.length : 0}
+            stories={userStories || []}
           />
         </div>
       </div>

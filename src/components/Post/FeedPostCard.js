@@ -154,13 +154,18 @@ export function FeedPostCard(props) {
         <article>
           <div className="px-6 py-4">
             <div className="flex space-x-3">
-              <div className="flex-shrink-0">
-                <img
-                  className="h-10 w-10 rounded-full object-cover"
-                  src={props.post.author.image}
-                  alt={`Profile image of ${props.post.author.username}`}
-                />
-              </div>
+              <Link
+                href={`/stories/${props.post.author.username}`}
+                className="no-underline"
+              >
+                <div className="flex-shrink-0">
+                  <img
+                    className="h-10 w-10 rounded-full object-cover"
+                    src={props.post.author.image}
+                    alt={`Profile image of ${props.post.author.username}`}
+                  />
+                </div>
+              </Link>
               <div className="min-w-0 flex-1">
                 <Link
                   href={`/profile/${props.post.author.username}`}

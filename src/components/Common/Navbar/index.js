@@ -113,7 +113,13 @@ export function Navbar({ currentUser }) {
                     href={`/post/new`}
                     className="ml-6 text-sm no-underline"
                   >
-                    <Button size="sm">New Post</Button>
+                    <Button size="sm">Post</Button>
+                  </Link>
+                  <Link
+                    href={`/stories/new`}
+                    className="ml-6 text-sm no-underline"
+                  >
+                    <Button size="sm">Story</Button>
                   </Link>
                   <Button size="sm" onClick={signout}>
                     Sign Out
