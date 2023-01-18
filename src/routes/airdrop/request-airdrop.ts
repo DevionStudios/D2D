@@ -16,7 +16,7 @@ ${message}`;
       service: "gmail",
       auth: {
         user: process.env.HELPLINE_EMAIL,
-        pass: process.env.HELPLINE_EMAIL_APP_PASSWORD,
+        pass: process.env.HELPLINE_GMAIL_PASSWORD,
       },
     });
 
