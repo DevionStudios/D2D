@@ -8,18 +8,18 @@ const router = express.Router();
 router.post(
   "/api/verification/generate",
   async (req: Request, res: Response) => {
-    const { GMAIL } = req.body;
+    const { email } = req.body;
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     try {
       // check if already exists
-      const existingVerification = await Verification.findOne({ GMAIL: GMAIL });
+      const existingVerification = await Verification.findOne({ email: email });
       if (existingVerification) {
         existingVerification.code = code;
         await existingVerification.save();
       } else {
         // create new verification
         const verification = Verification.build({
-          GMAIL: GMAIL,
+          email: email,
           code: code,
         });
         await verification.save();
@@ -28,16 +28,16 @@ router.post(
       const codeText = `Your verification code is: ${code}. Please Enter this code to verify your account.`;
       const subject = `Verification code from Foxxi`;
       var transporter = nodemailer.createTransport({
-        service: "gmail",
+        service: "email",
         auth: {
           user: process.env.GMAIL,
-          pass: process.env.GMAIL_PASSWORD,
+          pass: process.env._PASSWORD,
         },
       });
 
       var mailOptions = {
         from: process.env.GMAIL,
-        to: GMAIL,
+        to: email,
         subject: subject,
         text: codeText,
       };
@@ -48,7 +48,7 @@ router.post(
             console.log(error);
             reject(error);
           } else {
-            console.log("GMAIL sent: " + info.response);
+            console.log("email sent: " + info.response);
             resolve(info);
           }
         });

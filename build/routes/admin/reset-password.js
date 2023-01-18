@@ -21,9 +21,9 @@ const router = express_1.default.Router();
 exports.resetAdminPasswordRouter = router;
 router.put("/api/admin/resetpassword", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { GMAIL, password } = req.body;
+        const { email, password } = req.body;
         const existingAdmin = yield Admin_1.Admin.findOne({
-            GMAIL: GMAIL,
+            email: email,
         });
         if (!existingAdmin) {
             throw new common_1.BadRequestError("Admin not found");
@@ -31,7 +31,7 @@ router.put("/api/admin/resetpassword", (req, res) => __awaiter(void 0, void 0, v
         existingAdmin.password = password;
         yield existingAdmin.save();
         const userJwt = jsonwebtoken_1.default.sign({
-            GMAIL: existingAdmin.GMAIL,
+            email: existingAdmin.email,
             username: existingAdmin.username,
             id: existingAdmin.id,
         }, process.env.JWT_KEY);

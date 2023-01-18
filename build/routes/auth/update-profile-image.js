@@ -23,9 +23,9 @@ router.put("/api/users/imageupdate", currentuser_1.currentUser, (req, res) => __
     try {
         const { image } = req.body;
         let existingUser;
-        if (req.foxxiUser.GMAIL)
+        if (req.foxxiUser.email)
             existingUser = yield User_1.User.findOne({
-                GMAIL: req.foxxiUser.GMAIL,
+                email: req.foxxiUser.email,
             });
         else
             existingUser = yield User_1.User.findOne({

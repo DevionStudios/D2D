@@ -21,8 +21,8 @@ exports.currentAdminRouter = router;
 router.get("/api/admin/currentadmin", currentadmin_1.currentAdmin, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { admin } = req;
     if (admin) {
-        const GMAIL = admin.GMAIL;
-        const currentAdmin = yield Admin_1.Admin.findOne({ GMAIL: GMAIL });
+        const email = admin.email;
+        const currentAdmin = yield Admin_1.Admin.findOne({ email: email });
         res.json({ currentAdmin: currentAdmin });
     }
     else

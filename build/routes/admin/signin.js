@@ -24,8 +24,8 @@ const router = express_1.default.Router();
 exports.adminSigninRouter = router;
 router.post("/api/admin/signin", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { GMAIL, password } = req.body;
-        const existingAdmin = yield Admin_1.Admin.findOne({ GMAIL: GMAIL });
+        const { email, password } = req.body;
+        const existingAdmin = yield Admin_1.Admin.findOne({ email: email });
         if (!existingAdmin) {
             throw new Error("Admin does not exist!");
         }
@@ -37,7 +37,7 @@ router.post("/api/admin/signin", (req, res) => __awaiter(void 0, void 0, void 0,
         }
         // Generate JWT
         const adminJwt = jsonwebtoken_1.default.sign({
-            GMAIL: existingAdmin.GMAIL,
+            email: existingAdmin.email,
             adminname: existingAdmin.username,
             id: existingAdmin.id,
         }, process.env.JWT_KEY);

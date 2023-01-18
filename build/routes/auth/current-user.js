@@ -22,11 +22,11 @@ router.get("/api/users/currentuser", currentuser_1.currentUser, (req, res) => __
     const { foxxiUser } = req;
     try {
         if (foxxiUser) {
-            const GMAIL = foxxiUser.GMAIL;
+            const email = foxxiUser.email;
             const accountWallet = foxxiUser.accountWallet;
             let user;
-            if (GMAIL)
-                user = yield User_1.User.findOne({ GMAIL: GMAIL }).populate({
+            if (email)
+                user = yield User_1.User.findOne({ email: email }).populate({
                     path: "following",
                 });
             else if (accountWallet)

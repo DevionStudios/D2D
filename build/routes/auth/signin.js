@@ -24,10 +24,10 @@ const router = express_1.default.Router();
 exports.signinRouter = router;
 router.post("/api/users/signin", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { GMAIL, password, accountWallet } = req.body;
+        const { email, password, accountWallet } = req.body;
         let existingUser;
-        if (GMAIL && GMAIL.length > 0)
-            existingUser = yield User_1.User.findOne({ GMAIL });
+        if (email && email.length > 0)
+            existingUser = yield User_1.User.findOne({ email });
         else
             existingUser = yield User_1.User.findOne({ accountWallet });
         if (!existingUser) {
@@ -41,9 +41,9 @@ router.post("/api/users/signin", (req, res) => __awaiter(void 0, void 0, void 0,
         }
         // Generate JWT
         let userJwt;
-        if (GMAIL && GMAIL.length > 0)
+        if (email && email.length > 0)
             userJwt = jsonwebtoken_1.default.sign({
-                GMAIL: existingUser.GMAIL,
+                email: existingUser.email,
                 username: existingUser.username,
                 id: existingUser.id,
             }, process.env.JWT_KEY);

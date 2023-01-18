@@ -20,12 +20,12 @@ const Verification_1 = require("../../models/Verification");
 const router = express_1.default.Router();
 exports.verifyCodeRouter = router;
 router.post("/api/verification/compare", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { code, GMAIL } = req.body;
+    const { code, email } = req.body;
     const existingVerification = yield Verification_1.Verification.findOne({
-        GMAIL: GMAIL,
+        email: email,
     });
     if (!existingVerification) {
-        throw new common_1.BadRequestError("GMAIL not found");
+        throw new common_1.BadRequestError("email not found");
     }
     console.log(code);
     const passwordsMatch = yield password_1.Password.compare(existingVerification.code, code);

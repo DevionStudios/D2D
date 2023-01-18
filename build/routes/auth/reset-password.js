@@ -21,9 +21,9 @@ const router = express_1.default.Router();
 exports.resetPasswordRouter = router;
 router.put("/api/users/resetpassword", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { GMAIL, password } = req.body;
+        const { email, password } = req.body;
         const existingUser = yield User_1.User.findOne({
-            GMAIL: GMAIL,
+            email: email,
         });
         if (!existingUser) {
             throw new common_1.BadRequestError("User not found");
@@ -31,9 +31,9 @@ router.put("/api/users/resetpassword", (req, res) => __awaiter(void 0, void 0, v
         existingUser.password = password;
         yield existingUser.save();
         let userJwt;
-        if (GMAIL && GMAIL.length > 0)
+        if (email && email.length > 0)
             userJwt = jsonwebtoken_1.default.sign({
-                GMAIL: existingUser.GMAIL,
+                email: existingUser.email,
                 username: existingUser.username,
                 id: existingUser.id,
             }, process.env.JWT_KEY);

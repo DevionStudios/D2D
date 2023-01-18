@@ -16,7 +16,7 @@ exports.Admin = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const password_1 = require("../services/password");
 const AdminSchema = new mongoose_1.default.Schema({
-    GMAIL: {
+    email: {
         type: String,
         required: false,
     },

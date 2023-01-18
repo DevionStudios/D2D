@@ -30,9 +30,9 @@ router.post("/api/admin/signup", [
     (0, express_validator_1.body)("password").trim().notEmpty().withMessage("Password is required"),
 ], common_1.validateRequest, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { GMAIL, password, username } = req.body;
-        // check if GMAIL is provided
-        const existingAdmin = yield Admin_1.Admin.findOne({ GMAIL: GMAIL });
+        const { email, password, username } = req.body;
+        // check if email is provided
+        const existingAdmin = yield Admin_1.Admin.findOne({ email: email });
         if (existingAdmin) {
             throw new common_1.BadRequestError("User already signed up");
         }
@@ -42,11 +42,11 @@ router.post("/api/admin/signup", [
         if (AdminWithSameAdminname) {
             throw new common_1.BadRequestError("Username already in use");
         }
-        const admin = Admin_1.Admin.build({ GMAIL, password, username });
+        const admin = Admin_1.Admin.build({ email, password, username });
         yield admin.save();
         // Generate JWT
         const AdminJwt = jsonwebtoken_1.default.sign({
-            GMAIL: admin.GMAIL,
+            email: admin.email,
             Adminname: admin.username,
             id: admin.id,
         }, process.env.JWT_KEY);

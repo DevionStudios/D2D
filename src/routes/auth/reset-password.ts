@@ -8,10 +8,10 @@ const router = express.Router();
 
 router.put("/api/users/resetpassword", async (req: Request, res: Response) => {
   try {
-    const { GMAIL, password } = req.body;
+    const { email, password } = req.body;
 
     const existingUser = await User.findOne({
-      GMAIL: GMAIL,
+      email: email,
     });
 
     if (!existingUser) {
@@ -23,10 +23,10 @@ router.put("/api/users/resetpassword", async (req: Request, res: Response) => {
     await existingUser.save();
 
     let userJwt;
-    if (GMAIL && GMAIL.length > 0)
+    if (email && email.length > 0)
       userJwt = jwt.sign(
         {
-          GMAIL: existingUser.GMAIL,
+          email: existingUser.email,
           username: existingUser.username,
           id: existingUser.id,
         },

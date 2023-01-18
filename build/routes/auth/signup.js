@@ -32,11 +32,11 @@ router.post("/api/users/signup", [
     (0, express_validator_1.body)("name").trim().notEmpty().withMessage("Name is required"),
 ], common_1.validateRequest, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { GMAIL, password, username, name, accountWallet } = req.body;
-        // check if GMAIL is provided
+        const { email, password, username, name, accountWallet } = req.body;
+        // check if email is provided
         let existingUser;
-        if (GMAIL && GMAIL.length > 0)
-            existingUser = yield User_1.User.findOne({ GMAIL });
+        if (email && email.length > 0)
+            existingUser = yield User_1.User.findOne({ email });
         else
             existingUser = yield User_1.User.findOne({ accountWallet });
         if (existingUser) {
@@ -47,10 +47,10 @@ router.post("/api/users/signup", [
             throw new common_1.BadRequestError("Username already in use");
         }
         let user;
-        if (GMAIL && GMAIL.length > 0) {
-            user = User_1.User.build({ GMAIL, password, username, name });
+        if (email && email.length > 0) {
+            user = User_1.User.build({ email, password, username, name });
             const existingVerification = yield Verification_1.Verification.findOne({
-                GMAIL: GMAIL,
+                email: email,
             });
             if (!existingVerification) {
                 return res.status(400).send({ message: "Verify Yourself First!" });
@@ -60,7 +60,7 @@ router.post("/api/users/signup", [
                 return res.status(400).send({ message: "Verify Yourself First!" });
             }
             const deleteVerification = yield Verification_1.Verification.deleteOne({
-                GMAIL: GMAIL,
+                email: email,
             });
             console.log(deleteVerification);
         }
@@ -69,9 +69,9 @@ router.post("/api/users/signup", [
         yield user.save();
         // Generate JWT
         let userJwt;
-        if (GMAIL && GMAIL.length > 0)
+        if (email && email.length > 0)
             userJwt = jsonwebtoken_1.default.sign({
-                GMAIL: user.GMAIL,
+                email: user.email,
                 username: user.username,
                 id: user.id,
             }, process.env.JWT_KEY);

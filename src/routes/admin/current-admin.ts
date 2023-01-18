@@ -8,9 +8,9 @@ const router = express.Router();
 router.get("/api/admin/currentadmin", currentAdmin, async (req, res) => {
   const { admin } = req;
   if (admin) {
-    const GMAIL = admin.GMAIL;
+    const email = admin.email;
 
-    const currentAdmin = await Admin.findOne({ GMAIL: GMAIL });
+    const currentAdmin = await Admin.findOne({ email: email });
 
     res.json({ currentAdmin: currentAdmin });
   } else res.json({ currentAdmin: undefined });

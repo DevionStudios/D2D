@@ -23,12 +23,12 @@ router.post(
   validateRequest,
   async (req: Request, res: Response) => {
     try {
-      const { GMAIL, password, username, name, accountWallet } = req.body;
+      const { email, password, username, name, accountWallet } = req.body;
 
-      // check if GMAIL is provided
+      // check if email is provided
       let existingUser: any;
-      if (GMAIL && GMAIL.length > 0)
-        existingUser = await User.findOne({ GMAIL });
+      if (email && email.length > 0)
+        existingUser = await User.findOne({ email });
       else existingUser = await User.findOne({ accountWallet });
 
       if (existingUser) {
@@ -40,10 +40,10 @@ router.post(
         throw new BadRequestError("Username already in use");
       }
       let user;
-      if (GMAIL && GMAIL.length > 0) {
-        user = User.build({ GMAIL, password, username, name });
+      if (email && email.length > 0) {
+        user = User.build({ email, password, username, name });
         const existingVerification = await Verification.findOne({
-          GMAIL: GMAIL,
+          email: email,
         });
         if (!existingVerification) {
           return res.status(400).send({ message: "Verify Yourself First!" });
@@ -56,7 +56,7 @@ router.post(
           return res.status(400).send({ message: "Verify Yourself First!" });
         }
         const deleteVerification = await Verification.deleteOne({
-          GMAIL: GMAIL,
+          email: email,
         });
         console.log(deleteVerification);
       } else user = User.build({ username, name, accountWallet });
@@ -64,10 +64,10 @@ router.post(
 
       // Generate JWT
       let userJwt;
-      if (GMAIL && GMAIL.length > 0)
+      if (email && email.length > 0)
         userJwt = jwt.sign(
           {
-            GMAIL: user.GMAIL,
+            email: user.email,
             username: user.username,
             id: user.id,
           },

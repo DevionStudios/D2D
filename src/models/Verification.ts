@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { Password } from "../services/password";
 
 interface VerificationAttrs {
-  GMAIL: string;
+  email: string;
   code: string;
 }
 
@@ -11,13 +11,13 @@ interface VerificationModel extends mongoose.Model<VerificationDoc> {
 }
 
 export interface VerificationDoc extends mongoose.Document {
-  GMAIL?: string;
+  email?: string;
   code?: string;
 }
 
 const VerificationSchema = new mongoose.Schema(
   {
-    GMAIL: {
+    email: {
       type: String,
     },
     code: {
