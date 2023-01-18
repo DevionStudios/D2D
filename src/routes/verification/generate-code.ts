@@ -31,7 +31,7 @@ router.post(
         service: "email",
         auth: {
           user: process.env.GMAIL,
-          pass: process.env._PASSWORD,
+          pass: process.env.GMAIL_PASSWORD,
         },
       });
 

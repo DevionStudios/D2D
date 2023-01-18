@@ -22,7 +22,7 @@ ${message}`;
 
     var mailOptions = {
       from: process.env.GMAIL_HELP,
-      to: process.env._HELP,
+      to: process.env.GMAIL_HELP,
       subject: subject,
       text: codeText,
     };
