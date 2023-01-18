@@ -13,7 +13,7 @@ Message from ${email}:
 ${message}`;
     const subject = `Foxxi Token Airdrop Request`;
     var transporter = nodemailer.createTransport({
-      service: "email",
+      service: "gmail",
       auth: {
         user: process.env.GMAIL_HELP,
         pass: process.env.GMAIL_HELP_APP_PASSWORD,

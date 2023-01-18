@@ -28,7 +28,7 @@ router.post(
       const codeText = `Your verification code is: ${code}. Please Enter this code to verify your account.`;
       const subject = `Verification code from Foxxi`;
       var transporter = nodemailer.createTransport({
-        service: "email",
+        service: "gmail",
         auth: {
           user: process.env.GMAIL,
           pass: process.env.GMAIL_PASSWORD,
