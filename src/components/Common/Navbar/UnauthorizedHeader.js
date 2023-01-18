@@ -14,7 +14,7 @@ import { GradientBar } from "src/components/ui/GradientBar";
 export function UnauthorizedHeader() {
   const router = useRouter();
   return (
-    <div className="mb-[-90px]">
+    <div className="mb-[-90px] fixed">
       <header>
         <GradientBar
           color="indigo"
