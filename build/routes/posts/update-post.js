@@ -30,7 +30,10 @@ router.put("/api/posts/edit/:id", currentuser_1.currentUser, (req, res) => __awa
         throw new common_1.BadRequestError("Post not found");
     }
     if (post.author.id !== user.id) {
-        throw new common_1.BadRequestError("You are not authorized to edit this post");
+        return res.send({ message: "You are not authorized to edit this post" });
+    }
+    if (post.originalPostId) {
+        throw new common_1.BadRequestError("You can't edit reposted posts");
     }
     post.caption = caption;
     yield post.save();

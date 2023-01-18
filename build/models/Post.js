@@ -36,13 +36,17 @@ const PostSchema = new mongoose_1.default.Schema({
         ],
         default: [],
     },
+    reposts: {
+        type: Number,
+        default: 0,
+    },
     media: {
         type: String,
-        default: null,
+        default: "",
     },
     gifLink: {
         type: String,
-        default: null,
+        default: "",
     },
     twitterId: {
         type: String,
@@ -55,6 +59,10 @@ const PostSchema = new mongoose_1.default.Schema({
             },
         ],
         default: [],
+    },
+    originalPostId: {
+        type: String,
+        default: "",
     },
 }, {
     toJSON: {

@@ -12,24 +12,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllUserRouter = void 0;
-const common_1 = require("@devion/common");
+exports.createNotificationRouter = void 0;
 const express_1 = __importDefault(require("express"));
-const User_1 = require("../../models/User");
+const Notification_1 = require("../../models/Notification");
+const currentuser_1 = require("../../middlewares/currentuser");
 const router = express_1.default.Router();
-exports.getAllUserRouter = router;
-router.get("/api/admin/getusers", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.createNotificationRouter = router;
+router.post("/api/notification/create", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const existingUser = yield User_1.User.find()
-            .populate("followers")
-            .populate("following");
-        if (!existingUser) {
-            throw new common_1.BadRequestError("User not found!");
-        }
-        res.status(200).send(existingUser);
+        const { notification, userId, notificationType, username, postId } = req.body;
+        const notificationBuild = Notification_1.Notification.build({
+            notification: notification,
+            userId: userId,
+            notificationType: notificationType,
+            username: username,
+            postId: postId || null,
+        });
+        yield notificationBuild.save();
+        res.status(201).send({ message: "Notification created!" });
     }
     catch (err) {
         console.log(err);
-        res.status(400).send({ message: err });
+        res.send({ message: err });
     }
 }));

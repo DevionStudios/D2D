@@ -12,24 +12,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllUserRouter = void 0;
-const common_1 = require("@devion/common");
+exports.getNotificationRouter = void 0;
 const express_1 = __importDefault(require("express"));
-const User_1 = require("../../models/User");
+const Notification_1 = require("../../models/Notification");
+const currentuser_1 = require("../../middlewares/currentuser");
 const router = express_1.default.Router();
-exports.getAllUserRouter = router;
-router.get("/api/admin/getusers", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getNotificationRouter = router;
+router.get("/api/notification/get", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b, _c;
     try {
-        const existingUser = yield User_1.User.find()
-            .populate("followers")
-            .populate("following");
-        if (!existingUser) {
-            throw new common_1.BadRequestError("User not found!");
-        }
-        res.status(200).send(existingUser);
+        console.log("No string", (_a = req.foxxiUser) === null || _a === void 0 ? void 0 : _a.id);
+        console.log("currentId", (_b = req.foxxiUser) === null || _b === void 0 ? void 0 : _b.id.toString());
+        const notifications = yield Notification_1.Notification.find({
+            userId: (_c = req.foxxiUser) === null || _c === void 0 ? void 0 : _c.id.toString(),
+        }).sort({
+            createdAt: -1,
+        });
+        res.status(201).send({ data: notifications });
     }
     catch (err) {
         console.log(err);
-        res.status(400).send({ message: err });
+        res.send({ message: err });
     }
 }));

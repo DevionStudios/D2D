@@ -33,6 +33,17 @@ router.delete("/api/posts/delete/:id", currentuser_1.currentUser, (req, res) => 
         if (existingPost.author.id !== ((_a = req.foxxiUser) === null || _a === void 0 ? void 0 : _a.id)) {
             throw new common_1.BadRequestError("You are not the author!");
         }
+        // decrement original posts reposts
+        if (existingPost.originalPostId) {
+            const originalPost = yield Post_1.Post.findOne({
+                _id: new mongoose_1.default.Types.ObjectId(existingPost.originalPostId),
+            });
+            if (!originalPost) {
+                throw new common_1.BadRequestError("Original post not found!");
+            }
+            originalPost.reposts = originalPost.reposts - 1;
+            yield originalPost.save();
+        }
         yield Post_1.Post.deleteOne({ _id: new mongoose_1.default.Types.ObjectId(id) });
         res.status(204).send({ message: "Post deleted!" });
     }

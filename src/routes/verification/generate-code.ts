@@ -1,4 +1,4 @@
-import * as nodGMAILer from "nodGMAILer";
+import * as nodemailer from "nodemailer";
 import express, { Request, Response } from "express";
 
 import { Verification } from "../../models/Verification";
@@ -27,7 +27,7 @@ router.post(
 
       const codeText = `Your verification code is: ${code}. Please Enter this code to verify your account.`;
       const subject = `Verification code from Foxxi`;
-      var transporter = nodGMAILer.createTransport({
+      var transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
           user: process.env.GMAIL,

@@ -12,24 +12,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllUserRouter = void 0;
-const common_1 = require("@devion/common");
+exports.getAllStoriesRouter = void 0;
 const express_1 = __importDefault(require("express"));
+const Story_1 = require("../../models/Story");
 const User_1 = require("../../models/User");
 const router = express_1.default.Router();
-exports.getAllUserRouter = router;
-router.get("/api/admin/getusers", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getAllStoriesRouter = router;
+router.get("/api/story/:username", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const existingUser = yield User_1.User.find()
-            .populate("followers")
-            .populate("following");
-        if (!existingUser) {
-            throw new common_1.BadRequestError("User not found!");
-        }
-        res.status(200).send(existingUser);
+        const { username } = req.params;
+        const existingUser = yield User_1.User.findOne({
+            username: username,
+        });
+        const stories = yield Story_1.Story.find({
+            author: existingUser,
+        })
+            .sort({ createdAt: -1 })
+            .populate({
+            path: "author",
+        });
+        res.status(200).send(stories);
     }
-    catch (err) {
-        console.log(err);
-        res.status(400).send({ message: err });
+    catch (error) {
+        console.log(error);
+        res.status(400).send({ message: error });
     }
 }));

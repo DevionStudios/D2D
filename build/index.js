@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const app_1 = require("./app");
 const dotenv_1 = __importDefault(require("dotenv"));
+const socket = require("socket.io");
 dotenv_1.default.config();
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -40,8 +41,27 @@ const start = () => __awaiter(void 0, void 0, void 0, function* () {
         mongoose_1.default.set("strictQuery", true);
         yield mongoose_1.default.connect(process.env.MONGO_URI, {});
         console.log("Connected to MongoDb");
-        app_1.app.listen(PORT || 3000, () => {
+        const server = app_1.app.listen(PORT || 3000, () => {
             console.log(`Listening on port ${PORT}!`);
+        });
+        const io = socket(server, {
+            cors: {
+                origin: "http://localhost:3000",
+                credentials: true,
+            },
+        });
+        let onlineUsers = new Map();
+        io.on("connection", (socket) => {
+            let chatSocket = socket;
+            socket.on("add-user", (userId) => {
+                onlineUsers.set(userId, socket.id);
+            });
+            socket.on("send-msg", (data) => {
+                const sendUserSocket = onlineUsers.get(data.to);
+                if (sendUserSocket) {
+                    io.to(sendUserSocket).emit("recieve-msg", data.message);
+                }
+            });
         });
     }
     catch (err) {

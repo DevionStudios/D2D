@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import * as nodGMAILer from "nodGMAILer";
+import * as nodemailer from "nodemailer";
 
 const router = express.Router();
 
@@ -12,7 +12,7 @@ router.post("/api/airdrop/request", async (req: Request, res: Response) => {
 Message from ${GMAIL}: 
 ${message}`;
     const subject = `Foxxi Token Airdrop Request`;
-    var transporter = nodGMAILer.createTransport({
+    var transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: process.env.GMAIL_HELP,

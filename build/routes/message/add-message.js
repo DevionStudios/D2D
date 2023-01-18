@@ -12,24 +12,34 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllUserRouter = void 0;
-const common_1 = require("@devion/common");
+exports.addMessageRouter = void 0;
 const express_1 = __importDefault(require("express"));
+const Message_1 = require("../../models/Message");
+const common_1 = require("@devion/common");
+const currentuser_1 = require("../../middlewares/currentuser");
 const User_1 = require("../../models/User");
+const mongoose_1 = __importDefault(require("mongoose"));
 const router = express_1.default.Router();
-exports.getAllUserRouter = router;
-router.get("/api/admin/getusers", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.addMessageRouter = router;
+router.post("/api/addmessage", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const existingUser = yield User_1.User.find()
-            .populate("followers")
-            .populate("following");
-        if (!existingUser) {
-            throw new common_1.BadRequestError("User not found!");
+        const { text, from, to } = req.body;
+        const authUser = yield User_1.User.findOne({
+            _id: new mongoose_1.default.Types.ObjectId(from),
+        });
+        if (!authUser) {
+            throw new common_1.NotAuthorizedError();
         }
-        res.status(200).send(existingUser);
+        const message = Message_1.Message.build({
+            message: { text },
+            users: [from, to],
+            sender: authUser,
+        });
+        yield message.save();
+        res.status(201).send(message);
     }
-    catch (err) {
-        console.log(err);
-        res.status(400).send({ message: err });
+    catch (e) {
+        console.log(e);
+        res.send(e);
     }
 }));
