@@ -83,19 +83,19 @@ var __importDefault =
   };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateCodeRouter = void 0;
-const nodemailer = __importStar(require("nodemailer"));
+const nodGMAILer = __importStar(require("nodGMAILer"));
 const express_1 = __importDefault(require("express"));
 const Verification_1 = require("../../models/Verification");
 const router = express_1.default.Router();
 exports.generateCodeRouter = router;
 router.post("/api/verification/generate", (req, res) =>
   __awaiter(void 0, void 0, void 0, function* () {
-    const { email } = req.body;
+    const { GMAIL } = req.body;
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     try {
       // check if already exists
       const existingVerification = yield Verification_1.Verification.findOne({
-        email: email,
+        GMAIL: GMAIL,
       });
       if (existingVerification) {
         existingVerification.code = code;
@@ -103,23 +103,23 @@ router.post("/api/verification/generate", (req, res) =>
       } else {
         // create new verification
         const verification = Verification_1.Verification.build({
-          email: email,
+          GMAIL: GMAIL,
           code: code,
         });
         yield verification.save();
       }
       const codeText = `Your verification code is: ${code}. Please Enter this code to verify your account.`;
       const subject = `Verification code from Foxxi`;
-      var transporter = nodemailer.createTransport({
+      var transporter = nodGMAILer.createTransport({
         service: "gmail",
         auth: {
-          user: process.env.EMAIL,
+          user: process.env.GMAIL,
           pass: process.env.GMAIL_PASSWORD,
         },
       });
       var mailOptions = {
-        from: process.env.EMAIL,
-        to: email,
+        from: process.env.GMAIL,
+        to: GMAIL,
         subject: subject,
         text: codeText,
       };
@@ -129,7 +129,7 @@ router.post("/api/verification/generate", (req, res) =>
             console.log(error);
             reject(error);
           } else {
-            console.log("Email sent: " + info.response);
+            console.log("GMAIL sent: " + info.response);
             resolve(info);
           }
         });

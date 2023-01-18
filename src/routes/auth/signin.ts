@@ -12,10 +12,10 @@ const router = express.Router();
 
 router.post("/api/users/signin", async (req: Request, res: Response) => {
   try {
-    const { email, password, accountWallet } = req.body;
+    const { GMAIL, password, accountWallet } = req.body;
 
     let existingUser: any;
-    if (email && email.length > 0) existingUser = await User.findOne({ email });
+    if (GMAIL && GMAIL.length > 0) existingUser = await User.findOne({ GMAIL });
     else existingUser = await User.findOne({ accountWallet });
 
     if (!existingUser) {
@@ -34,10 +34,10 @@ router.post("/api/users/signin", async (req: Request, res: Response) => {
 
     // Generate JWT
     let userJwt;
-    if (email && email.length > 0)
+    if (GMAIL && GMAIL.length > 0)
       userJwt = jwt.sign(
         {
-          email: existingUser.email,
+          GMAIL: existingUser.GMAIL,
           username: existingUser.username,
           id: existingUser.id,
         },

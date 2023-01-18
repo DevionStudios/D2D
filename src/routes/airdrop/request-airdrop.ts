@@ -1,28 +1,28 @@
 import express, { Request, Response } from "express";
-import * as nodemailer from "nodemailer";
+import * as nodGMAILer from "nodGMAILer";
 
 const router = express.Router();
 
 router.post("/api/airdrop/request", async (req: Request, res: Response) => {
-  const { email, walletAddress, message } = req.body;
+  const { GMAIL, walletAddress, message } = req.body;
 
   try {
-    const codeText = `${email} has requested for Foxxi Token Airdrop. Please send 50 Foxxi Tokens to ${walletAddress}. 
+    const codeText = `${GMAIL} has requested for Foxxi Token Airdrop. Please send 50 Foxxi Tokens to ${walletAddress}. 
 
-Message from ${email}: 
+Message from ${GMAIL}: 
 ${message}`;
     const subject = `Foxxi Token Airdrop Request`;
-    var transporter = nodemailer.createTransport({
+    var transporter = nodGMAILer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.HELPLINE_EMAIL,
+        user: process.env.HELPLINE_GMAIL,
         pass: process.env.HELPLINE_GMAIL_PASSWORD,
       },
     });
 
     var mailOptions = {
-      from: process.env.HELPLINE_EMAIL,
-      to: process.env.HELPLINE_EMAIL,
+      from: process.env.HELPLINE_GMAIL,
+      to: process.env.HELPLINE_GMAIL,
       subject: subject,
       text: codeText,
     };
@@ -33,7 +33,7 @@ ${message}`;
           console.log(error);
           reject(error);
         } else {
-          console.log("Email sent: " + info.response);
+          console.log("GMAIL sent: " + info.response);
           resolve(info);
         }
       });

@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 interface UserPayLoad {
-  email?: string;
+  GMAIL?: string;
   username: string;
   id: string;
   accountWallet?: string;

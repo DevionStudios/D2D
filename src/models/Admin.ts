@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { Password } from "../services/password";
 
 interface AdminAttrs {
-  email?: string;
+  GMAIL?: string;
   password?: string;
   username: string;
 }
@@ -12,14 +12,14 @@ interface AdminModel extends mongoose.Model<AdminDoc> {
 }
 
 export interface AdminDoc extends mongoose.Document {
-  email?: string;
+  GMAIL?: string;
   password?: string;
   username?: string;
 }
 
 const AdminSchema = new mongoose.Schema(
   {
-    email: {
+    GMAIL: {
       type: String,
       required: false,
     },

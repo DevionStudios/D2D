@@ -12,9 +12,9 @@ const router = express.Router();
 
 router.post("/api/admin/signin", async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
+    const { GMAIL, password } = req.body;
 
-    const existingAdmin = await Admin.findOne({ email: email });
+    const existingAdmin = await Admin.findOne({ GMAIL: GMAIL });
 
     if (!existingAdmin) {
       throw new Error("Admin does not exist!");
@@ -33,7 +33,7 @@ router.post("/api/admin/signin", async (req: Request, res: Response) => {
     // Generate JWT
     const adminJwt = jwt.sign(
       {
-        email: existingAdmin.email,
+        GMAIL: existingAdmin.GMAIL,
         adminname: existingAdmin.username,
         id: existingAdmin.id,
       },

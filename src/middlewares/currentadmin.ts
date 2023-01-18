@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 interface AdminPayLoad {
-  email?: string;
+  GMAIL?: string;
   username: string;
   id: string;
 }

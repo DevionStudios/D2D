@@ -13,9 +13,9 @@ router.put(
     try {
       const { image } = req.body;
       let existingUser;
-      if (req.foxxiUser!.email)
+      if (req.foxxiUser!.GMAIL)
         existingUser = await User.findOne({
-          email: req.foxxiUser!.email,
+          GMAIL: req.foxxiUser!.GMAIL,
         });
       else
         existingUser = await User.findOne({

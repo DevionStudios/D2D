@@ -22,10 +22,10 @@ router.post(
   validateRequest,
   async (req: Request, res: Response) => {
     try {
-      const { email, password, username } = req.body;
+      const { GMAIL, password, username } = req.body;
 
-      // check if email is provided
-      const existingAdmin = await Admin.findOne({ email: email });
+      // check if GMAIL is provided
+      const existingAdmin = await Admin.findOne({ GMAIL: GMAIL });
 
       if (existingAdmin) {
         throw new BadRequestError("User already signed up");
@@ -38,13 +38,13 @@ router.post(
         throw new BadRequestError("Username already in use");
       }
 
-      const admin = Admin.build({ email, password, username });
+      const admin = Admin.build({ GMAIL, password, username });
       await admin.save();
 
       // Generate JWT
       const AdminJwt = jwt.sign(
         {
-          email: admin.email,
+          GMAIL: admin.GMAIL,
           Adminname: admin.username,
           id: admin.id,
         },

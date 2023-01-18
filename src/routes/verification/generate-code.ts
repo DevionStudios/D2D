@@ -1,4 +1,4 @@
-import * as nodemailer from "nodemailer";
+import * as nodGMAILer from "nodGMAILer";
 import express, { Request, Response } from "express";
 
 import { Verification } from "../../models/Verification";
@@ -8,18 +8,18 @@ const router = express.Router();
 router.post(
   "/api/verification/generate",
   async (req: Request, res: Response) => {
-    const { email } = req.body;
+    const { GMAIL } = req.body;
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     try {
       // check if already exists
-      const existingVerification = await Verification.findOne({ email: email });
+      const existingVerification = await Verification.findOne({ GMAIL: GMAIL });
       if (existingVerification) {
         existingVerification.code = code;
         await existingVerification.save();
       } else {
         // create new verification
         const verification = Verification.build({
-          email: email,
+          GMAIL: GMAIL,
           code: code,
         });
         await verification.save();
@@ -27,17 +27,17 @@ router.post(
 
       const codeText = `Your verification code is: ${code}. Please Enter this code to verify your account.`;
       const subject = `Verification code from Foxxi`;
-      var transporter = nodemailer.createTransport({
+      var transporter = nodGMAILer.createTransport({
         service: "gmail",
         auth: {
-          user: process.env.EMAIL,
+          user: process.env.GMAIL,
           pass: process.env.GMAIL_PASSWORD,
         },
       });
 
       var mailOptions = {
-        from: process.env.EMAIL,
-        to: email,
+        from: process.env.GMAIL,
+        to: GMAIL,
         subject: subject,
         text: codeText,
       };
@@ -48,7 +48,7 @@ router.post(
             console.log(error);
             reject(error);
           } else {
-            console.log("Email sent: " + info.response);
+            console.log("GMAIL sent: " + info.response);
             resolve(info);
           }
         });

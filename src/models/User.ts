@@ -4,7 +4,7 @@ import { PostDoc } from "./Post";
 import { StoryDoc } from "./Story";
 
 interface UserAttrs {
-  email?: string;
+  GMAIL?: string;
   password?: string;
   username: string;
   name: string;
@@ -28,7 +28,7 @@ interface UserModel extends mongoose.Model<UserDoc> {
 }
 
 export interface UserDoc extends mongoose.Document {
-  email?: string;
+  GMAIL?: string;
   password?: string;
   username?: string;
   name?: string;
@@ -52,7 +52,7 @@ export interface UserDoc extends mongoose.Document {
 
 const userSchema = new mongoose.Schema(
   {
-    email: {
+    GMAIL: {
       type: String,
       required: false,
     },

@@ -9,13 +9,13 @@ const router = express.Router();
 router.post(
   "/api/verification/compare",
   async (req: Request, res: Response) => {
-    const { code, email } = req.body;
+    const { code, GMAIL } = req.body;
 
     const existingVerification = await Verification.findOne({
-      email: email,
+      GMAIL: GMAIL,
     });
     if (!existingVerification) {
-      throw new BadRequestError("Email not found");
+      throw new BadRequestError("GMAIL not found");
     }
     console.log(code);
 
