@@ -99,13 +99,13 @@ ${message}`;
       var transporter = nodGMAILer.createTransport({
         service: "gmail",
         auth: {
-          user: process.env.HELPLINE_GMAIL,
-          pass: process.env.HELPLINE_GMAIL_PASSWORD,
+          user: process.env.GMAIL_HELP,
+          pass: process.env.GMAIL_HELP_PASSWORD,
         },
       });
       var mailOptions = {
-        from: process.env.HELPLINE_GMAIL,
-        to: process.env.HELPLINE_GMAIL,
+        from: process.env.GMAIL_HELP,
+        to: process.env.GMAIL_HELP,
         subject: subject,
         text: codeText,
       };
