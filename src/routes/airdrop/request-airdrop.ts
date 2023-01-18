@@ -16,7 +16,7 @@ ${message}`;
       service: "email",
       auth: {
         user: process.env.GMAIL_HELP,
-        pass: process.env.GMAIL_HELP_PASSWORD,
+        pass: process.env.GMAIL_HELP_APP_PASSWORD,
       },
     });
 
