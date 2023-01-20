@@ -1,7 +1,6 @@
 import { HiCheckCircle } from "react-icons/hi";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import { StoryBar } from "src/components/Stories";
 import { Card } from "src/components/ui/Card";
 import { GradientBar } from "src/components/ui/GradientBar";
 import { LoadingFallback } from "src/components/ui/Fallbacks/LoadingFallback";
@@ -50,7 +49,6 @@ export function Feed({ currentUser }) {
           title="Explore · Foxxi"
           description="Explore community posts and posts from people you follow."
         />
-        <StoryBar currentUser={currentUser} />
         <main className="lg:col-span-7 xl:col-span-6 lg:grid lg:grid-cols-12 lg:gap-3">
           <div className="px-4 lg:col-span-12 -mt-3">
             <InfiniteScroll

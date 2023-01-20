@@ -91,17 +91,30 @@ export function StoryCard(props) {
           </Link>
           {/* GIF */}
 
-          {props.post.image && (
+          {props.post?.media?.url && (
             <div className="mx-auto w-11/12 rounded-lg overflow-hidden ">
-              <div className="aspect-w-1 aspect-h-1">
-                <NextImage
-                  src={props.post.image}
-                  layout="fill"
-                  objectFit="cover"
-                  placeholder="empty"
-                  alt={`image posted by ${props.post.author.name} on Foxxi.`}
-                />
-              </div>
+              {props.post.media.url && (
+                <div className="aspect-w-1 aspect-h-1 ">
+                  {props.post.media &&
+                  props.post.media.url &&
+                  props.post.media.mediatype === "video" ? (
+                    <video placeholder="empty" className="!w-full" controls>
+                      <source src={props.post.media.url} type="video/mp4" />
+                      <source src={props.post.media.url} type="video/mkv" />
+                      <source src={props.post.media.url} type="video/m4v" />
+                      <source src={props.post.media.url} type="video/webm" />
+                    </video>
+                  ) : (
+                    <NextImage
+                      src={props.post.media?.url || props.post.media}
+                      layout="fill"
+                      objectFit="cover"
+                      placeholder="empty"
+                      className="!w-full"
+                    />
+                  )}
+                </div>
+              )}
             </div>
           )}
         </article>

@@ -94,7 +94,7 @@ export function CreateStory({ currentUser }) {
 
           <FileInput
             name="media"
-            accept="image/png, image/jpg, image/jpeg, image/gif"
+            accept="image/png, image/jpg, image/jpeg, image/gif, video/mp4, video/mkv, video/webm"
           />
         </Card.Body>
         <Card.Footer className="flex justify-end">

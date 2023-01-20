@@ -164,6 +164,8 @@ export function PostCard({ id, username, currentUser }) {
       />
     );
 
+  console.log("media", data);
+
   return data && data.author ? (
     <>
       <SEO
@@ -268,14 +270,25 @@ export function PostCard({ id, username, currentUser }) {
               )}
               {data.media && (
                 <div className="aspect-w-1 aspect-h-1 ">
-                  <NextImage
-                    onClick={() => setImageModal(true)}
-                    src={data.media}
-                    layout="fill"
-                    objectFit="cover"
-                    placeholder="empty"
-                    className="!w-full"
-                  />
+                  {data.media &&
+                  data.media.url &&
+                  data.media.mediatype === "video" ? (
+                    <video placeholder="empty" className="!w-full" controls>
+                      <source src={data.media.url} type="video/mp4" />
+                      <source src={data.media.url} type="video/mkv" />
+                      <source src={data.media.url} type="video/m4v" />
+                      <source src={data.media.url} type="video/webm" />
+                    </video>
+                  ) : (
+                    <NextImage
+                      onClick={() => setImageModal(true)}
+                      src={data.media?.url || data.media}
+                      layout="fill"
+                      objectFit="cover"
+                      placeholder="empty"
+                      className="!w-full"
+                    />
+                  )}
                 </div>
               )}
               <Modal

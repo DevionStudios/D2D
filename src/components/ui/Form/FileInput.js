@@ -8,7 +8,7 @@ import { MdUploadFile } from "react-icons/md";
 import { Alert } from "../Alert";
 import { Button } from "../Button";
 
-const maxSize = 5242880;
+const maxSize = 52428800;
 
 export function FileInput(props) {
   const { name, label = name, existingimage } = props;
@@ -52,6 +52,7 @@ export function FileInput(props) {
           className="shadow appearance-none border rounded w-full py-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id={name}
           {...getInputProps()}
+          accept={props.accept}
         />
         <div
           className={clsx(
@@ -79,7 +80,7 @@ export function FileInput(props) {
                 <div>
                   <Alert
                     status="error"
-                    message="Your image is too large to upload. Consider keeping it below 5 MB. Click to upload again."
+                    message="Your image is too large to upload. Consider keeping it below 50 MB. Click to upload again."
                   />
                 </div>
               ) : (
