@@ -7,6 +7,7 @@ import { User, UserDoc } from "../../models/User";
 import cloudinary from "../../config/cloudinaryConfig";
 import upload from "../../config/multer.filefilter.config";
 import { currentUser } from "../../middlewares/currentuser";
+import path from "path";
 
 const router = express.Router();
 
@@ -18,10 +19,32 @@ router.post(
     try {
       const { caption, gifLink, hashtags } = req.body;
       console.log(hashtags);
-      const result = req.file
-        ? await cloudinary.uploader.upload(req.file.path)
-        : null;
-      const media = result?.secure_url || "";
+
+      const ext = path.extname(req.file!.originalname);
+      let result,
+        type = null;
+
+      if (
+        ext === ".jpg" ||
+        ext === ".jpeg" ||
+        ext === ".png" ||
+        ext === ".gif"
+      ) {
+        type = "image";
+        result = req.file
+          ? await cloudinary.uploader.upload(req.file.path)
+          : null;
+      } else {
+        type = "video";
+        result = req.file
+          ? await cloudinary.uploader.upload(req.file.path, {
+              resource_type: "video",
+              chunk_size: 6000000,
+            })
+          : null;
+      }
+
+      const mediaUrl = result?.secure_url || "";
       const existingUser = await User.findOne({
         _id: req.foxxiUser!.id,
       });
@@ -29,6 +52,11 @@ router.post(
       if (!existingUser) {
         throw new BadRequestError("User not found!");
       }
+
+      const media = {
+        url: mediaUrl,
+        mediatype: type,
+      };
 
       const post = Post.build({
         caption,

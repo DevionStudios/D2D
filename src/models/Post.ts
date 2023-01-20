@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 import { CommentDoc } from "./Comment";
 import { UserDoc } from "./User";
 
+interface media {
+  url: string;
+  mediatype: string;
+}
+
 interface PostAttrs {
   caption: string;
   author: UserDoc;
@@ -9,7 +14,7 @@ interface PostAttrs {
   likes?: UserDoc[];
   comments?: CommentDoc[];
   reposts?: number;
-  media?: string;
+  media?: media;
   gifLink?: string;
   twitterId?: string;
   createdAt?: Date;
@@ -30,7 +35,7 @@ export interface PostDoc extends mongoose.Document {
   reposts?: number;
   updatedAt?: Date;
   createdAt?: Date;
-  media?: String;
+  media?: media;
   gifLink?: String;
   twitterId?: string;
   reports?: string[];
@@ -74,8 +79,18 @@ const PostSchema = new mongoose.Schema(
       default: 0,
     },
     media: {
-      type: String,
-      default: "",
+      type: {
+        url: {
+          type: String,
+        },
+        mediatype: {
+          type: String,
+        },
+      },
+      default: {
+        url: "",
+        mediatype: "",
+      },
     },
     gifLink: {
       type: String,

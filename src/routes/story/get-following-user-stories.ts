@@ -17,10 +17,6 @@ router.get(
       })
         .populate({
           path: "following",
-          populate: {
-            path: "stories",
-            model: "Story",
-          },
         })
         .sort({ createdAt: -1 });
 

@@ -53,7 +53,7 @@ router.post(
 
       const repost = Post.build({
         caption: newCaption || "",
-        media: originalPost!.media?.toString() || "",
+        media: originalPost!.media,
         gifLink: originalPost!.gifLink?.toString() || "",
         hashtags: originalPost!.hashtags || [],
         author: existingUser as UserDoc,

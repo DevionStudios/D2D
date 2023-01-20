@@ -1,10 +1,15 @@
 import mongoose from "mongoose";
 import { UserDoc } from "./User";
 
+interface media {
+  url: string;
+  mediatype: string;
+}
+
 interface StoryAttrs {
   caption: string;
   author: UserDoc;
-  media?: string;
+  media?: media;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -18,7 +23,7 @@ export interface StoryDoc extends mongoose.Document {
   author: UserDoc;
   updatedAt?: Date;
   createdAt?: Date;
-  media?: String;
+  media?: media;
 }
 
 const StorySchema = new mongoose.Schema(
@@ -31,8 +36,18 @@ const StorySchema = new mongoose.Schema(
       ref: "User",
     },
     media: {
-      type: String,
-      default: "",
+      type: {
+        url: {
+          type: String,
+        },
+        mediatype: {
+          type: String,
+        },
+      },
+      default: {
+        url: "",
+        mediatype: "",
+      },
     },
     createdAt: {
       type: Date,

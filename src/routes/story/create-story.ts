@@ -1,3 +1,4 @@
+import path from "path";
 import { BadRequestError } from "@devion/common";
 import express, { Request, Response } from "express";
 
@@ -17,10 +18,35 @@ router.post(
   async (req: Request, res: Response) => {
     try {
       const { caption } = req.body;
-      const result = req.file
-        ? await cloudinary.uploader.upload(req.file.path)
-        : null;
-      const media = result?.secure_url || "";
+      const ext = path.extname(req.file!.originalname);
+      let result,
+        type = null;
+
+      if (
+        ext === ".jpg" ||
+        ext === ".jpeg" ||
+        ext === ".png" ||
+        ext === ".gif"
+      ) {
+        type = "image";
+        result = req.file
+          ? await cloudinary.uploader.upload(req.file.path)
+          : null;
+      } else {
+        type = "video";
+        result = req.file
+          ? await cloudinary.uploader.upload(req.file.path, {
+              resource_type: "video",
+              chunk_size: 6000000,
+            })
+          : null;
+      }
+
+      const mediaUrl = result?.secure_url || "";
+      const media = {
+        url: mediaUrl,
+        mediatype: type,
+      };
 
       const existingUser = await User.findOne({
         _id: new mongoose.Types.ObjectId(req.foxxiUser!.id),
@@ -35,10 +61,8 @@ router.post(
         media,
         author: existingUser as UserDoc,
       });
-      existingUser?.stories!.push(story);
 
       await story.save();
-      await existingUser.save();
 
       res.status(201).send({
         message: "Story created successfully",
