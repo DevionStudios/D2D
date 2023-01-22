@@ -8,6 +8,8 @@ import {
   HiOutlineHome,
   HiOutlineMail,
   HiOutlineUser,
+  HiOutlineGlobe,
+  HiOutlineGlobeAlt,
 } from "react-icons/hi";
 import { Feed } from "src/components/Feed";
 import { TabbedLayout } from "../Navbar/TabbedLayout";
@@ -15,6 +17,7 @@ import { IndeterminateProgress } from "src/components/ui/Progress";
 import { Redirect } from "./Redirect";
 import { TrendingFeed } from "../../Trending Feed";
 import { TwitterFeed } from "../../Twitter Trends";
+import { YourFeed } from "../../YourFeed";
 import { BiWallet } from "react-icons/bi";
 const RightSidebar = dynamic(async () => {
   const { RightSidebar } = await import("../Navbar/RightSidebar");
@@ -27,9 +30,15 @@ export function FeedLayout({ currentUser }) {
   const [navigation, setNavigation] = useState([
     {
       component: <Feed currentUser={currentUser} />,
+      icon: HiOutlineGlobeAlt,
+      name: "Explore",
+      id: "/feed",
+    },
+    {
+      component: <YourFeed currentUser={currentUser} />,
       icon: HiOutlineHome,
       name: "Your Feed",
-      id: "/feed",
+      id: "/yourfeed",
     },
     {
       component: <TrendingFeed currentUser={currentUser} />,

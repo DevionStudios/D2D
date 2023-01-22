@@ -13,7 +13,7 @@ import { Step1 } from "src/components/Onboarding/Step1";
 import { useMoralis } from "react-moralis";
 import { toast } from "react-hot-toast";
 import { Step2 } from "src/components/Onboarding/Step2";
-
+import { Step3 } from "src/components/Onboarding/Step3";
 const onboardingTabs = [
   {
     label: "Welcome",
@@ -24,6 +24,11 @@ const onboardingTabs = [
   {
     label: "Your Profile",
     panel: <Step2 />,
+    id: 1,
+  },
+  {
+    label: "Interests",
+    panel: <Step3 />,
     id: 2,
   },
 ];
@@ -33,7 +38,7 @@ export default function Onboarding({ currentUser }) {
   const [currentStep, setCurrentStep] = useState(
     router.query.step ? parseInt(router.query.step) : 0
   );
-
+  const [tags, setTags] = useState([]);
   useEffect(() => {
     if (currentUser?.annonymous === true) {
       router.push("/auth/signin");
@@ -127,6 +132,26 @@ export default function Onboarding({ currentUser }) {
     setCurrentStep(currentStep - 1);
   }
 
+  const handlePreference = async () => {
+    try {
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/preferences/add`,
+        {
+          preferences: tags,
+        },
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
+      );
+      //redirect to feed
+      router.push("/feed");
+    } catch (e) {
+      console.log(e);
+      toast.error("Preferences could not be added!");
+    }
+  };
   return (
     <div className="px-2 md:px-0 min-h-screen">
       <div className="fixed top-0 w-full z-50 bg-white dark:bg-gray-900">
@@ -142,18 +167,26 @@ export default function Onboarding({ currentUser }) {
           <div
             className="bg-blue-300 h-2.5 rounded-full"
             style={{
-              width: currentStep === 0 ? `${100 / 2}%` : `${100 / 1}%`,
+              width:
+                currentStep === 0
+                  ? `${100 / 3}%`
+                  : currentStep === 1
+                  ? `${(100 / 3) * 2}%`
+                  : `${100}%`,
             }}
           ></div>
         </div>
       </div>
-      <div className="lg:px-8 mt-10 py-6 mx-auto w-full sm:py-6 lg:py-10 max-w-2xl ">
+      <div
+        className="lg:px-8 mt-12 py-6 mx-auto w-full sm:py-6 lg:py-10 max-w-2xl"
+        style={{ position: "relative", top: "40px" }}
+      >
         <Tab.Group
           onChange={(idx) => handleChange(idx)}
           defaultIndex={currentStep}
         >
           <Tab.List
-            className="-mb-px overflow-hideen border-b border-gray-200 dark:border-gray-800 relative z-0 rounded-lg shadow flex divide-x divide-gray-200 dark:divide-gray-600"
+            className="-mb-px mt-12 overflow-hideen border-b border-gray-200 dark:border-gray-800 relative z-0 rounded-lg shadow flex divide-x divide-gray-200 dark:divide-gray-600"
             aria-label="Tabs"
           >
             {onboardingTabs.map((step, tabIdx) => {
@@ -177,6 +210,9 @@ export default function Onboarding({ currentUser }) {
           <Tab.Panels>
             {currentStep === 0 && <Step1 currentUser={currentUser} />}
             {currentStep === 1 && <Step2 currentUser={currentUser} />}
+            {currentStep === 2 && (
+              <Step3 currentUser={currentUser} setTags={setTags} />
+            )}
           </Tab.Panels>
         </Tab.Group>
 
@@ -196,11 +232,22 @@ export default function Onboarding({ currentUser }) {
               Next →
             </Button>
           )}
-          {currentStep === 2 && (
-            <Button href="/feed" className="my-5 ml-auto" size="xl">
-              Finish →
-            </Button>
-          )}
+          {currentStep === 2 &&
+            (tags.length >= 3 ? (
+              <Button
+                className="my-5 ml-auto"
+                size="xl"
+                onClick={() => {
+                  handlePreference();
+                }}
+              >
+                Finish →
+              </Button>
+            ) : (
+              <Button className="my-5 ml-auto" size="xl" variant="secondary">
+                Finish →
+              </Button>
+            ))}
         </div>
       </div>
     </div>

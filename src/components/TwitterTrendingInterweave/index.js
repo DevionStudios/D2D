@@ -25,25 +25,11 @@ export const urlMatcher = new UrlMatcher(
 
 export const emojiMatcher = new EmojiMatcher("emoji", emojiOptions);
 
-export const hashTagMatcher = new HashtagMatcher("hashtag", {}, (args) => {
-  const router = useRouter();
-
-  function handleOnClick() {
-    router.push(`/search/?query=${args.hashtag.split("#")[1]}&type=hashtag`);
-  }
-
-  return (
-    <button className="font-medium underline" onClick={handleOnClick}>
-      {args.hashtag}
-    </button>
-  );
-});
-
 export const mentionMatcher = new MentionMatcher("mention", {});
 
 export function TwitterTrendingInterweave({
   content,
-  matchers = [urlMatcher, emojiMatcher, hashTagMatcher],
+  matchers = [urlMatcher, emojiMatcher],
   ...props
 }) {
   const [, emojiSource] = useEmojiData({
