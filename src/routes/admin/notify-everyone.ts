@@ -7,7 +7,7 @@ import { currentAdmin } from "../../middlewares/currentadmin";
 const router = express.Router();
 
 router.post(
-  "/api/admin/notification/create",
+  "/api/admin/notification/createforall",
   currentAdmin,
   async (req: Request, res: Response) => {
     try {
