@@ -30,6 +30,12 @@ export default function Navbar() {
             <MDBNavbarLink active aria-current="page" href="/admin">
               Dashboard
             </MDBNavbarLink>
+            <MDBNavbarLink active aria-current="page" href="/notification">
+              Notification
+            </MDBNavbarLink>
+            <MDBNavbarLink active aria-current="page" href="/post">
+              Post
+            </MDBNavbarLink>
           </MDBNavbarNav>
         </MDBCollapse>
       </MDBContainer>

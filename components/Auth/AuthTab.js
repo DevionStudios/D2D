@@ -123,7 +123,6 @@ const AuthTab = () => {
         { email: signUpEmail },
         { withCredentials: true }
       );
-      // !remove console.log(response.data);
       if (response.status == "200") {
         toast.success("Verification Code Sent");
         setIsSent(true);
@@ -131,7 +130,6 @@ const AuthTab = () => {
       }
     } catch (e) {
       toast.error("Unable To Send Verification Code");
-      // !remove console.log(e);
     }
   };
 
@@ -148,7 +146,6 @@ const AuthTab = () => {
         { email: signUpEmail, code: validationCode },
         { withCredentials: true }
       );
-      // !remove console.log(response.data);
       if (response.status == "200") {
         toast.success("Email Verified");
         setIsSent(true);
@@ -156,7 +153,6 @@ const AuthTab = () => {
       }
     } catch (e) {
       toast.error("Please enter a valid code!");
-      // !remove console.log(e);
     }
   };
   const handleJustifyClick = (value) => {
