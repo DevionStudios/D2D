@@ -61,6 +61,8 @@ import { getFollowingUserStoriesRouter } from "./routes/story/get-following-user
 import { getMessageRouter } from "./routes/message/get-all-message";
 import { getAssociatedUsersRouter } from "./routes/message/get-associated-users";
 import { createNotificationForEveryoneRouter } from "./routes/admin/notify-everyone";
+import { preferencePostRouter } from "./routes/posts/get-preference-post";
+import { addPreferencesRouter } from "./routes/preferences/add-preference";
 
 const app = express();
 app.use(
@@ -94,6 +96,8 @@ app.use(generateCodeRouter);
 app.use(verifyCodeRouter);
 app.use(updateProfileRouter);
 app.use(signoutRouter);
+app.use(addPreferencesRouter);
+app.use(preferencePostRouter);
 app.use(currentUserRouter);
 app.use(fetchUserRouter);
 app.use(followUserRouter);

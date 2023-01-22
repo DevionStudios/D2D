@@ -19,32 +19,39 @@ router.post(
     try {
       const { caption, gifLink, hashtags } = req.body;
       console.log(hashtags);
+      let media;
+      if (req.file) {
+        const ext = path.extname(req.file!.originalname);
+        let result,
+          type = null;
 
-      const ext = path.extname(req.file!.originalname);
-      let result,
-        type = null;
+        if (
+          ext === ".jpg" ||
+          ext === ".jpeg" ||
+          ext === ".png" ||
+          ext === ".gif"
+        ) {
+          type = "image";
+          result = req.file
+            ? await cloudinary.uploader.upload(req.file.path)
+            : null;
+        } else {
+          type = "video";
+          result = req.file
+            ? await cloudinary.uploader.upload(req.file.path, {
+                resource_type: "video",
+                chunk_size: 6000000,
+              })
+            : null;
+        }
 
-      if (
-        ext === ".jpg" ||
-        ext === ".jpeg" ||
-        ext === ".png" ||
-        ext === ".gif"
-      ) {
-        type = "image";
-        result = req.file
-          ? await cloudinary.uploader.upload(req.file.path)
-          : null;
-      } else {
-        type = "video";
-        result = req.file
-          ? await cloudinary.uploader.upload(req.file.path, {
-              resource_type: "video",
-              chunk_size: 6000000,
-            })
-          : null;
+        const mediaUrl = result?.secure_url || "";
+        media = {
+          url: mediaUrl,
+          mediatype: type,
+        };
       }
 
-      const mediaUrl = result?.secure_url || "";
       const existingUser = await User.findOne({
         _id: req.foxxiUser!.id,
       });
@@ -52,11 +59,6 @@ router.post(
       if (!existingUser) {
         throw new BadRequestError("User not found!");
       }
-
-      const media = {
-        url: mediaUrl,
-        mediatype: type,
-      };
 
       const post = Post.build({
         caption,

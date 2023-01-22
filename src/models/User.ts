@@ -19,6 +19,7 @@ interface UserAttrs {
   accountWallet?: string;
   reports?: string[];
   isBanned?: boolean;
+  preferences?: string[];
 }
 
 interface UserModel extends mongoose.Model<UserDoc> {
@@ -45,6 +46,7 @@ export interface UserDoc extends mongoose.Document {
   accountWallet?: string;
   reports?: string[];
   isBanned?: boolean;
+  preferences?: string[];
 }
 
 const userSchema = new mongoose.Schema(
@@ -134,6 +136,15 @@ const userSchema = new mongoose.Schema(
     isBanned: {
       type: Boolean,
       default: false,
+    },
+    preferences: {
+      type: [
+        {
+          type: String,
+          default: "",
+        },
+      ],
+      default: [],
     },
   },
   {
