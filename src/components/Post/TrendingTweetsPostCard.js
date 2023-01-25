@@ -70,14 +70,14 @@ export function TrendingTweetsPostCard(props) {
               <img className="w-full" src={props.post.gifLink} alt="" />
             </div>
           )}
-          {props.post.image && (
+          {props.post.media.url && (
             <div className="mx-auto w-11/12 rounded-lg overflow-hidden ">
               <div className="aspect-w-1 aspect-h-1">
-                <NextImage
+                <img
                   disabled={true}
-                  src={props.post.image}
-                  layout="fill"
-                  objectFit="cover"
+                  src={props.post.media.url}
+                  // layout="fill"
+                  // objectFit="cover"
                   placeholder="empty"
                   alt={`image posted by ${props.post.author.name} on Foxxi.`}
                 />
