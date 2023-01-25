@@ -45,7 +45,8 @@ export function Button({
         rounded === "full" ? "rounded-full p-2" : `rounded-${rounded}`,
         !rounded && "rounded-md",
         fullWidth && "w-full",
-        className
+        className,
+        "buttonText"
       )}
       {...props}
     >

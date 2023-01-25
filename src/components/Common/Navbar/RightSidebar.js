@@ -71,7 +71,7 @@ export function RightSidebar({ currentUser }) {
   if (suggestedUsers.length === 0) {
     return (
       <>
-        <Card rounded="lg" className="sticky top-20 dark:bg-black">
+        <Card rounded="lg" className="sticky top-20 dark:bg-black bg-gray-75">
           {!currentUser.annonymous ? (
             <ErrorFallback
               message="No user suggestions for now. :)"
@@ -98,7 +98,7 @@ export function RightSidebar({ currentUser }) {
     <aside className="w-full sticky top-20 overflow-hidden">
       <div className=" space-y-4">
         <section aria-labelledby="who-to-follow-heading">
-          <div className="bg-white dark:bg-gray-800 rounded-lg mt-10 overflow-hidden shadow">
+          <div className="bg-white dark:bg-gray-800 bg-gray-50 rounded-lg mt-10 overflow-hidden shadow">
             <GradientBar color="indigo" />
             <div className="p-6">
               <Heading size="h5">Who to follow</Heading>

@@ -1,11 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lobster&family=Open+Sans:wght@400;500;600&family=Poppins:wght@400;500;600;700;800&family=Roboto+Slab:wght@200;400;500;600&family=Signika+Negative:wght@400;600;700&display=swap");
 @tailwind base;
 @tailwind components;
 
 body {
-  @apply text-gray-900 bg-gray-100 dark:text-gray-100 dark:bg-black antialiased font-sans;
+  @apply text-gray-900 bg-white dark:text-gray-100 dark:bg-black antialiased font-sans;
   font-feature-settings: "cv11", "cv04";
+  font-family: "Roboto Slab", serif;
 }
 
 form {
@@ -233,13 +234,17 @@ div.css-h5ends {
   top: 100px;
   flex-direction: column;
   height: 100%;
-  width: 90%;
+  width: 60%;
   margin: 100px;
   justify-content: center;
   margin: auto;
   border-radius: 30px;
-
   text-align: center;
+  background-color: white;
+  padding: 1%;
+}
+.dark .chatcontainer {
+  background-color: rgb(30, 30, 30);
 }
 .dark .myMessage {
   border-radius: 10px;
@@ -311,14 +316,15 @@ div.css-h5ends {
   background: linear-gradient(#000, #000) padding-box,
     radial-gradient(farthest-corner at var(--x) var(--y), #00c9a7, #845ec2)
       border-box;
-  margin-top: 5%;
-  background-color: white;
+  margin-top: 3%;
+  background-color: rgb(226, 226, 226);
+  margin-bottom: 2%;
 }
 .dark .sendmessage {
   background-color: #ebf8ff;
 }
 .dark .messages {
-  border: rgba(255, 255, 255, 0.541) solid;
+  border: rgba(255, 255, 255, 0.541) solid 0.5px;
   border-width: thin;
 }
 .messages {
@@ -326,7 +332,8 @@ div.css-h5ends {
   height: 60vh;
   padding: 1rem;
   margin-top: 2%;
-  border: rgba(255, 255, 255, 0.541) solid;
+  border: rgba(0, 0, 0, 0.541) solid 0.5px;
+  border-radius: 10px;
 }
 .messages::-webkit-scrollbar {
   width: 1px;
@@ -357,7 +364,36 @@ div.css-h5ends {
 }
 
 .navheader {
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   font-weight: 700;
+}
+
+.titleHeader {
+  font-family: "Lobster", cursive;
+}
+
+.frontheader {
+  font-family: "Signika Negative", sans-serif;
+}
+
+.foxxiLogoText {
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.buttonText {
+  font-family: "Signika Negative", sans-serif;
+  font-size: 1.1rem;
+}
+
+.linksText {
+  font-family: "Signika Negative", sans-serif;
+  font-size: 1.05rem;
+}
+
+.usernametext {
+  font-family: "Signika Negative", sans-serif;
+  font-size: 1.05rem;
 }
 @tailwind utilities;

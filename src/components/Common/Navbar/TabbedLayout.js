@@ -71,7 +71,7 @@ export function TabbedLayout({ navigation, currentUser }) {
                             "group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full "
                           )}
                         >
-                          <span className="truncate flex items-center">
+                          <span className="truncate flex items-center linksText">
                             <BiWallet
                               className={clsx(
                                 " group-hover:text-black dark:group-hover:text-white text-blue-500",
@@ -136,7 +136,7 @@ export function TabbedLayout({ navigation, currentUser }) {
                                 "flex-shrink-0 mr-3 h-6 w-6"
                               )}
                             />
-                            <p>{item.name}</p>
+                            <p className="linksText">{item.name}</p>
                           </span>
                         )}
                       </Tab>

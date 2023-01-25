@@ -184,7 +184,7 @@ export function PostCard({ id, username, currentUser }) {
         </div>
         <div className="w-full md:pb-0">
           <div>
-            <Card className="rounded-t-lg bg-gray-100 dark:bg-black ">
+            <Card className="rounded-t-lg bg-gray-25 dark:bg-black ">
               <div className="px-4 py-4  sm:p-4 sm:rounded-lg">
                 <div className="flex space-x-3">
                   <div className="flex-shrink-0">
@@ -194,7 +194,7 @@ export function PostCard({ id, username, currentUser }) {
                       alt=""
                     />
                   </div>
-                  <div className="min-w-0 flex-1">
+                  <div className="min-w-0 flex-1 usernametext">
                     <p className=" font-medium ">
                       <Link
                         href={`/profile/${data.author.username}`}
@@ -250,7 +250,7 @@ export function PostCard({ id, username, currentUser }) {
                       <span
                         key={index}
                         className={clsx(
-                          "bg-gray-50 dark:bg-gray-900 mr-2 shadow-sm border  dark:border-gray-700 border-gray-700 rounded-l-md rounded-r-md px-3 inline-flex items-center text-blue-600 dark:text-blue-600 sm:text-sm"
+                          "bg-gray-25 dark:bg-gray-900 mr-2 shadow-sm border  dark:border-gray-700 border-gray-700 rounded-l-md rounded-r-md px-3 inline-flex items-center text-blue-600 dark:text-blue-600 sm:text-sm"
                         )}
                       >
                         {hashtag}
@@ -322,7 +322,7 @@ export function PostCard({ id, username, currentUser }) {
             </Card>
 
             {!currentUser.annonymous ? (
-              <Card className="py-2 px-4 flex justify-between space-x-8 bg-gray-100 dark:bg-black">
+              <Card className="py-2 px-4 flex justify-between space-x-8 bg-gray-25 dark:bg-black">
                 <div className="flex space-x-6">
                   <span className="inline-flex">
                     <p className="font-bold">{likes || "0"}</p>
@@ -343,7 +343,7 @@ export function PostCard({ id, username, currentUser }) {
             ) : null}
 
             {!currentUser.annonymous ? (
-              <Card className="py-4 px-4 flex justify-between space-x-8 rounded-b-lg bg-gray-100 dark:bg-black">
+              <Card className="py-4 px-4 flex justify-between space-x-8 rounded-b-lg bg-gray-30 dark:bg-black">
                 <div className="flex space-x-6">
                   <span className="inline-flex items-center text-sm">
                     <Button
@@ -400,7 +400,7 @@ export function PostCard({ id, username, currentUser }) {
         </div>
         {!currentUser.annonymous ? (
           <Card
-            className="w-full bg-gray-100 dark:bg-black"
+            className="w-full bg-gray-25 dark:bg-black"
             rounded="lg"
             style={{}}
           >

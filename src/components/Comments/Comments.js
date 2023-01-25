@@ -32,7 +32,7 @@ export function Comments({ comments, postId, currentUser }) {
   }
 
   return (
-    <Card className="rounded-lg mb-2 bg-gray-100 dark:bg-black">
+    <Card className="rounded-lg mb-2 bg-gray-25 dark:bg-black">
       <div className="relative">
         <div className="flow-root h-full ">
           <div className="py-3 px-4 border-b dark:border-gray-600 border-gray-200">

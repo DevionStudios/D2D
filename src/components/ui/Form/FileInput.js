@@ -59,7 +59,7 @@ export function FileInput(props) {
             "border-2 h-52 border-gray-300 dark:border-gray-500 border-dashed rounded-md  flex justify-center  overflow-hidden",
             isDragActive
               ? "bg-gray-400 dark:bg-gray-800"
-              : "bg-white dark:bg-gray-800"
+              : "bg-gray-50 dark:bg-gray-800"
           )}
           style={
             existingimage && !files?.length

@@ -149,7 +149,7 @@ export function FeedPostCard(props) {
       />
       <Card
         noPadding
-        className="max-w-2xl bg-gray-100 dark:bg-black overflow-hidden my-3 rounded-lg "
+        className="max-w-2xl bg-gray-25 dark:bg-black overflow-hidden my-3 rounded-lg "
       >
         <article>
           <div className="px-6 py-4">
@@ -171,9 +171,9 @@ export function FeedPostCard(props) {
                   href={`/profile/${props.post.author.username}`}
                   className="no-underline"
                 >
-                  <p className="text-sm font-medium ">
+                  <p className="text-sm font-medium usernametext">
                     {props.post.author.name}
-                    <span className="text-muted text-sm ml-2">
+                    <span className="text-muted text-sm ml-2 usernametext">
                       @{props.post.author.username}
                     </span>
                   </p>
@@ -215,7 +215,7 @@ export function FeedPostCard(props) {
                     <span
                       key={index}
                       className={clsx(
-                        "bg-gray-50 dark:bg-gray-900 mr-2 shadow-sm border  dark:border-gray-700 border-gray-700 rounded-l-md rounded-r-md px-3 inline-flex items-center text-blue-600 dark:text-blue-600 sm:text-sm"
+                        "bg-gray-100 dark:bg-gray-900 mr-2 rounded-l-md rounded-r-md px-3 py-1 mt-2 inline-flex items-center text-blue-600 dark:text-blue-600 sm:text-sm"
                       )}
                     >
                       {hashtag}
@@ -251,7 +251,7 @@ export function FeedPostCard(props) {
             )}
           </Link>
           {/* Post Actions */}
-          <div className="py-2 px-6 bg-gray-50 dark:bg-gray-900/70 flex border-t border-gray-200 dark:border-gray-700 justify-between space-x-8">
+          <div className="py-2 px-6 bg-gray-30 dark:bg-gray-900/70 flex border-t border-gray-200 dark:border-gray-700 justify-between space-x-8">
             <div className="flex space-x-6">
               {!props.currentUser.annonymous ? (
                 <>

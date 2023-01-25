@@ -27,7 +27,9 @@ export function UnauthorizedHeader() {
               <Link href="/feed" passHref={true}>
                 <div className="flex items-center space-x-4">
                   <Image src={Logo} alt="Foxxi Logo" width={67} height={67} />
-                  <Heading size="h5">Foxxi</Heading>
+                  <Heading size="h4" className="foxxiLogoText">
+                    Foxxi
+                  </Heading>
                 </div>
               </Link>
             </div>
@@ -70,18 +72,13 @@ export function UnauthorizedHeader() {
                       <div
                         className="flex-shrink-0 flex items-center"
                         style={{ position: "relative", right: "20%" }}
-                      >
-                        <Link href={`/feed`} passHref>
-                          <Image
-                            src={Logo}
-                            alt="Foxxi"
-                            width={67}
-                            height={67}
-                          />
-                        </Link>
-                        <h1 className="navheader">FOXXI</h1>
-                      </div>
-                      <Heading size="h5">Foxxi</Heading>
+                      ></div>
+                      <Link href={`/feed`} passHref>
+                        <Image src={Logo} alt="Foxxi" width={67} height={67} />
+                      </Link>
+                      <Heading size="h4" className="foxxiLogoText">
+                        Foxxi
+                      </Heading>
                       <ThemeToggle />
                     </div>
                     <div className="-mr-2">

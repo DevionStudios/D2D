@@ -72,7 +72,7 @@ export function Navbar({ currentUser }) {
                     <Link href={`/feed`}>
                       <Image src={Logo} alt="Foxxi" width={67} height={67} />
                     </Link>
-                    <h1 className="navheader">FOXXI</h1>
+                    <h1 className="foxxiLogoText">Foxxi</h1>
                   </div>
                 </div>
                 <div className="min-w-0 flex-1  lg:px-0 lg:max-w-5xl xl:col-span-6 flex-grow">
@@ -85,10 +85,13 @@ export function Navbar({ currentUser }) {
                   <button
                     onClick={() => setNotificationOpen(!openNotifications)}
                     type="button"
-                    className="mx-3 ml-auto flex-shrink-0 bg-white dark:bg-gray-800 rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
+                    className="mx-3 ml-auto flex-shrink-0 bg-gray-50 dark:bg-gray-800 rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
                   >
                     <span className="sr-only">View notifications</span>
-                    <HiOutlineBell className="h-6 w-6" aria-hidden="true" />
+                    <HiOutlineBell
+                      className="h-6 w-6 bg-gray-50 dark:bg-gray-800"
+                      aria-hidden="true"
+                    />
                   </button>
                   <Popover.Button className="-mx-2 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-300">
                     <span className="sr-only">Open menu</span>
@@ -104,7 +107,11 @@ export function Navbar({ currentUser }) {
                   <button
                     onClick={() => setNotificationOpen(!openNotifications)}
                     type="button"
-                    className="ml-auto flex-shrink-0 bg-white dark:bg-gray-800 rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-none"
+                    className={
+                      !hasNotification
+                        ? "ml-auto flex-shrink-0 bg-white dark:bg-gray-800 bg-gray-100 rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-none"
+                        : "ml-auto flex-shrink-0 bg-white text-blue-500 bg-blue-800 rounded-full p-1  hover:text-blue-300 focus:outline-none"
+                    }
                   >
                     <span className="sr-only">View notifications</span>
                     <HiOutlineBell

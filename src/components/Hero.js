@@ -9,10 +9,10 @@ export function Hero() {
       <div className="px-12 mx-auto max-w-7xl ">
         <div className="flex flex-col items-center w-full py-10 lg:space-x-10 lg:flex-row">
           <div className="relative z-10 w-full space-y-10 lg:w-1/2">
-            <h1 className="text-5xl font-bold sm:text-7xl xl:text-7xl tracking-tighter">
+            <h1 className="text-5xl font-bold sm:text-7xl xl:text-7xl tracking-tighter frontheader">
               Capture and share the world&apos;s moments
             </h1>
-            <p className="text-base text-gray-500 sm:text-lg">
+            <p className={"text-base text-gray-500 sm:text-lg titleHeader"}>
               Welcome to Foxxi. A social media platform made for people like
               you! Come, share and see what others are up to!
             </p>
