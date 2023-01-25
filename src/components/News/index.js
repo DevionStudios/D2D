@@ -26,17 +26,16 @@ export function TwitterFeed({ currentUser }) {
     try {
       let tempData = [];
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/tweets/trending`,
-        {
-          headers: {
-            cookies: document.cookie,
-          },
-        }
+        `https://newsapi.org/v2/everything?sortBy=publishedAt&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`
       );
       response.data.forEach((tweet) => {
         tempData.push({
           author: FoxxiOfficialUser,
-          caption: tweet.text,
+          caption: tweet.title + "\n" + tweet.description + "\n" + tweet.url,
+          media: {
+            mediatype: "image",
+            url: tweet.urlToImage,
+          },
           createdAt: tweet.created_at,
           id: tweet.id,
           hashtags: [],
