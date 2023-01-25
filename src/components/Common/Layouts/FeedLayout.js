@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import {
-  HiOutlineBookOpen,
   HiOutlineCog,
   HiOutlineFire,
   HiOutlineHashtag,
   HiOutlineHome,
   HiOutlineMail,
+  HiOutlineNewspaper,
   HiOutlineUser,
   HiOutlineGlobe,
   HiOutlineGlobeAlt,
@@ -17,6 +17,7 @@ import { IndeterminateProgress } from "src/components/ui/Progress";
 import { Redirect } from "./Redirect";
 import { TrendingFeed } from "../../Trending Feed";
 import { TwitterFeed } from "../../Twitter Trends";
+import { News } from "../../News";
 import { YourFeed } from "../../YourFeed";
 import { BiWallet } from "react-icons/bi";
 const RightSidebar = dynamic(async () => {
@@ -51,6 +52,12 @@ export function FeedLayout({ currentUser }) {
       icon: HiOutlineFire,
       name: "Foxxi Trends",
       id: "/twittertrends",
+    },
+    {
+      component: <News currentUser={currentUser} />,
+      icon: HiOutlineNewspaper,
+      name: "News",
+      id: "/news",
     },
     {
       component: <Redirect pageName={"/messages"} />,

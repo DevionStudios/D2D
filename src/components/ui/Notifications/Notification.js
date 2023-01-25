@@ -1,4 +1,9 @@
-import { HiHeart, HiOutlineReply, HiOutlineUserAdd } from "react-icons/hi";
+import {
+  HiHeart,
+  HiOutlineInformationCircle,
+  HiOutlineReply,
+  HiOutlineUserAdd,
+} from "react-icons/hi";
 import Link from "next/link";
 import { formatDistance } from "date-fns";
 import * as React from "react";
@@ -8,6 +13,7 @@ const NOTIFICATION_ICON = {
   POST_LIKE: <HiHeart className="text-red-600" />,
   POST_REPLY: <HiOutlineReply className="text-gray-500" />,
   MESSAGE: <HiOutlineReply className="text-gray-500" />,
+  ADMIN: <HiOutlineInformationCircle className="text-yellow-600" />,
 };
 
 export function Notification({ notification }) {
@@ -19,11 +25,13 @@ export function Notification({ notification }) {
       <div className="pl-3 w-full">
         <div className="flex items-center justify-between w-full">
           <p className="text-sm leading-none">
-            <span className="dark:text-blue-300 text-blue-300">
-              <Link href={`/profile/${notification.username}`}>
-                {notification.username}
-              </Link>
-            </span>{" "}
+            {notification.notificationType !== "ADMIN" && (
+              <span className="dark:text-blue-300 text-blue-300">
+                <Link href={`/profile/${notification.username}`}>
+                  {notification.username}
+                </Link>
+              </span>
+            )}
             {notification.notification}{" "}
             {notification.notificationType === "POST_REPLY" && (
               <Link href={`/post/${notification.postId}`}>post</Link>
