@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
 import { useMoralis } from "react-moralis";
-
 import { Navbar } from "src/components/Common/Navbar";
 import { FeedLayout } from "src/components/Common/Layouts/FeedLayout";
 export default function FeedPage({ currentUser }) {

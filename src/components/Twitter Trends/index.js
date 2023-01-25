@@ -10,6 +10,7 @@ import React, { useState, useEffect } from "react";
 import { SEO } from "../SEO";
 import { IndeterminateProgress } from "../ui/Progress";
 import axios from "axios";
+import Logo from "../../assets/Foxxi Logo.png";
 
 export function TwitterFeed({ currentUser }) {
   const [data, setData] = useState({});
@@ -19,7 +20,7 @@ export function TwitterFeed({ currentUser }) {
     id: "1",
     username: "FoxxiOfficial",
     name: "Foxxi",
-    image: "https://placekitten.com/200/300",
+    image: Logo,
   };
 
   const fetchAllPosts = async () => {

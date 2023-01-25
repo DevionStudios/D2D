@@ -10,6 +10,7 @@ import React, { useState, useEffect } from "react";
 import { SEO } from "../SEO";
 import { IndeterminateProgress } from "../ui/Progress";
 import axios from "axios";
+import Logo from "../../assets/Foxxi Logo.png";
 
 export function News({ currentUser }) {
   const [data, setData] = useState({});
@@ -19,7 +20,7 @@ export function News({ currentUser }) {
     id: "1",
     username: "foxxinews",
     name: "Foxxi News",
-    image: "https://placekitten.com/200/300",
+    image: Logo,
   };
 
   const fetchAllPosts = async () => {
@@ -54,7 +55,7 @@ export function News({ currentUser }) {
     return (
       <ErrorFallback
         action={() => {}}
-        message="Failed to fetch TwitterFeed for you. Try reloading."
+        message="Failed to fetch NewsFeed for you. Try reloading."
       />
     );
   }

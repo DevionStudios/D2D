@@ -5,6 +5,7 @@ import { TwitterTrendingInterweave } from "../TwitterTrendingInterweave";
 
 import NextImage from "next/image";
 import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
+import Logo from "../../assets/Foxxi Logo.png";
 
 export function TrendingTweetsPostCard(props) {
   if (!props.post || !props.post.author) {
@@ -18,10 +19,11 @@ export function TrendingTweetsPostCard(props) {
           <div className="px-6 py-4">
             <div className="flex space-x-3">
               <div className="flex-shrink-0">
-                <img
-                  className="h-10 w-10 rounded-full object-cover"
-                  src={props.post.author.image}
-                  alt={`Profile image of ${props.post.author.username}`}
+                <NextImage
+                  src={Logo}
+                  className="bg-gray-100 dark:bg-gray-900 rounded-full object-cover"
+                  width={50}
+                  height={50}
                 />
               </div>
               <div className="min-w-0 flex-1">
