@@ -43,7 +43,9 @@ export function TabbedLayout({ navigation, currentUser }) {
             ? 1
             : currentPath === "/trending"
             ? 2
-            : 3
+            : currentPath === "/twittertrends"
+            ? 3
+            : 4
         }
         onChange={(idx) => {
           if (navigation[idx].id == "connectwallet") return;

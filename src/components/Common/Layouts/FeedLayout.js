@@ -17,6 +17,7 @@ import { IndeterminateProgress } from "src/components/ui/Progress";
 import { Redirect } from "./Redirect";
 import { TrendingFeed } from "../../Trending Feed";
 import { TwitterFeed } from "../../Twitter Trends";
+import { News } from "../../News";
 import { YourFeed } from "../../YourFeed";
 import { BiWallet } from "react-icons/bi";
 const RightSidebar = dynamic(async () => {
@@ -53,7 +54,7 @@ export function FeedLayout({ currentUser }) {
       id: "/twittertrends",
     },
     {
-      component: <TwitterFeed currentUser={currentUser} />,
+      component: <News currentUser={currentUser} />,
       icon: HiOutlineNewspaper,
       name: "News",
       id: "/news",

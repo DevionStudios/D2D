@@ -11,7 +11,7 @@ import { SEO } from "../SEO";
 import { IndeterminateProgress } from "../ui/Progress";
 import axios from "axios";
 
-export function TwitterFeed({ currentUser }) {
+export function News({ currentUser }) {
   const [data, setData] = useState({});
   const [error, setError] = useState(false);
 
@@ -32,12 +32,12 @@ export function TwitterFeed({ currentUser }) {
         tempData.push({
           author: FoxxiOfficialUser,
           caption: tweet.title + "\n" + tweet.description + "\n" + tweet.url,
-          media: {
-            mediatype: "image",
-            url: tweet.urlToImage,
-          },
-          createdAt: tweet.created_at,
-          id: tweet.id,
+          // media: {
+          //   mediatype: "image",
+          //   url: tweet.urlToImage,
+          // },
+          createdAt: tweet.publishedAt,
+          id: tweet.source.id,
           hashtags: [],
         });
       });
@@ -116,9 +116,6 @@ export function EndMessage() {
         <div className="flex flex-col items-center justify-center">
           <HiCheckCircle className="w-10 h-10 mb-1 text-brand-500" />
           <p className="font-medium ">You&apos;re All Caught Up ! </p>
-          <span className="text-center">
-            Empty TwitterFeed? Follow people to see their posts.
-          </span>
         </div>
       </div>
     </Card>
