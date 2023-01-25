@@ -268,7 +268,7 @@ export function PostCard({ id, username, currentUser }) {
                   />
                 </div>
               )}
-              {data.media && (
+              {data.media.url && (
                 <div className="aspect-w-1 aspect-h-1 ">
                   {data.media &&
                   data.media.url &&

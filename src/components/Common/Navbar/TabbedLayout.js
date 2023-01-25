@@ -37,7 +37,13 @@ export function TabbedLayout({ navigation, currentUser }) {
     <>
       <Tab.Group
         defaultIndex={
-          currentPath === "/feed" ? 0 : currentPath === "/twittertrends" ? 2 : 1
+          currentPath === "/feed"
+            ? 0
+            : currentPath === "/yourfeed"
+            ? 1
+            : currentPath === "/trending"
+            ? 2
+            : 3
         }
         onChange={(idx) => {
           if (navigation[idx].id == "connectwallet") return;
@@ -102,7 +108,8 @@ export function TabbedLayout({ navigation, currentUser }) {
                     if (
                       item.name === "Profile" ||
                       item.name === "Settings" ||
-                      item.name === "Messages"
+                      item.name === "Messages" ||
+                      item.name === "Your Feed"
                     ) {
                       if (currentUser.annonymous) return null;
                     }

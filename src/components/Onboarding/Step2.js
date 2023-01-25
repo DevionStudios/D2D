@@ -90,8 +90,6 @@ export function Step2({ currentUser }) {
           toast("Profile updated successfully.");
           // After updating profile setLoading To false
           setLoading(false);
-          // Redirect to feed
-          router.push("/feed/");
         }}
       >
         <div className="flex space-x-3 px-5">
