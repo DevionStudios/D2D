@@ -27,16 +27,18 @@ export function News({ currentUser }) {
     try {
       let tempData = [];
       const response = await axios.get(
-        `https://newsapi.org/v2/everything?sortBy=publishedAt&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`
+        `https://newsapi.org/v2/everything?q=trending&sortBy=publishedAt&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`
       );
-      response.data.forEach((tweet) => {
+      console.log(response);
+      response.data.articles.forEach((tweet) => {
         tempData.push({
           author: FoxxiOfficialUser,
           caption: tweet.title + "\n" + tweet.description + "\n" + tweet.url,
-          // media: {
-          //   mediatype: "image",
-          //   url: tweet.urlToImage,
-          // },
+          media: {
+            mediatype: "image",
+            url: tweet.urlToImage,
+          },
+          // media: tweet.urlToImage,
           createdAt: tweet.publishedAt,
           id: tweet.source.id,
           hashtags: [],

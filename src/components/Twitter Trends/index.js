@@ -41,6 +41,10 @@ export function TwitterFeed({ currentUser }) {
           createdAt: tweet.created_at,
           id: tweet.id,
           hashtags: [],
+          media: {
+            url: "",
+            mediatype: "",
+          },
         });
       });
 
