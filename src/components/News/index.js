@@ -9,7 +9,7 @@ import { ErrorFallback } from "src/components/ui/Fallbacks/ErrorFallback";
 import React, { useState, useEffect } from "react";
 import { SEO } from "../SEO";
 import { IndeterminateProgress } from "../ui/Progress";
-import axios from "axios";
+import axios, { HttpStatusCode } from "axios";
 import Logo from "../../assets/Foxxi Logo.png";
 
 export function News({ currentUser }) {
@@ -27,24 +27,33 @@ export function News({ currentUser }) {
     try {
       let tempData = [];
       const response = await axios.get(
-        `https://newsapi.org/v2/everything?q=trending&sortBy=publishedAt&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`
+        `https://api.newscatcherapi.com/v2/search?q=all`,
+        {
+          headers: {
+            "x-api-key": process.env.NEXT_PUBLIC_NEWSCATCHER_NEWS_API_KEY,
+          },
+        }
       );
-      console.log(response);
-      response.data.articles.forEach((tweet) => {
+      console.log("News: ", response);
+      response.data.articles.forEach((tweet, index) => {
         tempData.push({
           author: FoxxiOfficialUser,
-          caption: tweet.title + "\n" + tweet.description + "\n" + tweet.url,
+          caption:
+            tweet.title +
+            "\n\n" +
+            tweet.summary +
+            "\n\n" +
+            "To know more: " +
+            tweet.link,
           media: {
             mediatype: "image",
-            url: tweet.urlToImage,
+            url: null,
           },
-          // media: tweet.urlToImage,
-          createdAt: tweet.publishedAt,
-          id: tweet.source.id,
+          createdAt: tweet.published_date,
+          id: index,
           hashtags: [],
         });
       });
-
       setData(tempData);
     } catch (e) {
       setError(true);
