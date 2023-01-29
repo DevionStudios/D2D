@@ -26,7 +26,10 @@ router.get(
       }
       let uniqueUsersId: any = [...new Set(associatedUsers)];
       console.log(uniqueUsersId);
-      console.log(uniqueUsersId);
+      uniqueUsersId = uniqueUsersId.filter(
+        (id: any) => id !== req.foxxiUser!.id.toString()
+      );
+      console.log("filtered:", uniqueUsersId);
       let uniqueUsers: any = [];
       for (let i = 0; i < uniqueUsersId.length; i++) {
         const existingUser = await User.findOne({
@@ -34,7 +37,6 @@ router.get(
         }).sort({ updatedAt: 1 });
         uniqueUsers.push(existingUser);
       }
-      uniqueUsers.splice(req.foxxiUser!.id.toString(), 1);
       res.status(200).send(uniqueUsers);
     } catch (e) {
       console.log("Error getting all messages", e);
