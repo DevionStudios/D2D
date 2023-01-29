@@ -30,7 +30,7 @@ export function News({ currentUser }) {
         `https://api.newscatcherapi.com/v2/search?q=all`,
         {
           headers: {
-            "x-api-key": process.env.NEXT_PUBLIC_NEWSCATCHER_NEWS_API_KEY,
+            "x-api-key": process.env.NEXT_PUBLIC_NEWS_API_KEY,
           },
         }
       );
