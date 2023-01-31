@@ -10,6 +10,7 @@ import React, { useState, useEffect } from "react";
 import { SEO } from "../SEO";
 import { IndeterminateProgress } from "../ui/Progress";
 import axios from "axios";
+import { StoryBar } from "../Stories";
 export function YourFeed({ currentUser }) {
   let fetchMore;
   const [data, setData] = useState({});
@@ -57,6 +58,7 @@ export function YourFeed({ currentUser }) {
           title="Explore · Foxxi"
           description="Explore community posts and posts from people you follow."
         />
+        <StoryBar />
         <main className="lg:col-span-7 xl:col-span-6 lg:grid lg:grid-cols-12 lg:gap-3">
           <div className="px-4 lg:col-span-12 -mt-3">
             <InfiniteScroll

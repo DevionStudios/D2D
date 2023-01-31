@@ -14,11 +14,13 @@ import { useEffect, useState } from "react";
 import { Menu, MenuItem } from "../ui/Dropdown";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import Link from "next/link";
 
 export function Profile({ user, isMe, username, currentUser }) {
   const isMobile = useMediaQuery(MEDIA_QUERIES.SMALL);
   const [userPosts, setUserPosts] = useState(undefined);
-  const [userStories, setUserStories] = useState(undefined);
+  const [hasStories, sethasStories] = useState(false);
+
   const fetchUserPost = async function () {
     try {
       const { data } = await axios.get(
@@ -29,12 +31,15 @@ export function Profile({ user, isMe, username, currentUser }) {
       // !remove console.log(error);
     }
   };
-  const fetchUserStories = async function () {
+  const fetchhasStories = async function () {
     try {
       const { data } = await axios.get(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/story/${user.username}`
       );
-      setUserStories(data);
+
+      if (data.length > 0) {
+        sethasStories(true);
+      }
     } catch (error) {
       // !remove console.log(error);
     }
@@ -67,7 +72,7 @@ export function Profile({ user, isMe, username, currentUser }) {
 
   useEffect(() => {
     fetchUserPost();
-    fetchUserStories();
+    fetchhasStories();
   }, []);
   return user ? (
     !user.isBanned ? (
@@ -86,16 +91,22 @@ export function Profile({ user, isMe, username, currentUser }) {
           )}
         </div>
         <div className={"max-w-5xl mx-auto px-2 sm:px-6 lg:px-8"}>
-          <div className="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
+          <div className="mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
             <div className="flex">
-              <img
-                className="h-24 w-24 rounded-full object-cover ring-4 ring-brand-500 sm:h-32 sm:w-32"
-                src={
-                  user.image ??
-                  "https://res.cloudinary.com/dogecorp/image/upload/v1631712846/d2d/v1/images/8_ni0eag.svg"
-                }
-                alt=""
-              />
+              <Link passHref href={`/stories/${user.username}`}>
+                <img
+                  className={
+                    hasStories
+                      ? "h-24 w-24 rounded-full object-cover ring-4 ring-red-500 sm:h-32 sm:w-32"
+                      : "h-24 w-24 rounded-full object-cover ring-4 ring-brand-500 sm:h-32 sm:w-32"
+                  }
+                  src={
+                    user.image ??
+                    "https://res.cloudinary.com/dogecorp/image/upload/v1631712846/d2d/v1/images/8_ni0eag.svg"
+                  }
+                  alt=""
+                />
+              </Link>
             </div>
           </div>
           <div className=" sm:flex-1 sm:min-w-0 sm:flex sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
@@ -210,8 +221,8 @@ export function Profile({ user, isMe, username, currentUser }) {
             username={user.username}
             currentUser={currentUser}
             user={user}
-            storiesCount={userStories ? userStories.length : 0}
-            stories={userStories || []}
+            storiesCount={hasStories ? hasStories.length : 0}
+            stories={hasStories || []}
           />
         </div>
       </div>

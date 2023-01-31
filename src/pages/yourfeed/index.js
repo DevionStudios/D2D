@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { Navbar } from "src/components/Common/Navbar";
 import { FeedLayout } from "src/components/Common/Layouts/FeedLayout";
+import { StoryBar } from "../../components/Stories";
 export default function FeedPage({ currentUser }) {
   const { account, deactivateWeb3 } = useMoralis();
   const router = useRouter();
@@ -77,7 +78,6 @@ export default function FeedPage({ currentUser }) {
   return (
     <>
       <Navbar currentUser={currentUser} />
-
       <FeedLayout currentUser={currentUser} />
     </>
   );

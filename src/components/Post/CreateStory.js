@@ -19,7 +19,7 @@ const oneOf = (keys) => (val) => {
 
 export const CreateStorySchema = object({
   caption: z.string().min(1, "Caption is required.").max(420),
-  media: z.any().optional(),
+  media: z.any(),
 }).refine(oneOf(["caption", "media"]), {
   message: "Please include a text body for stories without images.",
   path: ["caption"],
@@ -31,6 +31,12 @@ export function CreateStory({ currentUser }) {
   const createStory = async ({ variables }) => {
     //story data
     const { input } = variables;
+
+    if (!input.media) {
+      toast.error("Please include an image.");
+      return;
+    }
+
     const formdata = new FormData();
     formdata.append("caption", input.caption);
     formdata.append("media", input.media);
@@ -50,7 +56,7 @@ export function CreateStory({ currentUser }) {
       router.push(`/stories/${currentUser.username}`);
     } catch (e) {
       console.log(e);
-      toast.error("Couldn't post your story");
+      toast.error("Failed to create story. Try again.");
     } finally {
       setLoading(false);
     }
