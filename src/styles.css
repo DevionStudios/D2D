@@ -246,6 +246,7 @@ div.css-h5ends {
 .dark .chatcontainer {
   background-color: rgb(30, 30, 30);
 }
+
 .dark .myMessage {
   border-radius: 10px;
   padding: 0rem;
@@ -361,8 +362,19 @@ div.css-h5ends {
     padding: 5%;
     border-radius: 8px;
   }
+  .chatcontainer {
+    width: 90%;
+    height: 87vh;
+    border-radius: 10px;
+    padding: 2%;
+  }
+  .dark .chatcontainer {
+    background-color: rgb(30, 30, 30);
+  }
+  .sendmessage {
+    width: 80%;
+  }
 }
-
 .navheader {
   font-size: 1.5rem;
   font-weight: 700;
