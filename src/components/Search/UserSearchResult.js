@@ -20,14 +20,8 @@ export function UserSearchResult({ data, currentUser }) {
   return (
     <div className="dark:bg-gray-900">
       <Heading size="h4" className="py-4 px-4">
-        Search Results for &quot;{router.query.query}&quot; in{" "}
-        {router.query.type}s
+        Search Results
       </Heading>
-      <p className="text-muted text-sm  px-4">
-        Want to search hashtags instead? Include a &apos;#&apos; in your query.
-        eg. #doge
-      </p>
-
       <div className="flow-root mt-2 px-4 dark:bg-gray-900">
         <ul role="list" className=" divide-y divide-gray-200">
           {users.length > 0 ? (
