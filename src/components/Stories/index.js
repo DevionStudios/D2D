@@ -26,8 +26,8 @@ export const StoryBar = () => {
 
   return stories && stories.length > 0 ? (
     <>
-      <div className="bg-white/70 dark:bg-black backdrop-blur-md py-3 px-4 sm:px-4 md:px-6 lg:px-10 xl:px-12 z-10 pb-2 truncate">
-        <div className="mx-auto max-w-7xl relative flex justify-start xl:grid xl:grid-cols-10 overflow-x-scroll stories-list">
+      <div className="bg-white/70 dark:bg-black backdrop-blur-md sm:px-4 md:px-6 lg:px-10 xl:px-12 z-10 pb-2 truncate">
+        <div className="mx-auto max-w-7xl relative flex justify-start py-1 xl:grid xl:grid-cols-10 overflow-x-scroll scrollbar-hide">
           {stories &&
             stories.length > 0 &&
             stories.map((story, index) => {
@@ -39,7 +39,7 @@ export const StoryBar = () => {
                   >
                     <div className="flex-shrink-0 mx-1 ">
                       <img
-                        className="h-14 w-14 rounded-full ring-2 ring-red-500"
+                        className="h-12 w-12 rounded-full ring-2 ring-red-500"
                         src={story.author.image}
                         alt=""
                       />
