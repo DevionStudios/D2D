@@ -56,7 +56,7 @@ import { deleteNotificationRouter } from "./routes/notifications/delete-notifica
 import { addMessageRouter } from "./routes/message/add-message";
 import { repostRouter } from "./routes/reposts/repost";
 import { createStoryRouter } from "./routes/story/create-story";
-import { getAllStoriesRouter } from "./routes/story/get-stories";
+import { getUserStoriesRouter } from "./routes/story/get-stories";
 import { getFollowingUserStoriesRouter } from "./routes/story/get-following-user-stories";
 import { getMessageRouter } from "./routes/message/get-all-message";
 import { getAssociatedUsersRouter } from "./routes/message/get-associated-users";
@@ -65,6 +65,7 @@ import { preferencePostRouter } from "./routes/posts/get-preference-post";
 import { addPreferencesRouter } from "./routes/preferences/add-preference";
 import { createNotificationforSingleUserRouter } from "./routes/admin/notify-user";
 import { createOfficialPostRouter } from "./routes/admin/create-post";
+import { getAllStoriesRouter } from "./routes/story/get-all-stories";
 
 const app = express();
 app.use(
@@ -141,6 +142,7 @@ app.use(getAssociatedUsersRouter);
 app.use(getNotificationRouter);
 app.use(deleteNotificationRouter);
 app.use(repostRouter);
+app.use(getUserStoriesRouter);
 app.use(getAllStoriesRouter);
 app.use(createStoryRouter);
 app.use(getFollowingUserStoriesRouter);

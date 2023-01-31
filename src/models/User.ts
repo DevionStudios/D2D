@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { Password } from "../services/password";
 import { PostDoc } from "./Post";
+import { StoryDoc } from "./Story";
 
 interface UserAttrs {
   email?: string;
@@ -14,6 +15,7 @@ interface UserAttrs {
   followers?: UserDoc[];
   following?: UserDoc[];
   posts?: PostDoc[];
+  stories?: boolean;
   hasClaimed?: boolean;
   twitterUsername?: string;
   accountWallet?: string;
@@ -39,6 +41,7 @@ export interface UserDoc extends mongoose.Document {
   following?: UserDoc[];
   hashtagsfollowed?: string[];
   posts?: PostDoc[];
+  stories?: boolean;
   updatedAt?: Date;
   createdAt?: Date;
   hasClaimed?: boolean;
@@ -115,6 +118,10 @@ const userSchema = new mongoose.Schema(
         },
       ],
       default: [],
+    },
+    stories: {
+      type: Boolean,
+      default: false,
     },
     twitterUsername: {
       type: String,

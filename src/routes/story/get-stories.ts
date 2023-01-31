@@ -27,4 +27,4 @@ router.get("/api/story/:username", async (req: Request, res: Response) => {
   }
 });
 
-export { router as getAllStoriesRouter };
+export { router as getUserStoriesRouter };
