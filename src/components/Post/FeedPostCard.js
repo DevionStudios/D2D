@@ -32,6 +32,34 @@ export function FeedPostCard(props) {
   const [likes, setLikes] = useState(props.post?.likes?.length);
   const [comments, setComments] = useState(props.post?.comments?.length);
   const [reposts, setReposts] = useState(props.post?.reposts);
+  const [deviceType, setDeviceType] = useState("");
+
+  useEffect(() => {
+    let hasTouchScreen = false;
+    if ("maxTouchPoints" in navigator) {
+      hasTouchScreen = navigator.maxTouchPoints > 0;
+    } else if ("msMaxTouchPoints" in navigator) {
+      hasTouchScreen = navigator.msMaxTouchPoints > 0;
+    } else {
+      const mQ = window.matchMedia && matchMedia("(pointer:coarse)");
+      if (mQ && mQ.media === "(pointer:coarse)") {
+        hasTouchScreen = !!mQ.matches;
+      } else if ("orientation" in window) {
+        hasTouchScreen = true; // deprecated, but good fallback
+      } else {
+        // Only as a last resort, fall back to user agent sniffing
+        var UA = navigator.userAgent;
+        hasTouchScreen =
+          /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
+          /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA);
+      }
+    }
+    if (hasTouchScreen) {
+      setDeviceType("Mobile");
+    } else {
+      setDeviceType("Desktop");
+    }
+  }, []);
 
   let loading;
   useEffect(() => {
@@ -198,6 +226,8 @@ export function FeedPostCard(props) {
                     gifLink={props.post.gifLink ?? ""}
                     currentUser={props.currentUser}
                     post={props.post}
+                    deviceType={deviceType}
+                    repost={repost}
                   />
                 )}
               </div>
@@ -282,16 +312,18 @@ export function FeedPostCard(props) {
                       <p>{comments || "0"}</p>
                     </Button>
                   </span>
-                  <span className="inline-flex items-center space-x-2">
-                    <Button
-                      variant="dark"
-                      onClick={() => repost()}
-                      className="space-x-2"
-                    >
-                      <BiRepost className="w-5 h-5" />
-                      <p>{reposts || "0"}</p>
-                    </Button>
-                  </span>
+                  {deviceType !== "Mobile" && (
+                    <span className="inline-flex items-center space-x-2">
+                      <Button
+                        variant="dark"
+                        onClick={() => repost()}
+                        className="space-x-2"
+                      >
+                        <BiRepost className="w-5 h-5" />
+                        <p>{reposts || "0"}</p>
+                      </Button>
+                    </span>
+                  )}
                 </>
               ) : null}
               {/* To Tip on the posts */}

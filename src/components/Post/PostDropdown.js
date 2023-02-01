@@ -5,6 +5,7 @@ import {
   HiOutlineShare,
   HiOutlineTrash,
 } from "react-icons/hi";
+import { BiRepost } from "react-icons/bi";
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
@@ -20,6 +21,8 @@ export function PostDropdown({
   gifLink,
   currentUser,
   post,
+  deviceType,
+  repost,
 }) {
   const [editPostModal, setEditPostModal] = useState(false);
   const [deletePostModal, setDeletePostModal] = useState(false);
@@ -102,6 +105,19 @@ export function PostDropdown({
             >
               Share
             </MenuItem>
+
+            {!isMine &&
+              currentUser.anonymous !== true &&
+              deviceType === "Mobile" && (
+                <MenuItem
+                  icon={<BiRepost />}
+                  onClick={async () => {
+                    repost();
+                  }}
+                >
+                  Repost
+                </MenuItem>
+              )}
           </>
         }
       >
