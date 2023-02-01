@@ -4,9 +4,6 @@ export function Step1() {
       <div
         style={{
           backgroundPosition: "center",
-
-          backgroundImage:
-            "url(https://res.cloudinary.com/dogecorp/image/upload/v1635431084/DogeSocial/covers/bg_nakcmn.svg)",
         }}
         className="py-8 mx-auto w-full sm:py-10 my-6 relative  lg:max-w-2xl overflow-hidden rounded-lg bg-gradient-to-r from-blue-500 to-green-500 lg:py-8 md:px-6 lg:flex lg:items-center lg:justify-between md:shadow-xl md:bg-purple-1000"
       >

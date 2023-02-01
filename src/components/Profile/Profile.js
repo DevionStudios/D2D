@@ -100,10 +100,7 @@ export function Profile({ user, isMe, username, currentUser }) {
                       ? "h-24 w-24 rounded-full object-cover ring-4 ring-red-500 sm:h-32 sm:w-32"
                       : "h-24 w-24 rounded-full object-cover ring-4 ring-brand-500 sm:h-32 sm:w-32"
                   }
-                  src={
-                    user.image ??
-                    "https://res.cloudinary.com/dogecorp/image/upload/v1631712846/d2d/v1/images/8_ni0eag.svg"
-                  }
+                  src={user.image}
                   alt=""
                 />
               </Link>

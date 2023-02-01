@@ -7,7 +7,7 @@ export const SEO = ({
   title,
   description,
   path,
-  image = `/images/og/logo.png`,
+  image = `/assets/Foxxi Logo.png`,
   cardType = "summary",
 }) => {
   return (

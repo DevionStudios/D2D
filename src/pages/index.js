@@ -10,7 +10,7 @@ export default function Home({ currentUser }) {
       <SEO
         title="Foxxi | Capture and share the world's moments"
         description="Foxxi is a social media platform created for you. See what your friends are up to."
-        image="https://i.imgur.com/ni5JNk1.png"
+        image="/assets/homepage.png"
         cardType="summary_large_image"
         path="/"
       />

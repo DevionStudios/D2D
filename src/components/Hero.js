@@ -33,13 +33,7 @@ export function Hero() {
               </a>
             </div>
           </div>
-          <div className="relative z-0 w-full mt-8 lg:w-1/2">
-            {/* <img
-              src="https://res.cloudinary.com/dogecorp/image/upload/q_69/v1635767865/Saly-1245_eqly7l.png"
-              className="transform xl:translate-x-20 lg:ml-0 lg:scale-125"
-              alt="Illustration showing a social media website on a mobile device."
-            /> */}
-          </div>
+          <div className="relative z-0 w-full mt-8 lg:w-1/2"></div>
         </div>
       </div>
     </section>
