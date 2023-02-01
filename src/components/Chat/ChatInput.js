@@ -47,7 +47,7 @@ function ChatInput({ handleSendMessage }) {
               setMessage(e.target.value);
             }}
           />
-          <button>
+          <button className="sendbutton">
             <IoMdSend />
           </button>
         </form>

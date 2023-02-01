@@ -14,7 +14,10 @@ export function TrendingTweetsPostCard(props) {
 
   return (
     <>
-      <Card noPadding className="max-w-2xl overflow-hidden my-3 rounded-lg ">
+      <Card
+        noPadding
+        className="max-w-2xl overflow-hidden my-3 rounded-lg dark:bg-gray-900"
+      >
         <article>
           <div className="px-6 py-4">
             <div className="flex space-x-3">

@@ -232,7 +232,13 @@ export function TabbedLayout({ navigation, currentUser }) {
                           >
                             {({ selected }) => (
                               <span className="w-full focus:text-teal-500 hover:text-teal-500 justify-center  text-center pt-2 pb-1">
-                                <Icon className="inline-block pb-1 text-blue-800 h-9 w-9" />
+                                <Icon
+                                  className={
+                                    selected
+                                      ? "inline-block pb-1 text-blue-800 h-9 w-9"
+                                      : "inline-block pb-1 dark:text-white text-gray-800 h-9 w-9"
+                                  }
+                                />
                               </span>
                             )}
                           </Tab>
