@@ -16,6 +16,35 @@ export function TabbedLayout({ navigation, currentUser }) {
   const [defaultidx, setDefaultIdx] = useState(0);
   const [walletAccount, setWalletAccount] = useState(false);
   const { account, deactivateWeb3, isWeb3Enabled, enableWeb3 } = useMoralis();
+  const [deviceType, setDeviceType] = useState("");
+
+  useEffect(() => {
+    let hasTouchScreen = false;
+    if ("maxTouchPoints" in navigator) {
+      hasTouchScreen = navigator.maxTouchPoints > 0;
+    } else if ("msMaxTouchPoints" in navigator) {
+      hasTouchScreen = navigator.msMaxTouchPoints > 0;
+    } else {
+      const mQ = window.matchMedia && matchMedia("(pointer:coarse)");
+      if (mQ && mQ.media === "(pointer:coarse)") {
+        hasTouchScreen = !!mQ.matches;
+      } else if ("orientation" in window) {
+        hasTouchScreen = true; // deprecated, but good fallback
+      } else {
+        // Only as a last resort, fall back to user agent sniffing
+        var UA = navigator.userAgent;
+        hasTouchScreen =
+          /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
+          /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA);
+      }
+    }
+    if (hasTouchScreen) {
+      setDeviceType("Mobile");
+    } else {
+      setDeviceType("Desktop");
+    }
+  }, []);
+
   function handleChange(idx) {
     const path = navigation[idx].id;
     if (path == "connectwallet") {
@@ -33,7 +62,7 @@ export function TabbedLayout({ navigation, currentUser }) {
     console.log("account", account);
     console.log(isWeb3Enabled);
   }, []);
-  return (
+  return deviceType !== "Mobile" ? (
     <>
       <Tab.Group
         defaultIndex={
@@ -150,6 +179,73 @@ export function TabbedLayout({ navigation, currentUser }) {
           </nav>
         </aside>
         <Tab.Panels className="space-y-6 sm:px-6 lg:px-0 lg:col-span-9">
+          {navigation.map((panel, index) => {
+            return <Tab.Panel key={index}>{panel.component}</Tab.Panel>;
+          })}
+        </Tab.Panels>
+      </Tab.Group>
+    </>
+  ) : (
+    <>
+      <Tab.Group
+        defaultIndex={
+          currentPath === "/feed"
+            ? 0
+            : currentPath === "/yourfeed"
+            ? 1
+            : currentPath === "/trending"
+            ? 2
+            : currentPath === "/twittertrends"
+            ? 3
+            : 4
+        }
+        onChange={(idx) => {
+          if (navigation[idx].id == "connectwallet") return;
+          handleChange(idx);
+        }}
+      >
+        <div className="w-full">
+          <section
+            id="bottom-navigation"
+            className="block fixed inset-x-0 bottom-0 z-10"
+          >
+            <div id="tabs" className="">
+              {navigation && navigation.length > 0 && (
+                <Tab.List className="flex flex-row">
+                  {navigation.map((item, index) => {
+                    const Icon = item.icon;
+
+                    if (item.name === "Messages" || item.name === "Your Feed") {
+                      if (currentUser.annonymous) return null;
+                    }
+
+                    if (
+                      item.name !== "Connect Wallet" &&
+                      item.name !== "Profile" &&
+                      item.name !== "Settings"
+                    ) {
+                      return (
+                        <>
+                          <Tab
+                            key={index}
+                            className="dark:bg-black bg-slate-200 flex flex-grow"
+                          >
+                            {({ selected }) => (
+                              <span className="w-full focus:text-teal-500 hover:text-teal-500 justify-center  text-center pt-2 pb-1">
+                                <Icon className="inline-block pb-1 text-blue-800 h-7 w-7" />
+                              </span>
+                            )}
+                          </Tab>
+                        </>
+                      );
+                    }
+                  })}
+                </Tab.List>
+              )}
+            </div>
+          </section>
+        </div>
+        <Tab.Panels className="">
           {navigation.map((panel, index) => {
             return <Tab.Panel key={index}>{panel.component}</Tab.Panel>;
           })}

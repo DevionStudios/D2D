@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 import { Popover } from "@headlessui/react";
@@ -25,10 +25,38 @@ export function Navbar({ currentUser }) {
   const [openNotifications, setNotificationOpen] = useState(false);
   const [hasNotification, setHasNotification] = useState(false);
   const user = currentUser;
+  const [deviceType, setDeviceType] = useState("");
+
+  useEffect(() => {
+    let hasTouchScreen = false;
+    if ("maxTouchPoints" in navigator) {
+      hasTouchScreen = navigator.maxTouchPoints > 0;
+    } else if ("msMaxTouchPoints" in navigator) {
+      hasTouchScreen = navigator.msMaxTouchPoints > 0;
+    } else {
+      const mQ = window.matchMedia && matchMedia("(pointer:coarse)");
+      if (mQ && mQ.media === "(pointer:coarse)") {
+        hasTouchScreen = !!mQ.matches;
+      } else if ("orientation" in window) {
+        hasTouchScreen = true; // deprecated, but good fallback
+      } else {
+        // Only as a last resort, fall back to user agent sniffing
+        var UA = navigator.userAgent;
+        hasTouchScreen =
+          /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
+          /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA);
+      }
+    }
+    if (hasTouchScreen) {
+      setDeviceType("Mobile");
+    } else {
+      setDeviceType("Desktop");
+    }
+  }, []);
   if (currentUser?.annonymous === true) {
     return (
       <>
-        <UnauthorizedHeader />
+        <UnauthorizedHeader deviceType={deviceType} />
       </>
     );
   }
@@ -72,11 +100,13 @@ export function Navbar({ currentUser }) {
                     <Link href={`/feed`}>
                       <Image src={Logo} alt="Foxxi" width={67} height={67} />
                     </Link>
-                    <h1 className="foxxiLogoText">Foxxi</h1>
+                    <h1 className="foxxiLogoText">
+                      {deviceType !== "Mobile" && "Foxxi"}
+                    </h1>
                   </div>
                 </div>
                 <div className="min-w-0 flex-1  lg:px-0 lg:max-w-5xl xl:col-span-6 flex-grow">
-                  <div className="flex items-center px-12 py-4  md:max-w-5xl md:mx-12 lg:mx-10 xl:px-0">
+                  <div className="flex items-center px-2 sm:px-10 py-4  md:max-w-5xl md:mx-12 lg:mx-10 xl:px-0">
                     <SearchBar />
                   </div>
                 </div>

@@ -11,7 +11,7 @@ import { Heading } from "src/components/ui/Heading";
 import Logo from "../../../assets/Foxxi Logo.png";
 import { GradientBar } from "src/components/ui/GradientBar";
 
-export function UnauthorizedHeader() {
+export function UnauthorizedHeader({ deviceType }) {
   const router = useRouter();
   return (
     <div className="mb-[-90px]">
