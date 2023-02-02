@@ -145,17 +145,9 @@ export function Profile({ user, isMe, username, currentUser }) {
                   ) : !currentUser.annonymous ? (
                     <>
                       <FollowButton
-                        isFollowing={
-                          user.followers.length > 0
-                            ? user.followers.map((follower, index) => {
-                                if (follower.id === currentUser.id) {
-                                  return true;
-                                }
-                                if (index === user.followers.length - 1)
-                                  return false;
-                              })
-                            : false
-                        }
+                        isFollowing={user?.followers
+                          ?.map((f) => f.id)
+                          .includes(currentUser.id)}
                         username={user.username}
                         id={user.id}
                         size={isMobile ? "base" : "lg"}

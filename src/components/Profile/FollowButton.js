@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "../ui/Button";
 import { toast } from "react-hot-toast";
@@ -11,6 +11,10 @@ export function FollowButton({
   ...props
 }) {
   const [following, setIsFollowing] = useState(isFollowing);
+  console.log("isFollowing", isFollowing);
+  useEffect(() => {
+    setIsFollowing(isFollowing);
+  });
 
   const followUser = async ({ variables }) => {
     try {
