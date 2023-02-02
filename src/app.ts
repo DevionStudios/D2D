@@ -65,6 +65,7 @@ import { preferencePostRouter } from "./routes/posts/get-preference-post";
 import { addPreferencesRouter } from "./routes/preferences/add-preference";
 import { createNotificationforSingleUserRouter } from "./routes/admin/notify-user";
 import { createOfficialPostRouter } from "./routes/admin/create-post";
+import { fetchUserByIdRouter } from "./routes/auth/fetch-user-by-id";
 
 const app = express();
 app.use(
@@ -137,7 +138,7 @@ app.use(createNotificationRouter);
 app.use(addMessageRouter);
 app.use(getMessageRouter);
 app.use(getAssociatedUsersRouter);
-
+app.use(fetchUserByIdRouter);
 app.use(getNotificationRouter);
 app.use(deleteNotificationRouter);
 app.use(repostRouter);
