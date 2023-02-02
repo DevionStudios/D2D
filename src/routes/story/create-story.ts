@@ -62,6 +62,8 @@ router.post(
         author: existingUser as UserDoc,
       });
 
+      existingUser.stories = true;
+
       await story.save();
 
       res.status(201).send({
