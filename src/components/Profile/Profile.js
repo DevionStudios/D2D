@@ -160,11 +160,13 @@ export function Profile({ user, isMe, username, currentUser }) {
                         username={user.username}
                         id={user.id}
                         size={isMobile ? "base" : "lg"}
+                        className="mx-1"
                         currentUser={currentUser}
                       />
                       <Button
                         href={`/chat/${user.id}`}
                         size={isMobile ? "base" : "lg"}
+                        className="mx-1"
                       >
                         Message
                       </Button>
