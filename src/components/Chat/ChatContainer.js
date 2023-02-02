@@ -5,7 +5,7 @@ import ChatInput from "./ChatInput";
 import { IoMdSend } from "react-icons/io";
 import { toast, Toaster } from "react-hot-toast";
 
-const ChatContainer = ({ currentUser, otherUser, socket }) => {
+const ChatContainer = ({ currentUser, otherUser, socket, other }) => {
   const [messages, setMessages] = useState([]);
   const [arrivalMessage, setArrivalMessage] = useState(null);
   useEffect(() => {
@@ -91,7 +91,15 @@ const ChatContainer = ({ currentUser, otherUser, socket }) => {
     <>
       <div className="chatcontainer">
         <div>
-          <h1 className="chatheader">Direct Messages</h1>
+          <h1 className="chatheader">
+            Direct Messages With{" "}
+            <i>
+              @
+              {other.username?.length > 6
+                ? other.username.substring(0, 6) + "..."
+                : other.username}
+            </i>
+          </h1>
         </div>
         <div className="messages" id="msg">
           {messages.length > 0 ? (

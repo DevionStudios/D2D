@@ -392,8 +392,6 @@ div.css-h5ends {
   .sendmessage {
     width: 80%;
     height: 70%;
-    position: relative;
-    top: 30px;
   }
   .messages {
     border: none;
@@ -403,10 +401,6 @@ div.css-h5ends {
   .dark .messages {
     border: none;
     border-width: 0;
-  }
-  .sendbutton {
-    position: relative;
-    top: 30px;
   }
 }
 .navheader {
