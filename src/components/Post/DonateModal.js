@@ -53,7 +53,6 @@ export function DonateModal({
         );
       } catch (err) {
         toast.error("Wallet Address of receiver not found!");
-        // !remove console.log(err);
       }
     } else {
       if (!account) {

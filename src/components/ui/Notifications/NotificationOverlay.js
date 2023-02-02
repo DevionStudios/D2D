@@ -24,12 +24,10 @@ export function NotificationOverlay({ open, setOpen, setHasNotification }) {
           },
         }
       );
-      console.log("notification", response.data.data);
       setData(response.data.data);
       setHasNotification(response.data.data.length > 0 ? true : false);
     } catch (error) {
       setError(true);
-      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -44,13 +42,11 @@ export function NotificationOverlay({ open, setOpen, setHasNotification }) {
           },
         }
       );
-      console.log(response.data);
       setData([]);
       setHasNotification(false);
       toast.success("Notifications cleared");
     } catch (error) {
       toast.error("Failed to clear notifications");
-      console.log(error);
     }
   };
 

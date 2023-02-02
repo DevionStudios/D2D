@@ -28,7 +28,7 @@ export function Profile({ user, isMe, username, currentUser }) {
       );
       setUserPosts(data);
     } catch (error) {
-      // !remove console.log(error);
+      //  console.log(error);
     }
   };
   const fetchhasStories = async function () {
@@ -41,7 +41,7 @@ export function Profile({ user, isMe, username, currentUser }) {
         sethasStories(true);
       }
     } catch (error) {
-      // !remove console.log(error);
+      //  console.log(error);
     }
   };
 
@@ -65,7 +65,6 @@ export function Profile({ user, isMe, username, currentUser }) {
         toast.error("You have already reported this user");
       }
     } catch (error) {
-      console.log(error);
       toast.error(error?.response?.data?.message || "Failed to report user");
     }
   };
@@ -160,11 +159,13 @@ export function Profile({ user, isMe, username, currentUser }) {
                         username={user.username}
                         id={user.id}
                         size={isMobile ? "base" : "lg"}
+                        className="mx-1"
                         currentUser={currentUser}
                       />
                       <Button
                         href={`/chat/${user.id}`}
                         size={isMobile ? "base" : "lg"}
+                        className="mx-1"
                       >
                         Message
                       </Button>

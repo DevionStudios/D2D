@@ -51,7 +51,6 @@ export function ReplyModal({
           },
         }
       );
-      console.log(response2.data);
       onClose();
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went Wrong!");

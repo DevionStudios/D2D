@@ -57,7 +57,7 @@ export function PostCard({ id, username, currentUser }) {
       setComments(res.data?.comments);
       setIsLiked(res.data?.likes?.includes(currentUser.id));
     } catch (e) {
-      // !remove console.log(e);
+      // console.log(e);
     }
     setLoading(false);
   };
@@ -103,7 +103,7 @@ export function PostCard({ id, username, currentUser }) {
         console.log(response2.data);
       }
     } catch (e) {
-      // !remove console.log(e);
+      // console.log(e);
     }
   };
 
@@ -143,7 +143,7 @@ export function PostCard({ id, username, currentUser }) {
       toast.success("Your comment has been posted.");
       form.reset();
     } catch (error) {
-      // !remove console.log(error);
+      // console.log(error);
     }
   };
 
@@ -163,8 +163,6 @@ export function PostCard({ id, username, currentUser }) {
         message="Failed to load post. Please try reloading"
       />
     );
-
-  console.log("media", data);
 
   return data && data.author ? (
     <>

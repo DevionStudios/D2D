@@ -27,8 +27,6 @@ export function PostDropdown({
   const [editPostModal, setEditPostModal] = useState(false);
   const [deletePostModal, setDeletePostModal] = useState(false);
 
-  console.log("post", post.originalPostId);
-
   const reportPost = async () => {
     try {
       const response = await axios.put(

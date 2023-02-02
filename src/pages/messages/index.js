@@ -87,9 +87,7 @@ export default function UserMessagePage({ currentUser }) {
       );
       
       setUsers(data);
-      console.log(data);
     } catch (e) {
-      console.log(e);
       toast.error("Error fetching users");
     }
   };

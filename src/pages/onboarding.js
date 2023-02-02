@@ -148,7 +148,6 @@ export default function Onboarding({ currentUser }) {
       //redirect to feed
       router.push("/feed");
     } catch (e) {
-      console.log(e);
       toast.error("Preferences could not be added!");
     }
   };

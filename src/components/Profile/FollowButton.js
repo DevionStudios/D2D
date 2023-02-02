@@ -41,7 +41,6 @@ export function FollowButton({
             },
           }
         );
-        console.log(response2.data);
       }
       window.location.reload();
     } catch (error) {
