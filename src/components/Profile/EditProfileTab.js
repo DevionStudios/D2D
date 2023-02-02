@@ -112,7 +112,6 @@ export function EditProfileTab({ currentUser }) {
             coverImage: values?.coverImage?.[0],
             bio: values.bio,
           };
-          // !remove console.log(input);
           await updateProfile({
             variables: { input },
           });

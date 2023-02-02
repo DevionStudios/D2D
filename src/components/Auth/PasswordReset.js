@@ -52,7 +52,6 @@ export function PasswordReset() {
         },
         { withCredentials: true }
       );
-      console.log(res.data);
       const jwtToken = "foxxi_jwt=" + res.data.jwt;
       var date = new Date();
       date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 days expiry
@@ -77,13 +76,11 @@ export function PasswordReset() {
         { email: email },
         { withCredentials: true }
       );
-      console.log(response.data);
       toast.success("Verification Code Sent");
       setDisableSendButton(true);
       setDisableVerifyButton(false);
     } catch (e) {
       toast.error("Unable To Send Verification Code");
-      console.log(e);
     }
   };
 
@@ -100,7 +97,6 @@ export function PasswordReset() {
         { email: email, code: verificationCode },
         { withCredentials: true }
       );
-      console.log(response.data);
       if (response.status == "200") {
         toast.success("Email Verified");
         setDisableVerifyButton(true);
@@ -108,7 +104,6 @@ export function PasswordReset() {
       }
     } catch (e) {
       toast.error("Please enter a valid code!");
-      console.log(e);
     }
   };
   return (

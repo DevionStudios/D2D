@@ -47,7 +47,6 @@ export function Preferences({ currentUser }) {
           },
         }
       );
-      // !remove console.log(response.data);
       const hasClaimed = response.data.hasClaimed;
       if (hasClaimed) {
         toast.error("You have already claimed the token!");
@@ -57,14 +56,11 @@ export function Preferences({ currentUser }) {
         const owner = provider.getSigner(
           process.env.NEXT_PUBLIC_TOKEN_DEPLOYER_PUBLIC_ADDRESS
         );
-        // !remove console.log("reward", process.env.NEXT_PUBLIC_SIGN_UP_REWARD);
         const FoxxiTokenContract = new ethers.Contract(
           networkMapping[networkChainId]["FoxxiToken"].slice(-1)[0],
           FoxxiToken,
           signer
         );
-        // !remove console.log("owneraddress", (await owner.getAddress()).toString());
-        // !remove console.log("recieveraddress", (await signer.getAddress()).toString());
         const receiverWalletAddress = (await signer.getAddress()).toString();
         const ownerWalletAddress = (await owner.getAddress()).toString();
         let tx = await FoxxiTokenContract.transferFromCustom(

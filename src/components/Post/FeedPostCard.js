@@ -113,7 +113,6 @@ export function FeedPostCard(props) {
               },
             }
           );
-          console.log(response2.data);
         }
       } else {
         toast.error(response.data.message);

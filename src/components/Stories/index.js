@@ -7,6 +7,8 @@ export const StoryBar = () => {
   const [stories, setStories] = useState([]);
 
   const getAllStories = async () => {
+    let tempStories;
+
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/story`,
       {
@@ -16,9 +18,17 @@ export const StoryBar = () => {
       }
     );
 
-    console.log("Stories: ", response);
+    tempStories = response.data;
 
-    setStories(response.data);
+    // get stories by unique story.author.username
+    tempStories.reduce((acc, story) => {
+      if (!acc[story.author.username]) {
+        acc[story.author.username] = story;
+      }
+      return acc;
+    }, {});
+
+    setStories(tempStories);
   };
 
   useEffect(() => {

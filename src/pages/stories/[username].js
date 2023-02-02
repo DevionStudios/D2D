@@ -19,7 +19,6 @@ import { Button } from "src/components/ui/Button";
 export default function Post({ currentUser }) {
   const router = useRouter();
   const username = router.query.username;
-  console.log(username);
   const { account, deactivateWeb3 } = useMoralis();
   const [data, setData] = useState([]);
   const [error, setError] = useState(false);
@@ -33,8 +32,6 @@ export default function Post({ currentUser }) {
         },
       }
     );
-
-    console.log("Response data: ", response.data);
 
     setData(response.data);
   };
