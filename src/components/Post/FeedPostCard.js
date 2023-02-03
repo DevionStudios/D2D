@@ -266,7 +266,7 @@ export function FeedPostCard(props) {
             )}
           </Link>
           {/* Post Actions */}
-          <div className="py-2 px-6 bg-gray-30 dark:bg-gray-900/70 flex border-t border-gray-200 dark:border-gray-700 justify-between space-x-8">
+          <div className="py-2 px-6 bg-gray-200 dark:bg-gray-900/70 flex border-t border-gray-200 dark:border-gray-700 justify-between space-x-8">
             <div className="flex space-x-6">
               {!props.currentUser.annonymous ? (
                 <>

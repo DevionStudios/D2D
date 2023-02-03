@@ -40,8 +40,8 @@ export function DonateModal({
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const tokenContract = new ethers.Contract(
-          networkMapping[networkChainId]["FoxxiToken"].slice(-1)[0], //TODO fetch chainId from moralis
-          FoxxiToken, //TODO uncommment this
+          networkMapping[networkChainId]["FoxxiToken"].slice(-1)[0],
+          FoxxiToken,
           signer
         );
         let transfer = await tokenContract.transfer(

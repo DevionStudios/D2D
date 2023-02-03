@@ -108,6 +108,27 @@ export function PostCard({ id, username, currentUser }) {
   };
 
   const createComment = async (values) => {
+    const caption = values.variables.input.caption;
+    caption.replace(/(?<=@).*?(?=( |$))/g, async (mention) => {
+      console.log("Mention: ", mention);
+
+      // create notification of every mention
+      const notificationResponse = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/notification/create`,
+        {
+          notification: ` mentioned you `,
+          userId: data.author?.id,
+          notificationType: "MENTION",
+          username: mention,
+          postId: data.id,
+        },
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
+      );
+    });
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/comments/create`,
@@ -137,7 +158,7 @@ export function PostCard({ id, username, currentUser }) {
           },
         }
       );
-      console.log(response2.data);
+
       window.location.reload();
       setComments(response.data.comments);
       toast.success("Your comment has been posted.");

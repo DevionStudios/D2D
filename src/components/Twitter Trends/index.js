@@ -15,6 +15,7 @@ import Logo from "../../assets/Foxxi Logo.png";
 export function TwitterFeed({ currentUser }) {
   const [data, setData] = useState({});
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const FoxxiOfficialUser = {
     id: "1",
@@ -24,6 +25,7 @@ export function TwitterFeed({ currentUser }) {
   };
 
   const fetchAllPosts = async () => {
+    setLoading(true);
     try {
       let tempData = [];
       const response = await axios.get(
@@ -51,11 +53,14 @@ export function TwitterFeed({ currentUser }) {
       setData(tempData);
     } catch (e) {
       setError(true);
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
     fetchAllPosts();
   }, []);
+
   if (error) {
     return (
       <ErrorFallback
@@ -64,6 +69,10 @@ export function TwitterFeed({ currentUser }) {
       />
     );
   }
+  if (loading) {
+    return <LoadingFallback />;
+  }
+
   if (!data) {
     return <h1></h1>;
   }

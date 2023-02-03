@@ -6,10 +6,16 @@ import { useEffect, useState } from "react";
 
 import { Navbar } from "src/components/Common/Navbar";
 import { UserMessageResult } from "../../components/Chat/UserContainer";
+import { ErrorFallback } from "src/components/ui/Fallbacks/ErrorFallback";
+import { LoadingFallback } from "src/components/ui/Fallbacks/LoadingFallback";
+
 export default function UserMessagePage({ currentUser }) {
   const { account, deactivateWeb3 } = useMoralis();
   const router = useRouter();
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
   const sendSignInRequest = async () => {
     if (account == undefined) {
       toast.error("Please connect your wallet first");
@@ -85,15 +91,36 @@ export default function UserMessagePage({ currentUser }) {
           },
         }
       );
-      
+
       setUsers(data);
     } catch (e) {
       toast.error("Error fetching users");
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
     getUsers();
   }, []);
+
+  if (error) {
+    return (
+      <>
+        <ErrorFallback
+          action={() => {}}
+          message="Failed to fetch Feed for you. Try reloading."
+        />
+      </>
+    );
+  }
+  if (loading) {
+    return (
+      <>
+        <LoadingFallback />
+      </>
+    );
+  }
+
   return (
     <>
       <Navbar currentUser={currentUser} />
