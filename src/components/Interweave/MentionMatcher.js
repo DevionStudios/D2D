@@ -14,7 +14,10 @@ export function Mention(props) {
 
   return (
     <Tooltip>
-      <button className="font-medium underline" onClick={handleOnClick}>
+      <button
+        className="font-medium text-blue-500 hover:underline"
+        onClick={handleOnClick}
+      >
         {props.display}
       </button>
     </Tooltip>

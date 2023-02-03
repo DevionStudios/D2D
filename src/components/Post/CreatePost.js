@@ -88,12 +88,21 @@ export function CreatePost({ currentUser }) {
     //post data
     const { input } = variables;
 
+    const content = input.caption;
+    console.log("prev content", content);
+    const hashtags = [];
+    content.replace(/(?<=#).*?(?=( |$))/g, (hashtag) => {
+      hashtags.push("#" + hashtag);
+      return "";
+    });
+    console.log("content", content);
+    console.log("tags", hashtags);
     const formdata = new FormData();
     formdata.append("caption", input.caption);
     formdata.append("media", input.media);
     formdata.append("gifLink", input.gifLink);
-    for (let i = 0; i < tags.length; i++) {
-      formdata.append("hashtags", tags[i]);
+    for (let i = 0; i < hashtags.length; i++) {
+      formdata.append("hashtags", hashtags[i]);
     }
     setLoading(true);
     try {
@@ -181,12 +190,6 @@ export function CreatePost({ currentUser }) {
                 onGIFPick={handleGIFPick}
               />
             </div>
-          </div>
-          <div>
-            <label className="mb-1 font-medium dark:text-white ">
-              Hashtags
-            </label>
-            <TagsInput></TagsInput>
           </div>
           {/* GIF Preview */}
           <div>
