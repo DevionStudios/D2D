@@ -7,6 +7,7 @@ import { formatDistance } from "date-fns";
 import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { CommentDropdown } from "./CommentDropdown";
+import { Interweave } from "../Interweave";
 import { Badge } from "../ui/Badge";
 import { Link } from "../ui/Link";
 
@@ -118,7 +119,7 @@ export function Comments({ comments, postId, currentUser }) {
                     </div>
                     <div className="mt-2">
                       <p className="text-sm dark:text-gray-300 ">
-                        {edge?.caption}
+                        <Interweave content={edge?.caption} />
                       </p>
                     </div>
                   </li>
