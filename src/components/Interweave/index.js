@@ -1,10 +1,10 @@
 import { stripHexcode } from "emojibase";
 import BaseInterwave from "interweave";
-import { UrlMatcher } from "interweave-autolink";
+import { HashtagMatcher, UrlMatcher } from "interweave-autolink";
 import { EmojiMatcher, useEmojiData } from "interweave-emoji";
 import { MentionMatcher } from "./MentionMatcher";
 import { Url } from "./UrlFactory";
-
+import { useRouter } from "next/router";
 const emojiOptions = {
   convertEmoticon: false,
   convertShortcode: true,
@@ -24,9 +24,23 @@ export const emojiMatcher = new EmojiMatcher("emoji", emojiOptions);
 
 export const mentionMatcher = new MentionMatcher("mention", {});
 
+export const hashTagMatcher = new HashtagMatcher("hashtag", {}, (args) => {
+  const router = useRouter();
+  function handleOnClick(e) {
+    router.push(`/search?query=${args.hashtag.split("#")[1]}&type=hashtag`);
+  }
+  return (
+    <button
+      className="font-medium text-blue-500 hover:underline"
+      onClick={handleOnClick}
+    >
+      {args.hashtag}
+    </button>
+  );
+});
 export function Interweave({
   content,
-  matchers = [urlMatcher, emojiMatcher, mentionMatcher],
+  matchers = [urlMatcher, emojiMatcher, mentionMatcher, hashTagMatcher],
   ...props
 }) {
   const [, emojiSource] = useEmojiData({
@@ -46,6 +60,7 @@ export function Interweave({
       emojiSize={22}
       emojiSource={emojiSource}
       newWindow
+      hashtagUrl={(hashtag) => `/hashtags/${hashtag}`}
       display={(display) => {
         return `/profile/${display}`;
       }}

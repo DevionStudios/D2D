@@ -238,20 +238,6 @@ export function FeedPostCard(props) {
               <p className=" space-y-4 dark:text-gray-300">
                 <Interweave content={props.post.caption} />
               </p>
-              <p>
-                {props.post.hashtags.map((hashtag, index) => {
-                  return (
-                    <span
-                      key={index}
-                      className={clsx(
-                        "bg-gray-100 dark:bg-gray-900 mr-2 rounded-l-md rounded-r-md px-3 py-1 mt-2 inline-flex items-center text-blue-600 dark:text-blue-600 sm:text-sm"
-                      )}
-                    >
-                      {hashtag}
-                    </span>
-                  );
-                })}
-              </p>
             </div>
           </Link>
           {/* GIF */}

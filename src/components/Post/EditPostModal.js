@@ -15,10 +15,16 @@ const EditPostSchema = object({
 export function EditPost({ isOpen, onClose, id, caption, gifLink }) {
   const editPost = async (values) => {
     const { caption } = values;
+    const content = caption;
+    const hashtags = [];
+    content.replace(/(?<=#).*?(?=( |$))/g, (hashtag) => {
+      hashtags.push("#" + hashtag);
+      return "";
+    });
     try {
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/edit/${id}`,
-        { caption },
+        { caption, hashtags },
         {
           headers: {
             cookies: document.cookie,

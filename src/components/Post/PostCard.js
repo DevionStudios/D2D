@@ -242,20 +242,6 @@ export function PostCard({ id, username, currentUser }) {
 
               <div className="px-4 pb-4">
                 <Interweave content={data.caption} />
-                <p>
-                  {data.hashtags.map((hashtag, index) => {
-                    return (
-                      <span
-                        key={index}
-                        className={clsx(
-                          "bg-gray-25 dark:bg-gray-900 mr-2 shadow-sm border  dark:border-gray-700 border-gray-700 rounded-l-md rounded-r-md px-3 inline-flex items-center text-blue-600 dark:text-blue-600 sm:text-sm"
-                        )}
-                      >
-                        {hashtag}
-                      </span>
-                    );
-                  })}
-                </p>
               </div>
               {data.gifLink && (
                 <div className="mx-auto w-11/12 rounded-lg pb-4 overflow-hidden">
