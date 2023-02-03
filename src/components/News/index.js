@@ -14,6 +14,7 @@ import Logo from "../../assets/Foxxi Logo.png";
 
 export function News({ currentUser }) {
   const [data, setData] = useState({});
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   const FoxxiOfficialUser = {
@@ -57,6 +58,8 @@ export function News({ currentUser }) {
       setData(tempData);
     } catch (e) {
       setError(true);
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -69,6 +72,10 @@ export function News({ currentUser }) {
         message="Failed to fetch NewsFeed for you. Try reloading."
       />
     );
+  }
+
+  if (loading) {
+    return <LoadingFallback />;
   }
   if (!data) {
     return <h1></h1>;

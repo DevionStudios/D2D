@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Switch } from "@headlessui/react";
 import clsx from "clsx";
 
-// TODO : look into this
 export default function Toggle() {
   const [enabled, setEnabled] = useState(false);
 

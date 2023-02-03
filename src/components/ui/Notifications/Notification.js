@@ -14,6 +14,7 @@ const NOTIFICATION_ICON = {
   POST_REPLY: <HiOutlineReply className="text-gray-500" />,
   MESSAGE: <HiOutlineReply className="text-gray-500" />,
   ADMIN: <HiOutlineInformationCircle className="text-yellow-600" />,
+  MENTION: <HiOutlineInformationCircle className="text-green-600" />,
 };
 
 export function Notification({ notification }) {
@@ -34,6 +35,9 @@ export function Notification({ notification }) {
             )}
             {notification.notification}{" "}
             {notification.notificationType === "POST_REPLY" && (
+              <Link href={`/post/${notification.postId}`}>post</Link>
+            )}
+            {notification.notificationType === "MENTION" && (
               <Link href={`/post/${notification.postId}`}>post</Link>
             )}
             {notification.notificationType === "POST_LIKE" && (

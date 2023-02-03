@@ -98,10 +98,12 @@ export function RightSidebar({ currentUser }) {
     <aside className="w-full sticky top-20 overflow-hidden">
       <div className=" space-y-4">
         <section aria-labelledby="who-to-follow-heading">
-          <div className="bg-white dark:bg-gray-800 bg-gray-50 rounded-lg mt-10 overflow-hidden shadow">
+          <div className="dark:bg-gray-800 bg-gray-50 rounded-lg mt-10 overflow-hidden shadow">
             <GradientBar color="indigo" />
             <div className="p-6">
-              <Heading size="h5">Who to follow</Heading>
+              <h5 className="font-bold dark:text-white text-2xl">
+                Who to follow
+              </h5>
               <div className="mt-6 flow-root">
                 <ul
                   role="list"

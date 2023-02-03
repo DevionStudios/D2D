@@ -10,8 +10,6 @@ import { Heading } from "../ui/Heading";
 import Modal from "../ui/Modal";
 import Spinner from "../ui/Spinner";
 
-// TODO :refactor this to extend the interface for modal
-
 let LIKED_BY_QUERY;
 
 export function ViewLikes({ isOpen, onClose }) {

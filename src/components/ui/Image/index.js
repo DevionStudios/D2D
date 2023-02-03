@@ -34,7 +34,7 @@ export function Image({ blurHash, height, width, src, ...props }) {
 
         <div className="flex justify-center">
           <NextImage
-            alt="TODO"
+            alt=""
             className="img__element"
             src={src}
             height={height}

@@ -39,6 +39,11 @@ export function Feed({ currentUser }) {
       />
     );
   }
+
+  if (loading) {
+    return <LoadingFallback />;
+  }
+
   if (!data) {
     return <h1></h1>;
   }
