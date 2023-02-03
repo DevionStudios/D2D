@@ -56,7 +56,7 @@ export function FileInput(props) {
         />
         <div
           className={clsx(
-            "border-2 h-52 border-gray-300 dark:border-gray-500 border-dashed rounded-md  flex justify-center  overflow-hidden",
+            "border-2 h-20 border-gray-300 dark:border-gray-500 border-dashed rounded-md  flex justify-center  overflow-hidden",
             isDragActive
               ? "bg-gray-400 dark:bg-gray-800"
               : "bg-gray-50 dark:bg-gray-800"
@@ -90,7 +90,7 @@ export function FileInput(props) {
                       onClick={(e) => e.preventDefault()}
                       className="bg-opacity-20"
                     >
-                      <MdUploadFile className="mx-auto h-7 w-7 " />
+                      <MdUploadFile className="mx-auto h-7   w-7 " />
                       <span>Upload</span>
                     </Button>
                   </div>

@@ -10,13 +10,11 @@ import React, { useState, useEffect } from "react";
 import { SEO } from "../SEO";
 import { IndeterminateProgress } from "../ui/Progress";
 import axios from "axios";
+
 export function Feed({ currentUser }) {
-  let fetchMore;
   const [data, setData] = useState({});
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const fetchAllPosts = async () => {
-    setLoading(true);
     try {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`
@@ -24,8 +22,6 @@ export function Feed({ currentUser }) {
       setData(response.data);
     } catch (e) {
       setError(true);
-    } finally {
-      setLoading(false);
     }
   };
   useEffect(() => {
@@ -38,10 +34,6 @@ export function Feed({ currentUser }) {
         message="Failed to fetch Feed for you. Try reloading."
       />
     );
-  }
-
-  if (loading) {
-    return <LoadingFallback />;
   }
 
   if (!data) {
@@ -61,7 +53,7 @@ export function Feed({ currentUser }) {
               loader={<IndeterminateProgress />}
               endMessage={<EndMessage />}
             >
-              {data.length > 0
+              {data && data.length > 0
                 ? data.map((post, index) => {
                     return (
                       <div key={index}>

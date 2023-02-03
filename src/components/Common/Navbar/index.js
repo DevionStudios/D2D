@@ -5,6 +5,8 @@ import { Popover } from "@headlessui/react";
 import { HiX, HiMenu } from "react-icons/hi";
 import clsx from "clsx";
 
+import { CreatePostModal } from "src/components/Post/CreatePostModal";
+import { CreateStoryModal } from "src/components/Post/CreateStoryModal";
 import { GradientBar } from "src/components/ui/GradientBar";
 import { Button } from "src/components/ui/Button";
 import { ThemeToggle } from "src/components/ThemeSwitcher";
@@ -22,6 +24,8 @@ import { NotificationOverlay } from "src/components/ui/Notifications/Notificatio
 
 export function Navbar({ currentUser }) {
   const router = useRouter();
+  const [createPostModalOpen, setCreatePostModalOpen] = useState(false);
+  const [createStoryModalOpen, setCreateStoryModalOpen] = useState(false);
   const [openNotifications, setNotificationOpen] = useState(false);
   const [hasNotification, setHasNotification] = useState(false);
   const user = currentUser;
@@ -74,6 +78,16 @@ export function Navbar({ currentUser }) {
 
   return (
     <>
+      <CreatePostModal
+        currentUser={currentUser}
+        isOpen={createPostModalOpen}
+        setIsOpen={setCreatePostModalOpen}
+      />
+      <CreateStoryModal
+        currentUser={currentUser}
+        isOpen={createStoryModalOpen}
+        setIsOpen={setCreateStoryModalOpen}
+      />
       <Popover
         as="header"
         className={({ open, close }) =>
@@ -159,18 +173,19 @@ export function Navbar({ currentUser }) {
                   ) : (
                     <ProfileDropdown user={user} />
                   )}
-                  <Link
-                    href={`/post/new`}
-                    className="ml-6 text-sm no-underline"
+                  <Button
+                    onClick={() => setCreatePostModalOpen(true)}
+                    size="sm"
                   >
-                    <Button size="sm">Post</Button>
-                  </Link>
-                  <Link
-                    href={`/stories/new`}
-                    className="ml-6 text-sm no-underline"
+                    Post
+                  </Button>
+
+                  <Button
+                    size="sm"
+                    onClick={() => setCreateStoryModalOpen(true)}
                   >
-                    <Button size="sm">Story</Button>
-                  </Link>
+                    Story
+                  </Button>
                   <Button size="sm" onClick={signout}>
                     Sign Out
                   </Button>
@@ -188,6 +203,10 @@ export function Navbar({ currentUser }) {
               open={open}
               closeFx={close}
               signout={signout}
+              createPostModalOpen={createPostModalOpen}
+              setCreatePostModalOpen={setCreatePostModalOpen}
+              createStoryModalOpen={createStoryModalOpen}
+              setCreateStoryModalOpen={setCreateStoryModalOpen}
             />
           </>
         )}

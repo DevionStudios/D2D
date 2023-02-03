@@ -56,7 +56,10 @@ export function NotificationOverlay({ open, setOpen, setHasNotification }) {
 
   return (
     <Overlay open={open} setOpen={setOpen} overlayTitle="Notifications">
-      <div className=" bg-brand-50 dark:bg-gray-900 h-screen overflow-y-auto w-full px-4 absolute right-0">
+      <div
+        className=" bg-brand-50 dark:bg-gray-900 overflow-y-auto w-full px-4 absolute right-0"
+        style={{ height: "80vh" }}
+      >
         {data && data.length > 0 ? (
           <InfiniteScroll
             dataLength={data.length}
