@@ -87,6 +87,7 @@ export function CreatePost({ currentUser }) {
   const createPost = async ({ variables }) => {
     //post data
     const { input } = variables;
+
     const formdata = new FormData();
     formdata.append("caption", input.caption);
     formdata.append("media", input.media);
@@ -105,6 +106,28 @@ export function CreatePost({ currentUser }) {
           },
         }
       );
+
+      const caption = input.caption;
+      caption.replace(/(?<=@).*?(?=( |$))/g, async (mention) => {
+        console.log("Mention: ", mention);
+
+        // create notification of every mention
+        const notificationResponse = await axios.post(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/notification/create`,
+          {
+            notification: ` mentioned you `,
+            userId: currentUser?.id,
+            notificationType: "MENTION",
+            username: mention,
+            postId: response.data.post.id,
+          },
+          {
+            headers: {
+              cookies: document.cookie,
+            },
+          }
+        );
+      });
       //route to feed
       router.push("/feed");
     } catch (e) {
