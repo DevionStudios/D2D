@@ -182,9 +182,7 @@ export function SignUp() {
           disabled={!(disableSendButton && disableVerifyButton)}
           size="lg"
         >
-          {disableSendButton && disableVerifyButton
-            ? "Sign Up"
-            : "Verify Email First"}
+          Complete Sign Up
         </FormSubmitButton>
       </Form>
       <div>

@@ -12,11 +12,7 @@ const variants = {
 export function Heading({ size: Size = "h1", children, className }) {
   return (
     <Size
-      className={clsx(
-        "font-bold italic dark:text-white",
-        variants[Size],
-        className
-      )}
+      className={clsx("font-bold dark:text-white", variants[Size], className)}
     >
       {children}
     </Size>
