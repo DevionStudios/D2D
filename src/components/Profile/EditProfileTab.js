@@ -116,7 +116,7 @@ export function EditProfileTab({ currentUser }) {
             variables: { input },
           });
 
-          toast("Profile updated successfully.");
+          toast.success("Profile updated successfully.");
         }}
       >
         <Card.Body>

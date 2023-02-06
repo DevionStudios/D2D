@@ -84,7 +84,7 @@ export function Step2({ currentUser }) {
             variables: { input },
           });
 
-          toast("Profile updated successfully.");
+          toast.success("Profile updated successfully.");
           // After updating profile setLoading To false
           setLoading(false);
         }}
