@@ -95,7 +95,7 @@ export function EditProfileTab({ currentUser }) {
   };
 
   return (
-    <Card rounded="lg" className="lg:max-w-3xl">
+    <Card rounded="lg" className="lg:max-w-3xl mb-10">
       <Form
         form={form}
         onSubmit={async (values) => {

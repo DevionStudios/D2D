@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  HiOutlineBadgeCheck,
   HiOutlineKey,
   HiOutlineSparkles,
   HiOutlineUserCircle,
@@ -38,7 +39,7 @@ export function AccountPageLayout({ currentUser }) {
               },
               {
                 component: <ImportTweetsTab currentUser={currentUser} />,
-                icon: HiOutlineSparkles,
+                icon: HiOutlineBadgeCheck,
                 name: "Tweets Migration",
                 id: "",
               },
