@@ -109,6 +109,7 @@ router.post(
       }
       res.status(201).send({
         message: "Post created successfully",
+        post: post
       });
     } catch (err) {
       console.log(err);
