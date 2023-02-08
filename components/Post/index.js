@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "../Navbar";
-import {
-  MDBBtn,
-  MDBInput,
-  MDBFile,
-  MDBContainer,
-  MDBCheckbox,
-} from "mdb-react-ui-kit";
+import { MDBBtn, MDBInput, MDBFile, MDBContainer } from "mdb-react-ui-kit";
 import axios from "axios";
 import Link from "next/link";
 import Spinner from "../Spinner";
@@ -14,15 +8,18 @@ import toast, { Toaster } from "react-hot-toast";
 
 const Post = () => {
   const [message, setMessage] = useState();
+  const [file, setFile] = useState();
   const [processing, setProcessing] = useState(false);
 
   const handleCreatePost = async () => {
     try {
+      const formdata = new FormData();
+      formdata.append("caption", message);
+      formdata.append("media", file);
+
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/posts/create`,
-        {
-          caption: message,
-        },
+        formdata,
         {
           headers: {
             cookies: document.cookie,
@@ -50,6 +47,14 @@ const Post = () => {
             rows={4}
             onChange={(e) => {
               setMessage(e.target.value);
+            }}
+          />
+          <MDBFile
+            className="mb-4 w-100"
+            id="form4Example3"
+            rows={4}
+            onChange={(e) => {
+              setFile(e.target.value);
             }}
           />
           <MDBBtn
