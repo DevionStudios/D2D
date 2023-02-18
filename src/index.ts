@@ -36,8 +36,7 @@ const start = async () => {
     });
     const io = socket(server, {
       cors: {
-        origin: "https://foxxi-frontend.vercel.app",
-        credentials: true,
+        origin: "*",
       },
     });
 
