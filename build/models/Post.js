@@ -41,8 +41,18 @@ const PostSchema = new mongoose_1.default.Schema({
         default: 0,
     },
     media: {
-        type: String,
-        default: "",
+        type: {
+            url: {
+                type: String,
+            },
+            mediatype: {
+                type: String,
+            },
+        },
+        default: {
+            url: "",
+            mediatype: "",
+        },
     },
     gifLink: {
         type: String,

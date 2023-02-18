@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createStoryRouter = void 0;
+const path_1 = __importDefault(require("path"));
 const common_1 = require("@devion/common");
 const express_1 = __importDefault(require("express"));
 const Story_1 = require("../../models/Story");
@@ -26,10 +27,31 @@ exports.createStoryRouter = router;
 router.post("/api/story/create", currentuser_1.currentUser, multer_filefilter_config_1.default.single("media"), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { caption } = req.body;
-        const result = req.file
-            ? yield cloudinaryConfig_1.default.uploader.upload(req.file.path)
-            : null;
-        const media = (result === null || result === void 0 ? void 0 : result.secure_url) || "";
+        const ext = path_1.default.extname(req.file.originalname);
+        let result, type = null;
+        if (ext === ".jpg" ||
+            ext === ".jpeg" ||
+            ext === ".png" ||
+            ext === ".gif") {
+            type = "image";
+            result = req.file
+                ? yield cloudinaryConfig_1.default.uploader.upload(req.file.path)
+                : null;
+        }
+        else {
+            type = "video";
+            result = req.file
+                ? yield cloudinaryConfig_1.default.uploader.upload(req.file.path, {
+                    resource_type: "video",
+                    chunk_size: 6000000,
+                })
+                : null;
+        }
+        const mediaUrl = (result === null || result === void 0 ? void 0 : result.secure_url) || "";
+        const media = {
+            url: mediaUrl,
+            mediatype: type,
+        };
         const existingUser = yield User_1.User.findOne({
             _id: new mongoose_1.default.Types.ObjectId(req.foxxiUser.id),
         });
@@ -41,9 +63,8 @@ router.post("/api/story/create", currentuser_1.currentUser, multer_filefilter_co
             media,
             author: existingUser,
         });
-        existingUser === null || existingUser === void 0 ? void 0 : existingUser.stories.push(story);
+        existingUser.stories = true;
         yield story.save();
-        yield existingUser.save();
         res.status(201).send({
             message: "Story created successfully",
         });

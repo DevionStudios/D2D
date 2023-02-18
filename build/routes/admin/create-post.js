@@ -12,23 +12,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createPostRouter = void 0;
-const common_1 = require("@devion/common");
+exports.createOfficialPostRouter = void 0;
+const path_1 = __importDefault(require("path"));
 const express_1 = __importDefault(require("express"));
-const Post_1 = require("../../models/Post");
-const HashTags_1 = require("../../models/HashTags");
-const User_1 = require("../../models/User");
 const cloudinaryConfig_1 = __importDefault(require("../../config/cloudinaryConfig"));
 const multer_filefilter_config_1 = __importDefault(require("../../config/multer.filefilter.config"));
-const currentuser_1 = require("../../middlewares/currentuser");
-const path_1 = __importDefault(require("path"));
+const Post_1 = require("../../models/Post");
+const User_1 = require("../../models/User");
+const currentadmin_1 = require("../../middlewares/currentadmin");
 const router = express_1.default.Router();
-exports.createPostRouter = router;
-router.post("/api/posts/create", currentuser_1.currentUser, multer_filefilter_config_1.default.single("media"), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.createOfficialPostRouter = router;
+router.post("/api/admin/posts/create", currentadmin_1.currentAdmin, multer_filefilter_config_1.default.single("media"), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { caption, gifLink, hashtags } = req.body;
-        console.log(hashtags);
-        let media;
+        const { caption } = req.body;
+        let foxxiOfficialUser, media;
         if (req.file) {
             const ext = path_1.default.extname(req.file.originalname);
             let result, type = null;
@@ -56,60 +53,30 @@ router.post("/api/posts/create", currentuser_1.currentUser, multer_filefilter_co
                 mediatype: type,
             };
         }
-        const existingUser = yield User_1.User.findOne({
-            _id: req.foxxiUser.id,
+        let existingUser = yield User_1.User.findOne({
+            username: "foxxi",
         });
         if (!existingUser) {
-            throw new common_1.BadRequestError("User not found!");
+            // create foxxi Official user
+            foxxiOfficialUser = User_1.User.build({
+                username: "foxxi",
+                email: process.env.GMAIL,
+                password: process.env.GMAIL_PASSWORD,
+                name: "Foxxi Official",
+                bio: "Foxxi Official Account",
+            });
+            yield foxxiOfficialUser.save();
         }
         const post = Post_1.Post.build({
             caption,
             media,
-            gifLink,
-            hashtags: hashtags || [],
-            author: existingUser,
+            author: existingUser || foxxiOfficialUser,
         });
         existingUser === null || existingUser === void 0 ? void 0 : existingUser.posts.push(post);
+        foxxiOfficialUser === null || foxxiOfficialUser === void 0 ? void 0 : foxxiOfficialUser.posts.push(post);
         yield post.save();
-        yield existingUser.save();
-        // Save the hashtags in hashtag db
-        if (hashtags) {
-            if (typeof hashtags === "string") {
-                const existingHashtag = yield HashTags_1.HashTag.findOne({
-                    content: hashtags,
-                });
-                if (existingHashtag) {
-                    existingHashtag.useCounter = existingHashtag.useCounter + 1;
-                    yield existingHashtag.save();
-                }
-                else {
-                    const newHashtag = HashTags_1.HashTag.build({
-                        content: hashtags,
-                        useCounter: 1,
-                    });
-                    yield newHashtag.save();
-                }
-            }
-            else {
-                for (let i = 0; i < hashtags.length; i++) {
-                    console.log(hashtags[i]);
-                    const existingHashtag = yield HashTags_1.HashTag.findOne({
-                        content: hashtags[i],
-                    });
-                    if (existingHashtag) {
-                        existingHashtag.useCounter = existingHashtag.useCounter + 1;
-                        yield existingHashtag.save();
-                    }
-                    else {
-                        const newHashtag = HashTags_1.HashTag.build({
-                            content: hashtags[i],
-                            useCounter: 1,
-                        });
-                        yield newHashtag.save();
-                    }
-                }
-            }
-        }
+        yield (existingUser === null || existingUser === void 0 ? void 0 : existingUser.save());
+        yield (foxxiOfficialUser === null || foxxiOfficialUser === void 0 ? void 0 : foxxiOfficialUser.save());
         res.status(201).send({
             message: "Post created successfully",
         });

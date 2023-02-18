@@ -22,7 +22,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const router = express_1.default.Router();
 exports.repostRouter = router;
 router.post("/api/reposts/create", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
+    var _a;
     try {
         const { postId } = req.body;
         const originalPost = yield Post_1.Post.findById(postId).populate({
@@ -53,8 +53,8 @@ router.post("/api/reposts/create", currentuser_1.currentUser, (req, res) => __aw
         const newCaption = `Original by @${originalPost === null || originalPost === void 0 ? void 0 : originalPost.author.username}: \n${originalPost.caption || ""}`;
         const repost = Post_1.Post.build({
             caption: newCaption || "",
-            media: ((_a = originalPost.media) === null || _a === void 0 ? void 0 : _a.toString()) || "",
-            gifLink: ((_b = originalPost.gifLink) === null || _b === void 0 ? void 0 : _b.toString()) || "",
+            media: originalPost.media,
+            gifLink: ((_a = originalPost.gifLink) === null || _a === void 0 ? void 0 : _a.toString()) || "",
             hashtags: originalPost.hashtags || [],
             author: existingUser,
             originalPostId: originalPost === null || originalPost === void 0 ? void 0 : originalPost._id.toString(),

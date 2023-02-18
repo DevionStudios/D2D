@@ -12,25 +12,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserStoriesRouter = void 0;
+exports.getAllStoriesRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const Story_1 = require("../../models/Story");
-const User_1 = require("../../models/User");
 const router = express_1.default.Router();
-exports.getUserStoriesRouter = router;
-router.get("/api/story/:username", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getAllStoriesRouter = router;
+router.get("/api/story", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { username } = req.params;
-        const existingUser = yield User_1.User.findOne({
-            username: username,
-        });
-        const stories = yield Story_1.Story.find({
-            author: existingUser,
-        })
-            .sort({ createdAt: -1 })
-            .populate({
+        const stories = yield Story_1.Story.find().sort({ createdAt: -1 }).populate({
             path: "author",
         });
+        console.log(stories);
         res.status(200).send(stories);
     }
     catch (error) {

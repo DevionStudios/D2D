@@ -27,10 +27,6 @@ router.get("/api/story/getstories", currentuser_1.currentUser, (req, res) => __a
         })
             .populate({
             path: "following",
-            populate: {
-                path: "stories",
-                model: "Story",
-            },
         })
             .sort({ createdAt: -1 });
         if (!existingUser) {

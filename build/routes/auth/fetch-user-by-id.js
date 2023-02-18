@@ -12,29 +12,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserStoriesRouter = void 0;
+exports.fetchUserByIdRouter = void 0;
+const common_1 = require("@devion/common");
 const express_1 = __importDefault(require("express"));
-const Story_1 = require("../../models/Story");
 const User_1 = require("../../models/User");
+const mongoose_1 = __importDefault(require("mongoose"));
 const router = express_1.default.Router();
-exports.getUserStoriesRouter = router;
-router.get("/api/story/:username", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.fetchUserByIdRouter = router;
+router.get("/api/users/otheruser/id/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.params.id);
     try {
-        const { username } = req.params;
         const existingUser = yield User_1.User.findOne({
-            username: username,
-        });
-        const stories = yield Story_1.Story.find({
-            author: existingUser,
+            _id: new mongoose_1.default.Types.ObjectId(req.params.id),
         })
-            .sort({ createdAt: -1 })
-            .populate({
-            path: "author",
-        });
-        res.status(200).send(stories);
+            .populate("followers")
+            .populate("following");
+        if (!existingUser) {
+            throw new common_1.BadRequestError("User not found!");
+        }
+        res.status(200).send(existingUser);
     }
-    catch (error) {
-        console.log(error);
-        res.status(400).send({ message: error });
+    catch (err) {
+        console.log(err);
+        res.status(400).send({ message: err });
     }
 }));

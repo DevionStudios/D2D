@@ -37,7 +37,8 @@ router.get("/api/messages/users", currentuser_1.currentUser, (req, res) => __awa
         }
         let uniqueUsersId = [...new Set(associatedUsers)];
         console.log(uniqueUsersId);
-        console.log(uniqueUsersId);
+        uniqueUsersId = uniqueUsersId.filter((id) => id !== req.foxxiUser.id.toString());
+        console.log("filtered:", uniqueUsersId);
         let uniqueUsers = [];
         for (let i = 0; i < uniqueUsersId.length; i++) {
             const existingUser = yield User_1.User.findOne({
@@ -45,7 +46,6 @@ router.get("/api/messages/users", currentuser_1.currentUser, (req, res) => __awa
             }).sort({ updatedAt: 1 });
             uniqueUsers.push(existingUser);
         }
-        uniqueUsers.splice(req.foxxiUser.id.toString(), 1);
         res.status(200).send(uniqueUsers);
     }
     catch (e) {

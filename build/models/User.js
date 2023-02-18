@@ -81,14 +81,8 @@ const userSchema = new mongoose_1.default.Schema({
         default: [],
     },
     stories: {
-        type: [
-            {
-                type: mongoose_1.default.Schema.Types.ObjectId,
-                ref: "Story",
-                expires: 86400,
-            },
-        ],
-        default: [],
+        type: Boolean,
+        default: false,
     },
     twitterUsername: {
         type: String,
@@ -110,6 +104,15 @@ const userSchema = new mongoose_1.default.Schema({
     isBanned: {
         type: Boolean,
         default: false,
+    },
+    preferences: {
+        type: [
+            {
+                type: String,
+                default: "",
+            },
+        ],
+        default: [],
     },
 }, {
     toJSON: {

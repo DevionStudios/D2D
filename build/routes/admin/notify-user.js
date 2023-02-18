@@ -12,29 +12,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserStoriesRouter = void 0;
+exports.createNotificationforSingleUserRouter = void 0;
 const express_1 = __importDefault(require("express"));
-const Story_1 = require("../../models/Story");
 const User_1 = require("../../models/User");
+const Notification_1 = require("../../models/Notification");
+const currentadmin_1 = require("../../middlewares/currentadmin");
 const router = express_1.default.Router();
-exports.getUserStoriesRouter = router;
-router.get("/api/story/:username", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.createNotificationforSingleUserRouter = router;
+router.post("/api/admin/notification/createforone", currentadmin_1.currentAdmin, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { username } = req.params;
+        const { notification, notificationType, username } = req.body;
+        //   create notification for user
         const existingUser = yield User_1.User.findOne({
             username: username,
         });
-        const stories = yield Story_1.Story.find({
-            author: existingUser,
-        })
-            .sort({ createdAt: -1 })
-            .populate({
-            path: "author",
+        if (!existingUser) {
+            return res.status(400).send({ message: "User not found!" });
+        }
+        const notificationBuild = Notification_1.Notification.build({
+            notification: notification,
+            userId: existingUser.id,
+            notificationType: notificationType,
+            username: existingUser.username,
+            postId: undefined,
         });
-        res.status(200).send(stories);
+        yield notificationBuild.save();
+        res.status(201).send({
+            message: `Notification created for ${existingUser.username}!`,
+        });
     }
-    catch (error) {
-        console.log(error);
-        res.status(400).send({ message: error });
+    catch (err) {
+        console.log(err);
+        res.status(500).send({ message: err });
     }
 }));

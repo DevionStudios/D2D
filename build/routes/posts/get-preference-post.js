@@ -12,29 +12,45 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserStoriesRouter = void 0;
+exports.preferencePostRouter = void 0;
+const Post_1 = require("../../models/Post");
 const express_1 = __importDefault(require("express"));
-const Story_1 = require("../../models/Story");
+const currentuser_1 = require("../../middlewares/currentuser");
 const User_1 = require("../../models/User");
+const common_1 = require("@devion/common");
 const router = express_1.default.Router();
-exports.getUserStoriesRouter = router;
-router.get("/api/story/:username", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.preferencePostRouter = router;
+router.post("/api/post/preference", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { username } = req.params;
-        const existingUser = yield User_1.User.findOne({
-            username: username,
+        const hashtagsList = req.body.hashtags;
+        console.log("Hashtags list:", hashtagsList);
+        const currentUser = yield User_1.User.findOne({
+            username: req.foxxiUser.username,
         });
-        const stories = yield Story_1.Story.find({
-            author: existingUser,
+        if (!currentUser) {
+            throw new common_1.BadRequestError("User not found");
+        }
+        const posts = yield Post_1.Post.find({
+            $or: [
+                { hashtags: { $in: hashtagsList } },
+                { author: { $in: currentUser.following } },
+            ],
         })
             .sort({ createdAt: -1 })
             .populate({
             path: "author",
+        })
+            .populate({
+            path: "comments",
+            populate: {
+                path: "author",
+            },
         });
-        res.status(200).send(stories);
+        console.log(posts);
+        res.status(200).send(posts);
     }
-    catch (error) {
-        console.log(error);
-        res.status(400).send({ message: error });
+    catch (err) {
+        console.log(err);
+        res.status(500).send({ message: err });
     }
 }));

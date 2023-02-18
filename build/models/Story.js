@@ -14,8 +14,18 @@ const StorySchema = new mongoose_1.default.Schema({
         ref: "User",
     },
     media: {
-        type: String,
-        default: "",
+        type: {
+            url: {
+                type: String,
+            },
+            mediatype: {
+                type: String,
+            },
+        },
+        default: {
+            url: "",
+            mediatype: "",
+        },
     },
     createdAt: {
         type: Date,
