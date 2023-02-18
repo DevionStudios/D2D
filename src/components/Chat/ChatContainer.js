@@ -39,6 +39,7 @@ const ChatContainer = ({ currentUser, otherUser, socket, other }) => {
         {
           headers: {
             cookies: document.cookie,
+            withCredentials: true,
           },
         }
       );

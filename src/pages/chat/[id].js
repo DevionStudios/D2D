@@ -26,7 +26,9 @@ const Id = ({ currentUser, otherUser }) => {
   };
   useEffect(() => {
     if (currentUser) {
-      socket.current = io(process.env.NEXT_PUBLIC_BASE_URL);
+      socket.current = io(process.env.NEXT_PUBLIC_BASE_URL, {
+        transports: ["websocket", "polling", "flashsocket"],
+      });
       socket.current.emit("add-user", currentUser.id);
     }
   }, []);
