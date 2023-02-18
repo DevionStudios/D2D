@@ -36,7 +36,7 @@ const start = async () => {
     });
     const io = socket(server, {
       cors: {
-        origin: "http://localhost:3000",
+        origin: true,
         credentials: true,
       },
     });
