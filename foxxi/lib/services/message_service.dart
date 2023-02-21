@@ -4,7 +4,7 @@ import 'package:foxxi/constants.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:developer' as dev;
 
-final _storage = FlutterSecureStorage();
+const _storage = FlutterSecureStorage();
 
 class MessageService {
   // void getMessages() async {
@@ -29,6 +29,63 @@ class MessageService {
           onSuccess: () {
             dev.log(res.body.toString(), name: 'Get associated User');
           });
-    } catch (e) {}
+    } catch (e) {
+      dev.log(e.toString(),
+          name: 'Message Service : Get Associated Users Error');
+    }
+  }
+
+  void getAllMessages({
+    required String from,
+    required String to,
+  }) async {
+    try {
+      var jwt = await _storage.read(key: 'cookies');
+      final foxxijwt = 'foxxi_jwt=$jwt;';
+      dev.log(foxxijwt, name: "Reading JWT");
+      final res = await http.post(Uri.parse('$url/api/users/currentuser'),
+          body: {
+            'from': from,
+            'to': to
+          },
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'cookies': foxxijwt
+          });
+
+      httpErrorHandle(
+          response: res,
+          onSuccess: () {
+            dev.log(res.body.toString(), name: 'Get associated User Body');
+          });
+    } catch (e) {
+      dev.log(e.toString(),
+          name: 'Message Service : Get Associated Users Error');
+    }
+  }
+
+  void addMessage(
+      {required String text, required String from, required String to}) async {
+    try {
+      var jwt = await _storage.read(key: 'cookies');
+      final foxxijwt = 'foxxi_jwt=$jwt;';
+      dev.log(foxxijwt, name: "Reading JWT");
+      final res = await http.post(Uri.parse('$url/api/addmessage'), body: {
+        'text': text,
+        'from': from,
+        'to': to
+      }, headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'cookies': foxxijwt
+      });
+
+      httpErrorHandle(
+          response: res,
+          onSuccess: () {
+            dev.log(res.body.toString(), name: 'Get associated User');
+          });
+    } catch (e) {
+      dev.log(e.toString(), name: 'Message Service : Add Message Error');
+    }
   }
 }
