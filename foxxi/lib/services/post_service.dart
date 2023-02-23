@@ -1,12 +1,10 @@
 import 'dart:convert';
-import 'dart:js';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:foxxi/http_error_handle.dart';
 import 'package:foxxi/models/comments.dart';
 import 'package:foxxi/models/feed_post_model.dart';
-import 'package:foxxi/models/post.dart';
 import 'package:foxxi/providers/post_provider.dart';
 import 'package:foxxi/utils.dart';
 import 'package:foxxi/constants.dart';
@@ -34,11 +32,12 @@ class PostService {
             dev.log(res.body.toString(), name: 'Post Res Body');
 
             final data = jsonDecode(res.body);
-            // for (int i = 0; i < data.length; i++) {
-            //   list.add(FeedPostModel.fromJson(jsonEncode(data[i])));
-            // }
-            list =
-                (data as List).map((i) => FeedPostModel.fromJson(i)).toList();
+            for (int i = 0; i < data.length; i++) {
+              list.add(FeedPostModel.fromJson(jsonEncode(data[i])));
+            }
+            // list = (data as List)
+            //     .map((i) => FeedPostModel.fromJson(i.toString()))
+            //     .toList();
           });
     } catch (e) {
       dev.log(e.toString(), name: 'Get All Post Error');
@@ -172,17 +171,28 @@ class PostService {
 
   void createPost({
     required String caption,
+    String? filePath,
   }) async {
     try {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
       dev.log(foxxijwt, name: "Reading JWT");
-      http.Response res = await http.post(Uri.parse('$url/posts/create'),
-          body: {},
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            'cookies': foxxijwt
-          });
+      Map<String, String> header = <String, String>{'cookies': foxxijwt};
+      // http.Response res = await http.post(Uri.parse('$url/posts/create'),
+      //     body: {},
+      //     headers: <String, String>{
+      //       'Content-Type': 'application/json; charset=UTF-8',
+      //       'cookies': foxxijwt
+      //     });
+      final request =
+          http.MultipartRequest('POST', Uri.parse('$url/posts/create'));
+      request.headers.addAll(header);
+      request.files
+          .add(await http.MultipartFile.fromPath('media', filePath.toString()));
+      request.send().then((response) {
+        if (response.statusCode == 201) print("Uploaded!");
+        if (response.statusCode == 500) print('Error Post Upload');
+      });
     } catch (e) {
       dev.log(e.toString(), name: 'Post Service : Create Post Error');
     }

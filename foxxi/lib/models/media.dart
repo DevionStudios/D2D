@@ -2,21 +2,21 @@ import 'dart:convert';
 
 class Media {
   final String? url;
-  final String? mediaType;
+  final String? mediatype;
 
-  Media(this.url, this.mediaType);
+  Media(this.url, this.mediatype);
 
   Map<String, dynamic> toMap() {
     return {
-      'url': url ?? '',
-      'mediaType': mediaType ?? '',
+      'url': url,
+      'mediatype': mediatype,
     };
   }
 
   factory Media.fromMap(Map<String, dynamic> map) {
     return Media(
       map['url'] ?? '',
-      map['mediaType'] ?? '',
+      map['mediatype'] ?? '',
     );
   }
 

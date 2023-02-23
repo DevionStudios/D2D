@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:foxxi/services/post_service.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 
@@ -15,6 +16,8 @@ class AddPost extends StatefulWidget {
 }
 
 class _AddPostState extends State<AddPost> {
+  PostService postService = PostService();
+  TextEditingController _captionTextEditingController = TextEditingController();
   var _image;
   File? _video;
   final picker = ImagePicker();
@@ -41,6 +44,12 @@ class _AddPostState extends State<AddPost> {
   }
 
   @override
+  void dispose() {
+    _captionTextEditingController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: (widget.IsImage == true)
@@ -60,10 +69,11 @@ class _AddPostState extends State<AddPost> {
                     padding: EdgeInsets.all(8.0),
                     child: Text('Caption'),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: TextField(
-                      decoration: InputDecoration(
+                      controller: _captionTextEditingController,
+                      decoration: const InputDecoration(
                         // labelText: 'Caption',
                         border: OutlineInputBorder(),
                         hintText: 'Include body for your post.',
@@ -80,9 +90,12 @@ class _AddPostState extends State<AddPost> {
                       onTap: () async {
                         XFile? image = await imagePicker.pickImage(
                             source: ImageSource.gallery);
-                        setState(() {
-                          _image = File(image!.path);
-                        });
+
+                        if (image?.path != null) {
+                          setState(() {
+                            _image = File(image!.path);
+                          });
+                        }
                       },
                       child: Container(
                         // padding: EdgeInsets.only(left: 8),
@@ -136,7 +149,11 @@ class _AddPostState extends State<AddPost> {
                               padding: const EdgeInsets.all(16.0),
                               textStyle: const TextStyle(fontSize: 20),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              postService.createPost(
+                                  caption: _captionTextEditingController.text,
+                                  filePath: _image);
+                            },
                             child: const Text('Upload'),
                           ),
                         ]),

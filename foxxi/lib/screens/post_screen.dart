@@ -31,14 +31,17 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   final postService = PostService();
-  late VideoPlayerController _controller;
+  VideoPlayerController? _controller;
   List<Comment> comments = [];
   @override
   void initState() {
+    print('${widget.isImage}  ${widget.isVideo}');
     if (widget.isVideo) {
       _controller =
           VideoPlayerController.network(widget.post.media!.url.toString())
             ..initialize().then((_) {
+              _controller!.setLooping(true);
+
               // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
               setState(() {});
             });
@@ -50,7 +53,7 @@ class _PostCardState extends State<PostCard> {
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
+    _controller!.dispose();
   }
 
   void getComments() async {
@@ -196,7 +199,7 @@ class _PostCardState extends State<PostCard> {
                                     //     bottom: BorderSide(color: Colors.black.withOpacity(1))),
                                     image: DecorationImage(
                                       image: NetworkImage(
-                                          widget.post.author.image.toString()),
+                                          widget.post.media!.url.toString()),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -349,105 +352,162 @@ class _PostCardState extends State<PostCard> {
                                     ],
                                   ),
                                 )
-                              : Container(
-                                  height: 400,
-                                  width: MediaQuery.of(context).size.width - 20,
-                                  decoration: const BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30)),
-                                    // border: Border(
-                                    //     bottom: BorderSide(color: Colors.black.withOpacity(1))),
-                                  ),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Stack(
+                              : widget.isVideo
+                                  ? Container(
+                                      height: 400,
+                                      width: MediaQuery.of(context).size.width -
+                                          20,
+                                      decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30)),
+                                        // border: Border(
+                                        //     bottom: BorderSide(color: Colors.black.withOpacity(1))),
+                                      ),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
                                         children: [
-                                          _controller.value.isInitialized
-                                              ? Container(
-                                                  decoration:
-                                                      const BoxDecoration(
+                                          Stack(
+                                            children: [
+                                              _controller!.value.isInitialized
+                                                  ? Container(
+                                                      decoration: const BoxDecoration(
                                                           borderRadius:
                                                               BorderRadius.all(
                                                                   Radius
                                                                       .circular(
                                                                           30))),
-                                                  height: 330,
-                                                  width: 400,
-                                                  child:
-                                                      VideoPlayer(_controller))
-                                              : Container(),
-                                          Positioned(
-                                            top: 270,
-                                            left: 10,
-                                            child: FloatingActionButton(
-                                              onPressed: () {
-                                                setState(
-                                                  () {
-                                                    _controller.value.isPlaying
-                                                        ? _controller.pause()
-                                                        : _controller.play();
+                                                      height: 330,
+                                                      width: 400,
+                                                      child: VideoPlayer(
+                                                          _controller!))
+                                                  : Container(),
+                                              Positioned(
+                                                top: 270,
+                                                left: 10,
+                                                child: FloatingActionButton(
+                                                  onPressed: () {
+                                                    setState(
+                                                      () {
+                                                        _controller!
+                                                                .value.isPlaying
+                                                            ? _controller!
+                                                                .pause()
+                                                            : _controller!
+                                                                .play();
+                                                      },
+                                                    );
                                                   },
-                                                );
-                                              },
-                                              child: Icon(
-                                                _controller.value.isPlaying
-                                                    ? Icons.pause
-                                                    : Icons.play_arrow,
+                                                  child: Icon(
+                                                    _controller!.value.isPlaying
+                                                        ? Icons.pause
+                                                        : Icons.play_arrow,
+                                                  ),
+                                                ),
                                               ),
-                                            ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
-                                      ClipRRect(
-                                        borderRadius: const BorderRadius.only(
-                                            bottomLeft: Radius.circular(30),
-                                            bottomRight: Radius.circular(30)),
-                                        child: BackdropFilter(
-                                          filter: ImageFilter.blur(
-                                            sigmaX: 3,
-                                            sigmaY: 3,
-                                          ),
-                                          child: Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width -
-                                                20,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  const BorderRadius.only(
-                                                      bottomLeft:
-                                                          Radius.circular(30),
-                                                      bottomRight:
-                                                          Radius.circular(30)),
-                                              gradient: LinearGradient(
-                                                colors: [
-                                                  Colors.lightBlue.shade100
-                                                      .withOpacity(0.4),
-                                                  Colors.purpleAccent.shade100
-                                                      .withOpacity(0.4),
-                                                ],
-                                                stops: const [0, 1],
-                                                begin:
-                                                    const AlignmentDirectional(
-                                                        1, 0),
-                                                end: const AlignmentDirectional(
-                                                    -1, 0),
-                                                // color: Colors.purpleAccent.shade100.withOpacity(
-                                                // 0.3,
+                                          ClipRRect(
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                                    bottomLeft:
+                                                        Radius.circular(30),
+                                                    bottomRight:
+                                                        Radius.circular(30)),
+                                            child: BackdropFilter(
+                                              filter: ImageFilter.blur(
+                                                sigmaX: 3,
+                                                sigmaY: 3,
                                               ),
-                                            ),
-                                            child: Row(
-                                              // mainAxisAlignment: MainAxisAlignment.end,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: <Widget>[
-                                                LikeAnimation(
-                                                    isAnimating: true,
-                                                    smallLike: true,
-                                                    child: IconButton(
+                                              child: Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width -
+                                                    20,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      const BorderRadius.only(
+                                                          bottomLeft:
+                                                              Radius.circular(
+                                                                  30),
+                                                          bottomRight:
+                                                              Radius.circular(
+                                                                  30)),
+                                                  gradient: LinearGradient(
+                                                    colors: [
+                                                      Colors.lightBlue.shade100
+                                                          .withOpacity(0.4),
+                                                      Colors
+                                                          .purpleAccent.shade100
+                                                          .withOpacity(0.4),
+                                                    ],
+                                                    stops: const [0, 1],
+                                                    begin:
+                                                        const AlignmentDirectional(
+                                                            1, 0),
+                                                    end:
+                                                        const AlignmentDirectional(
+                                                            -1, 0),
+                                                    // color: Colors.purpleAccent.shade100.withOpacity(
+                                                    // 0.3,
+                                                  ),
+                                                ),
+                                                child: Row(
+                                                  // mainAxisAlignment: MainAxisAlignment.end,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
+                                                  children: <Widget>[
+                                                    LikeAnimation(
+                                                        isAnimating: true,
+                                                        smallLike: true,
+                                                        child: IconButton(
+                                                          icon: badges.Badge(
+                                                            badgeStyle: const badges
+                                                                    .BadgeStyle(
+                                                                badgeColor: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        244,
+                                                                        179,
+                                                                        254)),
+                                                            badgeContent:
+                                                                const Text('0'),
+                                                            child: Icon(
+                                                              Icons
+                                                                  .favorite_rounded,
+                                                              size: 30,
+                                                              color: const Color
+                                                                          .fromARGB(
+                                                                      255,
+                                                                      244,
+                                                                      204,
+                                                                      250)
+                                                                  .withOpacity(
+                                                                      0.7),
+                                                            ),
+                                                          ),
+                                                          onPressed: () {},
+                                                        )
+
+                                                        // color: Colors.grey.shade500,
+                                                        // size: 50,
+
+                                                        // color: ,
+
+                                                        // ignore: dead_code
+                                                        // : const Icon(
+                                                        //     Icons.favorite_border,
+                                                        //   ),
+                                                        // onPressed: () => FireStoreMethods().likePost(
+                                                        //   widget.snap['postId'].toString(),
+                                                        //   user.uid,
+                                                        //   widget.snap['likes'],
+                                                        // ),
+                                                        // onPressed: () {},
+                                                        ),
+                                                    IconButton(
                                                       icon: badges.Badge(
                                                         badgeStyle: const badges
                                                                 .BadgeStyle(
@@ -460,9 +520,7 @@ class _PostCardState extends State<PostCard> {
                                                         badgeContent:
                                                             const Text('0'),
                                                         child: Icon(
-                                                          Icons
-                                                              .favorite_rounded,
-                                                          size: 30,
+                                                          Icons.comment_rounded,
                                                           color: const Color
                                                                       .fromARGB(
                                                                   255,
@@ -470,81 +528,40 @@ class _PostCardState extends State<PostCard> {
                                                                   204,
                                                                   250)
                                                               .withOpacity(0.7),
+                                                          size: 30,
                                                         ),
+                                                        // onPressed: () => Navigator.of(context).push(
+                                                        //   MaterialPageRoute(
+                                                        //     builder: (context) => CommentsScreen(
+                                                        //       postId: widget.snap['postId'].toString(),
+                                                        //     ),
+                                                        //   ),
+                                                        // ),
                                                       ),
                                                       onPressed: () {},
-                                                    )
-
-                                                    // color: Colors.grey.shade500,
-                                                    // size: 50,
-
-                                                    // color: ,
-
-                                                    // ignore: dead_code
-                                                    // : const Icon(
-                                                    //     Icons.favorite_border,
-                                                    //   ),
-                                                    // onPressed: () => FireStoreMethods().likePost(
-                                                    //   widget.snap['postId'].toString(),
-                                                    //   user.uid,
-                                                    //   widget.snap['likes'],
-                                                    // ),
-                                                    // onPressed: () {},
                                                     ),
-                                                IconButton(
-                                                  icon: badges.Badge(
-                                                    badgeStyle:
-                                                        const badges.BadgeStyle(
-                                                            badgeColor:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    244,
-                                                                    179,
-                                                                    254)),
-                                                    badgeContent:
-                                                        const Text('0'),
-                                                    child: Icon(
-                                                      Icons.comment_rounded,
-                                                      color:
-                                                          const Color.fromARGB(
+                                                    IconButton(
+                                                        icon: Icon(
+                                                          Icons.send_rounded,
+                                                          color: const Color
+                                                                      .fromARGB(
                                                                   255,
                                                                   244,
                                                                   204,
                                                                   250)
                                                               .withOpacity(0.7),
-                                                      size: 30,
-                                                    ),
-                                                    // onPressed: () => Navigator.of(context).push(
-                                                    //   MaterialPageRoute(
-                                                    //     builder: (context) => CommentsScreen(
-                                                    //       postId: widget.snap['postId'].toString(),
-                                                    //     ),
-                                                    //   ),
-                                                    // ),
-                                                  ),
-                                                  onPressed: () {},
+                                                          size: 30,
+                                                        ),
+                                                        onPressed: () {}),
+                                                  ],
                                                 ),
-                                                IconButton(
-                                                    icon: Icon(
-                                                      Icons.send_rounded,
-                                                      color:
-                                                          const Color.fromARGB(
-                                                                  255,
-                                                                  244,
-                                                                  204,
-                                                                  250)
-                                                              .withOpacity(0.7),
-                                                      size: 30,
-                                                    ),
-                                                    onPressed: () {}),
-                                              ],
+                                              ),
                                             ),
                                           ),
-                                        ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ),
+                                    )
+                                  : const SizedBox(),
                         ],
                       ),
                     ),

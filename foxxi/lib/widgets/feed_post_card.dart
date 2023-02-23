@@ -10,8 +10,9 @@ import '../screens/post_screen.dart';
 class FeedCard extends StatelessWidget {
   final FeedPostModel post;
 
-  const FeedCard({super.key, required this.post});
+  FeedCard({super.key, required this.post});
 
+  // @override
   @override
   Widget build(context) {
     // final userProvider = Provider.of<UserProvider>(context, listen: true);
@@ -22,8 +23,8 @@ class FeedCard extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => PostCard(
               post: post,
-              isImage: post.media?.mediaType == 'Image' ? true : false,
-              isVideo: post.media?.mediaType == 'Video' ? true : false,
+              isImage: post.media?.mediatype == 'image' ? true : false,
+              isVideo: post.media?.mediatype == 'video' ? true : false,
             ),
           ),
         );
