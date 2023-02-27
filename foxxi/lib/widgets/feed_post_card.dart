@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:foxxi/models/feed_post_model.dart';
+import 'package:foxxi/services/post_service.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import 'package:foxxi/like_animation.dart';
-
-import '../models/post.dart';
+import 'dart:developer' as dev;
 import '../screens/post_screen.dart';
 
 class FeedCard extends StatelessWidget {
   final FeedPostModel post;
-
+  PostService postService = PostService();
   FeedCard({super.key, required this.post});
 
   // @override
@@ -106,12 +106,14 @@ class FeedCard extends StatelessWidget {
                                                         child: Text(e),
                                                       ),
                                                       onTap: () {
-                                                        // deletePost(
-                                                        //   widget.snap['postId']
-                                                        //       .toString(),
-                                                        // );
-                                                        // remove the dialog box
-                                                        // Navigator.of(context).pop();
+                                                        dev.log(
+                                                            'Delete Button Pressed',
+                                                            name:
+                                                                'FeedPostCard Delete button');
+                                                        postService.deletePost(
+                                                            context: context,
+                                                            id: post.id
+                                                                .toString());
                                                       }),
                                                 )
                                                 .toList()),
