@@ -19,6 +19,7 @@ class _AddPostState extends State<AddPost> {
   PostService postService = PostService();
   TextEditingController _captionTextEditingController = TextEditingController();
   var _image;
+  var _pickedImage;
   File? _video;
   final picker = ImagePicker();
   var _videoPlayerController;
@@ -52,6 +53,7 @@ class _AddPostState extends State<AddPost> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: (widget.IsImage == true)
           ? Padding(
               padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
@@ -94,16 +96,18 @@ class _AddPostState extends State<AddPost> {
                         if (image?.path != null) {
                           setState(() {
                             _image = File(image!.path);
+                            _pickedImage = image;
                           });
                         }
                       },
                       child: Container(
                         // padding: EdgeInsets.only(left: 8),
                         decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Colors.grey.shade500,
-                                style: BorderStyle.solid,
-                                width: 3)),
+                          border: Border.all(
+                              color: Colors.grey.shade500,
+                              style: BorderStyle.solid,
+                              width: 3),
+                        ),
                         width: double.infinity,
                         height: MediaQuery.of(context).size.height * 0.4,
                         child: _image != null
@@ -152,7 +156,7 @@ class _AddPostState extends State<AddPost> {
                             onPressed: () {
                               postService.createPost(
                                   caption: _captionTextEditingController.text,
-                                  filePath: _image);
+                                  filePath: _pickedImage);
                             },
                             child: const Text('Upload'),
                           ),
