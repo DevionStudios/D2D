@@ -9,6 +9,7 @@ import 'package:foxxi/providers/post_provider.dart';
 import 'package:foxxi/utils.dart';
 import 'package:foxxi/constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'dart:developer' as dev;
 
 import 'package:provider/provider.dart';
@@ -169,50 +170,66 @@ class PostService {
     }
   }
 
-  void createPost({
+  Future<String> createPost({
     required String caption,
-    String? filePath,
+    XFile? filePath,
   }) async {
+    String statusCode = '';
     try {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
       dev.log(foxxijwt, name: "Reading JWT");
-      Map<String, String> header = <String, String>{'cookies': foxxijwt};
-      // http.Response res = await http.post(Uri.parse('$url/posts/create'),
-      //     body: {},
-      //     headers: <String, String>{
-      //       'Content-Type': 'application/json; charset=UTF-8',
-      //       'cookies': foxxijwt
-      //     });
-      final request =
-          http.MultipartRequest('POST', Uri.parse('$url/posts/create'));
+      Map<String, String> header = {'cookies': foxxijwt};
+
+      final request = await http.MultipartRequest(
+          'POST', Uri.parse('$url/api/posts/create'));
       request.headers.addAll(header);
-      request.files
-          .add(await http.MultipartFile.fromPath('media', filePath.toString()));
-      request.send().then((response) {
-        if (response.statusCode == 201) print("Uploaded!");
-        if (response.statusCode == 500) print('Error Post Upload');
-      });
+      request.fields['caption'] = caption;
+
+      if (filePath?.path != null) {
+        dev.log(filePath.toString(), name: 'Create Post: FilePath');
+        request.files.add(
+          await http.MultipartFile.fromPath('media', filePath!.path),
+        );
+      }
+      final res = await request.send();
+      statusCode = res.statusCode.toString();
+      if (res.statusCode == 201) {
+        dev.log('Post Uploaded! ', name: 'Create Post Successfull');
+      }
+      if (res.statusCode == 500) {
+        dev.log('Post Upload Error', name: 'Create Post: Error');
+      }
     } catch (e) {
       dev.log(e.toString(), name: 'Post Service : Create Post Error');
     }
+    return statusCode;
   }
 
   void deletePost({
+    required BuildContext context,
     required String id,
   }) async {
     try {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
       dev.log(foxxijwt, name: "Reading JWT");
-      http.Response res = await http.delete(Uri.parse('$url/posts/delete/$id'),
-          body: {
-            'id': id
-          },
+      http.Response res = await http.delete(
+          Uri.parse('$url/api/posts/delete/$id'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'cookies': foxxijwt
           });
+
+      if (context.mounted) {
+        httpErrorHandle(
+            response: res,
+            context: context,
+            onSuccess: () {
+              showSnackBar(context, 'Post Deleted');
+              dev.log('Post Deleted id:$id', name: 'Post Service: Delete Post');
+            });
+      }
     } catch (e) {
       dev.log(e.toString(), name: 'Post Service : Delete Post Error');
     }
@@ -220,6 +237,7 @@ class PostService {
 
   void reportPost({
     required String id,
+    required BuildContext context,
   }) async {
     try {
       var jwt = await _storage.read(key: 'cookies');
@@ -231,6 +249,15 @@ class PostService {
         'Content-Type': 'application/json; charset=UTF-8',
         'cookies': foxxijwt
       });
+
+      if (context.mounted) {
+        httpErrorHandle(
+            response: res,
+            context: context,
+            onSuccess: () {
+              showSnackBar(context, 'Post Reported Successfully');
+            });
+      }
     } catch (e) {
       dev.log(e.toString(), name: 'Post Service : Report Post Error');
     }
@@ -255,19 +282,46 @@ class PostService {
         'cookies': foxxijwt
       });
 
-      // ignore: use_build_context_synchronously
+      if (context.mounted) {
+        httpErrorHandle(
+            response: res,
+            context: context,
+            onSuccess: () {
+              showSnackBar(context, 'Post Updated Succesfully');
+            });
+      }
+    } catch (e) {
+      dev.log(e.toString(), name: 'Post Service : Update Post Error');
+    }
+  }
+
+  void likePost({
+    required String id,
+  }) async {
+    try {
+      var jwt = await _storage.read(key: 'cookies');
+      final foxxijwt = 'foxxi_jwt=$jwt;';
+      dev.log(foxxijwt, name: "Reading JWT");
+      http.Response res = await http.put(Uri.parse('$url/posts/edit/$id'),
+          body: {
+            'id': id
+          },
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'cookies': foxxijwt
+          });
+
       httpErrorHandle(
           response: res,
-          context: context,
           onSuccess: () {
-            showSnackBar(context, 'Post Updated Succesfully');
+            dev.log('Post liked id:$id', name: 'Post Service: Like Post');
           });
     } catch (e) {
       dev.log(e.toString(), name: 'Post Service : Update Post Error');
     }
   }
 
-  void importUserTweets() async {
+  void importUserTweets({required BuildContext context}) async {
     try {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
@@ -278,7 +332,14 @@ class PostService {
             'Content-Type': 'application/json; charset=UTF-8',
             'cookies': foxxijwt
           });
-      httpErrorHandle(response: res, onSuccess: () {});
+      if (context.mounted) {
+        httpErrorHandle(
+            response: res,
+            onSuccess: () {
+              showSnackBar(context,
+                  'Imported Tweets From Twitter Account Successfully!');
+            });
+      }
     } catch (e) {
       dev.log(e.toString(), name: 'Post Service : Import User Tweets Error');
     }
