@@ -181,13 +181,12 @@ class PostService {
       dev.log(foxxijwt, name: "Reading JWT");
       Map<String, String> header = {'cookies': foxxijwt};
 
-      final request = await http.MultipartRequest(
-          'POST', Uri.parse('$url/api/posts/create'));
+      final request =
+          http.MultipartRequest('POST', Uri.parse('$url/api/posts/create'));
       request.headers.addAll(header);
       request.fields['caption'] = caption;
 
       if (filePath?.path != null) {
-        dev.log(filePath.toString(), name: 'Create Post: FilePath');
         request.files.add(
           await http.MultipartFile.fromPath('media', filePath!.path),
         );
