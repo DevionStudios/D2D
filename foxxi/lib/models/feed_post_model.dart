@@ -5,6 +5,7 @@ import 'package:foxxi/models/user.dart';
 import 'media.dart';
 
 class FeedPostModel {
+  final String id;
   final String caption;
   final User author;
   final List<String>? hashtags;
@@ -17,7 +18,9 @@ class FeedPostModel {
   final String twitterId;
   final List<String>? reports;
   final String originalPostId;
+
   FeedPostModel({
+    required this.id,
     required this.caption,
     required this.author,
     this.hashtags,
@@ -33,6 +36,7 @@ class FeedPostModel {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'caption': caption,
       'author': author.toMap(),
       'hashtags': hashtags,
@@ -49,18 +53,17 @@ class FeedPostModel {
 
   factory FeedPostModel.fromMap(Map<String, dynamic> map) {
     return FeedPostModel(
+      id: map['id'] ?? '',
       caption: map['caption'] ?? '',
       author: User.fromMap(map['author']),
-      hashtags:
-          map['hashtags'] == null ? [] : List<String>.from(map['hashtags']),
-      likes: map['likes'] == null ? [] : List<dynamic>.from(map['likes']),
-      comments:
-          map['comments'] == null ? [] : List<dynamic>.from(map['comments']),
+      hashtags: List<String>.from(map['hashtags']),
+      likes: List<dynamic>.from(map['likes']),
+      comments: List<dynamic>.from(map['comments']),
       reposts: map['reposts']?.toInt() ?? 0,
-      media: Media.fromMap(map['media']),
+      media: map['media'] != null ? Media.fromMap(map['media']) : null,
       gifLink: map['gifLink'],
       twitterId: map['twitterId'] ?? '',
-      reports: map['reports'] == null ? [] : List<String>.from(map['reports']),
+      reports: List<String>.from(map['reports']),
       originalPostId: map['originalPostId'] ?? '',
     );
   }
