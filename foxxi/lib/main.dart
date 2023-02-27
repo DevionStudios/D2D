@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:foxxi/components/check.dart';
 import 'package:foxxi/components/check2.dart';
 import 'package:foxxi/providers/navigation_argument_data_provider.dart';
 import 'package:foxxi/providers/post_provider.dart';
@@ -29,18 +30,20 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-bool firstScreenBool = false;
-void jwtOrEmpty() async {
-  var cookies = await const FlutterSecureStorage().read(key: 'cookies');
-
-  if (cookies == '' || cookies == null) {
-    firstScreenBool = false;
-  } else {
-    firstScreenBool = true;
-  }
-}
-
 class _MyAppState extends State<MyApp> {
+  bool firstScreenBool = false;
+  void jwtOrEmpty() async {
+    var cookies = await const FlutterSecureStorage().read(key: 'cookies');
+    print(cookies);
+
+    if (cookies != null) {
+      setState(() {
+        firstScreenBool = true;
+      });
+      print(firstScreenBool);
+    }
+  }
+
   @override
   void initState() {
     jwtOrEmpty();
@@ -55,7 +58,7 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
       ),
       onGenerateRoute: (settings) => generateRoute(settings),
-      home: firstScreenBool ? const BottomNavBar2() : const LoginScreen(),
+      home: firstScreenBool ? const BottomNavBar() : const LoginScreen(),
     );
   }
 }
