@@ -18,6 +18,10 @@ void httpErrorHandle({
       dev.log(response.statusCode.toString(), name: "Response Status Code");
       onSuccess();
       break;
+    case 204:
+      dev.log(response.statusCode.toString(), name: "Response Status Code");
+      onSuccess();
+      break;
     case 400:
       dev.log(response.statusCode.toString(), name: "Response Status Code");
       if (context != null) {
