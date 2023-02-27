@@ -53,7 +53,9 @@ class _PostCardState extends State<PostCard> {
   @override
   void dispose() {
     super.dispose();
-    _controller!.dispose();
+    if (_controller != null) {
+      _controller!.dispose();
+    }
   }
 
   void getComments() async {
@@ -153,12 +155,13 @@ class _PostCardState extends State<PostCard> {
                                                                 child: Text(e),
                                                               ),
                                                               onTap: () {
-                                                                // deletePost(
-                                                                //   widget.snap['postId']
-                                                                //       .toString(),
-                                                                // );
-                                                                // remove the dialog box
-                                                                // Navigator.of(context).pop();
+                                                                postService.deletePost(
+                                                                    context:
+                                                                        context,
+                                                                    id: widget
+                                                                        .post
+                                                                        .originalPostId
+                                                                        .toString());
                                                               }),
                                                         )
                                                         .toList()),
@@ -264,8 +267,15 @@ class _PostCardState extends State<PostCard> {
                                                                     244,
                                                                     179,
                                                                     254)),
-                                                        badgeContent:
-                                                            const Text('0'),
+                                                        badgeContent: widget
+                                                                    .post
+                                                                    .likes
+                                                                    ?.length ==
+                                                                null
+                                                            ? const Text('0')
+                                                            : Text(widget.post
+                                                                .likes!.length
+                                                                .toString()),
                                                         child: Icon(
                                                           Icons
                                                               .favorite_rounded,
@@ -279,7 +289,12 @@ class _PostCardState extends State<PostCard> {
                                                               .withOpacity(0.7),
                                                         ),
                                                       ),
-                                                      onPressed: () {},
+                                                      onPressed: () {
+                                                        postService.likePost(
+                                                            id: widget.post
+                                                                .originalPostId
+                                                                .toString());
+                                                      },
                                                     )
 
                                                     // color: Colors.grey.shade500,
