@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foxxi/components/check.dart';
+import 'package:foxxi/components/entry_Point1.dart';
 import 'package:foxxi/screens/email_verfication_screen.dart';
 import 'package:foxxi/screens/forgot_password_email_screen.dart';
 import 'package:foxxi/screens/forgot_password_resetscreen.dart';

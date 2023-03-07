@@ -9,6 +9,7 @@ import 'package:foxxi/providers/wallet_address.dart';
 import 'package:foxxi/screens/login_screen.dart';
 import 'package:foxxi/router.dart';
 import 'package:foxxi/providers/user_provider.dart';
+import 'package:foxxi/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -33,22 +34,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool firstScreenBool = false;
-  void jwtOrEmpty() async {
-    var cookies = await const FlutterSecureStorage().read(key: 'cookies');
-    print(cookies);
-
-    if (cookies != null) {
-      setState(() {
-        firstScreenBool = true;
-      });
-      print(firstScreenBool);
-    }
-  }
-
   @override
   void initState() {
-    jwtOrEmpty();
     super.initState();
   }
 
@@ -60,7 +47,7 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
       ),
       onGenerateRoute: (settings) => generateRoute(settings),
-      home: firstScreenBool ? const BottomNavBar() : const LoginScreen(),
+      home: const SplashScreen(),
     );
   }
 }
