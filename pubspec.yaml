@@ -28,10 +28,11 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  erc20: any
-  cupertino_icons: ^1.0.2
+  
   flutter:
     sdk: flutter
+  erc20: any
+  cupertino_icons: ^1.0.2  
   web3dart: ^2.6.1
   web3auth_flutter: ^1.0.3
   web_socket_channel: ^2.1.0
@@ -66,6 +67,11 @@ dependencies:
   local_auth: ^2.1.6
   flutter_ipfs: ^0.0.2
 
+  flutter_carousel_slider: ^1.1.0
+  loading_animation_widget: ^1.2.0+4
+  chat_gpt_sdk:
+    git:
+      url: https://github.com/Kuntal271/ChatGPT-flutter.git
 
 
 
