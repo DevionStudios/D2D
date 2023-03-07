@@ -1,26 +1,18 @@
-// import 'dart:ui';
-
 // import 'package:flutter/material.dart';
-// import 'package:flutter_chat_bubble/bubble_type.dart';
 // import 'package:flutter_chat_bubble/chat_bubble.dart';
-// import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_2.dart';
-// import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_3.dart';
-// import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_4.dart';
-// import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_5.dart';
+
+// import 'package:foxxi/providers/theme_provider.dart';
+// import 'package:provider/provider.dart';
 // import '../models/chat_model.dart';
 // import 'package:animations/animations.dart';
-
-// import 'chat_screen.dart';
 
 // class ChatScreen extends StatefulWidget {
 //   @override
 //   Key? key;
 //   String? userName;
-//   @override
 //   ChatScreen({this.userName});
-//   ChatScreenState createState() {
-//     return ChatScreenState();
-//   }
+//   @override
+//   State<ChatScreen> createState() => ChatScreenState();
 // }
 
 // class ChatScreenState extends State<ChatScreen> {
@@ -28,18 +20,14 @@
 
 //   @override
 //   Widget build(BuildContext context) {
+//     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
 //     List<ChatModel>? releChatData = [];
-//     dummyData.forEach((element) {
-//       if (element.name != widget.userName &&
-//           element.userName == widget.userName) {
-//         releChatData.add(element);
-//       }
-//     });
+    
 //     return Expanded(
 //       child: Container(
-//         decoration: const BoxDecoration(
-//             color: Colors.white,
-//             borderRadius: BorderRadius.only(
+//         decoration: BoxDecoration(
+//             color: isDark ? Colors.grey.shade300 : Colors.white,
+//             borderRadius: const BorderRadius.only(
 //               bottomLeft: Radius.circular(0),
 //               bottomRight: Radius.circular(0),
 //               topLeft: Radius.circular(30),
@@ -64,11 +52,11 @@
 //                     width: MediaQuery.of(context).size.width - 20,
 //                     decoration: BoxDecoration(
 //                       border: Border.all(
-//                         color: Colors.white,
+//                         color: isDark ? Colors.grey.shade300 : Colors.white,
 //                         width: 30,
-//                         strokeAlign: StrokeAlign.outside,
+//                         strokeAlign: BorderSide.strokeAlignOutside,
 //                       ),
-//                       color: Colors.white,
+//                       color: isDark ? Colors.grey.shade300 : Colors.white,
 //                       // borderRadius: const BorderRadius.all(
 //                       //   Radius.circular(10),
 //                       // ),
@@ -81,9 +69,12 @@
 //                             Row(
 //                               mainAxisAlignment: MainAxisAlignment.start,
 //                               children: <Widget>[
-//                                 CircleAvatar(
-//                                   backgroundImage: NetworkImage(
-//                                       releChatData[i].avatarUrl.toString()),
+//                                 Padding(
+//                                   padding: const EdgeInsets.all(3.0),
+//                                   child: CircleAvatar(
+//                                     backgroundImage: NetworkImage(
+//                                         releChatData[i].avatarUrl.toString()),
+//                                   ),
 //                                 ),
 //                                 Column(
 //                                   mainAxisAlignment:
@@ -121,7 +112,6 @@
 //                     ),
 //                   ),
 //                 ),
-//                 const Divider(height: 10, color: Colors.white),
 //               ],
 //             ),
 //           ),
@@ -162,9 +152,11 @@
 //         // print(data![0].name);
 //       }
 //     }));
+//     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
 
 //     return Scaffold(
-//       backgroundColor: Colors.grey.shade400,
+//       backgroundColor:
+//           isDark ? Colors.black.withOpacity(0.9) : Colors.grey.shade400,
 //       body: Padding(
 //         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
 //         child: Stack(
@@ -182,6 +174,8 @@
 //                           height: 100,
 //                           // width: MediaQuery.of(context).size.width * 0.1,
 //                           child: CircleAvatar(
+//                             backgroundColor:
+//                                 Colors.purpleAccent.shade100.withOpacity(0.4),
 //                             child: IconButton(
 //                               // iconSize: 20,
 //                               icon: const Icon(
@@ -190,10 +184,7 @@
 //                                 // size: 15,
 //                               ),
 //                               onPressed: () {
-//                                 Navigator.pushReplacement(
-//                                     context,
-//                                     MaterialPageRoute(
-//                                         builder: (context) => const Chat()));
+//                                 Navigator.pop(context);
 //                               },
 //                             ),
 //                           )),
@@ -206,15 +197,17 @@
 //                             children: [
 //                               Text(
 //                                 data[0].name.toString(),
-//                                 style: const TextStyle(
+//                                 style: TextStyle(
+//                                     color: isDark ? Colors.grey : Colors.black,
 //                                     fontSize: 15,
 //                                     fontFamily: 'Unbounded',
 //                                     fontWeight: FontWeight.bold),
 //                               ),
 //                               Text(
 //                                 data[0].userName.toString(),
-//                                 style: const TextStyle(
-//                                   fontSize: 5,
+//                                 style: TextStyle(
+//                                   color: isDark ? Colors.grey : Colors.black,
+//                                   fontSize: 10,
 //                                   fontFamily: 'Unbounded',
 //                                 ),
 //                               )
@@ -248,9 +241,9 @@
 //                     padding: const EdgeInsets.only(
 //                       bottom: 70,
 //                     ),
-//                     decoration: const BoxDecoration(
-//                         color: Colors.white,
-//                         borderRadius: BorderRadius.only(
+//                     decoration: BoxDecoration(
+//                         color: isDark ? Colors.grey.shade900 : Colors.white,
+//                         borderRadius: const BorderRadius.only(
 //                             topLeft: Radius.circular(30),
 //                             topRight: Radius.circular(30))),
 //                     child: ListView.builder(
@@ -287,7 +280,9 @@
 //                                       clipper: ChatBubbleClipper5(
 //                                           type: BubbleType.sendBubble),
 //                                       alignment: Alignment.topRight,
-//                                       backGroundColor: Colors.blue.shade300,
+//                                       backGroundColor: Colors
+//                                           .purpleAccent.shade100
+//                                           .withOpacity(0.4),
 //                                       margin: const EdgeInsets.only(top: 5),
 //                                       child: Container(
 //                                         constraints: BoxConstraints(
@@ -347,9 +342,9 @@
 //                       ),
 //                     ),
 //                     IconButton(
-//                       icon: const Icon(
+//                       icon: Icon(
 //                         Icons.send_rounded,
-//                         color: Colors.blue,
+//                         color: Colors.purpleAccent.shade100.withOpacity(0.4),
 //                         size: 30,
 //                       ),
 //                       onPressed: () {
