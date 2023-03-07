@@ -12,6 +12,7 @@ import 'package:foxxi/services/story_service.dart';
 import 'package:foxxi/widgets/add_post.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
+import '../screens/mint_NFT.dart';
 import '../screens/wallet_screen.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -30,7 +31,7 @@ class _BottomNavBar extends State<BottomNavBar> {
   StoryService storyService = StoryService();
   MessageService messageService = MessageService();
 
-  int maxCount = 4;
+  int maxCount = 5;
 
   /// widget list
   final List<Widget> bottomBarPages = [
@@ -38,6 +39,7 @@ class _BottomNavBar extends State<BottomNavBar> {
     const SizedBox.shrink(),
     NewsScreen(),
     const ProfileWidget(),
+    mintNFT(),
   ];
 
   @override
@@ -251,6 +253,17 @@ class _BottomNavBar extends State<BottomNavBar> {
                   ),
                   itemLabel: 'Page 1',
                 ),
+                const BottomBarItem(
+                  inActiveItem: Icon(
+                    Icons.settings,
+                    color: Colors.blueGrey,
+                  ),
+                  activeItem: Icon(
+                    Icons.settings,
+                    color: Colors.blueAccent,
+                  ),
+                  itemLabel: 'Page 1',
+                )
 
                 ///svg example
                 // BottomBarItem(
