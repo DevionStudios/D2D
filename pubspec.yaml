@@ -64,6 +64,7 @@ dependencies:
   shared_preferences: ^2.0.18
   circular_reveal_animation: ^2.0.1
   local_auth: ^2.1.6
+  flutter_ipfs: ^0.0.2
 
 
 
@@ -100,6 +101,8 @@ flutter:
     - lib/assets/icons.riv
     - lib/assets/menu_button.riv
     - contracts/build/contracts/FoxxiToken.json
+    - contracts/build/contracts/ipfsNFT.json
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
