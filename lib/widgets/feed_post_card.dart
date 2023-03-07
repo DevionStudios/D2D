@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foxxi/models/donate_controller.dart';
 import 'package:foxxi/models/feed_post_model.dart';
 import 'package:foxxi/providers/wallet_address.dart';
+import 'package:foxxi/screens/wallet_screen.dart';
 import 'package:foxxi/services/post_service.dart';
 import 'package:foxxi/utils.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -538,6 +539,12 @@ class _FeedCardState extends State<FeedCard> {
                                                                       .text);
                                                           print(amount);
                                                           print('---');
+                                                          print(widget
+                                                              .post
+                                                              .author
+                                                              .walletAddress);
+                                                          print('---');
+
                                                           if (walletAddressProvider
                                                                   .privateAddress ==
                                                               null) {
@@ -550,34 +557,34 @@ class _FeedCardState extends State<FeedCard> {
                                                                   .post
                                                                   .author
                                                                   .walletAddress ==
-                                                              '') {
+                                                              'undefined') {
                                                             showSnackBar(
                                                                 context,
-                                                                'Ask ${widget.post.author} to get their Receiving Wallet Address !!!');
+                                                                'Ask ${widget.post.author.name} to set their Receiving Wallet Address !!!');
                                                             Navigator.pop(
                                                                 context);
-                                                          }
-                                                          String code = '';
+                                                          } else {
+                                                            DonateController()
+                                                                .donate(
+                                                                    walletAddressProvider
+                                                                        .privateAddress!,
+                                                                    walletAddressProvider
+                                                                        .walletAddress!,
+                                                                    widget
+                                                                        .post
+                                                                        .author
+                                                                        .walletAddress,
+                                                                    amount)
+                                                                .then((String
+                                                                    result) {
+                                                              showSnackBar(
+                                                                  context,
+                                                                  'Transaction added to Pending Transaction !! ');
 
-                                                          DonateController()
-                                                              .donate(
-                                                                  walletAddressProvider
-                                                                      .privateAddress!,
-                                                                  walletAddressProvider
-                                                                      .walletAddress!,
-                                                                  widget
-                                                                      .post
-                                                                      .author
-                                                                      .walletAddress,
-                                                                  amount)
-                                                              .then((String
-                                                                  result) {
-                                                            showSnackBar(
-                                                                context,
-                                                                'Transaction Successful with \nTransaction Has $result');
-                                                            Navigator.pop(
-                                                                context);
-                                                          });
+                                                              Navigator.pop(
+                                                                  context);
+                                                            });
+                                                          }
                                                         },
                                                         child: const Text(
                                                             'Donate'),
@@ -587,7 +594,16 @@ class _FeedCardState extends State<FeedCard> {
                                                 ),
                                               )
                                             ],
-                                          )
+                                          ),
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            WalletWeb()));
+                                              },
+                                              child: Text('Donate Screen'))
                                         ],
                                       ),
                                     ),

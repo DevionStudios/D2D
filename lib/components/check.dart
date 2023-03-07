@@ -30,7 +30,7 @@ class _BottomNavBar extends State<BottomNavBar> {
   StoryService storyService = StoryService();
   MessageService messageService = MessageService();
 
-  int maxCount = 5;
+  int maxCount = 4;
 
   /// widget list
   final List<Widget> bottomBarPages = [
@@ -38,7 +38,6 @@ class _BottomNavBar extends State<BottomNavBar> {
     const SizedBox.shrink(),
     NewsScreen(),
     const ProfileWidget(),
-    WalletWeb(),
   ];
 
   @override
@@ -248,17 +247,6 @@ class _BottomNavBar extends State<BottomNavBar> {
                   ),
                   activeItem: Icon(
                     Icons.account_circle,
-                    color: Colors.blueAccent,
-                  ),
-                  itemLabel: 'Page 1',
-                ),
-                const BottomBarItem(
-                  inActiveItem: Icon(
-                    Icons.wallet,
-                    color: Colors.blueGrey,
-                  ),
-                  activeItem: Icon(
-                    Icons.wallet,
                     color: Colors.blueAccent,
                   ),
                   itemLabel: 'Page 1',
