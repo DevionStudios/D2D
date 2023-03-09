@@ -5,6 +5,7 @@ import 'package:foxxi/components/check2.dart';
 import 'package:foxxi/providers/navigation_argument_data_provider.dart';
 import 'package:foxxi/providers/post_provider.dart';
 import 'package:foxxi/providers/story_provider.dart';
+import 'package:foxxi/providers/theme_provider.dart';
 import 'package:foxxi/providers/wallet_address.dart';
 import 'package:foxxi/screens/login_screen.dart';
 import 'package:foxxi/router.dart';
@@ -16,6 +17,9 @@ void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: ((context) => WalletAddressProvider())),
+      ChangeNotifierProvider(
+        create: (context) => ThemeProvider(),
+      ),
       ChangeNotifierProvider(create: ((context) => UserProvider())),
       ChangeNotifierProvider(create: ((context) => PostProvider())),
       ChangeNotifierProvider(

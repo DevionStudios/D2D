@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:foxxi/components/check.dart';
 import 'package:foxxi/components/entry_Point1.dart';
+import 'package:foxxi/screens/chat.dart';
 import 'package:foxxi/screens/email_verfication_screen.dart';
 import 'package:foxxi/screens/forgot_password_email_screen.dart';
 import 'package:foxxi/screens/forgot_password_resetscreen.dart';
 import 'package:foxxi/screens/login_screen.dart';
-import 'package:foxxi/screens/main_screen.dart';
 import 'package:foxxi/screens/otp_screen.dart';
 import 'package:foxxi/screens/sign_up_screen.dart';
 
@@ -43,11 +42,14 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         settings: routeSettings,
         builder: (_) => const ForgotPasswordResetScreen(),
       );
-    case MainScreen.routeName:
-      return MaterialPageRoute(
-        settings: routeSettings,
-        builder: (_) => const MainScreen(),
-      );
+    // case OneOneChatScreen.routeName:
+    //   return MaterialPageRoute(
+    //     settings: routeSettings,
+    //     builder: (_) => const OneOneChatScreen(
+    //         senderName: senderName,
+    //         senderUsername: senderUsername,
+    //         senderImage: senderImage),
+    //   );
     case BottomNavBar.routeName:
       return MaterialPageRoute(
         builder: (_) => const BottomNavBar(),

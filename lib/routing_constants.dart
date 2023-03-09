@@ -6,3 +6,4 @@ const String otpScreenRoute = '/otp_screen';
 const String forgotPasswordEmailScreenRoute = '/forgot_password_email_screen';
 const String forgotPasswordResetScreenRoute = '/forgot_password_reset_screen';
 const String bottomNavBarScreenRoute = '/bottom_nav_bar_screen_route';
+const String oneOnOneChatScreenRoute = '/one_on_one_chat_screen';
