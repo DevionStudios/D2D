@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:foxxi/services/auth_service.dart';
 import 'package:image_picker/image_picker.dart';
 
 // import 'package:flutter/material.dart';
@@ -13,14 +14,31 @@ class ProfileSettings extends StatefulWidget {
 }
 
 class _ProfileSettingsState extends State<ProfileSettings> {
+  final TextEditingController _usernameTextController = TextEditingController();
+  final TextEditingController _nameTextController = TextEditingController();
+  final TextEditingController _bioTextController = TextEditingController();
+  final TextEditingController _walletAddressTextController =
+      TextEditingController();
+  AuthService authService = AuthService();
   var _imageProfile;
   var _imageCover;
+  XFile? image;
+  XFile? coverImage;
 
   var imagePicker;
   @override
   void initState() {
     super.initState();
     imagePicker = ImagePicker();
+  }
+
+  @override
+  void dispose() {
+    _bioTextController.dispose();
+    _nameTextController.dispose();
+    _usernameTextController.dispose();
+    _walletAddressTextController.dispose();
+    super.dispose();
   }
 
   @override
@@ -65,11 +83,13 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                          XFile? image = await imagePicker.pickImage(
+                          image = await imagePicker.pickImage(
                               source: ImageSource.gallery);
-                          setState(() {
-                            _imageProfile = File(image!.path);
-                          });
+                          if (image?.path != null) {
+                            setState(() {
+                              _imageProfile = File(image!.path);
+                            });
+                          }
                         },
                         child: Container(
                           // padding: EdgeInsets.only(left: 8),
@@ -104,11 +124,13 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                          XFile? image = await imagePicker.pickImage(
+                          coverImage = await imagePicker.pickImage(
                               source: ImageSource.gallery);
-                          setState(() {
-                            _imageCover = File(image!.path);
-                          });
+                          if (coverImage?.path != null) {
+                            setState(() {
+                              _imageCover = File(coverImage!.path);
+                            });
+                          }
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -144,10 +166,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       fontSize: 15),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: TextField(
-                  decoration: InputDecoration(
+                  controller: _nameTextController,
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     // prefixText: 'Kuntal',
                   ),
@@ -163,10 +186,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       fontSize: 15),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: TextField(
-                  decoration: InputDecoration(
+                  controller: _usernameTextController,
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: 'You cannot change this later',
                   ),
@@ -182,10 +206,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       fontSize: 15),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: TextField(
-                  decoration: InputDecoration(
+                  controller: _walletAddressTextController,
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     prefixText: 'undefined',
                   ),
@@ -201,11 +226,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       fontSize: 15),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: TextField(
+                  controller: _bioTextController,
                   maxLines: 3,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     prefixText: 'I am a new user',
                   ),
@@ -221,7 +247,17 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.blue),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    authService.updateProfile(
+                        context: context,
+                        bio: _bioTextController.text,
+                        coverImagePath:
+                            coverImage?.path == null ? null : coverImage!.path,
+                        imagePath: image?.path == null ? null : image!.path,
+                        name: _nameTextController.text,
+                        username: _usernameTextController.text,
+                        walletAddress: _walletAddressTextController.text);
+                  },
                   child: const Text('Submit'),
                 ),
               )

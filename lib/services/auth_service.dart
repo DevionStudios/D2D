@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:foxxi/components/check.dart';
@@ -13,6 +14,9 @@ import 'package:foxxi/constants.dart';
 import 'dart:developer' as dev;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
+import 'package:walletconnect_dart/walletconnect_dart.dart';
+
+import '../components/entry_Point1.dart';
 
 const _storage = FlutterSecureStorage();
 
@@ -48,7 +52,7 @@ class AuthService {
             context,
             'Account created!',
           );
-          Navigator.pushNamed(context, MainScreen.routeName);
+          Navigator.pushNamed(context, BottomNavBar.routeName);
         },
       );
     } catch (e) {
@@ -197,6 +201,7 @@ class AuthService {
           context: context,
           onSuccess: () {
             // Map<String, dynamic> userMap = jsonDecode(res.body)['currentUser'];
+            dev.log(res.body.toString(), name: 'Current User Data');
 
             Provider.of<UserProvider>(context, listen: false)
                 .setUser(res.body.toString());
@@ -210,12 +215,91 @@ class AuthService {
     }
   }
 
+  void updateProfileImage(
+      {required BuildContext context, required String image}) async {
+    try {
+      var jwt = await _storage.read(key: 'cookies');
+      final foxxijwt = 'foxxi_jwt=$jwt;';
+      dev.log(foxxijwt, name: "Reading JWT");
+      final res = await http.put(Uri.parse('$url/api/users/imageupdate'),
+          body: jsonEncode({'image': image}),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'cookies': foxxijwt
+          });
+
+      if (context.mounted) {
+        httpErrorHandle(
+            response: res,
+            context: context,
+            onSuccess: () {
+              showSnackBar(context, 'Profile Pic Updated');
+            });
+      }
+    } catch (e) {
+      dev.log(e.toString(), name: 'AuthService: Update Profile Pic Error');
+    }
+  }
+
+  void updateProfile(
+      {required BuildContext context,
+      String? imagePath,
+      String? coverImagePath,
+      String? username,
+      String? name,
+      String? bio,
+      String? walletAddress}) async {
+    try {
+      var jwt = await _storage.read(key: 'cookies');
+      final foxxijwt = 'foxxi_jwt=$jwt;';
+      dev.log(foxxijwt, name: "Reading JWT");
+      Map<String, String> header = {'cookies': foxxijwt};
+
+      final request =
+          http.MultipartRequest('POST', Uri.parse('$url/api/users/update'));
+      request.headers.addAll(header);
+      if (username != null) {
+        request.fields['username'] = username;
+      }
+      if (name != null) {
+        request.fields['username'] = name;
+      }
+      if (bio != null) {
+        request.fields['username'] = bio;
+      }
+      if (walletAddress != null) {
+        request.fields['username'] = walletAddress;
+      }
+
+      if (imagePath != null) {
+        request.files.add(
+          await http.MultipartFile.fromPath('image', imagePath),
+        );
+        if (coverImagePath != null) {
+          request.files.add(
+              await http.MultipartFile.fromPath('coverImage', coverImagePath));
+        }
+      }
+      final res = await request.send();
+      if (res.statusCode == 201) {
+        dev.log('Story Created Successfully ', name: 'Story Create Status');
+      }
+      if (res.statusCode == 500) {
+        dev.log('Story Upload Error', name: 'Story Create Error');
+      }
+    } catch (e) {
+      dev.log(e.toString(), name: 'AuthService: Update Profile  Error');
+    }
+  }
+
   void signOut({required BuildContext context}) async {
     // more to dos
     try {
       await http.post(Uri.parse('$url/api/users/signout'));
       await _storage.delete(key: 'cookies');
-      Navigator.pushNamed(context, LoginScreen.routeName);
+      if (context.mounted) {
+        Navigator.pushNamed(context, LoginScreen.routeName);
+      }
     } catch (e) {
       dev.log(e.toString(), name: 'SIGN OUT');
     }

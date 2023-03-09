@@ -1,19 +1,28 @@
 import 'dart:math';
+import 'dart:ui';
 
-import 'package:foxxi/providers/user_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 
+import 'package:foxxi/models/user.dart';
+import 'package:foxxi/providers/user_provider.dart';
+import 'package:foxxi/services/post_service.dart';
+
+import '../models/feed_post_model.dart';
+import '../widgets/feed_post_card.dart';
 import '../widgets/flutter_choice_chips.dart';
-
-import 'dart:ui';
-import 'package:flutter/material.dart';
-
 import '../widgets/menu_button.dart';
 import '../widgets/side_menu.dart';
 
 class ProfileWidget extends StatefulWidget {
-  const ProfileWidget({Key? key}) : super(key: key);
+  final bool isMe;
+  final User user;
+  const ProfileWidget({
+    Key? key,
+    required this.isMe,
+    required this.user,
+  }) : super(key: key);
 
   @override
   _ProfileWidgetState createState() => _ProfileWidgetState();
@@ -26,6 +35,8 @@ class _ProfileWidgetState extends State<ProfileWidget>
   late AnimationController _animationController;
   late Animation<double> scalAnimation;
   late Animation<double> animation;
+  Future<List<FeedPostModel>?>? _userPost;
+  final postService = PostService();
 
   String? choiceChipsValue;
   final _unfocusNode = FocusNode();
@@ -40,6 +51,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
 
   @override
   void initState() {
+    getUserPosts();
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 200))
       ..addListener(
@@ -52,6 +64,11 @@ class _ProfileWidgetState extends State<ProfileWidget>
     animation = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
         parent: _animationController, curve: Curves.fastOutSlowIn));
     super.initState();
+  }
+
+  void getUserPosts() {
+    _userPost = postService.getUserPosts(
+        context: context, username: widget.user.username.toString());
   }
 
   @override
@@ -113,7 +130,11 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                           alignment:
                                               const AlignmentDirectional(0, 0),
                                           child: Image.network(
-                                            userProvider.coverImage.toString(),
+                                            widget.isMe
+                                                ? userProvider.coverImage
+                                                    .toString()
+                                                : widget.user.coverImage
+                                                    .toString(),
                                             width: double.infinity,
                                             height: 200,
                                             fit: BoxFit.cover,
@@ -126,7 +147,6 @@ class _ProfileWidgetState extends State<ProfileWidget>
                               ),
                               ListView(
                                 padding: EdgeInsets.zero,
-                                shrinkWrap: true,
                                 scrollDirection: Axis.vertical,
                                 children: [
                                   Padding(
@@ -167,10 +187,17 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                           const BoxDecoration(
                                                         shape: BoxShape.circle,
                                                       ),
-                                                      child: Image.network(
-                                                        userProvider.image
-                                                            .toString(),
-                                                        fit: BoxFit.cover,
+                                                      child: GestureDetector(
+                                                        onTap: () {},
+                                                        child: Image.network(
+                                                          widget.isMe
+                                                              ? userProvider
+                                                                  .image
+                                                              : widget
+                                                                  .user.image
+                                                                  .toString(),
+                                                          fit: BoxFit.cover,
+                                                        ),
                                                       ),
                                                     ),
                                                   ],
@@ -213,14 +240,13 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                         .center,
                                                                 children: [
                                                                   Text(
-                                                                    userProvider
-                                                                            .posts!
-                                                                            .isEmpty
-                                                                        ? '0'
-                                                                        : userProvider
-                                                                            .posts!
-                                                                            .length
-                                                                            .toString(),
+                                                                    widget.isMe
+                                                                        ? userProvider.posts!.isEmpty
+                                                                            ? '0'
+                                                                            : userProvider.posts!.length.toString()
+                                                                        : widget.user.posts!.isEmpty
+                                                                            ? '0'
+                                                                            : widget.user.posts!.length.toString(),
                                                                     textAlign:
                                                                         TextAlign
                                                                             .center,
@@ -264,14 +290,13 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                         .center,
                                                                 children: [
                                                                   Text(
-                                                                    userProvider
-                                                                            .followers!
-                                                                            .isEmpty
-                                                                        ? '0'
-                                                                        : userProvider
-                                                                            .followers!
-                                                                            .length
-                                                                            .toString(),
+                                                                    widget.isMe
+                                                                        ? userProvider.followers!.isEmpty
+                                                                            ? '0'
+                                                                            : userProvider.followers!.length.toString()
+                                                                        : widget.user.followers!.isEmpty
+                                                                            ? '0'
+                                                                            : widget.user.followers!.length.toString(),
                                                                     textAlign:
                                                                         TextAlign
                                                                             .center,
@@ -312,14 +337,13 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                         .center,
                                                                 children: [
                                                                   Text(
-                                                                    userProvider
-                                                                            .following!
-                                                                            .isEmpty
-                                                                        ? '0'
-                                                                        : userProvider
-                                                                            .following!
-                                                                            .length
-                                                                            .toString(),
+                                                                    widget.isMe
+                                                                        ? userProvider.following!.isEmpty
+                                                                            ? '0'
+                                                                            : userProvider.following!.length.toString()
+                                                                        : widget.user.following!.isEmpty
+                                                                            ? '0'
+                                                                            : widget.user.following!.length.toString(),
                                                                     textAlign:
                                                                         TextAlign
                                                                             .center,
@@ -349,7 +373,11 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                               mainAxisSize: MainAxisSize.max,
                                               children: [
                                                 Text(
-                                                  userProvider.name.toString(),
+                                                  widget.isMe
+                                                      ? userProvider.name
+                                                          .toString()
+                                                      : widget.user.name
+                                                          .toString(),
                                                 ),
                                                 const Padding(
                                                   padding: EdgeInsetsDirectional
@@ -369,8 +397,10 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                               mainAxisSize: MainAxisSize.max,
                                               children: [
                                                 Text(
-                                                  userProvider.username
-                                                      .toString(),
+                                                  widget.isMe
+                                                      ? userProvider.username
+                                                      : widget.user.username
+                                                          .toString(),
                                                 ),
                                               ],
                                             ),
@@ -427,16 +457,37 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                               ],
                                             ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsetsDirectional
-                                                .fromSTEB(10, 10, 10, 50),
-                                            child: ListView(
-                                              padding: EdgeInsets.zero,
-                                              primary: false,
-                                              shrinkWrap: true,
-                                              scrollDirection: Axis.vertical,
-                                              children: const [],
-                                            ),
+                                          FutureBuilder<List<FeedPostModel>?>(
+                                            future: _userPost,
+                                            builder: (context, snapshot) {
+                                              if (snapshot.hasData) {
+                                                return Column(
+                                                  children: [
+                                                    MediaQuery.removePadding(
+                                                      context: context,
+                                                      removeTop: true,
+                                                      child: ListView.builder(
+                                                        primary: false,
+                                                        shrinkWrap: true,
+                                                        itemCount: snapshot
+                                                            .data!.length,
+                                                        itemBuilder:
+                                                            ((context, index) {
+                                                          return FeedCard(
+                                                            post: snapshot
+                                                                .data![index],
+                                                          );
+                                                        }),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              } else {
+                                                return const Center(
+                                                    child:
+                                                        CircularProgressIndicator());
+                                              }
+                                            },
                                           ),
                                         ],
                                       ),
