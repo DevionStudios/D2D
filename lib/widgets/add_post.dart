@@ -17,23 +17,28 @@ class AddPost extends StatefulWidget {
 
 class _AddPostState extends State<AddPost> {
   PostService postService = PostService();
-  TextEditingController _captionTextEditingController = TextEditingController();
+  final TextEditingController _captionTextEditingController =
+      TextEditingController();
   var _image;
-  var _pickedImage;
+  XFile? image;
+  XFile? pickedFile;
   File? _video;
   final picker = ImagePicker();
-  var _videoPlayerController;
+  VideoPlayerController? _videoPlayerController;
 
 // This funcion will helps you to pick a Video File
   _pickVideo() async {
     // ignore: deprecated_member_use
-    PickedFile? pickedFile = await picker.getVideo(source: ImageSource.gallery);
-    _video = File(pickedFile!.path);
-    _videoPlayerController = VideoPlayerController.file(_video!)
-      ..initialize().then((_) {
-        setState(() {});
-        _videoPlayerController.play();
-      });
+
+    pickedFile = await picker.pickVideo(source: ImageSource.gallery);
+    if (pickedFile?.path != null) {
+      _video = File(pickedFile!.path);
+      _videoPlayerController = VideoPlayerController.file(_video!)
+        ..initialize().then((_) {
+          setState(() {});
+          _videoPlayerController!.play();
+        });
+    }
   }
 
   var imagePicker;
@@ -90,13 +95,12 @@ class _AddPostState extends State<AddPost> {
                     padding: const EdgeInsets.all(8.0),
                     child: GestureDetector(
                       onTap: () async {
-                        XFile? image = await imagePicker.pickImage(
+                        image = await imagePicker.pickImage(
                             source: ImageSource.gallery);
 
                         if (image?.path != null) {
                           setState(() {
                             _image = File(image!.path);
-                            _pickedImage = image;
                           });
                         }
                       },
@@ -156,7 +160,7 @@ class _AddPostState extends State<AddPost> {
                             onPressed: () {
                               postService.createPost(
                                   caption: _captionTextEditingController.text,
-                                  filePath: _pickedImage);
+                                  imageFilePath: image!.path);
                             },
                             child: const Text('Upload'),
                           ),
@@ -183,10 +187,11 @@ class _AddPostState extends State<AddPost> {
                     padding: EdgeInsets.all(8.0),
                     child: Text('Caption'),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: TextField(
-                      decoration: InputDecoration(
+                      controller: _captionTextEditingController,
+                      decoration: const InputDecoration(
                         // labelText: 'Caption',
                         border: OutlineInputBorder(),
                         hintText: 'Include body for your post.',
@@ -213,12 +218,12 @@ class _AddPostState extends State<AddPost> {
                           width: double.infinity,
                           height: MediaQuery.of(context).size.height * 0.4,
                           child: _video != null
-                              ? _videoPlayerController.value.initialized
+                              ? _videoPlayerController!.value.isInitialized
                                   ? AspectRatio(
-                                      aspectRatio: _videoPlayerController
+                                      aspectRatio: _videoPlayerController!
                                           .value.aspectRatio,
                                       child:
-                                          VideoPlayer(_videoPlayerController),
+                                          VideoPlayer(_videoPlayerController!),
                                     )
                                   : Container()
                               : Icon(
@@ -258,7 +263,11 @@ class _AddPostState extends State<AddPost> {
                               padding: const EdgeInsets.all(16.0),
                               textStyle: const TextStyle(fontSize: 20),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              postService.createPost(
+                                  caption: _captionTextEditingController.text,
+                                  videoFilePath: pickedFile!.path);
+                            },
                             child: const Text('Upload'),
                           ),
                         ]),
