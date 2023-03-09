@@ -3,28 +3,24 @@ import 'dart:convert';
 import 'package:foxxi/models/user.dart';
 
 class ChatModel {
-  final String messageText;
-  final User sender;
-  final DateTime time;
+  final String message;
+  final bool fromSelf;
   ChatModel({
-    required this.messageText,
-    required this.sender,
-    required this.time,
+    required this.message,
+    required this.fromSelf,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'messageText': messageText,
-      'sender': sender.toMap(),
-      'time': time.millisecondsSinceEpoch,
+      'message': message,
+      'fromSelf': fromSelf,
     };
   }
 
   factory ChatModel.fromMap(Map<String, dynamic> map) {
     return ChatModel(
-      messageText: map['messageText'] ?? '',
-      sender: User.fromMap(map['sender']),
-      time: DateTime.fromMillisecondsSinceEpoch(map['time']),
+      message: map['message'] ?? '',
+      fromSelf: map['fromSelf'] ?? false,
     );
   }
 
