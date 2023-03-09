@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/screens/profile_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 // import 'package:rive_animation/constants.dart';
 // import 'package:rive_animation/screens/home/home_screen.dart';
@@ -68,6 +70,7 @@ class _EntryPointState extends State<EntryPoint>
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: true).user;
     return Scaffold(
       extendBody: true,
       resizeToAvoidBottomInset: false,
@@ -93,11 +96,14 @@ class _EntryPointState extends State<EntryPoint>
               offset: Offset(animation.value * 265, 0),
               child: Transform.scale(
                 scale: scalAnimation.value,
-                child: const ClipRRect(
-                  borderRadius: BorderRadius.all(
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(24),
                   ),
-                  child: ProfileWidget(),
+                  child: ProfileWidget(
+                    user: userProvider,
+                    isMe: true,
+                  ),
                 ),
               ),
             ),

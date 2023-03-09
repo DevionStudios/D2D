@@ -1,6 +1,8 @@
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:foxxi/providers/theme_provider.dart';
+import 'package:foxxi/providers/user_provider.dart';
+import 'package:foxxi/screens/chatbot_screen.dart';
 import 'package:foxxi/screens/news_screen.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 
@@ -9,10 +11,11 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../screens/feed_screen.dart';
 import '../screens/profile_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:foxxi/routing_constants.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key}) : super(key: key);
-
+  static const String routeName = bottomNavBarScreenRoute;
   @override
   State<BottomNavBar> createState() => _BottomNavBarState();
 }
@@ -23,13 +26,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
   int maxCount = 5;
 
   /// widget list
-  final List<Widget> bottomBarPages = [
-    // const postHomeScreen(),
-    const SizedBox.shrink(),
-    // const ChatBotScreen(),
-    NewsScreen(),
-    const ProfileWidget(),
-  ];
 
   @override
   void dispose() {
@@ -44,7 +40,20 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: true).user;
+
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
+    final List<Widget> bottomBarPages = [
+      FeedScreen(),
+      const SizedBox.shrink(),
+      const ChatBotScreen(),
+      NewsScreen(),
+      ProfileWidget(
+        user: userProvider,
+        isMe: true,
+      ),
+    ];
     return Scaffold(
       body: PageView(
         controller: _pageController,
@@ -84,7 +93,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                               borderRadius: const BorderRadius.vertical(
                                   top: Radius.circular(25))),
                           context: context,
-                          builder: (context) => Container(
+                          builder: (context) => SizedBox(
                                   child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
