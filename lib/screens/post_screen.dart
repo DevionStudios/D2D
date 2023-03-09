@@ -3,13 +3,16 @@ import 'dart:ui';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:foxxi/like_animation.dart';
+import 'package:foxxi/providers/user_provider.dart';
+import 'package:foxxi/screens/profile_screen.dart';
+import 'package:foxxi/services/comment_service.dart';
 import 'package:foxxi/services/post_service.dart';
 import 'package:foxxi/widgets/comment_card.dart';
+import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
 import '../models/comments.dart';
 import '../models/feed_post_model.dart';
-import '../models/post.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 
 class PostCard extends StatefulWidget {
@@ -31,11 +34,13 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   final postService = PostService();
+  final commentService = CommentService();
+  final TextEditingController _commentTextController = TextEditingController();
   VideoPlayerController? _controller;
-  List<Comment> comments = [];
+  late Future<List<Comment>> _comments;
   @override
   void initState() {
-    print('${widget.isImage}  ${widget.isVideo}');
+    // print('${widget.isImage}  ${widget.isVideo}');
     if (widget.isVideo) {
       _controller =
           VideoPlayerController.network(widget.post.media!.url.toString())
@@ -46,25 +51,27 @@ class _PostCardState extends State<PostCard> {
               setState(() {});
             });
     }
-
+    getComments();
     super.initState();
   }
 
   @override
   void dispose() {
     super.dispose();
+    _commentTextController.dispose();
     if (_controller != null) {
       _controller!.dispose();
     }
   }
 
   void getComments() async {
-    comments = await postService.getCommentByPostId(
-        context: context, id: widget.post.originalPostId.toString());
+    _comments = postService.getCommentByPostId(
+        context: context, id: widget.post.id.toString());
   }
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: true).user;
     return Scaffold(
       body: Container(
         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
@@ -107,23 +114,39 @@ class _PostCardState extends State<PostCard> {
                                     padding: const EdgeInsets.only(
                                       left: 8,
                                     ),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          widget.post.author.username
-                                              .toString(),
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        if (widget.post.author.username !=
+                                            userProvider.username) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ProfileWidget(
+                                                          isMe: false,
+                                                          user: widget
+                                                              .post.author)));
+                                        }
+                                      },
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            widget.post.author.name.toString(),
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
-                                        ),
-                                        const Text(
-                                          '@Kuntal271',
-                                          style: TextStyle(color: Colors.grey),
-                                        )
-                                      ],
+                                          Text(
+                                            widget.post.author.username
+                                                .toString(),
+                                            style: const TextStyle(
+                                                color: Colors.grey),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -159,8 +182,7 @@ class _PostCardState extends State<PostCard> {
                                                                     context:
                                                                         context,
                                                                     id: widget
-                                                                        .post
-                                                                        .originalPostId
+                                                                        .post.id
                                                                         .toString());
                                                               }),
                                                         )
@@ -291,6 +313,7 @@ class _PostCardState extends State<PostCard> {
                                                       ),
                                                       onPressed: () {
                                                         postService.likePost(
+                                                            context: context,
                                                             id: widget.post
                                                                 .originalPostId
                                                                 .toString());
@@ -583,7 +606,7 @@ class _PostCardState extends State<PostCard> {
                   ),
                 ),
               ),
-              Container(
+              SizedBox(
                 child: Column(
                   children: [
                     Row(
@@ -601,11 +624,12 @@ class _PostCardState extends State<PostCard> {
                         ),
                       ],
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 15.0, right: 15.0),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                       child: TextField(
-                        scrollPadding: EdgeInsets.all(100.0),
-                        decoration: InputDecoration(
+                        controller: _commentTextController,
+                        scrollPadding: const EdgeInsets.all(100.0),
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: 'An Interesting Reply',
                         ),
@@ -623,7 +647,14 @@ class _PostCardState extends State<PostCard> {
                               backgroundColor:
                                   MaterialStateProperty.all<Color>(Colors.blue),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              commentService.addComment(
+                                  context: context,
+                                  postId: widget.post.id.toString(),
+                                  caption: _commentTextController.text);
+
+                              _commentTextController.clear();
+                            },
                             child: const Text('Reply'),
                           ),
                         ),
@@ -659,32 +690,60 @@ class _PostCardState extends State<PostCard> {
                                 fontSize: 20),
                           ),
                         ),
-                        MediaQuery.removePadding(
-                          context: context,
-                          removeTop: true,
-                          child: ListView.builder(
-                            // scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: comments.isEmpty ? 0 : comments.length,
-                            itemBuilder: (context, index) {
-                              return comments.isEmpty
-                                  ? const Center(
-                                      child: Text('No Comments So Far'))
-                                  : Column(
-                                      children: [
-                                        CommentCard(
+                        // MediaQuery.removePadding(
+                        //   context: context,
+                        //   removeTop: true,
+                        //   child: ListView.builder(
+                        //     // scrollDirection: Axis.vertical,
+                        //     shrinkWrap: true,
+                        //     physics: const NeverScrollableScrollPhysics(),
+                        //     itemCount: comments.isEmpty ? 0 : comments.length,
+                        //     itemBuilder: (context, index) {
+                        //       return comments.isEmpty
+                        //           ? const Center(
+                        //               child: Text('No Comments So Far'))
+                        //           : Column(
+                        //               children: [
+                        //                 CommentCard(
+                        //                   post: widget.post,
+                        //                   comment: comments[index],
+                        //                 ),
+                        //                 const Divider(
+                        //                   height: 2,
+                        //                 ),
+                        //               ],
+                        //             );
+                        //     },
+                        //   ),
+                        // ),
+                        FutureBuilder<List<Comment>>(
+                            future: _comments,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                      top: MediaQuery.of(context).padding.top),
+                                  child: MediaQuery.removePadding(
+                                    context: context,
+                                    removeTop: true,
+                                    child: ListView.builder(
+                                      physics: const ScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: snapshot.data!.length,
+                                      itemBuilder: ((context, index) {
+                                        return CommentCard(
                                           post: widget.post,
-                                          comment: comments[index],
-                                        ),
-                                        const Divider(
-                                          height: 2,
-                                        ),
-                                      ],
-                                    );
-                            },
-                          ),
-                        ),
+                                          comment: snapshot.data![index],
+                                        );
+                                      }),
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                return const Center(
+                                    child: CircularProgressIndicator());
+                              }
+                            })
                       ],
                     )
                   ],
