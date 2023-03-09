@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:foxxi/providers/story_provider.dart';
+import 'package:foxxi/models/story.dart';
+import 'package:foxxi/models/user.dart';
+import 'package:foxxi/providers/user_provider.dart';
+import 'package:foxxi/screens/story_screen.dart';
+import 'package:foxxi/services/story_service.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
+
+// import '../screen/post_story.dart';
+import 'add_story.dart';
 
 class StoryBar extends StatefulWidget {
   const StoryBar({super.key});
@@ -14,11 +22,14 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
   Animation<double>? base;
   Animation<double>? reverse;
   AnimationController? controller;
+  StoryService storyService = StoryService();
+  List<User>? userWithStoryList;
 
   /// Init
   @override
   void initState() {
     super.initState();
+    getFollowingUserStories();
     controller =
         AnimationController(vsync: this, duration: const Duration(seconds: 6));
     base = CurvedAnimation(parent: controller!, curve: Curves.easeOut);
@@ -30,6 +41,11 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
     controller!.forward();
   }
 
+  void getFollowingUserStories() async {
+    userWithStoryList =
+        await storyService.getFollowingUserWithStories(context: context);
+  }
+
   /// Dispose
   @override
   void dispose() {
@@ -39,11 +55,12 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final storyProvider = Provider.of<StoryProvider>(context, listen: true);
+    final userProvider = Provider.of<UserProvider>(context, listen: true).user;
     return SizedBox(
         height: MediaQuery.of(context).size.height * 0.15,
         // color: Colors.grey.withOpacity(0.30),
         child: Row(
+          mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -51,15 +68,13 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
               // decoration: BoxDecoration(border: Border.all()),
               padding: const EdgeInsets.all(7),
               alignment: Alignment.center,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Stack(
-                    children: [
-                      SizedBox(
-                        // padding: EdgeInsets.all(5),
-
-                        child: Card(
+              child: SingleChildScrollView(
+                child: Column(
+                  // mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Stack(
+                      children: [
+                        Card(
                           elevation: 20,
                           shape: const CircleBorder(),
                           // clipBehavior: Clip.antiAlias,
@@ -69,56 +84,227 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                               padding: const EdgeInsets.all(2),
                               // decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),),
                               color: Colors.white,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.network(
-                                  'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-                                  fit: BoxFit.cover,
-                                  width: 50,
-                                  height: 50,
+                              child: GestureDetector(
+                                onTap: (() {
+                                  showMaterialModalBottomSheet(
+                                      elevation: 2,
+                                      shape: RoundedRectangleBorder(
+                                          side: BorderSide(
+                                              width: 1.0,
+                                              color: Colors.lightBlue.shade50),
+                                          borderRadius:
+                                              const BorderRadius.vertical(
+                                                  top: Radius.circular(30))),
+                                      context: context,
+                                      builder: (context) => SizedBox(
+                                              child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              const Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 8.0,
+                                                    vertical: 20),
+                                                child: Text(
+                                                  'Add Story',
+                                                  style: TextStyle(
+                                                      fontFamily:
+                                                          'InstagramSans',
+                                                      fontSize: 20),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  children: [
+                                                    Container(
+                                                      margin:
+                                                          const EdgeInsets.all(
+                                                              8),
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              10),
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              const BorderRadius
+                                                                      .all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          30)),
+                                                          border: Border.all(
+                                                              width: 5,
+                                                              color: Colors
+                                                                  .purpleAccent
+                                                                  .shade100
+                                                                  .withOpacity(
+                                                                      0.5))),
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          IconButton(
+                                                            onPressed: () {
+                                                              Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                  builder: (context) =>
+                                                                      const AddStory(
+                                                                          isImage:
+                                                                              true),
+                                                                ),
+                                                              );
+                                                            },
+                                                            icon: Icon(
+                                                              Icons.photo,
+                                                              color: Colors
+                                                                  .lightBlue
+                                                                  .shade100,
+                                                              size: 35,
+                                                            ),
+                                                          ),
+                                                          const Text(
+                                                            'Image',
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    'InstagramSans'),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      margin:
+                                                          const EdgeInsets.all(
+                                                              8),
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              10),
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              const BorderRadius
+                                                                      .all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          30)),
+                                                          border: Border.all(
+                                                              width: 5,
+                                                              color: Colors
+                                                                  .purpleAccent
+                                                                  .shade100
+                                                                  .withOpacity(
+                                                                      0.5))),
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          IconButton(
+                                                            onPressed: () {
+                                                              Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                  builder: (context) =>
+                                                                      const AddStory(
+                                                                          isImage:
+                                                                              false),
+                                                                ),
+                                                              );
+                                                            },
+                                                            icon: Icon(
+                                                              Icons
+                                                                  .video_collection_rounded,
+                                                              color: Colors
+                                                                  .lightBlue
+                                                                  .shade100,
+                                                              size: 35,
+                                                            ),
+                                                          ),
+                                                          const Text(
+                                                            'Video',
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    'InstagramSans'),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          )));
+                                }),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(
+                                    userProvider.image.toString(),
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            const Text('Error Widget'),
+                                    fit: BoxFit.cover,
+                                    width: 50,
+                                    height: 50,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: const BoxDecoration(
-                              color: Colors.blue, shape: BoxShape.circle),
-                          child: const Text(
-                            "+",
-                            style: TextStyle(color: Colors.white),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Container(
+                            padding: const EdgeInsets.all(5),
+                            decoration: const BoxDecoration(
+                                color: Colors.blue, shape: BoxShape.circle),
+                            child: const Text(
+                              "+",
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
-                        ),
-                      )
-                    ],
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('Your Story'),
-                  )
-                ],
+                        )
+                      ],
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text('Your Story'),
+                    )
+                  ],
+                ),
               ),
             ),
             MediaQuery.removePadding(
               context: context,
               removeTop: true,
               child: Expanded(
-                child: Consumer<StoryProvider>(
-                  builder: (context, stories, child) => ListView.builder(
-                    shrinkWrap: true,
-                    physics: const ScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: stories.storyList.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        // decoration: BoxDecoration(border: Border.all()),
-                        padding: const EdgeInsets.all(7),
-                        alignment: Alignment.center,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const ScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: userWithStoryList?.length == null
+                      ? 0
+                      : userWithStoryList!.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      // decoration: BoxDecoration(border: Border.all()),
+                      padding: const EdgeInsets.all(7),
+                      alignment: Alignment.center,
+                      child: SingleChildScrollView(
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -141,21 +327,39 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                                 ),
                               ),
                               child: InkWell(
-                                onTap: (() {
+                                onTap: (() async {
                                   setState(() {
-                                    stories.storyList[index].isSeen = true;
+                                    // userWithStoryList![index].isSeen = true;
                                   });
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //     builder: (context) => StoryPage(
-                                  //       profileImage: stories[index].profileImage,
-                                  //       index: index,
-                                  //       storyImage: stories[index].storyImage,
-                                  //       userName: stories[index].userName,
-                                  //     ),
-                                  //   ),
-                                  // );
+
+                                  List<Story>? userStories =
+                                      await storyService.getUserStory(
+                                          context: context,
+                                          username: userWithStoryList![index]
+                                              .username
+                                              .toString());
+
+                                  if (userWithStoryList?.length != null &&
+                                      userStories?.length != null) {
+                                    if (context.mounted) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => StoryScreen(
+                                                  stories: userStories!,
+                                                  isVideo: userStories[index]
+                                                              .media!
+                                                              .mediatype ==
+                                                          'Video'
+                                                      ? true
+                                                      : false,
+                                                  video: userStories[index]
+                                                      .media
+                                                      ?.url,
+                                                )),
+                                      );
+                                    }
+                                  }
                                 }),
                                 child: Card(
                                   elevation: 20,
@@ -170,7 +374,8 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(10),
                                         child: Image.network(
-                                          stories.storyList[index].author.image
+                                          userWithStoryList![index]
+                                              .image
                                               .toString(),
                                           width: 50,
                                           height: 50,
@@ -183,14 +388,15 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                  stories.storyList[index].author.username),
+                              child: Text(userWithStoryList![index]
+                                  .username
+                                  .toString()),
                             )
                           ],
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
