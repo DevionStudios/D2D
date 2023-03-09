@@ -108,6 +108,8 @@ flutter:
     - lib/assets/menu_button.riv
     - contracts/build/contracts/FoxxiToken.json
     - contracts/build/contracts/ipfsNFT.json
+    - lib/assets/foxxiSplash.riv
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
