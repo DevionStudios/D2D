@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:foxxi/models/comments.dart';
-import 'package:foxxi/models/post.dart';
 
 import '../models/feed_post_model.dart';
 

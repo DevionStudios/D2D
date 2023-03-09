@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:foxxi/providers/post_provider.dart';
+import 'package:foxxi/screens/chat_screen.dart';
 import 'package:foxxi/services/auth_service.dart';
 import 'package:foxxi/services/post_service.dart';
 // import 'package:foxxi/models/post.dart';
 // import 'package:foxxi/widgets/card.dart';
 import 'package:foxxi/widgets/feed_post_card.dart';
 import 'package:foxxi/widgets/story_bar.dart';
-import 'package:provider/provider.dart';
 
 import '../models/feed_post_model.dart';
-import '../models/post.dart';
 
 class FeedScreen extends StatefulWidget {
   FeedScreen({Key? key}) : super(key: key);
@@ -19,7 +17,6 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
-  AuthService authService = AuthService();
   PostService postService = PostService();
   late Future<List<FeedPostModel>> _post;
   @override
@@ -46,7 +43,7 @@ class _FeedScreenState extends State<FeedScreen> {
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Container(
+                          SizedBox(
                             child: IconButton(
                               icon: const Icon(
                                 Icons.send_rounded,
@@ -54,10 +51,10 @@ class _FeedScreenState extends State<FeedScreen> {
                                 size: 30,
                               ),
                               onPressed: () {
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) => Chat()));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const Chat()));
                               },
                             ),
                           ),

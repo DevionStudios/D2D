@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foxxi/models/donate_controller.dart';
 import 'package:foxxi/models/feed_post_model.dart';
 import 'package:foxxi/providers/wallet_address.dart';
+import 'package:foxxi/screens/chat.dart';
 import 'package:foxxi/screens/wallet_screen.dart';
 import 'package:foxxi/services/post_service.dart';
 import 'package:foxxi/utils.dart';
@@ -9,17 +10,14 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import 'package:foxxi/like_animation.dart';
 import 'package:provider/provider.dart';
-import 'package:web3dart/web3dart.dart';
 import 'dart:developer' as dev;
 import '../providers/user_provider.dart';
-import '../providers/wallet_address.dart';
-import '../providers/wallet_address.dart';
 import '../screens/post_screen.dart';
 
 class FeedCard extends StatefulWidget {
   final FeedPostModel post;
 
-  FeedCard({super.key, required this.post});
+  const FeedCard({super.key, required this.post});
 
   @override
   State<FeedCard> createState() => _FeedCardState();
@@ -32,7 +30,6 @@ class _FeedCardState extends State<FeedCard> {
   @override
   void dispose() {
     _controller.dispose();
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -120,7 +117,9 @@ class _FeedCardState extends State<FeedCard> {
                                                 vertical: 16),
                                             shrinkWrap: true,
                                             children: [
-                                              'Delete',
+                                              'Delete Post',
+                                              'Repost Post',
+                                              'Update Post',
                                             ]
                                                 .map(
                                                   (e) => InkWell(
@@ -134,13 +133,14 @@ class _FeedCardState extends State<FeedCard> {
                                                       ),
                                                       onTap: () {
                                                         dev.log(
-                                                            'Delete Button Pressed',
+                                                            '$e Button Pressed',
                                                             name:
                                                                 'FeedPostCard Delete button');
                                                         postService.deletePost(
                                                             context: context,
                                                             id: widget.post.id
                                                                 .toString());
+                                                        Navigator.pop(context);
                                                       }),
                                                 )
                                                 .toList()),
@@ -344,7 +344,20 @@ class _FeedCardState extends State<FeedCard> {
                                   .withOpacity(0.4),
                               size: 30,
                             ),
-                            onPressed: () {}),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => OneOneChatScreen(
+                                        senderId: widget.post.author.id,
+                                        senderName:
+                                            widget.post.author.name.toString(),
+                                        senderUsername:
+                                            widget.post.author.id.toString(),
+                                        senderImage: widget.post.author.image
+                                            .toString()),
+                                  ));
+                            }),
                         Expanded(
                           child: Align(
                             alignment: Alignment.bottomRight,
@@ -455,10 +468,10 @@ class _FeedCardState extends State<FeedCard> {
                                             ],
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.all(8),
+                                            padding: const EdgeInsets.all(8),
                                             child: TextField(
                                               controller: _controller,
-                                              decoration: InputDecoration(
+                                              decoration: const InputDecoration(
                                                 border: OutlineInputBorder(),
                                                 hintText: 'Enter Token Amount',
                                               ),
@@ -499,10 +512,10 @@ class _FeedCardState extends State<FeedCard> {
                                                               ],
                                                               stops: [0, 1],
                                                               begin:
-                                                                  AlignmentDirectional(
+                                                                  const AlignmentDirectional(
                                                                       1, 0),
                                                               end:
-                                                                  AlignmentDirectional(
+                                                                  const AlignmentDirectional(
                                                                       -1, 0),
                                                               // color: Colors.purpleAccent.shade100.withOpacity(
                                                               // 0.3,
@@ -603,7 +616,8 @@ class _FeedCardState extends State<FeedCard> {
                                                         builder: (context) =>
                                                             WalletWeb()));
                                               },
-                                              child: Text('Donate Screen'))
+                                              child:
+                                                  const Text('Donate Screen'))
                                         ],
                                       ),
                                     ),
