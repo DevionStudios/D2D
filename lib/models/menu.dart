@@ -22,6 +22,7 @@ List<Menu> sidebarMenus = [
         artboard: "SETTINGS",
         stateMachineName: "SETTINGS_Interactivity"),
   ),
+  // Menu(title: 'Log Out', rive: RiveModel(src: src, artboard: artboard, stateMachineName: stateMachineName)),
 ];
 List<Menu> bottomNavItems = [
   Menu(

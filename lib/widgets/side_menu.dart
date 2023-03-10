@@ -5,6 +5,7 @@ import 'package:foxxi/components/entry_Point1.dart';
 import 'package:foxxi/components/entry_point2.dart';
 import 'package:foxxi/models/menu.dart';
 import 'package:foxxi/providers/user_provider.dart';
+import 'package:foxxi/services/auth_service.dart';
 import 'package:foxxi/utils/rive_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/src/painting/gradient.dart' as gradient;
@@ -21,6 +22,7 @@ class SideMenu extends StatefulWidget {
 
 class _SideMenuState extends State<SideMenu> {
   Menu selectedSideMenu = sidebarMenus.first;
+  AuthService authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -106,6 +108,10 @@ class _SideMenuState extends State<SideMenu> {
                                     builder: (context) =>
                                         const bottomNavBar2()));
                           }
+                          if (selectedSideMenu.title.toLowerCase() ==
+                              'Log Out') {
+                            authService.signOut(context: context);
+                          }
                         },
                         riveOnInit: (artboard) {
                           menu.rive.status = RiveUtils.getRiveInput(artboard,
@@ -127,6 +133,18 @@ class _SideMenuState extends State<SideMenu> {
                   provider.toggleTheme(value);
                 },
               ),
+              ListTile(
+                title: Center(
+                  child: Text(
+                    'Log Out',
+                    style:
+                        TextStyle(color: isDark ? Colors.white : Colors.black),
+                  ),
+                ),
+                onTap: () {
+                  authService.signOut(context: context);
+                },
+              )
             ],
           ),
         ),
