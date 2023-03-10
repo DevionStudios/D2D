@@ -1,6 +1,10 @@
 import 'dart:convert';
 import 'dart:math';
+import 'dart:io';
 import 'package:erc20/erc20.dart';
+import 'package:flutter_ipfs/flutter_ipfs.dart';
+import 'package:foxxi/constants.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:web3auth_flutter/web3auth_flutter.dart';
 
 import 'package:flutter/material.dart';
@@ -9,6 +13,36 @@ import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:provider/provider.dart';
+
+Future<String> get _localPath async {
+  final directory = await getApplicationDocumentsDirectory();
+
+  return directory.path;
+}
+
+Future<File> get _localFile async {
+  final path = await _localPath;
+
+  return File('$path/metadata.json').create(recursive: true);
+}
+
+Future<File> write(String val) async {
+  final file = await _localFile;
+
+  return file.writeAsString(val);
+}
+
+class NFTMetaData {
+  String? url;
+  String? name;
+  String? description;
+  NFTMetaData({this.url, this.name, this.description});
+  Map toJson() => {
+        'name': name,
+        'url': url,
+        'description': description,
+      };
+}
 
 class MintController extends ChangeNotifier {
   final String _rpcUrl =
@@ -27,7 +61,7 @@ class MintController extends ChangeNotifier {
 
   late ContractFunction _mint;
 
-  Future<String> mint(String credentials, String uri) async {
+  Future<String> mint(String credentials, String uri, String name) async {
     _client = Web3Client(_rpcUrl, Client(), socketConnector: () {
       return IOWebSocketChannel.connect(_wsurl).cast<String>();
     });
@@ -36,8 +70,19 @@ class MintController extends ChangeNotifier {
     // await getCreadentials();
 
     await getDeployedContract();
-    uri = 'https://ipfs.io/ipfs/' + uri;
-    print(uri);
+    uri = 'ipfs://' + uri;
+    NFTMetaData metadata =
+        NFTMetaData(url: uri, name: name, description: 'Minted NFT');
+    String data = jsonEncode(metadata);
+    final path = await write(data);
+    print("XXX");
+    print(path.uri);
+    print("XXX");
+
+    final cid = await FlutterIpfs().uploadToIpfs(path.uri.toFilePath());
+    print(cid);
+    String uri2 = 'ipfs://' + cid;
+
     // const infuraId = 'adfc4b8e46eb43aeac02399b0c8107f2';
     // final client = Web3Client(
     //     'https://eth-goerli.g.alchemy.com/v2/T6BVFFZrgZDT11Hpp3pOvYPs5B-TI6ZM',
@@ -90,7 +135,7 @@ class MintController extends ChangeNotifier {
             from: _credentials.address,
             contract: _contract,
             function: _mint,
-            parameters: [uri]),
+            parameters: [uri2]),
         chainId: 5);
     print(result);
     return 'Transaction Successfull !! \nTransaction Hash $result';

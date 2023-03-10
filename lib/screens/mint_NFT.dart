@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../components/ipfsService.dart';
 
 import '../providers/wallet_address.dart';
+import '../services/auth_service.dart';
 
 // import '../provider/theme_provider.dart';
 
@@ -20,6 +21,8 @@ class mintNFT extends StatefulWidget {
 }
 
 class mintNFTState extends State<mintNFT> {
+  AuthService authService = AuthService();
+
   void initState() {
     super.initState();
     imagePicker = ImagePicker();
@@ -241,7 +244,6 @@ class mintNFTState extends State<mintNFT> {
                           onTap: () async {
                             image = await ImagePickerService.pickImage(context);
                             uri = uri.toString() + image.toString();
-                            print(uri);
                             setState(() {
                               imageNFT = uri;
                               uri = 'https://ipfs.io/ipfs/';
@@ -316,7 +318,12 @@ class mintNFTState extends State<mintNFT> {
                               final res = MintController().mint(
                                   walletAddressProvider.privateAddress
                                       .toString(),
-                                  image!);
+                                  image!,
+                                  'NFT');
+                              print(res);
+                              print(imageNFT);
+                              authService.updateProfile(
+                                  context: context, imagePath: imageNFT);
                             },
                             child: const Text('Import'),
                           ),
