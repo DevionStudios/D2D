@@ -322,8 +322,8 @@ class mintNFTState extends State<mintNFT> {
                                   'NFT');
                               print(res);
                               print(imageNFT);
-                              authService.updateProfile(
-                                  context: context, imagePath: imageNFT);
+                              authService.updateProfileImage(
+                                  context: context, image: imageNFT);
                             },
                             child: const Text('Import'),
                           ),
