@@ -252,7 +252,7 @@ class AuthService {
       Map<String, String> header = {'cookies': foxxijwt};
 
       final request =
-          http.MultipartRequest('POST', Uri.parse('$url/api/users/update'));
+          http.MultipartRequest('PUT', Uri.parse('$url/api/users/update'));
       request.headers.addAll(header);
       if (username != null) {
         request.fields['username'] = username;
@@ -261,6 +261,8 @@ class AuthService {
         request.fields['username'] = name;
       }
       if (bio != null) {
+        dev.log('Bio Update', name: 'Profile Update: Request');
+
         request.fields['username'] = bio;
       }
       if (walletAddress != null) {
@@ -268,6 +270,7 @@ class AuthService {
       }
 
       if (imagePath != null) {
+        dev.log('Image Update', name: 'Profile Update: Request');
         request.files.add(
           await http.MultipartFile.fromPath('image', imagePath),
         );
@@ -277,11 +280,16 @@ class AuthService {
         }
       }
       final res = await request.send();
+
+      dev.log(res.toString(), name: 'Profile Update');
       if (res.statusCode == 201) {
-        dev.log('Story Created Successfully ', name: 'Story Create Status');
+        dev.log('Profile Updated ', name: 'Profile Status');
+        if (context.mounted) {
+          showSnackBar(context, 'Profile Updated');
+        }
       }
       if (res.statusCode == 500) {
-        dev.log('Story Upload Error', name: 'Story Create Error');
+        dev.log('Profile Update Error', name: 'Profile Update Error');
       }
     } catch (e) {
       dev.log(e.toString(), name: 'AuthService: Update Profile  Error');

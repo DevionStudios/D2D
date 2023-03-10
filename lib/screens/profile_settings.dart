@@ -233,7 +233,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   maxLines: 3,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    prefixText: 'I am a new user',
                   ),
                 ),
               ),
