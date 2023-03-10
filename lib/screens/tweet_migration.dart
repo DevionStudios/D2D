@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:foxxi/services/post_service.dart';
 
 class TweetMigrationScreen extends StatelessWidget {
-  const TweetMigrationScreen({super.key});
-
+  TweetMigrationScreen({super.key});
+  PostService postService = PostService();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -80,7 +81,9 @@ class TweetMigrationScreen extends StatelessWidget {
                             padding: const EdgeInsets.all(16.0),
                             textStyle: const TextStyle(fontSize: 20),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            postService.importUserTweets(context: context);
+                          },
                           child: const Text('Import'),
                         ),
                       ]),
