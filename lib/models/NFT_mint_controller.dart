@@ -75,12 +75,9 @@ class MintController extends ChangeNotifier {
         NFTMetaData(url: uri, name: name, description: 'Minted NFT');
     String data = jsonEncode(metadata);
     final path = await write(data);
-    print("XXX");
-    print(path.uri);
-    print("XXX");
 
     final cid = await FlutterIpfs().uploadToIpfs(path.uri.toFilePath());
-    print(cid);
+
     String uri2 = 'ipfs://' + cid;
 
     // const infuraId = 'adfc4b8e46eb43aeac02399b0c8107f2';
@@ -128,6 +125,7 @@ class MintController extends ChangeNotifier {
 // // Kill the session
 //     connector.killSession();
     // print(_credentials.address.toString());
+
     final result = await _client.sendTransaction(
         _credentials,
         Transaction.callContract(

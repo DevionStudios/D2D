@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ipfs/flutter_ipfs.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:foxxi/models/NFT_mint_controller.dart';
-import 'package:image_picker/image_picker.dart';
+// import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import '../components/ipfsService.dart';
+import '../components/ipfsService.dart' as ipfs_service;
 
 import '../providers/wallet_address.dart';
 import '../services/auth_service.dart';
@@ -25,7 +27,7 @@ class mintNFTState extends State<mintNFT> {
 
   void initState() {
     super.initState();
-    imagePicker = ImagePicker();
+    // imagePicker = ImagePicker();
   }
 
   String? uri = 'https://ipfs.io/ipfs/';
@@ -242,7 +244,9 @@ class mintNFTState extends State<mintNFT> {
                       children: [
                         GestureDetector(
                           onTap: () async {
-                            image = await ImagePickerService.pickImage(context);
+                            image =
+                                await ipfs_service.ImagePickerService.pickImage(
+                                    context);
                             uri = uri.toString() + image.toString();
                             setState(() {
                               imageNFT = uri;
@@ -315,15 +319,40 @@ class mintNFTState extends State<mintNFT> {
                               textStyle: const TextStyle(fontSize: 20),
                             ),
                             onPressed: () {
-                              final res = MintController().mint(
-                                  walletAddressProvider.privateAddress
-                                      .toString(),
-                                  image!,
-                                  'NFT');
-                              print(res);
-                              print(imageNFT);
-                              authService.updateProfileImage(
-                                  context: context, image: imageNFT);
+                              if (walletAddressProvider.privateAddress !=
+                                  null) {
+                                showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      const ProgressDialog(
+                                    status: 'Minting NFT',
+                                  ),
+                                );
+                                try {
+                                  MintController()
+                                      .mint(
+                                          walletAddressProvider.privateAddress
+                                              .toString(),
+                                          image!,
+                                          image!)
+                                      .then(
+                                    (value) {
+                                      Navigator.pop(context);
+                                    },
+                                  );
+
+                                  authService.updateProfileImage(
+                                      context: context, image: imageNFT);
+                                  Navigator.pop(context);
+                                } catch (e) {
+                                  print(e);
+                                }
+                              } else {
+                                Fluttertoast.showToast(
+                                  msg: 'Connect Wallet First',
+                                );
+                              }
                             },
                             child: const Text('Import'),
                           ),
