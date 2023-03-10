@@ -1,7 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:foxxi/services/auth_service.dart';
+import 'package:foxxi/utils.dart';
 
-class SecuritySettingScreen extends StatelessWidget {
-  const SecuritySettingScreen({super.key});
+class SecuritySettingScreen extends StatefulWidget {
+  SecuritySettingScreen({super.key});
+
+  @override
+  State<SecuritySettingScreen> createState() => _SecuritySettingScreenState();
+}
+
+class _SecuritySettingScreenState extends State<SecuritySettingScreen> {
+  final TextEditingController _oldPasswordTextController =
+      TextEditingController();
+
+  final TextEditingController _newPasswordTextController =
+      TextEditingController();
+
+  final TextEditingController _confirmNewPasswordTextController =
+      TextEditingController();
+  AuthService authService = AuthService();
+  @override
+  void dispose() {
+    _confirmNewPasswordTextController.dispose();
+    _newPasswordTextController.dispose();
+    _oldPasswordTextController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,10 +82,11 @@ class SecuritySettingScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: TextField(
-                  decoration: InputDecoration(
+                  controller: _oldPasswordTextController,
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -76,10 +101,11 @@ class SecuritySettingScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: TextField(
-                  decoration: InputDecoration(
+                  controller: _newPasswordTextController,
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -94,10 +120,11 @@ class SecuritySettingScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: TextField(
-                  decoration: InputDecoration(
+                  controller: _confirmNewPasswordTextController,
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -136,7 +163,22 @@ class SecuritySettingScreen extends StatelessWidget {
                               padding: const EdgeInsets.all(16.0),
                               textStyle: const TextStyle(fontSize: 20),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              if (_newPasswordTextController.text ==
+                                  _confirmNewPasswordTextController.text) {
+                                authService.updatePassword(
+                                    context: context,
+                                    oldPassword:
+                                        _oldPasswordTextController.text,
+                                    newPassword:
+                                        _confirmNewPasswordTextController.text);
+                              } else {
+                                _newPasswordTextController.clear();
+                                _confirmNewPasswordTextController.clear();
+                                showSnackBar(
+                                    context, 'New Password Do not match');
+                              }
+                            },
                             child: const Text('Update'),
                           ),
                         ]),
