@@ -1,12 +1,9 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:foxxi/components/check.dart';
 import 'package:http/http.dart' as http;
 import 'package:foxxi/http_error_handle.dart';
 import 'package:foxxi/screens/login_screen.dart';
-import 'package:foxxi/screens/main_screen.dart';
 
 import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/utils.dart';
@@ -14,7 +11,6 @@ import 'package:foxxi/constants.dart';
 import 'dart:developer' as dev;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
-import 'package:walletconnect_dart/walletconnect_dart.dart';
 
 import '../components/entry_Point1.dart';
 
@@ -289,6 +285,37 @@ class AuthService {
       }
     } catch (e) {
       dev.log(e.toString(), name: 'AuthService: Update Profile  Error');
+    }
+  }
+
+  void updatePassword({
+    required BuildContext context,
+    required String oldPassword,
+    required String newPassword,
+  }) async {
+    try {
+      var jwt = await _storage.read(key: 'cookies');
+      final foxxijwt = 'foxxi_jwt=$jwt;';
+      dev.log(foxxijwt, name: "Reading JWT");
+      final res = await http.put(Uri.parse('$url/api/users/updatepassword'),
+          body: jsonEncode(
+              {'oldPassword': oldPassword, 'newPassword': newPassword}),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'cookies': foxxijwt
+          });
+
+      if (context.mounted) {
+        httpErrorHandle(
+            response: res,
+            context: context,
+            onSuccess: () {
+              showSnackBar(context, 'Password Updated ');
+            });
+      }
+    } catch (e) {
+      dev.log(e.toString(), name: 'Update Password Error');
+      showSnackBar(context, e.toString());
     }
   }
 
