@@ -17,9 +17,6 @@ void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: ((context) => WalletAddressProvider())),
-      ChangeNotifierProvider(
-        create: (context) => ThemeProvider(),
-      ),
       ChangeNotifierProvider(create: ((context) => UserProvider())),
       ChangeNotifierProvider(create: ((context) => PostProvider())),
       ChangeNotifierProvider(
@@ -45,13 +42,16 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      onGenerateRoute: (settings) => generateRoute(settings),
-      home: const SplashScreen(),
-    );
+    return ChangeNotifierProvider(
+        create: (_) => ThemeProvider(),
+        builder: (context, _) {
+          final themeProvider = Provider.of<ThemeProvider>(context);
+          return MaterialApp(
+            themeMode: themeProvider.themeMode,
+            darkTheme: myThemes.darkTheme,
+            theme: myThemes.lightTheme,
+            home: const SplashScreen(),
+          );
+        });
   }
 }

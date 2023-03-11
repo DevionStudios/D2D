@@ -62,14 +62,14 @@ class _SideMenuState extends State<SideMenu> {
                   ),
                 ),
                 title: Text(
-                  userProvider.username.toString(),
+                  userProvider.name.toString(),
                   style: TextStyle(
                       fontFamily: 'InstagramSans',
                       color: isDark ? Colors.white : Colors.grey.shade600,
                       fontWeight: FontWeight.bold),
                 ),
                 subtitle: Text(
-                  userProvider.username.toString(),
+                  '@${userProvider.username.toString()}',
                   style: TextStyle(
                     color: isDark ? Colors.white : Colors.grey.shade600,
                     fontFamily: 'InstagramSans',

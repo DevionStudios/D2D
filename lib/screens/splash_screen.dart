@@ -68,7 +68,6 @@ class _MyRiveAnimationState extends State<SplashScreen> {
       body: Container(
         color: Colors.grey.shade900,
         child: const Center(
-          // width: 5,
           child: RiveAnimation.asset(
             'lib/assets/foxxiSplash.riv',
             fit: BoxFit.cover,

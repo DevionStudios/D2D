@@ -8,6 +8,7 @@ import 'package:foxxi/screens/profile_screen.dart';
 import 'package:foxxi/services/comment_service.dart';
 import 'package:foxxi/services/post_service.dart';
 import 'package:foxxi/widgets/comment_card.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
@@ -41,7 +42,6 @@ class _PostCardState extends State<PostCard> {
   late Future<List<Comment>> _comments;
   @override
   void initState() {
-    // print('${widget.isImage}  ${widget.isVideo}');
     if (widget.isVideo) {
       _controller =
           VideoPlayerController.network(widget.post.media!.url.toString())
@@ -83,16 +83,38 @@ class _PostCardState extends State<PostCard> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                      padding: EdgeInsets.all(16),
+                      height: 100,
+                      // width: MediaQuery.of(context).size.width * 0.1,
+                      child: CircleAvatar(
+                        backgroundColor:
+                            Colors.purpleAccent.shade100.withOpacity(0.4),
+                        child: IconButton(
+                          // iconSize: 20,
+                          icon: Icon(
+                            Icons.arrow_back_ios_new_rounded,
+                            color: Colors.white,
+                            // size: 15,
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      )),
+                ],
+              ),
               Container(
                 padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
                 child: Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color:
-                          isDark ? Colors.grey.shade900 : Colors.grey.shade100,
-                    ),
+                        borderRadius: BorderRadius.circular(30),
+                        color: isDark ? Colors.grey.shade900 : Colors.white),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(30),
                       child: Column(
@@ -392,7 +414,220 @@ class _PostCardState extends State<PostCard> {
                                                     //   ),
                                                     // ),
                                                   ),
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    showMaterialModalBottomSheet<
+                                                        void>(
+                                                      shape: const RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.vertical(
+                                                                  top: Radius
+                                                                      .circular(
+                                                                          25))),
+                                                      context: context,
+                                                      builder: (context) =>
+                                                          Padding(
+                                                        padding: EdgeInsets.only(
+                                                            bottom:
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .viewInsets
+                                                                    .bottom),
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                              child: Text(
+                                                                  'Reply',
+                                                                  style: TextStyle(
+                                                                      color: isDark
+                                                                          ? Colors
+                                                                              .grey
+                                                                              .shade400
+                                                                          : Colors
+                                                                              .black,
+                                                                      fontFamily:
+                                                                          'InstagramSans',
+                                                                      fontSize:
+                                                                          25,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold)),
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(8),
+                                                                  child:
+                                                                      CircleAvatar(
+                                                                    radius: 16,
+                                                                    backgroundImage: NetworkImage(widget
+                                                                        .post
+                                                                        .author
+                                                                        .image
+                                                                        .toString()),
+                                                                  ),
+                                                                ),
+                                                                Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Row(
+                                                                      children: [
+                                                                        Padding(
+                                                                          padding:
+                                                                              const EdgeInsets.only(left: 8),
+                                                                          child:
+                                                                              Text(
+                                                                            widget.post.author.name.toString(),
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: isDark ? Colors.grey.shade200 : Colors.black,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Padding(
+                                                                          padding:
+                                                                              const EdgeInsets.only(left: 4.0),
+                                                                          child:
+                                                                              Text(
+                                                                            '@${widget.post.author.username}',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: isDark ? Colors.grey.shade600 : Colors.black,
+                                                                            ),
+                                                                          ),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                    const Padding(
+                                                                      padding:
+                                                                          EdgeInsets
+                                                                              .only(
+                                                                        left: 8,
+                                                                      ),
+                                                                      // child: Text(
+                                                                      //  ,
+                                                                      //   style: TextStyle(
+                                                                      //     color: Colors.grey,
+                                                                      //   ),
+                                                                      // ),
+                                                                    )
+                                                                  ],
+                                                                )
+                                                              ],
+                                                            ),
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              children: const [
+                                                                Padding(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          left:
+                                                                              8.0),
+                                                                  child: Text(
+                                                                      'Your Reply'),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(8),
+                                                              child: TextField(
+                                                                controller:
+                                                                    _commentTextController,
+                                                                decoration:
+                                                                    InputDecoration(
+                                                                  border:
+                                                                      OutlineInputBorder(),
+                                                                  hintText:
+                                                                      'An Interesting Reply',
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Container(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                              .all(
+                                                                          8.0),
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .end,
+                                                                    children: [
+                                                                      Stack(children: <
+                                                                          Widget>[
+                                                                        Positioned
+                                                                            .fill(
+                                                                          child:
+                                                                              Container(
+                                                                            decoration:
+                                                                                BoxDecoration(
+                                                                              borderRadius: BorderRadius.circular(15),
+                                                                              gradient: LinearGradient(
+                                                                                colors: [
+                                                                                  Colors.lightBlue.shade100.withOpacity(0.4),
+                                                                                  Colors.purpleAccent.shade100.withOpacity(0.4),
+                                                                                ],
+                                                                                stops: [
+                                                                                  0,
+                                                                                  1
+                                                                                ],
+                                                                                begin: AlignmentDirectional(1, 0),
+                                                                                end: AlignmentDirectional(-1, 0),
+                                                                                // color: Colors.purpleAccent.shade100.withOpacity(
+                                                                                // 0.3,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        TextButton(
+                                                                          style:
+                                                                              TextButton.styleFrom(
+                                                                            foregroundColor:
+                                                                                Colors.white,
+                                                                            padding:
+                                                                                const EdgeInsets.all(16.0),
+                                                                            textStyle:
+                                                                                const TextStyle(fontSize: 20),
+                                                                          ),
+                                                                          onPressed:
+                                                                              () {
+                                                                            commentService.addComment(
+                                                                                context: context,
+                                                                                postId: widget.post.id.toString(),
+                                                                                caption: _commentTextController.text);
+
+                                                                            _commentTextController.clear();
+                                                                          },
+                                                                          child:
+                                                                              const Text('Comment'),
+                                                                        ),
+                                                                      ]),
+                                                                    ],
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
                                                 ),
                                                 widget.post.author.id !=
                                                         userProvider.id
@@ -604,7 +839,197 @@ class _PostCardState extends State<PostCard> {
                                                         //   ),
                                                         // ),
                                                       ),
-                                                      onPressed: () {},
+                                                      onPressed: () {
+                                                        showMaterialModalBottomSheet<
+                                                            void>(
+                                                          shape: const RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius.vertical(
+                                                                      top: Radius
+                                                                          .circular(
+                                                                              25))),
+                                                          context: context,
+                                                          builder: (context) =>
+                                                              Padding(
+                                                            padding: EdgeInsets.only(
+                                                                bottom: MediaQuery.of(
+                                                                        context)
+                                                                    .viewInsets
+                                                                    .bottom),
+                                                            child: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: [
+                                                                Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                              .all(
+                                                                          8.0),
+                                                                  child: Text(
+                                                                      'Reply',
+                                                                      style: TextStyle(
+                                                                          color: isDark
+                                                                              ? Colors
+                                                                                  .grey.shade400
+                                                                              : Colors
+                                                                                  .black,
+                                                                          fontFamily:
+                                                                              'InstagramSans',
+                                                                          fontSize:
+                                                                              25,
+                                                                          fontWeight:
+                                                                              FontWeight.bold)),
+                                                                ),
+                                                                Row(
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding:
+                                                                          const EdgeInsets.all(
+                                                                              8),
+                                                                      child:
+                                                                          CircleAvatar(
+                                                                        radius:
+                                                                            16,
+                                                                        backgroundImage: NetworkImage(widget
+                                                                            .post
+                                                                            .author
+                                                                            .image
+                                                                            .toString()),
+                                                                      ),
+                                                                    ),
+                                                                    Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Row(
+                                                                          children: [
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left: 8),
+                                                                              child: Text(
+                                                                                widget.post.author.name.toString(),
+                                                                                style: TextStyle(
+                                                                                  color: isDark ? Colors.grey.shade600 : Colors.black,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left: 4.0),
+                                                                              child: Text(
+                                                                                '@${widget.post.author.username}',
+                                                                                style: TextStyle(
+                                                                                  color: isDark ? Colors.grey.shade300 : Colors.black,
+                                                                                ),
+                                                                              ),
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                        const Padding(
+                                                                          padding:
+                                                                              EdgeInsets.only(
+                                                                            left:
+                                                                                8,
+                                                                          ),
+                                                                          // child: Text(
+                                                                          //  ,
+                                                                          //   style: TextStyle(
+                                                                          //     color: Colors.grey,
+                                                                          //   ),
+                                                                          // ),
+                                                                        )
+                                                                      ],
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
+                                                                  children: const [
+                                                                    Padding(
+                                                                      padding: EdgeInsets.only(
+                                                                          left:
+                                                                              8.0),
+                                                                      child: Text(
+                                                                          'Your Reply'),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                const Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              8),
+                                                                  child:
+                                                                      TextField(
+                                                                    decoration:
+                                                                        InputDecoration(
+                                                                      border:
+                                                                          OutlineInputBorder(),
+                                                                      hintText:
+                                                                          'An Interesting Reply',
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Container(
+                                                                      padding:
+                                                                          const EdgeInsets.all(
+                                                                              8.0),
+                                                                      child:
+                                                                          Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.end,
+                                                                        children: [
+                                                                          Stack(children: <
+                                                                              Widget>[
+                                                                            Positioned.fill(
+                                                                              child: Container(
+                                                                                decoration: BoxDecoration(
+                                                                                  borderRadius: BorderRadius.circular(15),
+                                                                                  gradient: LinearGradient(
+                                                                                    colors: [
+                                                                                      Colors.lightBlue.shade100.withOpacity(0.4),
+                                                                                      Colors.purpleAccent.shade100.withOpacity(0.4),
+                                                                                    ],
+                                                                                    stops: [0, 1],
+                                                                                    begin: AlignmentDirectional(1, 0),
+                                                                                    end: AlignmentDirectional(-1, 0),
+                                                                                    // color: Colors.purpleAccent.shade100.withOpacity(
+                                                                                    // 0.3,
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            TextButton(
+                                                                              style: TextButton.styleFrom(
+                                                                                foregroundColor: Colors.white,
+                                                                                padding: const EdgeInsets.all(16.0),
+                                                                                textStyle: const TextStyle(fontSize: 20),
+                                                                              ),
+                                                                              onPressed: () {
+                                                                                commentService.addComment(context: context, postId: widget.post.id.toString(), caption: _commentTextController.text);
+
+                                                                                _commentTextController.clear();
+                                                                              },
+                                                                              child: const Text('Comment'),
+                                                                            ),
+                                                                          ]),
+                                                                        ],
+                                                                      ),
+                                                                    )
+                                                                  ],
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
                                                     ),
                                                     IconButton(
                                                         icon: Icon(
@@ -636,144 +1061,73 @@ class _PostCardState extends State<PostCard> {
               ),
               SizedBox(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Your Reply',
-                            style: TextStyle(
-                                fontFamily: 'InstagramSans',
-                                color: isDark ? Colors.white : Colors.black,
-                                fontSize: 20),
-                          ),
-                        ),
-                      ],
-                    ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                      child: TextField(
-                        controller: _commentTextController,
-                        scrollPadding: const EdgeInsets.all(100.0),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'An Interesting Reply',
-                        ),
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Comments',
+                        style: TextStyle(
+                            fontFamily: 'InstagramSans',
+                            color: isDark ? Colors.white : Colors.black,
+                            fontSize: 20),
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          child: ElevatedButton(
-                            style: ButtonStyle(
-                              foregroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.white),
-                              backgroundColor:
-                                  MaterialStateProperty.all<Color>(Colors.blue),
-                            ),
-                            onPressed: () {
-                              commentService.addComment(
-                                  context: context,
-                                  postId: widget.post.id.toString(),
-                                  caption: _commentTextController.text);
-
-                              _commentTextController.clear();
-                            },
-                            child: const Text('Reply'),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          child: TextButton(
-                            style: ButtonStyle(
-                              foregroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.white),
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.blue.shade400),
-                            ),
-                            onPressed: () {},
-                            child: const Text(
-                              'Cancel',
-                              // style: TextStyle(color: Colors.grey),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Comments',
-                            style: TextStyle(
-                                fontFamily: 'InstagramSans',
-                                color: isDark ? Colors.white : Colors.black,
-                                fontSize: 20),
-                          ),
-                        ),
-                        // MediaQuery.removePadding(
-                        //   context: context,
-                        //   removeTop: true,
-                        //   child: ListView.builder(
-                        //     // scrollDirection: Axis.vertical,
-                        //     shrinkWrap: true,
-                        //     physics: const NeverScrollableScrollPhysics(),
-                        //     itemCount: comments.isEmpty ? 0 : comments.length,
-                        //     itemBuilder: (context, index) {
-                        //       return comments.isEmpty
-                        //           ? const Center(
-                        //               child: Text('No Comments So Far'))
-                        //           : Column(
-                        //               children: [
-                        //                 CommentCard(
-                        //                   post: widget.post,
-                        //                   comment: comments[index],
-                        //                 ),
-                        //                 const Divider(
-                        //                   height: 2,
-                        //                 ),
-                        //               ],
-                        //             );
-                        //     },
-                        //   ),
-                        // ),
-                        FutureBuilder<List<Comment>>(
-                            future: _comments,
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return Padding(
-                                  padding: EdgeInsets.only(
-                                      top: MediaQuery.of(context).padding.top),
-                                  child: MediaQuery.removePadding(
-                                    context: context,
-                                    removeTop: true,
-                                    child: ListView.builder(
-                                      physics: const ScrollPhysics(),
-                                      shrinkWrap: true,
-                                      itemCount: snapshot.data!.length,
-                                      itemBuilder: ((context, index) {
-                                        return CommentCard(
-                                          post: widget.post,
-                                          comment: snapshot.data![index],
-                                        );
-                                      }),
-                                    ),
-                                  ),
-                                );
-                              } else {
-                                return const Center(
-                                    child: CircularProgressIndicator());
-                              }
-                            })
-                      ],
-                    )
+                    // MediaQuery.removePadding(
+                    //   context: context,
+                    //   removeTop: true,
+                    //   child: ListView.builder(
+                    //     // scrollDirection: Axis.vertical,
+                    //     shrinkWrap: true,
+                    //     physics: const NeverScrollableScrollPhysics(),
+                    //     itemCount: comments.isEmpty ? 0 : comments.length,
+                    //     itemBuilder: (context, index) {
+                    //       return comments.isEmpty
+                    //           ? const Center(
+                    //               child: Text('No Comments So Far'))
+                    //           : Column(
+                    //               children: [
+                    //                 CommentCard(
+                    //                   post: widget.post,
+                    //                   comment: comments[index],
+                    //                 ),
+                    //                 const Divider(
+                    //                   height: 2,
+                    //                 ),
+                    //               ],
+                    //             );
+                    //     },
+                    //   ),
+                    // ),
+                    FutureBuilder<List<Comment>>(
+                        future: _comments,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                  top: MediaQuery.of(context).padding.top),
+                              child: MediaQuery.removePadding(
+                                context: context,
+                                removeTop: true,
+                                child: ListView.builder(
+                                  physics: const ScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: snapshot.data!.length,
+                                  itemBuilder: ((context, index) {
+                                    return CommentCard(
+                                      post: widget.post,
+                                      comment: snapshot.data![index],
+                                    );
+                                  }),
+                                ),
+                              ),
+                            );
+                          } else {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          }
+                        })
                   ],
                 ),
               )

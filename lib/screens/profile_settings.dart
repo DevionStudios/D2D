@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:foxxi/services/auth_service.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/theme_provider.dart';
 
 // import 'package:flutter/material.dart';
 class ProfileSettings extends StatefulWidget {
@@ -43,6 +46,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -52,6 +57,25 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Container(
+                  padding: EdgeInsets.all(16),
+                  height: 100,
+                  // width: MediaQuery.of(context).size.width * 0.1,
+                  child: CircleAvatar(
+                    backgroundColor:
+                        Colors.purpleAccent.shade100.withOpacity(0.4),
+                    child: IconButton(
+                      // iconSize: 20,
+                      icon: Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        color: Colors.white,
+                        // size: 15,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  )),
               const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
@@ -77,9 +101,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       const Text(
                         'Image',
                         style: TextStyle(
-                            fontFamily: 'InstagramSans',
-                            color: Colors.black,
-                            fontSize: 15),
+                            fontFamily: 'InstagramSans', fontSize: 15),
                       ),
                       GestureDetector(
                         onTap: () async {
@@ -107,7 +129,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                 )
                               : Icon(
                                   Icons.file_upload_rounded,
-                                  color: Colors.grey[800],
+                                  color: isDark
+                                      ? Colors.grey.shade200
+                                      : Colors.grey[800],
                                 ),
                         ),
                       )
@@ -118,9 +142,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       const Text(
                         'Cover Image',
                         style: TextStyle(
-                            fontFamily: 'InstagramSans',
-                            color: Colors.black,
-                            fontSize: 15),
+                            fontFamily: 'InstagramSans', fontSize: 15),
                       ),
                       GestureDetector(
                         onTap: () async {
@@ -148,7 +170,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                 )
                               : Icon(
                                   Icons.upload_rounded,
-                                  color: Colors.grey[800],
+                                  color: isDark
+                                      ? Colors.grey.shade200
+                                      : Colors.grey[800],
                                 ),
                         ),
                       )
@@ -160,10 +184,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 padding: EdgeInsets.all(8.0),
                 child: Text(
                   'Full Name',
-                  style: TextStyle(
-                      fontFamily: 'InstagramSans',
-                      color: Colors.black,
-                      fontSize: 15),
+                  style: TextStyle(fontFamily: 'InstagramSans', fontSize: 15),
                 ),
               ),
               Padding(
@@ -180,10 +201,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 padding: EdgeInsets.all(8.0),
                 child: Text(
                   'Username on Twitter (Cannot be changed once set)',
-                  style: TextStyle(
-                      fontFamily: 'InstagramSans',
-                      color: Colors.black,
-                      fontSize: 15),
+                  style: TextStyle(fontFamily: 'InstagramSans', fontSize: 15),
                 ),
               ),
               Padding(
@@ -200,10 +218,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 padding: EdgeInsets.all(8.0),
                 child: Text(
                   "Wallet Address",
-                  style: TextStyle(
-                      fontFamily: 'InstagramSans',
-                      color: Colors.black,
-                      fontSize: 15),
+                  style: TextStyle(fontFamily: 'InstagramSans', fontSize: 15),
                 ),
               ),
               Padding(
@@ -212,7 +227,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   controller: _walletAddressTextController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    prefixText: 'undefined',
                   ),
                 ),
               ),
@@ -220,10 +234,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 padding: EdgeInsets.all(8.0),
                 child: Text(
                   'Bio',
-                  style: TextStyle(
-                      fontFamily: 'InstagramSans',
-                      color: Colors.black,
-                      fontSize: 15),
+                  style: TextStyle(fontFamily: 'InstagramSans', fontSize: 15),
                 ),
               ),
               Padding(
@@ -236,29 +247,61 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   ),
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.only(right: 8),
-                alignment: Alignment.centerRight,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    foregroundColor:
-                        MaterialStateProperty.all<Color>(Colors.white),
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.blue),
-                  ),
-                  onPressed: () {
-                    authService.updateProfile(
-                        context: context,
-                        bio: _bioTextController.text,
-                        coverImagePath:
-                            coverImage?.path == null ? null : coverImage!.path,
-                        imagePath: image?.path == null ? null : image!.path,
-                        name: _nameTextController.text,
-                        username: _usernameTextController.text,
-                        walletAddress: _walletAddressTextController.text);
-                  },
-                  child: const Text('Submit'),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Stack(children: <Widget>[
+                          Positioned.fill(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.lightBlue.shade100.withOpacity(0.4),
+                                    Colors.purpleAccent.shade100
+                                        .withOpacity(0.4),
+                                  ],
+                                  stops: [0, 1],
+                                  begin: AlignmentDirectional(1, 0),
+                                  end: AlignmentDirectional(-1, 0),
+                                  // color: Colors.purpleAccent.shade100.withOpacity(
+                                  // 0.3,
+                                ),
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.all(16.0),
+                              textStyle: const TextStyle(fontSize: 20),
+                            ),
+                            onPressed: () {
+                              authService.updateProfile(
+                                  context: context,
+                                  bio: _bioTextController.text,
+                                  coverImagePath: coverImage?.path == null
+                                      ? null
+                                      : coverImage!.path,
+                                  imagePath:
+                                      image?.path == null ? null : image!.path,
+                                  name: _nameTextController.text,
+                                  username: _usernameTextController.text,
+                                  walletAddress:
+                                      _walletAddressTextController.text);
+                            },
+                            child: const Text('Update'),
+                          ),
+                        ]),
+                      ],
+                    ),
+                  )
+                ],
               )
             ],
           ),

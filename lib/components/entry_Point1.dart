@@ -48,11 +48,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
       FeedScreen(),
       const SizedBox.shrink(),
       const ChatBotScreen(),
-      NewsScreen(),
       ProfileWidget(
         user: userProvider,
         isMe: true,
       ),
+      NewsScreen(),
     ];
     return Scaffold(
       body: PageView(
@@ -236,17 +236,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
                 const BottomBarItem(
                   inActiveItem: Icon(
-                    Icons.newspaper_rounded,
-                    color: Colors.blueGrey,
-                  ),
-                  activeItem: Icon(
-                    Icons.newspaper_rounded,
-                    color: Colors.blueAccent,
-                  ),
-                  itemLabel: 'Page 2',
-                ),
-                const BottomBarItem(
-                  inActiveItem: Icon(
                     Icons.account_circle_outlined,
                     color: Colors.blueGrey,
                   ),
@@ -255,6 +244,17 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     color: Colors.blueAccent,
                   ),
                   itemLabel: 'Page 1',
+                ),
+                const BottomBarItem(
+                  inActiveItem: Icon(
+                    Icons.newspaper_rounded,
+                    color: Colors.blueGrey,
+                  ),
+                  activeItem: Icon(
+                    Icons.newspaper_rounded,
+                    color: Colors.blueAccent,
+                  ),
+                  itemLabel: 'Page 2',
                 ),
 
                 ///svg example

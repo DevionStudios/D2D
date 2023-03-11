@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'dart:developer' as dev;
 import '../providers/user_provider.dart';
 import '../screens/post_screen.dart';
+import '../services/comment_service.dart';
 
 class FeedCard extends StatefulWidget {
   final FeedPostModel post;
@@ -26,6 +27,8 @@ class FeedCard extends StatefulWidget {
 }
 
 class _FeedCardState extends State<FeedCard> {
+  final commentService = CommentService();
+  final TextEditingController _commentTextController = TextEditingController();
   final TextEditingController _controller = TextEditingController();
   PostService postService = PostService();
 
@@ -67,6 +70,7 @@ class _FeedCardState extends State<FeedCard> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(30),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
@@ -97,11 +101,13 @@ class _FeedCardState extends State<FeedCard> {
                                 Text(
                                   widget.post.author.name.toString(),
                                   style: const TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'InstagramSans',
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Text(
-                                  widget.post.author.username.toString(),
+                                  '@${widget.post.author.username.toString()}',
                                   style: const TextStyle(color: Colors.grey),
                                 )
                               ],
@@ -164,8 +170,9 @@ class _FeedCardState extends State<FeedCard> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         widget.post.caption.toString(),
-                        style: const TextStyle(
-                          color: Colors.black54,
+                        style: TextStyle(
+                          fontFamily: 'InstagramSans',
+                          color: Colors.grey.shade400,
                           fontSize: 15,
                         ),
                         maxLines: 4,
@@ -202,8 +209,8 @@ class _FeedCardState extends State<FeedCard> {
                               icon: Icon(
                                 Icons.favorite_rounded,
                                 size: 30,
-                                color: const Color.fromARGB(255, 226, 127, 245)
-                                    .withOpacity(0.4),
+                                color: Color.fromARGB(255, 226, 127, 245)
+                                    .withOpacity(0.7),
                               ),
                               onPressed: () {},
                             )
@@ -227,8 +234,8 @@ class _FeedCardState extends State<FeedCard> {
                         IconButton(
                           icon: Icon(
                             Icons.comment_rounded,
-                            color: const Color.fromARGB(255, 226, 127, 245)
-                                .withOpacity(0.4),
+                            color: Color.fromARGB(255, 226, 127, 245)
+                                .withOpacity(0.7),
                             size: 30,
                           ),
                           // onPressed: () => Navigator.of(context).push(
@@ -259,6 +266,7 @@ class _FeedCardState extends State<FeedCard> {
                                               color: isDark
                                                   ? Colors.grey.shade400
                                                   : Colors.black,
+                                              fontFamily: 'InstagramSans',
                                               fontSize: 25,
                                               fontWeight: FontWeight.bold)),
                                     ),
@@ -284,7 +292,7 @@ class _FeedCardState extends State<FeedCard> {
                                                       const EdgeInsets.only(
                                                           left: 8),
                                                   child: Text(
-                                                    widget.post.author.username
+                                                    widget.post.author.name
                                                         .toString(),
                                                     style: TextStyle(
                                                       color: isDark
@@ -298,10 +306,10 @@ class _FeedCardState extends State<FeedCard> {
                                                       const EdgeInsets.only(
                                                           left: 4.0),
                                                   child: Text(
-                                                    userProvider.user.username,
+                                                    '@${widget.post.author.username}',
                                                     style: TextStyle(
                                                       color: isDark
-                                                          ? Colors.grey.shade300
+                                                          ? Colors.grey.shade600
                                                           : Colors.black,
                                                     ),
                                                   ),
@@ -341,6 +349,75 @@ class _FeedCardState extends State<FeedCard> {
                                           hintText: 'An Interesting Reply',
                                         ),
                                       ),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Stack(children: <Widget>[
+                                                Positioned.fill(
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                      gradient: LinearGradient(
+                                                        colors: [
+                                                          Colors.lightBlue
+                                                              .shade100
+                                                              .withOpacity(0.4),
+                                                          Colors.purpleAccent
+                                                              .shade100
+                                                              .withOpacity(0.4),
+                                                        ],
+                                                        stops: [0, 1],
+                                                        begin:
+                                                            AlignmentDirectional(
+                                                                1, 0),
+                                                        end:
+                                                            AlignmentDirectional(
+                                                                -1, 0),
+                                                        // color: Colors.purpleAccent.shade100.withOpacity(
+                                                        // 0.3,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                TextButton(
+                                                  style: TextButton.styleFrom(
+                                                    foregroundColor:
+                                                        Colors.white,
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            16.0),
+                                                    textStyle: const TextStyle(
+                                                        fontSize: 20),
+                                                  ),
+                                                  onPressed: () {
+                                                    commentService.addComment(
+                                                        context: context,
+                                                        postId: widget.post.id
+                                                            .toString(),
+                                                        caption:
+                                                            _commentTextController
+                                                                .text);
+
+                                                    _commentTextController
+                                                        .clear();
+                                                  },
+                                                  child: const Text('Comment'),
+                                                ),
+                                              ]),
+                                            ],
+                                          ),
+                                        )
+                                      ],
                                     )
                                   ],
                                 ),
@@ -351,8 +428,7 @@ class _FeedCardState extends State<FeedCard> {
                         IconButton(
                             icon: Icon(
                               Icons.send_rounded,
-                              color: const Color.fromARGB(255, 226, 127, 245)
-                                  .withOpacity(0.4),
+                              color: Color.fromARGB(255, 226, 127, 245),
                               size: 30,
                             ),
                             onPressed: () {
@@ -376,9 +452,7 @@ class _FeedCardState extends State<FeedCard> {
                                 iconSize: 40,
                                 icon: Icon(
                                   Icons.attach_money_rounded,
-                                  color:
-                                      const Color.fromARGB(255, 226, 127, 245)
-                                          .withOpacity(0.4),
+                                  color: Color.fromARGB(255, 226, 127, 245),
                                 ),
                                 onPressed: () {
                                   showMaterialModalBottomSheet<void>(
@@ -399,8 +473,9 @@ class _FeedCardState extends State<FeedCard> {
                                             child: Text('Donate',
                                                 style: TextStyle(
                                                     color: isDark
-                                                        ? Colors.grey.shade300
+                                                        ? Colors.grey.shade400
                                                         : Colors.black,
+                                                    fontFamily: 'InstagramSans',
                                                     fontSize: 25,
                                                     fontWeight:
                                                         FontWeight.bold)),
@@ -451,8 +526,8 @@ class _FeedCardState extends State<FeedCard> {
                                                           style: TextStyle(
                                                             color: isDark
                                                                 ? Colors.grey
-                                                                    .shade300
-                                                                : Colors.grey,
+                                                                    .shade200
+                                                                : Colors.black,
                                                           ),
                                                         ),
                                                       )
@@ -566,26 +641,11 @@ class _FeedCardState extends State<FeedCard> {
                                                                   fontSize: 20),
                                                         ),
                                                         onPressed: () {
-                                                          print('---');
-                                                          print(widget
-                                                              .post
-                                                              .author
-                                                              .walletAddress);
-                                                          print('---');
-
-                                                          print(walletAddressProvider
-                                                              .walletAddress);
-                                                          print('---');
                                                           double amount =
                                                               double.parse(
                                                                   _controller
                                                                       .text);
                                                           print(amount);
-                                                          print('---');
-                                                          print(widget
-                                                              .post
-                                                              .author
-                                                              .walletAddress);
                                                           print('---');
 
                                                           if (walletAddressProvider
@@ -622,7 +682,7 @@ class _FeedCardState extends State<FeedCard> {
                                                                     result) {
                                                               showSnackBar(
                                                                   context,
-                                                                  'Transaction added to Pending Transaction !! ');
+                                                                  'Transaction added to Pending Transaction List!! ');
 
                                                               Navigator.pop(
                                                                   context);

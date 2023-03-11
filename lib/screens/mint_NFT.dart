@@ -9,6 +9,7 @@ import 'package:foxxi/models/NFT_mint_controller.dart';
 import 'package:provider/provider.dart';
 import '../components/ipfsService.dart' as ipfs_service;
 
+import '../providers/theme_provider.dart';
 import '../providers/wallet_address.dart';
 import '../services/auth_service.dart';
 
@@ -37,6 +38,8 @@ class mintNFTState extends State<mintNFT> {
   var imageNFT;
   @override
   Widget build(BuildContext context) {
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
     final walletAddressProvider =
         Provider.of<WalletAddressProvider>(context, listen: true);
     return Scaffold(
@@ -172,10 +175,8 @@ class mintNFTState extends State<mintNFT> {
                     padding: const EdgeInsets.all(8.0),
                     child: CupertinoSwitch(
                       activeColor: Colors.grey.shade300,
-                      thumbColor: Colors.grey.shade400,
-                      // thumbColor:
-
-                      //     isDark ? Colors.grey.shade900 : Colors.grey.shade400,
+                      thumbColor:
+                          isDark ? Colors.grey.shade900 : Colors.grey.shade400,
                       value: widget.haveNFT,
                       onChanged: (bool value) {
                         setState(() {
@@ -267,11 +268,13 @@ class mintNFTState extends State<mintNFT> {
                                     imageNFT,
                                     fit: BoxFit.cover,
                                   )
-                                : Icon(Icons.file_upload_rounded,
-                                    // color: isDark
-                                    //     ? Colors.grey.shade200
-                                    //     : Colors.grey[800],
-                                    color: Colors.grey.shade800),
+                                : Icon(
+                                    Icons.file_upload_rounded,
+                                    color: isDark
+                                        ? Colors.grey.shade200
+                                        : Colors.grey[800],
+                                    // color: Colors.grey.shade800
+                                  ),
                           ),
                         ),
                       ],
@@ -341,7 +344,6 @@ class mintNFTState extends State<mintNFT> {
                                       Navigator.pop(context);
                                     },
                                   );
-
                                   authService.updateProfileImage(
                                       context: context, image: imageNFT);
                                   Navigator.pop(context);
