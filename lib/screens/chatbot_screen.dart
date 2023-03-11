@@ -24,8 +24,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
   @override
   void initState() {
     chatGPT = OpenAI.instance.build(
-        token: "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",
-        baseOption: HttpSetup(receiveTimeout: 60000));
+        token: "", baseOption: HttpSetup(receiveTimeout: Duration(seconds: 5)));
     super.initState();
   }
 
@@ -40,7 +39,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
     if (_controller.text.isEmpty) return;
     ChatMessage message = ChatMessage(
       text: _controller.text,
-      sender: "user",
+      sender: "You",
       isImage: false,
     );
 
@@ -57,18 +56,20 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
       final response = await chatGPT!.generateImage(request);
       insertNewData(response!.data!.last!.url!, isImage: true);
     } else {
-      final request =
-          CompleteText(prompt: message.text, model: kTranslateModelV3);
+      final request = ChatCompleteText(messages: [
+        Map.of({"role": "user", "content": message.text})
+      ], maxToken: 200, model: kChatGptTurbo0301Model);
 
-      final response = await chatGPT!.onCompleteText(request: request);
-      insertNewData(response!.choices[0].text, isImage: false);
+      final response = await OpenAI.instance.onChatCompletion(request: request);
+
+      insertNewData(response!.choices[0].message.content, isImage: false);
     }
   }
 
   void insertNewData(String response, {bool isImage = false}) {
     ChatMessage botMessage = ChatMessage(
       text: response,
-      sender: "Vinsy",
+      sender: "ChatBot",
       isImage: isImage,
     );
 

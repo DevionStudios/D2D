@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
-import 'package:erc20/erc20.dart';
+// import 'package:erc20/erc20.dart';
 import 'package:web3auth_flutter/web3auth_flutter.dart';
 
 import 'package:flutter/material.dart';

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'dart:io';
-import 'package:erc20/erc20.dart';
+// import 'package:erc20/erc20.dart';
 import 'package:flutter_ipfs/flutter_ipfs.dart';
 import 'package:foxxi/constants.dart';
 import 'package:path_provider/path_provider.dart';

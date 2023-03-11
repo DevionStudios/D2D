@@ -31,7 +31,7 @@ dependencies:
   
   flutter:
     sdk: flutter
-  erc20: any
+  # erc20: any
   cupertino_icons: ^1.0.2  
   web3dart: ^2.6.1
   web3auth_flutter: ^1.0.3
@@ -58,10 +58,10 @@ dependencies:
   dashed_circle: ^0.0.1
   flutter_chat_bubble: ^2.0.0  
   bottom_bar_with_sheet: ^2.4.0
-  flutter_gif: ^0.0.4
+  # flutter_gif: ^0.0.4
   walletconnect_dart: ^0.0.11
-  url_launcher: ^6.1.10
-  ethers:
+  # url_launcher: ^6.1.10
+  # ethers:
   shared_preferences: ^2.0.18
   circular_reveal_animation: ^2.0.1
   local_auth: ^2.1.6
@@ -69,9 +69,7 @@ dependencies:
 
   flutter_carousel_slider: ^1.1.0
   loading_animation_widget: ^1.2.0+4
-  chat_gpt_sdk:
-    git:
-      url: https://github.com/Kuntal271/ChatGPT-flutter.git
+  chat_gpt_sdk: ^2.0.4  
   path_provider: ^2.0.13
   fluttertoast: ^8.2.1
 

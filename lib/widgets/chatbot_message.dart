@@ -14,7 +14,7 @@ class ChatMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return (sender == 'user')
+    return (sender == 'You')
         ? Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
