@@ -84,7 +84,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 ),
                 BottomBarItem(
                   inActiveItem: IconButton(
-                    padding: EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(0),
                     onPressed: () {
                       showMaterialModalBottomSheet(
                           shape: RoundedRectangleBorder(
@@ -115,11 +115,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         Container(
-                                          margin: EdgeInsets.all(8),
-                                          padding: EdgeInsets.all(10),
+                                          margin: const EdgeInsets.all(8),
+                                          padding: const EdgeInsets.all(10),
                                           decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(30)),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(30)),
                                               border: Border.all(
                                                   width: 5,
                                                   color: Colors

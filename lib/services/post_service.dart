@@ -348,21 +348,21 @@ class PostService {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
       dev.log(foxxijwt, name: "Reading JWT");
-      http.Response res = await http.put(Uri.parse('$url/posts/edit/$id'),
-          body: {
-            'id': id
-          },
+      http.Response res = await http.put(Uri.parse('$url/api/like'),
+          body: jsonEncode({'id': id}),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'cookies': foxxijwt
           });
 
-      httpErrorHandle(
-          context: context,
-          response: res,
-          onSuccess: () {
-            dev.log('Post liked id:$id', name: 'Post Service: Like Post');
-          });
+      if (context.mounted) {
+        httpErrorHandle(
+            context: context,
+            response: res,
+            onSuccess: () {
+              dev.log('Post liked id:$id', name: 'Post Service: Like Post');
+            });
+      }
     } catch (e) {
       dev.log(e.toString(), name: 'Post Service : Update Post Error');
     }

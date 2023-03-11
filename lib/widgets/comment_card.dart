@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:foxxi/models/comments.dart';
+import 'package:provider/provider.dart';
 
 import '../models/feed_post_model.dart';
+import '../providers/theme_provider.dart';
 
 class CommentCard extends StatelessWidget {
   final FeedPostModel post;
@@ -10,10 +12,13 @@ class CommentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-          border: Border.all(width: 2, color: Colors.grey.shade300),
+          border: Border.all(
+              width: 2, color: isDark ? Colors.grey : Colors.grey.shade300),
           borderRadius: BorderRadius.circular(20)),
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       child: Column(
@@ -37,9 +42,9 @@ class CommentCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(post.author.username.toString(),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          color: isDark ? Colors.grey : Colors.grey.shade300,
                         )),
                     Padding(
                       padding: const EdgeInsets.only(top: 4),
@@ -47,8 +52,8 @@ class CommentCard extends StatelessWidget {
                         // DateFormat.yMMMd().format(
                         //   snap.data()['datePublished'].toDate(),
                         post.author.username.toString(),
-                        style: const TextStyle(
-                          color: Colors.grey,
+                        style: TextStyle(
+                          color: isDark ? Colors.grey : Colors.grey.shade300,
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
                         ),
@@ -62,8 +67,8 @@ class CommentCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 5),
             child: Text(comment!.caption.toString(),
-                style: const TextStyle(
-                  color: Colors.black,
+                style: TextStyle(
+                  color: isDark ? Colors.white : Colors.black,
                 )),
           ),
         ],

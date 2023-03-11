@@ -2,6 +2,8 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:foxxi/providers/theme_provider.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 
@@ -73,11 +75,15 @@ class _ProfileWidgetState extends State<ProfileWidget>
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
     final userProvider = Provider.of<UserProvider>(context, listen: true).user;
     return Scaffold(
       extendBody: true,
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color.fromARGB(255, 206, 239, 247),
+      backgroundColor: isDark
+          ? Colors.grey.shade900
+          : const Color.fromARGB(255, 206, 239, 247),
       body: Stack(
         children: [
           AnimatedPositioned(
@@ -155,9 +161,11 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                             0, 150, 0, 0),
                                     child: Container(
                                       width: double.infinity,
-                                      decoration: const BoxDecoration(
-                                        color: Color(0xFFF9F9F9),
-                                        borderRadius: BorderRadius.only(
+                                      decoration: BoxDecoration(
+                                        color: isDark
+                                            ? Colors.grey.shade900
+                                            : Colors.white,
+                                        borderRadius: const BorderRadius.only(
                                           bottomLeft: Radius.circular(0),
                                           bottomRight: Radius.circular(0),
                                           topLeft: Radius.circular(30),
@@ -196,6 +204,22 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                               : widget
                                                                   .user.image
                                                                   .toString(),
+                                                          loadingBuilder: (context,
+                                                              child,
+                                                              loadingProgress) {
+                                                            if (loadingProgress ==
+                                                                null) {
+                                                              return child;
+                                                            }
+                                                            return LoadingAnimationWidget
+                                                                .hexagonDots(
+                                                                    color: isDark
+                                                                        ? Colors
+                                                                            .white
+                                                                        : Colors
+                                                                            .black,
+                                                                    size: 30);
+                                                          },
                                                           fit: BoxFit.cover,
                                                         ),
                                                       ),
@@ -224,8 +248,12 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                               height: 50,
                                                               decoration:
                                                                   BoxDecoration(
-                                                                color: Colors
-                                                                    .white,
+                                                                color: isDark
+                                                                    ? Colors
+                                                                        .grey
+                                                                        .shade600
+                                                                    : Colors
+                                                                        .white,
                                                                 borderRadius:
                                                                     BorderRadius
                                                                         .circular(
@@ -274,8 +302,12 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                               height: 50,
                                                               decoration:
                                                                   BoxDecoration(
-                                                                color: Colors
-                                                                    .white,
+                                                                color: isDark
+                                                                    ? Colors
+                                                                        .grey
+                                                                        .shade600
+                                                                    : Colors
+                                                                        .white,
                                                                 borderRadius:
                                                                     BorderRadius
                                                                         .circular(
@@ -321,8 +353,12 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                               height: 50,
                                                               decoration:
                                                                   BoxDecoration(
-                                                                color: Colors
-                                                                    .white,
+                                                                color: isDark
+                                                                    ? Colors
+                                                                        .grey
+                                                                        .shade600
+                                                                    : Colors
+                                                                        .white,
                                                                 borderRadius:
                                                                     BorderRadius
                                                                         .circular(

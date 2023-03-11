@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:foxxi/models/donate_controller.dart';
 import 'package:foxxi/models/feed_post_model.dart';
+import 'package:foxxi/providers/theme_provider.dart';
 import 'package:foxxi/providers/wallet_address.dart';
 import 'package:foxxi/screens/chat.dart';
 import 'package:foxxi/screens/wallet_screen.dart';
 import 'package:foxxi/services/post_service.dart';
 import 'package:foxxi/utils.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import 'package:foxxi/like_animation.dart';
@@ -38,6 +40,7 @@ class _FeedCardState extends State<FeedCard> {
   Widget build(context) {
     final walletAddressProvider =
         Provider.of<WalletAddressProvider>(context, listen: true);
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
 
     final userProvider = Provider.of<UserProvider>(context, listen: true);
     return GestureDetector(
@@ -59,7 +62,8 @@ class _FeedCardState extends State<FeedCard> {
           padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
           child: Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30), color: Colors.white),
+                borderRadius: BorderRadius.circular(30),
+                color: isDark ? Colors.grey.shade700 : Colors.white),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(30),
               child: Column(
@@ -248,11 +252,13 @@ class _FeedCardState extends State<FeedCard> {
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    const Padding(
-                                      padding: EdgeInsets.all(8.0),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
                                       child: Text('Reply',
                                           style: TextStyle(
-                                              color: Colors.black,
+                                              color: isDark
+                                                  ? Colors.grey.shade400
+                                                  : Colors.black,
                                               fontSize: 25,
                                               fontWeight: FontWeight.bold)),
                                     ),
@@ -280,18 +286,23 @@ class _FeedCardState extends State<FeedCard> {
                                                   child: Text(
                                                     widget.post.author.username
                                                         .toString(),
-                                                    style: const TextStyle(
-                                                      color: Colors.black,
+                                                    style: TextStyle(
+                                                      color: isDark
+                                                          ? Colors.grey.shade200
+                                                          : Colors.black,
                                                     ),
                                                   ),
                                                 ),
-                                                const Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 4.0),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 4.0),
                                                   child: Text(
-                                                    '@Kuntal27 1',
+                                                    userProvider.user.username,
                                                     style: TextStyle(
-                                                      color: Colors.grey,
+                                                      color: isDark
+                                                          ? Colors.grey.shade300
+                                                          : Colors.black,
                                                     ),
                                                   ),
                                                 )
@@ -301,12 +312,12 @@ class _FeedCardState extends State<FeedCard> {
                                               padding: EdgeInsets.only(
                                                 left: 8,
                                               ),
-                                              child: Text(
-                                                'Feb 6',
-                                                style: TextStyle(
-                                                  color: Colors.grey,
-                                                ),
-                                              ),
+                                              // child: Text(
+                                              //  ,
+                                              //   style: TextStyle(
+                                              //     color: Colors.grey,
+                                              //   ),
+                                              // ),
                                             )
                                           ],
                                         )
@@ -383,11 +394,13 @@ class _FeedCardState extends State<FeedCard> {
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          const Padding(
-                                            padding: EdgeInsets.all(8.0),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
                                             child: Text('Donate',
                                                 style: TextStyle(
-                                                    color: Colors.black,
+                                                    color: isDark
+                                                        ? Colors.grey.shade300
+                                                        : Colors.black,
                                                     fontSize: 25,
                                                     fontWeight:
                                                         FontWeight.bold)),
@@ -418,9 +431,11 @@ class _FeedCardState extends State<FeedCard> {
                                                           widget.post.author
                                                               .username
                                                               .toString(),
-                                                          style:
-                                                              const TextStyle(
-                                                            color: Colors.black,
+                                                          style: TextStyle(
+                                                            color: isDark
+                                                                ? Colors.grey
+                                                                    .shade300
+                                                                : Colors.black,
                                                           ),
                                                         ),
                                                       ),
@@ -433,25 +448,27 @@ class _FeedCardState extends State<FeedCard> {
                                                           widget.post.author
                                                               .username
                                                               .toString(),
-                                                          style:
-                                                              const TextStyle(
-                                                            color: Colors.grey,
+                                                          style: TextStyle(
+                                                            color: isDark
+                                                                ? Colors.grey
+                                                                    .shade300
+                                                                : Colors.grey,
                                                           ),
                                                         ),
                                                       )
                                                     ],
                                                   ),
-                                                  const Padding(
-                                                    padding: EdgeInsets.only(
-                                                      left: 8,
-                                                    ),
-                                                    child: Text(
-                                                      'Feb 6',
-                                                      style: TextStyle(
-                                                        color: Colors.grey,
-                                                      ),
-                                                    ),
-                                                  )
+                                                  // const Padding(
+                                                  //   padding: EdgeInsets.only(
+                                                  //     left: 8,
+                                                  //   ),
+                                                  //   child: Text(
+                                                  //     'Feb 6',
+                                                  //     style: TextStyle(
+                                                  //       color: Colors.grey,
+                                                  //     ),
+                                                  //   ),
+                                                  // )
                                                 ],
                                               )
                                             ],
@@ -459,11 +476,18 @@ class _FeedCardState extends State<FeedCard> {
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
-                                            children: const [
+                                            children: [
                                               Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 8.0),
-                                                child: Text('Your Reply'),
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0),
+                                                child: Text(
+                                                  'Your Reply',
+                                                  style: TextStyle(
+                                                    color: isDark
+                                                        ? Colors.grey.shade300
+                                                        : Colors.black,
+                                                  ),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -510,7 +534,10 @@ class _FeedCardState extends State<FeedCard> {
                                                                     .withOpacity(
                                                                         0.4),
                                                               ],
-                                                              stops: [0, 1],
+                                                              stops: const [
+                                                                0,
+                                                                1
+                                                              ],
                                                               begin:
                                                                   const AlignmentDirectional(
                                                                       1, 0),
@@ -527,7 +554,10 @@ class _FeedCardState extends State<FeedCard> {
                                                         style: TextButton
                                                             .styleFrom(
                                                           foregroundColor:
-                                                              Colors.white,
+                                                              isDark
+                                                                  ? Colors.black
+                                                                  : Colors
+                                                                      .white,
                                                           padding:
                                                               const EdgeInsets
                                                                   .all(16.0),

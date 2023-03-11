@@ -95,16 +95,18 @@ class StoryService {
     try {
       final res = await http.get(Uri.parse('$url/api/story/$username'));
 
-      httpErrorHandle(
-          context: context,
-          response: res,
-          onSuccess: () {
-            dev.log(res.body.toString(), name: 'Getusers log');
-            final data = jsonDecode(res.body);
-            for (var stories in data) {
-              userStoryList.add(Story.fromJson(jsonEncode(stories)));
-            }
-          });
+      if (context.mounted) {
+        httpErrorHandle(
+            context: context,
+            response: res,
+            onSuccess: () {
+              dev.log(res.body.toString(), name: 'Getusers log');
+              final data = jsonDecode(res.body);
+              for (var stories in data) {
+                userStoryList.add(Story.fromJson(jsonEncode(stories)));
+              }
+            });
+      }
     } catch (e) {
       dev.log(e.toString(), name: 'Story Service : getusers Error');
     }

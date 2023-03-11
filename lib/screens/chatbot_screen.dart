@@ -1,6 +1,8 @@
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/theme_provider.dart';
 import '../widgets/chatbot_message.dart';
 import '../widgets/threedot_loader.dart';
 
@@ -113,28 +115,31 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return Scaffold(
+        backgroundColor: isDark ? Colors.grey.shade900 : Colors.grey.shade100,
         body: SafeArea(
-      child: Column(
-        children: [
-          Flexible(
-              child: ListView.builder(
-            reverse: true,
-            padding: const EdgeInsets.all(5),
-            itemCount: _messages.length,
-            itemBuilder: (context, index) {
-              return _messages[index];
-            },
-          )),
-          if (_isTyping) const ThreeDots(),
-          const Divider(
-            height: 1.0,
+          child: Column(
+            children: [
+              Flexible(
+                  child: ListView.builder(
+                reverse: true,
+                padding: const EdgeInsets.all(5),
+                itemCount: _messages.length,
+                itemBuilder: (context, index) {
+                  return _messages[index];
+                },
+              )),
+              if (_isTyping) const ThreeDots(),
+              const Divider(
+                height: 1.0,
+              ),
+              Container(
+                child: _buildTextComposer(),
+              )
+            ],
           ),
-          Container(
-            child: _buildTextComposer(),
-          )
-        ],
-      ),
-    ));
+        ));
   }
 }

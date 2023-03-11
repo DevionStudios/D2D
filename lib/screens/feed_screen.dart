@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:foxxi/screens/chat_screen.dart';
-import 'package:foxxi/services/auth_service.dart';
 import 'package:foxxi/services/post_service.dart';
 // import 'package:foxxi/models/post.dart';
 // import 'package:foxxi/widgets/card.dart';
 import 'package:foxxi/widgets/feed_post_card.dart';
 import 'package:foxxi/widgets/story_bar.dart';
+import 'package:provider/provider.dart';
 
 import '../models/feed_post_model.dart';
+import '../providers/theme_provider.dart';
 
 class FeedScreen extends StatefulWidget {
   FeedScreen({Key? key}) : super(key: key);
@@ -27,11 +28,15 @@ class _FeedScreenState extends State<FeedScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return FutureBuilder<List<FeedPostModel>>(
         future: _post,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Scaffold(
+              backgroundColor:
+                  isDark ? Colors.grey.shade900 : Colors.grey.shade100,
               // appBar: AppBar(),
               body: Padding(
                 padding:
@@ -45,9 +50,11 @@ class _FeedScreenState extends State<FeedScreen> {
                         children: [
                           SizedBox(
                             child: IconButton(
-                              icon: const Icon(
+                              icon: Icon(
                                 Icons.send_rounded,
-                                color: Colors.grey,
+                                color: isDark
+                                    ? Colors.grey.shade100
+                                    : Colors.grey.shade900,
                                 size: 30,
                               ),
                               onPressed: () {

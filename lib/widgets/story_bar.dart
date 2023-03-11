@@ -8,6 +8,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
 // import '../screen/post_story.dart';
+import '../providers/theme_provider.dart';
 import 'add_story.dart';
 
 class StoryBar extends StatefulWidget {
@@ -56,6 +57,8 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: true).user;
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return SizedBox(
         height: MediaQuery.of(context).size.height * 0.15,
         // color: Colors.grey.withOpacity(0.30),
@@ -100,13 +103,17 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                                               child: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              const Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 8.0,
-                                                    vertical: 20),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8.0,
+                                                        vertical: 20),
                                                 child: Text(
                                                   'Add Story',
                                                   style: TextStyle(
+                                                      color: isDark
+                                                          ? Colors.white
+                                                          : Colors.black,
                                                       fontFamily:
                                                           'InstagramSans',
                                                       fontSize: 20),
@@ -280,9 +287,13 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                         )
                       ],
                     ),
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text('Your Story'),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Your Story',
+                        style: TextStyle(
+                            color: isDark ? Colors.white : Colors.black),
+                      ),
                     )
                   ],
                 ),

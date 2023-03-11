@@ -30,7 +30,7 @@ class CommentService {
             context: context,
             response: res,
             onSuccess: () {
-              showSnackBar(context, res.body.toString());
+              showSnackBar(context, "Commment Added");
             });
       }
     } catch (e) {

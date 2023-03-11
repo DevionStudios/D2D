@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:foxxi/models/user.dart';
-
 class ChatModel {
   final String message;
   final bool fromSelf;
