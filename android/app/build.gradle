@@ -43,6 +43,8 @@ android {
     }
 
     defaultConfig {
+        multiDexEnabled true
+
         compileSdkVersion 33
 
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
@@ -69,6 +71,8 @@ flutter {
 }
 
 dependencies {
+    implementation 'com.android.support:multidex:1.0.3'
+
     implementation 'org.torusresearch:web3auth-android-sdk:3.1.0'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

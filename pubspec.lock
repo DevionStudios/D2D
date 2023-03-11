@@ -68,10 +68,11 @@ packages:
   chat_gpt_sdk:
     dependency: "direct main"
     description:
-      name: chat_gpt_sdk
-      sha256: "30a5d9d3b9b61c5e3a2f9067c7ed7efff9725a1eb07633e430455b607ed6dfc3"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: "9cbd3435662a5ce1a9da97343280f5e5043b2eeb"
+      url: "https://github.com/Kuntal271/Flutter-ChatGPT.git"
+    source: git
     version: "2.0.4"
   circular_reveal_animation:
     dependency: "direct main"

@@ -24,6 +24,7 @@ class mintNFT extends StatefulWidget {
 }
 
 class mintNFTState extends State<mintNFT> {
+  final TextEditingController _controller = TextEditingController();
   AuthService authService = AuthService();
 
   void initState() {
@@ -230,7 +231,7 @@ class mintNFTState extends State<mintNFT> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            'IPFS Image URL',
+                            'IPFS CID',
                             style: TextStyle(
                               fontFamily: 'InstagramSans',
                               fontSize: 15,
@@ -279,9 +280,10 @@ class mintNFTState extends State<mintNFT> {
                         ),
                       ],
                     )
-                  : const Padding(
+                  : Padding(
                       padding: EdgeInsets.all(8.0),
                       child: TextField(
+                        controller: _controller,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                         ),
@@ -322,38 +324,45 @@ class mintNFTState extends State<mintNFT> {
                               textStyle: const TextStyle(fontSize: 20),
                             ),
                             onPressed: () {
-                              if (walletAddressProvider.privateAddress !=
-                                  null) {
-                                showDialog(
-                                  barrierDismissible: false,
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      const ProgressDialog(
-                                    status: 'Minting NFT',
-                                  ),
-                                );
-                                try {
-                                  MintController()
-                                      .mint(
-                                          walletAddressProvider.privateAddress
-                                              .toString(),
-                                          image!,
-                                          image!)
-                                      .then(
-                                    (value) {
-                                      Navigator.pop(context);
-                                    },
+                              if (!widget.haveNFT) {
+                                if (walletAddressProvider.privateAddress !=
+                                    null) {
+                                  showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        const ProgressDialog(
+                                      status: 'Minting NFT',
+                                    ),
                                   );
-                                  authService.updateProfileImage(
-                                      context: context, image: imageNFT);
-                                  Navigator.pop(context);
-                                } catch (e) {
-                                  print(e);
+                                  try {
+                                    MintController()
+                                        .mint(
+                                            walletAddressProvider.privateAddress
+                                                .toString(),
+                                            image!,
+                                            image!)
+                                        .then(
+                                      (value) {
+                                        Navigator.pop(context);
+                                      },
+                                    );
+                                    authService.updateProfileImage(
+                                        context: context, image: imageNFT);
+                                  } catch (e) {
+                                    print(e);
+                                  }
+                                } else {
+                                  Fluttertoast.showToast(
+                                    msg: 'Connect Wallet First',
+                                  );
                                 }
                               } else {
-                                Fluttertoast.showToast(
-                                  msg: 'Connect Wallet First',
-                                );
+                                String text = _controller.text;
+                                text = 'https://ipfs.io/ipfs/' + text;
+
+                                authService.updateProfileImage(
+                                    context: context, image: text);
                               }
                             },
                             child: const Text('Import'),
