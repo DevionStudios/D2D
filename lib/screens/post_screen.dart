@@ -87,7 +87,7 @@ class _PostCardState extends State<PostCard> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       height: 100,
                       // width: MediaQuery.of(context).size.width * 0.1,
                       child: CircleAvatar(
@@ -95,7 +95,7 @@ class _PostCardState extends State<PostCard> {
                             Colors.purpleAccent.shade100.withOpacity(0.4),
                         child: IconButton(
                           // iconSize: 20,
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.arrow_back_ios_new_rounded,
                             color: Colors.white,
                             // size: 15,
@@ -540,13 +540,13 @@ class _PostCardState extends State<PostCard> {
                                                             ),
                                                             Padding(
                                                               padding:
-                                                                  EdgeInsets
+                                                                  const EdgeInsets
                                                                       .all(8),
                                                               child: TextField(
                                                                 controller:
                                                                     _commentTextController,
                                                                 decoration:
-                                                                    InputDecoration(
+                                                                    const InputDecoration(
                                                                   border:
                                                                       OutlineInputBorder(),
                                                                   hintText:
@@ -587,8 +587,8 @@ class _PostCardState extends State<PostCard> {
                                                                                   0,
                                                                                   1
                                                                                 ],
-                                                                                begin: AlignmentDirectional(1, 0),
-                                                                                end: AlignmentDirectional(-1, 0),
+                                                                                begin: const AlignmentDirectional(1, 0),
+                                                                                end: const AlignmentDirectional(-1, 0),
                                                                                 // color: Colors.purpleAccent.shade100.withOpacity(
                                                                                 // 0.3,
                                                                               ),
@@ -997,9 +997,9 @@ class _PostCardState extends State<PostCard> {
                                                                                       Colors.lightBlue.shade100.withOpacity(0.4),
                                                                                       Colors.purpleAccent.shade100.withOpacity(0.4),
                                                                                     ],
-                                                                                    stops: [0, 1],
-                                                                                    begin: AlignmentDirectional(1, 0),
-                                                                                    end: AlignmentDirectional(-1, 0),
+                                                                                    stops: const [0, 1],
+                                                                                    begin: const AlignmentDirectional(1, 0),
+                                                                                    end: const AlignmentDirectional(-1, 0),
                                                                                     // color: Colors.purpleAccent.shade100.withOpacity(
                                                                                     // 0.3,
                                                                                   ),
