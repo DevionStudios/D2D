@@ -52,6 +52,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
     //   );
     case BottomNavBar.routeName:
       return MaterialPageRoute(
+        settings: routeSettings,
         builder: (_) => const BottomNavBar(),
       );
     //   case AddressScreen.routeName:
