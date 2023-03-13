@@ -33,8 +33,8 @@ class PostService {
             // dev.log(res.body.toString(), name: 'Post Res Body');
 
             final data = jsonDecode(res.body);
-            for (int i = 0; i < data.length; i++) {
-              list.add(FeedPostModel.fromJson(jsonEncode((data[i]))));
+            for (var post in data) {
+              list.add(FeedPostModel.fromJson(jsonEncode((post))));
             }
             // list = (data as List)
             //     .map((i) => FeedPostModel.fromJson(i.toString()))
@@ -62,8 +62,8 @@ class PostService {
           onSuccess: () {
             // dev.log(res.body.toString(), name: 'Get Post By Id Body');
             final data = jsonDecode(res.body)['comments'];
-            for (int i = 0; i < data.length; i++) {
-              comments.add(Comment.fromJson(jsonEncode(data[i])));
+            for (var comment in data) {
+              comments.add(Comment.fromJson(jsonEncode(comment)));
             }
           });
     } catch (e) {
@@ -361,10 +361,39 @@ class PostService {
             response: res,
             onSuccess: () {
               dev.log('Post liked id:$id', name: 'Post Service: Like Post');
+              // dev.log(res.body.toString());
             });
       }
     } catch (e) {
-      dev.log(e.toString(), name: 'Post Service : Update Post Error');
+      dev.log(e.toString(), name: 'Post Service : Like Post Error');
+    }
+  }
+
+  void repostPost({
+    required BuildContext context,
+    required String id,
+  }) async {
+    try {
+      var jwt = await _storage.read(key: 'cookies');
+      final foxxijwt = 'foxxi_jwt=$jwt;';
+      dev.log(foxxijwt, name: "Reading JWT");
+      final res = await http.post(Uri.parse('$url/api/reposts/create'),
+          body: jsonEncode({'postId': id}),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'cookies': foxxijwt
+          });
+
+      if (context.mounted) {
+        httpErrorHandle(
+            context: context,
+            response: res,
+            onSuccess: () {
+              dev.log('Post Repost id:$id', name: 'Post Service: Repost Post');
+            });
+      }
+    } catch (e) {
+      dev.log(e.toString(), name: 'Post Service : Repost Post Error');
     }
   }
 

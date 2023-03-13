@@ -158,7 +158,7 @@ class _FeedCardState extends State<FeedCard> {
                                                       dev.log(
                                                           '$e Button Pressed',
                                                           name:
-                                                              'FeedPostCard Delete button');
+                                                              'FeedPostCard  button');
                                                       if (e == 'Delete Post') {
                                                         postService.deletePost(
                                                             context: context,

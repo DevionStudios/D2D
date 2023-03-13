@@ -56,7 +56,7 @@ class CommentService {
             context: context,
             response: res,
             onSuccess: () {
-              showSnackBar(context, 'Comment Added ');
+              showSnackBar(context, 'Comment Deleted ');
             });
       }
     } catch (e) {
@@ -72,7 +72,7 @@ class CommentService {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
       dev.log(foxxijwt, name: "Reading JWT");
-      http.Response res = await http.post(Uri.parse('$url/api/comments/create'),
+      http.Response res = await http.post(Uri.parse('$url/api/comments/update'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'cookies': foxxijwt
