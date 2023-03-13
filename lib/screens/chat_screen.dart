@@ -82,7 +82,7 @@ class Chat extends StatelessWidget {
                       textAlign: TextAlign.right,
                     ),
                     Text(
-                      userProvider.username.toString(),
+                      userProvider.name.toString(),
                       style: TextStyle(
                         fontFamily: 'Unbounded',
                         color: isDark ? Colors.grey.shade500 : Colors.black38,
