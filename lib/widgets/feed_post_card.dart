@@ -46,6 +46,7 @@ class _FeedCardState extends State<FeedCard> {
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
 
     final userProvider = Provider.of<UserProvider>(context, listen: true);
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -123,37 +124,57 @@ class _FeedCardState extends State<FeedCard> {
                                     builder: (context) {
                                       return Dialog(
                                         child: ListView(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 16),
-                                            shrinkWrap: true,
-                                            children: [
-                                              'Delete Post',
-                                              'Repost Post',
-                                              'Update Post',
-                                            ]
-                                                .map(
-                                                  (e) => InkWell(
-                                                      child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                vertical: 12,
-                                                                horizontal: 16),
-                                                        child: Text(e),
-                                                      ),
-                                                      onTap: () {
-                                                        dev.log(
-                                                            '$e Button Pressed',
-                                                            name:
-                                                                'FeedPostCard Delete button');
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 16),
+                                          shrinkWrap: true,
+                                          children: [
+                                            widget.post.author.id ==
+                                                    userProvider.user.id
+                                                ? 'Delete Post'
+                                                : null,
+                                            widget.post.author.id ==
+                                                    userProvider.user.id
+                                                ? null
+                                                : 'Repost Post',
+                                            widget.post.author.id ==
+                                                    userProvider.user.id
+                                                ? 'Update Post'
+                                                : null,
+                                          ]
+                                              .map(
+                                                (e) => InkWell(
+                                                    child: Container(
+                                                      padding: e == null
+                                                          ? null
+                                                          : const EdgeInsets
+                                                                  .symmetric(
+                                                              vertical: 12,
+                                                              horizontal: 16),
+                                                      child: e == null
+                                                          ? null
+                                                          : Text(e.toString()),
+                                                    ),
+                                                    onTap: () {
+                                                      dev.log(
+                                                          '$e Button Pressed',
+                                                          name:
+                                                              'FeedPostCard Delete button');
+                                                      if (e == 'Delete Post') {
                                                         postService.deletePost(
                                                             context: context,
                                                             id: widget.post.id
                                                                 .toString());
-                                                        Navigator.pop(context);
-                                                      }),
-                                                )
-                                                .toList()),
+                                                      }
+                                                      if (e == 'Repost Post') {
+                                                        postService.reportPost(
+                                                            id: widget.post.id,
+                                                            context: context);
+                                                      }
+                                                      Navigator.pop(context);
+                                                    }),
+                                              )
+                                              .toList(),
+                                        ),
                                       );
                                     },
                                   );
@@ -209,10 +230,14 @@ class _FeedCardState extends State<FeedCard> {
                               icon: Icon(
                                 Icons.favorite_rounded,
                                 size: 30,
-                                color: Color.fromARGB(255, 226, 127, 245)
+                                color: const Color.fromARGB(255, 226, 127, 245)
                                     .withOpacity(0.7),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                postService.likePost(
+                                    context: context,
+                                    id: widget.post.id.toString());
+                              },
                             )
 
                             // color: Colors.grey.shade500,
@@ -234,7 +259,7 @@ class _FeedCardState extends State<FeedCard> {
                         IconButton(
                           icon: Icon(
                             Icons.comment_rounded,
-                            color: Color.fromARGB(255, 226, 127, 245)
+                            color: const Color.fromARGB(255, 226, 127, 245)
                                 .withOpacity(0.7),
                             size: 30,
                           ),
@@ -341,10 +366,11 @@ class _FeedCardState extends State<FeedCard> {
                                         ),
                                       ],
                                     ),
-                                    const Padding(
-                                      padding: EdgeInsets.all(8),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8),
                                       child: TextField(
-                                        decoration: InputDecoration(
+                                        controller: _commentTextController,
+                                        decoration: const InputDecoration(
                                           border: OutlineInputBorder(),
                                           hintText: 'An Interesting Reply',
                                         ),
@@ -376,12 +402,12 @@ class _FeedCardState extends State<FeedCard> {
                                                               .shade100
                                                               .withOpacity(0.4),
                                                         ],
-                                                        stops: [0, 1],
+                                                        stops: const [0, 1],
                                                         begin:
-                                                            AlignmentDirectional(
+                                                            const AlignmentDirectional(
                                                                 1, 0),
                                                         end:
-                                                            AlignmentDirectional(
+                                                            const AlignmentDirectional(
                                                                 -1, 0),
                                                         // color: Colors.purpleAccent.shade100.withOpacity(
                                                         // 0.3,
@@ -425,32 +451,36 @@ class _FeedCardState extends State<FeedCard> {
                             );
                           },
                         ),
-                        IconButton(
-                            icon: Icon(
-                              Icons.send_rounded,
-                              color: Color.fromARGB(255, 226, 127, 245),
-                              size: 30,
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => OneOneChatScreen(
-                                        senderId: widget.post.author.id,
-                                        senderName:
-                                            widget.post.author.name.toString(),
-                                        senderUsername:
-                                            widget.post.author.id.toString(),
-                                        senderImage: widget.post.author.image
-                                            .toString()),
-                                  ));
-                            }),
+                        widget.post.author.id == userProvider.user.id
+                            ? const SizedBox()
+                            : IconButton(
+                                icon: const Icon(
+                                  Icons.send_rounded,
+                                  color: Color.fromARGB(255, 226, 127, 245),
+                                  size: 30,
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => OneOneChatScreen(
+                                            senderId: widget.post.author.id,
+                                            senderName: widget.post.author.name
+                                                .toString(),
+                                            senderUsername: widget
+                                                .post.author.id
+                                                .toString(),
+                                            senderImage: widget
+                                                .post.author.image
+                                                .toString()),
+                                      ));
+                                }),
                         Expanded(
                           child: Align(
                             alignment: Alignment.bottomRight,
                             child: IconButton(
                                 iconSize: 40,
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.attach_money_rounded,
                                   color: Color.fromARGB(255, 226, 127, 245),
                                 ),
@@ -645,8 +675,9 @@ class _FeedCardState extends State<FeedCard> {
                                                               double.parse(
                                                                   _controller
                                                                       .text);
-                                                          print(amount);
-                                                          print('---');
+                                                          dev.log(amount
+                                                              .toString());
+                                                          dev.log('---');
 
                                                           if (walletAddressProvider
                                                                   .privateAddress ==
