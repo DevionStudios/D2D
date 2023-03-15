@@ -78,6 +78,14 @@ class _FeedScreenState extends State<FeedScreen> {
                           itemBuilder: ((context, index) {
                             return FeedCard(
                               post: snapshot.data![index],
+                              isImage: snapshot.data![index].media?.mediatype ==
+                                      'image'
+                                  ? true
+                                  : false,
+                              isVideo: snapshot.data![index].media?.mediatype ==
+                                      'video'
+                                  ? true
+                                  : false,
                             );
                           }),
                         ),

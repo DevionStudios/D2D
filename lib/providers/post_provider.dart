@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:foxxi/models/feed_post_model.dart';
 // import 'package:instagram_app/models/post.dart';
 import 'package:flutter/material.dart';

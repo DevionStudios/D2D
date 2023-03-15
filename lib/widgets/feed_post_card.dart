@@ -1,26 +1,28 @@
+import 'dart:developer' as dev;
+
 import 'package:flutter/material.dart';
-import 'package:foxxi/models/donate_controller.dart';
+import 'package:provider/provider.dart';
+
+import 'package:foxxi/components/postlikebar.dart';
 import 'package:foxxi/models/feed_post_model.dart';
 import 'package:foxxi/providers/theme_provider.dart';
-import 'package:foxxi/providers/wallet_address.dart';
-import 'package:foxxi/screens/chat.dart';
-import 'package:foxxi/screens/wallet_screen.dart';
 import 'package:foxxi/services/post_service.dart';
-import 'package:foxxi/utils.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:video_player/video_player.dart';
 
-import 'package:foxxi/like_animation.dart';
-import 'package:provider/provider.dart';
-import 'dart:developer' as dev;
 import '../providers/user_provider.dart';
 import '../screens/post_screen.dart';
 import '../services/comment_service.dart';
 
 class FeedCard extends StatefulWidget {
   final FeedPostModel post;
-
-  const FeedCard({super.key, required this.post});
+  final bool isImage;
+  final bool isVideo;
+  const FeedCard({
+    Key? key,
+    required this.post,
+    required this.isImage,
+    required this.isVideo,
+  }) : super(key: key);
 
   @override
   State<FeedCard> createState() => _FeedCardState();
@@ -28,21 +30,36 @@ class FeedCard extends StatefulWidget {
 
 class _FeedCardState extends State<FeedCard> {
   final commentService = CommentService();
-  final TextEditingController _commentTextController = TextEditingController();
-  final TextEditingController _controller = TextEditingController();
+  VideoPlayerController? _controller;
+
   PostService postService = PostService();
 
   @override
+  void initState() {
+    if (widget.isVideo) {
+      _controller =
+          VideoPlayerController.network(widget.post.media!.url.toString())
+            ..initialize().then((_) {
+              _controller!.setLooping(true);
+
+              // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+              setState(() {});
+            });
+    }
+    super.initState();
+  }
+
+  @override
   void dispose() {
-    _controller.dispose();
+    if (_controller != null) {
+      _controller!.dispose();
+    }
     super.dispose();
   }
 
   // @override
   @override
   Widget build(context) {
-    final walletAddressProvider =
-        Provider.of<WalletAddressProvider>(context, listen: true);
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
 
     final userProvider = Provider.of<UserProvider>(context, listen: true);
@@ -54,8 +71,8 @@ class _FeedCardState extends State<FeedCard> {
           MaterialPageRoute(
             builder: (context) => PostCard(
               post: widget.post,
-              isImage: widget.post.media?.mediatype == 'image' ? true : false,
-              isVideo: widget.post.media?.mediatype == 'video' ? true : false,
+              isImage: widget.isImage,
+              isVideo: widget.isVideo,
             ),
           ),
         );
@@ -200,555 +217,76 @@ class _FeedCardState extends State<FeedCard> {
                       ),
                     ),
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width - 20,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(30),
-                          bottomRight: Radius.circular(30)),
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.lightBlue.shade100.withOpacity(0.4),
-                          Colors.purpleAccent.shade100.withOpacity(0.4),
-                        ],
-                        stops: const [0, 1],
-                        begin: const AlignmentDirectional(1, 0),
-                        end: const AlignmentDirectional(-1, 0),
-                        // color: Colors.purpleAccent.shade100.withOpacity(
-                        // 0.3,
-                      ),
-                    ),
-                    child: Row(
-                      // mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        LikeAnimation(
-                            isAnimating: true,
-                            smallLike: true,
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.favorite_rounded,
-                                size: 30,
-                                color: const Color.fromARGB(255, 226, 127, 245)
-                                    .withOpacity(0.7),
-                              ),
-                              onPressed: () {
-                                postService.likePost(
-                                    context: context,
-                                    id: widget.post.id.toString());
-                              },
-                            )
-
-                            // color: Colors.grey.shade500,
-                            // size: 50,
-
-                            // color: ,
-
-                            // ignore: dead_code
-                            // : const Icon(
-                            //     Icons.favorite_border,
-                            //   ),
-                            // onPressed: () => FireStoreMethods().likePost(
-                            //   widget.snap['postId'].toString(),
-                            //   user.uid,
-                            //   widget.snap['likes'],
-                            // ),
-                            // onPressed: () {},
+                  widget.isImage
+                      ? Container(
+                          height: 400,
+                          width: MediaQuery.of(context).size.width - 20,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(30)),
+                            // border: Border(
+                            //     bottom: BorderSide(color: Colors.black.withOpacity(1))),
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                  widget.post.media!.url.toString()),
+                              fit: BoxFit.cover,
                             ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.comment_rounded,
-                            color: const Color.fromARGB(255, 226, 127, 245)
-                                .withOpacity(0.7),
-                            size: 30,
                           ),
-                          // onPressed: () => Navigator.of(context).push(
-                          //   MaterialPageRoute(
-                          //     builder: (context) => CommentsScreen(
-                          //       postId: widget.snap['postId'].toString(),
-                          //     ),
-                          //   ),
-                          // ),
-                          onPressed: () {
-                            showMaterialModalBottomSheet<void>(
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(25))),
-                              context: context,
-                              builder: (context) => Padding(
-                                padding: EdgeInsets.only(
-                                    bottom: MediaQuery.of(context)
-                                        .viewInsets
-                                        .bottom),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text('Reply',
-                                          style: TextStyle(
-                                              color: isDark
-                                                  ? Colors.grey.shade400
-                                                  : Colors.black,
-                                              fontFamily: 'InstagramSans',
-                                              fontSize: 25,
-                                              fontWeight: FontWeight.bold)),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8),
-                                          child: CircleAvatar(
-                                            radius: 16,
-                                            backgroundImage: NetworkImage(widget
-                                                .post.author.image
-                                                .toString()),
-                                          ),
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 8),
-                                                  child: Text(
-                                                    widget.post.author.name
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                      color: isDark
-                                                          ? Colors.grey.shade200
-                                                          : Colors.black,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 4.0),
-                                                  child: Text(
-                                                    '@${widget.post.author.username}',
-                                                    style: TextStyle(
-                                                      color: isDark
-                                                          ? Colors.grey.shade600
-                                                          : Colors.black,
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                            const Padding(
-                                              padding: EdgeInsets.only(
-                                                left: 8,
-                                              ),
-                                              // child: Text(
-                                              //  ,
-                                              //   style: TextStyle(
-                                              //     color: Colors.grey,
-                                              //   ),
-                                              // ),
-                                            )
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: const [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 8.0),
-                                          child: Text('Your Reply'),
-                                        ),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8),
-                                      child: TextField(
-                                        controller: _commentTextController,
-                                        decoration: const InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          hintText: 'An Interesting Reply',
-                                        ),
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              Stack(children: <Widget>[
-                                                Positioned.fill(
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15),
-                                                      gradient: LinearGradient(
-                                                        colors: [
-                                                          Colors.lightBlue
-                                                              .shade100
-                                                              .withOpacity(0.4),
-                                                          Colors.purpleAccent
-                                                              .shade100
-                                                              .withOpacity(0.4),
-                                                        ],
-                                                        stops: const [0, 1],
-                                                        begin:
-                                                            const AlignmentDirectional(
-                                                                1, 0),
-                                                        end:
-                                                            const AlignmentDirectional(
-                                                                -1, 0),
-                                                        // color: Colors.purpleAccent.shade100.withOpacity(
-                                                        // 0.3,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                TextButton(
-                                                  style: TextButton.styleFrom(
-                                                    foregroundColor:
-                                                        Colors.white,
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            16.0),
-                                                    textStyle: const TextStyle(
-                                                        fontSize: 20),
-                                                  ),
-                                                  onPressed: () {
-                                                    commentService.addComment(
-                                                        context: context,
-                                                        postId: widget.post.id
-                                                            .toString(),
-                                                        caption:
-                                                            _commentTextController
-                                                                .text);
-
-                                                    _commentTextController
-                                                        .clear();
-                                                  },
-                                                  child: const Text('Comment'),
-                                                ),
-                                              ]),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
+                          child: PostLikeCommentBar(post: widget.post))
+                      : widget.isVideo
+                          ? Container(
+                              height: 400,
+                              width: MediaQuery.of(context).size.width - 20,
+                              decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30)),
+                                // border: Border(
+                                //     bottom: BorderSide(color: Colors.black.withOpacity(1))),
                               ),
-                            );
-                          },
-                        ),
-                        widget.post.author.id == userProvider.user.id
-                            ? const SizedBox()
-                            : IconButton(
-                                icon: const Icon(
-                                  Icons.send_rounded,
-                                  color: Color.fromARGB(255, 226, 127, 245),
-                                  size: 30,
-                                ),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => OneOneChatScreen(
-                                            senderId: widget.post.author.id,
-                                            senderName: widget.post.author.name
-                                                .toString(),
-                                            senderUsername: widget
-                                                .post.author.id
-                                                .toString(),
-                                            senderImage: widget
-                                                .post.author.image
-                                                .toString()),
-                                      ));
-                                }),
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.bottomRight,
-                            child: IconButton(
-                                iconSize: 40,
-                                icon: const Icon(
-                                  Icons.attach_money_rounded,
-                                  color: Color.fromARGB(255, 226, 127, 245),
-                                ),
-                                onPressed: () {
-                                  showMaterialModalBottomSheet<void>(
-                                    shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.vertical(
-                                            top: Radius.circular(25))),
-                                    context: context,
-                                    builder: (context) => Padding(
-                                      padding: EdgeInsets.only(
-                                          bottom: MediaQuery.of(context)
-                                              .viewInsets
-                                              .bottom),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text('Donate',
-                                                style: TextStyle(
-                                                    color: isDark
-                                                        ? Colors.grey.shade400
-                                                        : Colors.black,
-                                                    fontFamily: 'InstagramSans',
-                                                    fontSize: 25,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                          ),
-                                          Row(
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8),
-                                                child: CircleAvatar(
-                                                  radius: 16,
-                                                  backgroundImage: NetworkImage(
-                                                      widget.post.author.image
-                                                          .toString()),
-                                                ),
-                                              ),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(left: 8),
-                                                        child: Text(
-                                                          widget.post.author
-                                                              .username
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                            color: isDark
-                                                                ? Colors.grey
-                                                                    .shade300
-                                                                : Colors.black,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                left: 4.0),
-                                                        child: Text(
-                                                          widget.post.author
-                                                              .username
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                            color: isDark
-                                                                ? Colors.grey
-                                                                    .shade200
-                                                                : Colors.black,
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  // const Padding(
-                                                  //   padding: EdgeInsets.only(
-                                                  //     left: 8,
-                                                  //   ),
-                                                  //   child: Text(
-                                                  //     'Feb 6',
-                                                  //     style: TextStyle(
-                                                  //       color: Colors.grey,
-                                                  //     ),
-                                                  //   ),
-                                                  // )
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 8.0),
-                                                child: Text(
-                                                  'Your Reply',
-                                                  style: TextStyle(
-                                                    color: isDark
-                                                        ? Colors.grey.shade300
-                                                        : Colors.black,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8),
-                                            child: TextField(
-                                              controller: _controller,
-                                              decoration: const InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                hintText: 'Enter Token Amount',
-                                              ),
-                                            ),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: [
-                                                    Stack(children: <Widget>[
-                                                      Positioned.fill(
-                                                        child: Container(
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        15),
-                                                            gradient:
-                                                                LinearGradient(
-                                                              colors: [
-                                                                Colors.lightBlue
-                                                                    .shade100
-                                                                    .withOpacity(
-                                                                        0.4),
-                                                                Colors
-                                                                    .purpleAccent
-                                                                    .shade100
-                                                                    .withOpacity(
-                                                                        0.4),
-                                                              ],
-                                                              stops: const [
-                                                                0,
-                                                                1
-                                                              ],
-                                                              begin:
-                                                                  const AlignmentDirectional(
-                                                                      1, 0),
-                                                              end:
-                                                                  const AlignmentDirectional(
-                                                                      -1, 0),
-                                                              // color: Colors.purpleAccent.shade100.withOpacity(
-                                                              // 0.3,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      TextButton(
-                                                        style: TextButton
-                                                            .styleFrom(
-                                                          foregroundColor:
-                                                              isDark
-                                                                  ? Colors.black
-                                                                  : Colors
-                                                                      .white,
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(16.0),
-                                                          textStyle:
-                                                              const TextStyle(
-                                                                  fontSize: 20),
-                                                        ),
-                                                        onPressed: () {
-                                                          double amount =
-                                                              double.parse(
-                                                                  _controller
-                                                                      .text);
-                                                          dev.log(amount
-                                                              .toString());
-                                                          dev.log('---');
-
-                                                          if (walletAddressProvider
-                                                                  .privateAddress ==
-                                                              null) {
-                                                            showSnackBar(
-                                                                context,
-                                                                'Connect your Wallet to Donate !!!');
-                                                            Navigator.pop(
-                                                                context);
-                                                          } else if (widget
-                                                                  .post
-                                                                  .author
-                                                                  .walletAddress ==
-                                                              'undefined') {
-                                                            showSnackBar(
-                                                                context,
-                                                                'Ask ${widget.post.author.name} to set their Receiving Wallet Address !!!');
-                                                            Navigator.pop(
-                                                                context);
-                                                          } else {
-                                                            DonateController()
-                                                                .donate(
-                                                                    walletAddressProvider
-                                                                        .privateAddress!,
-                                                                    walletAddressProvider
-                                                                        .walletAddress!,
-                                                                    widget
-                                                                        .post
-                                                                        .author
-                                                                        .walletAddress,
-                                                                    amount)
-                                                                .then((String
-                                                                    result) {
-                                                              showSnackBar(
-                                                                  context,
-                                                                  'Transaction added to Pending Transaction List!! ');
-
-                                                              Navigator.pop(
-                                                                  context);
-                                                            });
-                                                          }
-                                                        },
-                                                        child: const Text(
-                                                            'Donate'),
-                                                      ),
-                                                    ]),
-                                                  ],
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          TextButton(
-                                              onPressed: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            WalletWeb()));
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Stack(
+                                    children: [
+                                      _controller!.value.isInitialized
+                                          ? Container(
+                                              decoration: const BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(30))),
+                                              height: 330,
+                                              width: 400,
+                                              child: VideoPlayer(_controller!))
+                                          : Container(),
+                                      Positioned(
+                                        top: 270,
+                                        left: 10,
+                                        child: FloatingActionButton(
+                                          heroTag: widget.post.id,
+                                          onPressed: () {
+                                            setState(
+                                              () {
+                                                _controller!.value.isPlaying
+                                                    ? _controller!.pause()
+                                                    : _controller!.play();
                                               },
-                                              child:
-                                                  const Text('Donate Screen'))
-                                        ],
+                                            );
+                                          },
+                                          child: Icon(
+                                            _controller!.value.isPlaying
+                                                ? Icons.pause
+                                                : Icons.play_arrow,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                }),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+                                    ],
+                                  ),
+                                  PostLikeCommentBar(post: widget.post),
+                                ],
+                              ),
+                            )
+                          : const SizedBox(),
                 ],
               ),
             ),
