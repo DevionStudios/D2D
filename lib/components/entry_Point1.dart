@@ -301,7 +301,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 );
               },
             )
-          : CircularProgressIndicator(),
+          : null,
     );
   }
 }

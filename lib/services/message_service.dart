@@ -77,7 +77,6 @@ class MessageService {
                   messageList.add(ChatModel.fromJson(jsonEncode(message)));
                 }
               }
-              // message = ChatModel.fromJson(jsonEncode(data));
             });
       }
     } catch (e) {

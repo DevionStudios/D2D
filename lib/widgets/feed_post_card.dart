@@ -223,7 +223,7 @@ class _FeedCardState extends State<FeedCard> {
                           width: MediaQuery.of(context).size.width - 20,
                           decoration: BoxDecoration(
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(30)),
+                                const BorderRadius.only(bottomLeft: Radius.circular(30),bottomRight: Radius.circular((30))),
                             // border: Border(
                             //     bottom: BorderSide(color: Colors.black.withOpacity(1))),
                             image: DecorationImage(

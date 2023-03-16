@@ -32,12 +32,14 @@ class MessageBubble extends StatelessWidget {
         ChatBubble(
             clipper: ChatBubbleClipper5(
                 type: isMe ? BubbleType.sendBubble : BubbleType.receiverBubble),
-            backGroundColor: Colors.grey.shade500,
+            backGroundColor: !isMe? Colors.lightBlue.shade300.withOpacity(0.5):
+                      Colors.purpleAccent.shade100.withOpacity(0.5),
             alignment: isMe ? Alignment.topRight : Alignment.topLeft,
             margin: const EdgeInsets.only(top: 5),
             child: Text(
+              
               message.toString(),
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(fontSize:17,color: Colors.white,fontFamily: 'InstagramSans'),
             )),
       ],
     );

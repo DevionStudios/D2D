@@ -128,6 +128,7 @@ class _AddStoryState extends State<AddStory> {
                           Positioned.fill(
                             child: Container(
                               decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
                                 gradient: LinearGradient(
                                   colors: [
                                     Colors.lightBlue.shade100.withOpacity(0.4),
@@ -235,6 +236,7 @@ class _AddStoryState extends State<AddStory> {
                           Positioned.fill(
                             child: Container(
                               decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
                                 gradient: LinearGradient(
                                   colors: [
                                     Colors.lightBlue.shade100.withOpacity(0.4),

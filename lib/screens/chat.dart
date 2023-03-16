@@ -10,6 +10,7 @@ import 'package:foxxi/widgets/message_bubble.dart';
 import 'package:provider/provider.dart';
 
 import '../models/chat_model.dart';
+import '../providers/theme_provider.dart';
 import 'chat_screen.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -44,11 +45,13 @@ class ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return Expanded(
       child: Container(
-        decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
+        decoration: BoxDecoration(
+            color: isDark ? Colors.grey.shade300 : Colors.white,
+            borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(0),
               bottomRight: Radius.circular(0),
               topLeft: Radius.circular(30),
@@ -70,70 +73,47 @@ class ChatScreenState extends State<ChatScreen> {
             ),
             closedBuilder: (context, Function openContainer) => Column(
               children: <Widget>[
-                Card(
-                  child: Container(
-                    // height: 50,
-                    width: MediaQuery.of(context).size.width - 20,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.white,
-                        width: 30,
-                        strokeAlign: BorderSide.strokeAlignOutside,
-                      ),
-                      color: Colors.white,
-                      // borderRadius: const BorderRadius.all(
-                      //   Radius.circular(10),
-                      // ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                      associatedUserList![i].image.toString()),
-                                ),
-                                Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      associatedUserList![i].name.toString(),
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    // Text(
-                                    //   releChatData[i].message.toString(),
-                                    //   style: const TextStyle(
-                                    //       color: Colors.grey, fontSize: 14.0),
-                                    // ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
+                Container(
+                  // height: 50,
+                  // decoration: BoxDecoration(
+                  //   border: Border.all(
+                  //     color: isDark ? Colors.grey.shade300 : Colors.white,
+                  //     width: 30,
+                  //     strokeAlign: BorderSide.strokeAlignOutside,
+                  //   ),
+                  color: isDark ? Colors.grey.shade300 : Colors.white,
+                  // borderRadius: const BorderRadius.all(
+                  //   Radius.circular(10),
+                  // ),
+
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              associatedUserList![i].image.toString()),
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.all(8.0),
-                        //   child: Text(
-                        //     releChatData[i].time.toString(),
-                        //     style: const TextStyle(
-                        //       color: Colors.grey,
-                        //       fontSize: 14.0,
-                        //     ),
-                        //     textAlign: TextAlign.end,
-                        //   ),
-                        // ),
-                      ],
-                    ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            associatedUserList![i].name.toString(),
+                            style: const TextStyle(fontFamily: 'InstagramSans'),
+                          ),
+                          // Text(
+                          //   releChatData[i].message.toString(),
+                          //   style: const TextStyle(
+                          //       color: Colors.grey, fontSize: 14.0),
+                          // ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                const Divider(height: 10, color: Colors.white),
               ],
             ),
           ),
@@ -175,9 +155,11 @@ class _OneOneChatScreenState extends State<OneOneChatScreen> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: true).user;
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
 
     return Scaffold(
-      backgroundColor: Colors.grey.shade400,
+      backgroundColor:
+          isDark ? Colors.black.withOpacity(0.9) : Colors.grey.shade400,
       body: Padding(
         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         child: Stack(
@@ -195,6 +177,8 @@ class _OneOneChatScreenState extends State<OneOneChatScreen> {
                           height: 100,
                           // width: MediaQuery.of(context).size.width * 0.1,
                           child: CircleAvatar(
+                            backgroundColor:
+                                Colors.purpleAccent.shade100.withOpacity(0.4),
                             child: IconButton(
                               // iconSize: 20,
                               icon: const Icon(
@@ -203,10 +187,7 @@ class _OneOneChatScreenState extends State<OneOneChatScreen> {
                                 // size: 15,
                               ),
                               onPressed: () {
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const Chat()));
+                                Navigator.pop(context);
                               },
                             ),
                           )),
@@ -219,15 +200,18 @@ class _OneOneChatScreenState extends State<OneOneChatScreen> {
                             children: [
                               Text(
                                 widget.senderName.toString(),
-                                style: const TextStyle(
+                                style: TextStyle(
+                                    color: isDark ? Colors.grey : Colors.black,
                                     fontSize: 15,
                                     fontFamily: 'Unbounded',
                                     fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                widget.senderUsername.toString(),
-                                style: const TextStyle(
-                                  fontSize: 5,
+                                '@${widget.senderUsername.toString()}',
+                                style: TextStyle(
+                                                                    color: isDark ? Colors.grey : Colors.black,
+
+                                  fontSize: 10,
                                   fontFamily: 'Unbounded',
                                 ),
                               )
@@ -261,8 +245,8 @@ class _OneOneChatScreenState extends State<OneOneChatScreen> {
                       padding: const EdgeInsets.only(
                         bottom: 70,
                       ),
-                      decoration: const BoxDecoration(
-                          color: Colors.white,
+                      decoration:  BoxDecoration(
+                        color: isDark ? Colors.grey.shade900 : Colors.white,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(30),
                               topRight: Radius.circular(30))),
@@ -302,9 +286,9 @@ class _OneOneChatScreenState extends State<OneOneChatScreen> {
                       ),
                     ),
                     IconButton(
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.send_rounded,
-                        color: Colors.blue,
+                        color: Colors.purpleAccent.shade100.withOpacity(0.4),
                         size: 30,
                       ),
                       onPressed: () {
@@ -324,44 +308,6 @@ class _OneOneChatScreenState extends State<OneOneChatScreen> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _TransitionListTile extends StatelessWidget {
-  const _TransitionListTile({
-    this.onTap,
-    required this.title,
-    required this.subtitle,
-  });
-
-  final GestureTapCallback? onTap;
-  final String title;
-  final String subtitle;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: 15.0,
-      ),
-      leading: Container(
-        width: 40.0,
-        height: 40.0,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.0),
-          border: Border.all(
-            color: Colors.black54,
-          ),
-        ),
-        child: const Icon(
-          Icons.play_arrow,
-          size: 35,
-        ),
-      ),
-      onTap: onTap,
-      title: Text(title),
-      subtitle: Text(subtitle),
     );
   }
 }

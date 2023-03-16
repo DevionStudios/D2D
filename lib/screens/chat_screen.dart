@@ -62,35 +62,38 @@ class Chat extends StatelessWidget {
                       )),
                 ],
               ),
-              ListTile(
-                trailing: CircleAvatar(
-                  radius: 30,
-                  // borderRadius: BorderRadius.circular(8),
-                  backgroundImage: NetworkImage(userProvider.image.toString()),
-                ),
-                leading: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      userProvider.username.toString(),
-                      style: TextStyle(
-                        color: isDark ? Colors.grey.shade400 : Colors.black38,
-                        fontSize: 15,
-                        fontFamily: 'Unbounded',
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListTile(
+                  trailing: CircleAvatar(
+                    radius: 30,
+                    backgroundImage:
+                        NetworkImage(userProvider.image.toString()),
+                  ),
+                  leading: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        userProvider.name,
+                        style: TextStyle(
+                          fontFamily: 'Unbounded',
+                          color: isDark ? Colors.grey.shade500 : Colors.black38,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25,
+                        ),
                       ),
-                      textAlign: TextAlign.right,
-                    ),
-                    Text(
-                      userProvider.name.toString(),
-                      style: TextStyle(
-                        fontFamily: 'Unbounded',
-                        color: isDark ? Colors.grey.shade500 : Colors.black38,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25,
+                      Text(
+                        '@${userProvider.username.toLowerCase()}',
+                        style: TextStyle(
+                          color: isDark ? Colors.grey.shade400 : Colors.black38,
+                          fontSize: 15,
+                          fontFamily: 'Unbounded',
+                        ),
+                        textAlign: TextAlign.right,
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               ChatScreen(

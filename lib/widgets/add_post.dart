@@ -128,46 +128,56 @@ class _AddPostState extends State<AddPost> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Stack(children: <Widget>[
-                          Positioned.fill(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Colors.lightBlue.shade100.withOpacity(0.4),
-                                    Colors.purpleAccent.shade100
-                                        .withOpacity(0.4),
-                                  ],
-                                  stops: const [0, 1],
-                                  begin: const AlignmentDirectional(1, 0),
-                                  end: const AlignmentDirectional(-1, 0),
-                                  // color: Colors.purpleAccent.shade100.withOpacity(
-                                  // 0.3,
-                                ),
-                              ),
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Stack(children: <Widget>[
+                                  Positioned.fill(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Colors.lightBlue.shade100
+                                                .withOpacity(0.4),
+                                            Colors.purpleAccent.shade100
+                                                .withOpacity(0.4),
+                                          ],
+                                          stops: [0, 1],
+                                          begin: AlignmentDirectional(1, 0),
+                                          end: AlignmentDirectional(-1, 0),
+                                          // color: Colors.purpleAccent.shade100.withOpacity(
+                                          // 0.3,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      foregroundColor: Colors.white,
+                                      padding: const EdgeInsets.all(16.0),
+                                      textStyle: const TextStyle(fontSize: 20),
+                                    ),
+                                    onPressed: () {
+                                      postService.createPost(
+                                          caption: _captionTextEditingController
+                                              .text,
+                                          imageFilePath: image!.path);
+                                    },
+                                    child: const Text('Upload'),
+                                  ),
+                                ]),
+                              ],
                             ),
-                          ),
-                          TextButton(
-                            style: TextButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              padding: const EdgeInsets.all(16.0),
-                              textStyle: const TextStyle(fontSize: 20),
-                            ),
-                            onPressed: () {
-                              postService.createPost(
-                                  caption: _captionTextEditingController.text,
-                                  imageFilePath: image!.path);
-                            },
-                            child: const Text('Upload'),
-                          ),
-                        ]),
-                      ],
-                    ),
-                  )
+                          )
+                        ],
+                      ))
                 ],
               ),
             )
@@ -242,6 +252,7 @@ class _AddPostState extends State<AddPost> {
                           Positioned.fill(
                             child: Container(
                               decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
                                 gradient: LinearGradient(
                                   colors: [
                                     Colors.lightBlue.shade100.withOpacity(0.4),
