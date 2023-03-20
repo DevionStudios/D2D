@@ -1,4 +1,5 @@
 // import 'dart:js_util';
+import 'package:foxxi/constants.dart';
 import 'package:foxxi/providers/theme_provider.dart';
 import 'package:http/http.dart' as http;
 
@@ -45,7 +46,7 @@ class ApiService {
       'q': query,
       'lang': 'en',
     };
-    var headers = {'x-api-key': ''};
+    var headers = {'x-api-key': newsAPI};
     var url =
         Uri.https('api.newscatcherapi.com', '/v2/search', queryParameters);
     var response = await http.get(url, headers: headers);
@@ -82,7 +83,7 @@ class _NewsScreenState extends State<NewsScreen> {
 
   @override
   Widget build(BuildContext context) {
-        final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
 
     return Scaffold(
       body: Container(
@@ -90,13 +91,15 @@ class _NewsScreenState extends State<NewsScreen> {
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: isDark?[
-              Colors.lightBlue.shade100.withOpacity(0.2),
-              Colors.purpleAccent.shade100.withOpacity(0.2),
-            ]:[
-              Colors.lightBlue.shade100.withOpacity(0.9),
-              Colors.purpleAccent.shade100.withOpacity(0.9),
-            ],
+            colors: isDark
+                ? [
+                    Colors.lightBlue.shade100.withOpacity(0.2),
+                    Colors.purpleAccent.shade100.withOpacity(0.2),
+                  ]
+                : [
+                    Colors.lightBlue.shade100.withOpacity(0.9),
+                    Colors.purpleAccent.shade100.withOpacity(0.9),
+                  ],
           ),
         ),
         child: FutureBuilder<News?>(

@@ -64,6 +64,8 @@ class ChatScreenState extends State<ChatScreen> {
               ? 0
               : associatedUserList!.length,
           itemBuilder: (context, i) => OpenContainer(
+            openColor:  isDark ? Colors.grey.shade300 : Colors.white,
+            closedColor:  isDark ? Colors.grey.shade300 : Colors.white,
             transitionDuration: const Duration(milliseconds: 600),
             openBuilder: (context, _) => OneOneChatScreen(
               senderId: associatedUserList![i].id.toString(),
@@ -318,6 +320,8 @@ class ChatStreamBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+            final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
     MessageService messageService = MessageService();
 
     final userProvider = Provider.of<UserProvider>(context, listen: true).user;
@@ -340,11 +344,12 @@ class ChatStreamBuilder extends StatelessWidget {
         if (!snapshot.hasData) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children:  [
               Center(
                 child: Text(
                   'NO CHATS TO SHOW YET',
-                  style: TextStyle(fontSize: 20),
+                  
+                  style: TextStyle(fontSize: 20,color: isDark?Colors.white:Colors.black),
                 ),
               )
             ],
