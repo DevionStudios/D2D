@@ -1,6 +1,8 @@
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:foxxi/components/donateButton.dart';
 import 'package:foxxi/screens/mint_NFT.dart';
+import 'package:foxxi/screens/wallet_screen.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import '../providers/theme_provider.dart';
@@ -18,11 +20,12 @@ class bottomNavBar2 extends StatefulWidget {
 class _bottomNavBar2State extends State<bottomNavBar2> {
   final _pageController = PageController(initialPage: 0);
 
-  int maxCount = 4;
+  int maxCount = 5;
 
   /// widget list
   final List<Widget> bottomBarPages = [
     ProfileSettings(),
+    WalletWeb(),
     mintNFT(),
     SecuritySettingScreen(),
     TweetMigrationScreen(),
@@ -64,6 +67,16 @@ class _bottomNavBar2State extends State<bottomNavBar2> {
                 const BottomBarItem(
                   inActiveItem: Icon(
                     Icons.settings,
+                    color: Colors.blueGrey,
+                  ),
+                  activeItem: Icon(
+                    Icons.wallet,
+                    color: Colors.blueAccent,
+                  ),
+                ),
+                  const BottomBarItem(
+                  inActiveItem: Icon(
+                    Icons.wallet,
                     color: Colors.blueGrey,
                   ),
                   activeItem: Icon(

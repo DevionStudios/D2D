@@ -434,9 +434,9 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                               children: [
                                                 Text(
                                                   widget.isMe
-                                                      ? userProvider.username
-                                                      : widget.user.username
-                                                          .toString(),
+                                                      ? '@${userProvider.username}'
+                                                      : '@${widget.user.username
+                                                          .toString()}',
                                                 ),
                                               ],
                                             ),
