@@ -19,6 +19,7 @@ void main() {
       ChangeNotifierProvider(create: ((context) => WalletAddressProvider())),
       ChangeNotifierProvider(create: ((context) => UserProvider())),
       ChangeNotifierProvider(create: ((context) => PostProvider())),
+      ChangeNotifierProvider(create: ((context) => ThemeProvider())),
       ChangeNotifierProvider(
           create: (context) => ScreenNavigationArgumentProvider()),
       ChangeNotifierProvider(create: ((context) => StoryProvider())),
@@ -42,16 +43,13 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (_) => ThemeProvider(),
-        builder: (context, _) {
-          final themeProvider = Provider.of<ThemeProvider>(context);
-          return MaterialApp(
-            themeMode: themeProvider.themeMode,
-            darkTheme: myThemes.darkTheme,
-            theme: myThemes.lightTheme,
-            home: const SplashScreen(),
-          );
-        });
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    return MaterialApp(
+      onGenerateRoute: generateRoute,
+      themeMode: themeProvider.themeMode,
+      darkTheme: myThemes.darkTheme,
+      theme: myThemes.lightTheme,
+      home: const SplashScreen(),
+    );
   }
 }

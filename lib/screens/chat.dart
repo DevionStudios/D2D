@@ -209,8 +209,7 @@ class _OneOneChatScreenState extends State<OneOneChatScreen> {
                               Text(
                                 '@${widget.senderUsername.toString()}',
                                 style: TextStyle(
-                                                                    color: isDark ? Colors.grey : Colors.black,
-
+                                  color: isDark ? Colors.grey : Colors.black,
                                   fontSize: 10,
                                   fontFamily: 'Unbounded',
                                 ),
@@ -245,8 +244,8 @@ class _OneOneChatScreenState extends State<OneOneChatScreen> {
                       padding: const EdgeInsets.only(
                         bottom: 70,
                       ),
-                      decoration:  BoxDecoration(
-                        color: isDark ? Colors.grey.shade900 : Colors.white,
+                      decoration: BoxDecoration(
+                          color: isDark ? Colors.grey.shade900 : Colors.white,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(30),
                               topRight: Radius.circular(30))),
@@ -370,67 +369,3 @@ class ChatStreamBuilder extends StatelessWidget {
     );
   }
 }
-
-
-
-//  ListView.builder(
-                    //   reverse: true,
-                    //   itemCount: data.length,
-                    //   itemBuilder: (BuildContext context, index) {
-                    //     return data[index].name == widget.receiptentName
-                    //         ? Row(
-                    //             children: [
-                    //               Padding(
-                    //                 padding: const EdgeInsets.all(5.0),
-                    //                 child: CircleAvatar(
-                    //                   backgroundImage: NetworkImage(
-                    //                     data[0].avatarUrl.toString(),
-                    //                   ),
-                    //                 ),
-                    //               ),
-                    //               ChatBubble(
-                    //                   clipper: ChatBubbleClipper5(
-                    //                       type: BubbleType.receiverBubble),
-                    //                   backGroundColor: Colors.grey.shade500,
-                    //                   margin: const EdgeInsets.only(top: 5),
-                    //                   child: Text(
-                    //                     data[index].message.toString(),
-                    //                     style: const TextStyle(
-                    //                         color: Colors.white),
-                    //                   )),
-                    //             ],
-                    //           )
-                    //         : Row(
-                    //             mainAxisAlignment: MainAxisAlignment.end,
-                    //             children: [
-                    //               ChatBubble(
-                    //                   clipper: ChatBubbleClipper5(
-                    //                       type: BubbleType.sendBubble),
-                    //                   alignment: Alignment.topRight,
-                    //                   backGroundColor: Colors.blue.shade300,
-                    //                   margin: const EdgeInsets.only(top: 5),
-                    //                   child: Container(
-                    //                     constraints: BoxConstraints(
-                    //                       maxWidth: MediaQuery.of(context)
-                    //                               .size
-                    //                               .width *
-                    //                           0.7,
-                    //                     ),
-                    //                     child: Text(
-                    //                       data[index].message.toString(),
-                    //                       style: const TextStyle(
-                    //                           color: Colors.white),
-                    //                     ),
-                    //                   )),
-                    //               Padding(
-                    //                 padding: const EdgeInsets.all(5.0),
-                    //                 child: CircleAvatar(
-                    //                   backgroundImage: NetworkImage(
-                    //                     data[0].userProfilePic.toString(),
-                    //                   ),
-                    //                 ),
-                    //               ),
-                    //             ],
-                    //           );
-                    //   },
-                    // ),

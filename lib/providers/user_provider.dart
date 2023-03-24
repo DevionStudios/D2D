@@ -3,6 +3,9 @@ import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
 import 'package:foxxi/models/user.dart';
+import 'package:foxxi/services/user_service.dart';
+
+final userService = UserService();
 
 class UserProvider with ChangeNotifier {
   User _user = User(
@@ -24,16 +27,15 @@ class UserProvider with ChangeNotifier {
       accountWallet: '',
       reports: [],
       preferences: [],
-      isBanned: false);
+      isBanned: false,
+      stories: false);
 
   User get user => _user;
 
-  void setUser(String user) {
-    final currentUser = jsonDecode(user)["currentUser"];
+  void setUser(String userData) {
+    final data = jsonDecode(userData);
+    _user = User.fromJson((jsonEncode(data)));
 
-    _user = User.fromJson((jsonEncode(currentUser)));
-    // dev.log(_user.toString(), name: '_user data');
-    // dev.log(_user.followers.toString(), name: '_user ');
     notifyListeners();
   }
 

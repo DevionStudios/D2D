@@ -68,8 +68,9 @@ class DonateButton extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 8),
                                     child: Text(
-                                      post.author.username.toString(),
+                                      post.author.name.toString(),
                                       style: TextStyle(
+                                        fontWeight: FontWeight.bold,
                                         color: isDark
                                             ? Colors.grey.shade300
                                             : Colors.black,
@@ -79,8 +80,9 @@ class DonateButton extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 4.0),
                                     child: Text(
-                                      post.author.username.toString(),
+                                      '@${post.author.username.toString()}',
                                       style: TextStyle(
+                                        fontFamily: 'InstagramSans',
                                         color: isDark
                                             ? Colors.grey.shade200
                                             : Colors.black,
@@ -102,22 +104,6 @@ class DonateButton extends StatelessWidget {
                               // )
                             ],
                           )
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Text(
-                              'Your Reply',
-                              style: TextStyle(
-                                color: isDark
-                                    ? Colors.grey.shade300
-                                    : Colors.black,
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                       Padding(

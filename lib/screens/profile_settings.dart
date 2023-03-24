@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:foxxi/services/auth_service.dart';
+import 'package:foxxi/services/user_service.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +23,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   final TextEditingController _bioTextController = TextEditingController();
   final TextEditingController _walletAddressTextController =
       TextEditingController();
-  AuthService authService = AuthService();
+  UserService userService = UserService();
   var _imageProfile;
   var _imageCover;
   XFile? image;
@@ -282,7 +283,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               textStyle: const TextStyle(fontSize: 20),
                             ),
                             onPressed: () {
-                              authService.updateProfile(
+                              userService.updateProfile(
                                   context: context,
                                   bio: _bioTextController.text,
                                   coverImagePath: coverImage?.path == null

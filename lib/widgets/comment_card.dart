@@ -52,18 +52,20 @@ class CommentCard extends StatelessWidget {
                         Text(comment!.author.name.toString(),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color:
-                                  isDark ? Colors.grey : Colors.grey.shade300,
+                              color: isDark
+                                  ? Colors.grey.shade400
+                                  : Colors.grey.shade300,
                             )),
                         Padding(
                           padding: const EdgeInsets.only(top: 4),
                           child: Text(
                             // DateFormat.yMMMd().format(
                             //   snap.data()['datePublished'].toDate(),
-                            comment!.author.username.toString(),
+                            '@${comment!.author.username.toString()}',
                             style: TextStyle(
-                              color:
-                                  isDark ? Colors.grey : Colors.grey.shade300,
+                              color: isDark
+                                  ? Colors.grey.shade500
+                                  : Colors.grey.shade400,
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
                             ),

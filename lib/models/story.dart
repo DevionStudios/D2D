@@ -7,16 +7,12 @@ class Story {
   final String id;
   final String caption;
   final User author;
-  final DateTime updatedOn;
-  final DateTime createdAt;
   final Media? media;
   bool? isSeen;
   Story({
     required this.id,
     required this.caption,
     required this.author,
-    required this.updatedOn,
-    required this.createdAt,
     this.media,
     this.isSeen = false,
   });
@@ -26,8 +22,6 @@ class Story {
       'id': id,
       'caption': caption,
       'author': author.toMap(),
-      'updatedOn': updatedOn.millisecondsSinceEpoch,
-      'createdAt': createdAt.millisecondsSinceEpoch,
       'media': media?.toMap(),
       'isSeen': isSeen,
     };
@@ -38,8 +32,6 @@ class Story {
       id: map['id'] ?? '',
       caption: map['caption'] ?? '',
       author: User.fromMap(map['author']),
-      updatedOn: DateTime.fromMillisecondsSinceEpoch(map['updatedOn']),
-      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
       media: map['media'] != null ? Media.fromMap(map['media']) : null,
       isSeen: map['isSeen'],
     );

@@ -5,6 +5,7 @@ import 'package:foxxi/screens/email_verfication_screen.dart';
 import 'package:foxxi/screens/forgot_password_email_screen.dart';
 import 'package:foxxi/screens/forgot_password_resetscreen.dart';
 import 'package:foxxi/screens/login_screen.dart';
+import 'package:foxxi/screens/notification_screen.dart';
 import 'package:foxxi/screens/otp_screen.dart';
 import 'package:foxxi/screens/sign_up_screen.dart';
 
@@ -42,35 +43,17 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         settings: routeSettings,
         builder: (_) => const ForgotPasswordResetScreen(),
       );
-    // case OneOneChatScreen.routeName:
-    //   return MaterialPageRoute(
-    //     settings: routeSettings,
-    //     builder: (_) => const OneOneChatScreen(
-    //         senderName: senderName,
-    //         senderUsername: senderUsername,
-    //         senderImage: senderImage),
-    //   );
+    case NotificationScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const NotificationScreen(),
+      );
     case BottomNavBar.routeName:
       return MaterialPageRoute(
         settings: routeSettings,
-        builder: (_) => const BottomNavBar(),
+        builder: (_) => BottomNavBar(),
       );
-    //   case AddressScreen.routeName:
-    //     var totalAmount = routeSettings.arguments as String;
-    //     return MaterialPageRoute(
-    //       settings: routeSettings,
-    //       builder: (_) => AddressScreen(
-    //         totalAmount: totalAmount,
-    //       ),
-    //     );
-    //   case OrderDetailScreen.routeName:
-    //     var order = routeSettings.arguments as Order;
-    //     return MaterialPageRoute(
-    //       settings: routeSettings,
-    //       builder: (_) => OrderDetailScreen(
-    //         order: order,
-    //       ),
-    //     );
+
     default:
       return MaterialPageRoute(
         settings: routeSettings,

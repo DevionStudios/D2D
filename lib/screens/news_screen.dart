@@ -1,10 +1,12 @@
 import 'dart:convert' as convert;
 // import 'dart:js_util';
+import 'package:foxxi/providers/theme_provider.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:foxxi/models/news.dart';
 import 'package:foxxi/widgets/news_card.dart';
+import 'package:provider/provider.dart';
 import 'package:swipeable_card_stack/swipeable_card_stack.dart';
 
 import '../models/news.dart';
@@ -53,15 +55,15 @@ class ApiService {
 
       return news;
     } else {
-      print('Reponse error with code ${response.statusCode}');
+      debugPrint('Reponse error with code ${response.statusCode}');
     }
+    return null;
   }
 }
 
 class _NewsScreenState extends State<NewsScreen> {
-  String? query = 'all';
+  String? query = 'trending';
   late Future<News?> _news;
-  final myController = TextEditingController();
 
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -80,17 +82,23 @@ class _NewsScreenState extends State<NewsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final myController = TextEditingController();
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color.fromRGBO(0, 169, 191, 1),
-              Colors.greenAccent,
-            ],
+            colors: isDark
+                ? [
+                    Colors.lightBlue.shade100.withOpacity(0.2),
+                    Colors.purpleAccent.shade100.withOpacity(0.2),
+                  ]
+                : [
+                    Colors.lightBlue.shade100.withOpacity(0.9),
+                    Colors.purpleAccent.shade100.withOpacity(0.9),
+                  ],
           ),
         ),
         child: FutureBuilder<News?>(

@@ -870,6 +870,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.15"
+  video_uploader:
+    dependency: "direct main"
+    description:
+      name: video_uploader
+      sha256: b94666625c05d2352c37c52f2b0dfa15eb919d2ab9eb75d97f55f25196837d42
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.1"
   wallet:
     dependency: transitive
     description:

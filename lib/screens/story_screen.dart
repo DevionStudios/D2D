@@ -1,41 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:foxxi/models/story.dart';
 import 'package:video_player/video_player.dart';
+import 'dart:developer' as dev;
 import 'package:flutter_carousel_slider/carousel_slider.dart';
 
 class StoryScreen extends StatefulWidget {
   List<Story> stories;
-  bool isVideo;
-  String? video;
-  StoryScreen({required this.isVideo, this.video, required this.stories});
+  StoryScreen({required this.stories});
 
   @override
   State<StoryScreen> createState() => _storyScreenState();
 }
 
 class _storyScreenState extends State<StoryScreen> {
-  late VideoPlayerController _controller;
+  VideoPlayerController? _controller;
 
   late CarouselSliderController _sliderController;
 
   @override
   void initState() {
+    intializeVideoController();
     _sliderController = CarouselSliderController();
-    if (widget.isVideo) {
-      _controller = VideoPlayerController.network(widget.video.toString())
-        ..initialize().then((_) {
-          _controller.setLooping(true);
-          // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-          setState(() {});
-        });
-    }
 
     super.initState();
   }
 
+  void intializeVideoController() {
+    for (Story story in widget.stories) {
+      if (story.media!.mediatype == 'video') {
+        dev.log('Video Intializer Story Called');
+        _controller = VideoPlayerController.network(story.media!.url.toString())
+          ..initialize().then((_) {
+            _controller?.setLooping(true);
+            // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+            setState(() {});
+          });
+      }
+    }
+  }
+
   @override
   void dispose() {
-    _controller.dispose();
+    if (_controller != null) {
+      _controller!.dispose();
+    }
     _sliderController.dispose();
     super.dispose();
   }
@@ -131,13 +139,13 @@ class _storyScreenState extends State<StoryScreen> {
                         ],
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text('Caption'),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(widget.stories[index].caption),
                     ),
-                    !widget.isVideo
+                    widget.stories[index].media!.mediatype != 'video'
                         ? Container(
-                            height: MediaQuery.of(context).size.height - 100,
+                            height: MediaQuery.of(context).size.height - 200,
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
                               borderRadius:
@@ -164,14 +172,14 @@ class _storyScreenState extends State<StoryScreen> {
                             ),
                             child: Stack(
                               children: [
-                                _controller.value.isInitialized
+                                _controller!.value.isInitialized
                                     ? Container(
                                         decoration: const BoxDecoration(
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(30))),
                                         height: 330,
                                         width: 400,
-                                        child: VideoPlayer(_controller))
+                                        child: VideoPlayer(_controller!))
                                     : Container(),
                                 Positioned(
                                   top: 270,
@@ -180,14 +188,14 @@ class _storyScreenState extends State<StoryScreen> {
                                     onPressed: () {
                                       setState(
                                         () {
-                                          _controller.value.isPlaying
-                                              ? _controller.pause()
-                                              : _controller.play();
+                                          _controller!.value.isPlaying
+                                              ? _controller!.pause()
+                                              : _controller!.play();
                                         },
                                       );
                                     },
                                     child: Icon(
-                                      _controller.value.isPlaying
+                                      _controller!.value.isPlaying
                                           ? Icons.pause
                                           : Icons.play_arrow,
                                     ),

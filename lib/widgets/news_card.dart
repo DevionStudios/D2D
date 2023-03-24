@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:foxxi/models/news.dart';
+import 'package:foxxi/providers/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 // ignore: use_key_in_widget_constructors
-class NewsCard extends StatelessWidget {
+class NewsCard extends StatefulWidget {
   String? title;
   String? description;
   String? photo;
   NewsCard({this.title, this.description, this.photo});
+
+  @override
+  State<NewsCard> createState() => _NewsCardState();
+}
+
+class _NewsCardState extends State<NewsCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,23 +27,23 @@ class NewsCard extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => OneFullNewsPage(
-                    title: title,
-                    description: description,
-                    photo: photo,
+                    title: widget.title,
+                    description: widget.description,
+                    photo: widget.photo,
                   ),
                 )),
             child: Hero(
-              tag: 'test-$photo',
+              tag: 'test-${widget.photo}',
               child: Container(
                 width: MediaQuery.of(context).size.width - 20,
                 height: MediaQuery.of(context).size.height,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                       filterQuality: FilterQuality.low,
-                      image: NetworkImage(photo.toString()),
+                      image: NetworkImage(widget.photo.toString()),
                       fit: BoxFit.cover,
                       colorFilter: ColorFilter.mode(
-                          Colors.lightBlue.withOpacity(0.4), BlendMode.darken)),
+                          Colors.black.withOpacity(0.4), BlendMode.darken)),
                   borderRadius: const BorderRadius.all(Radius.circular(30)),
                   border: Border.all(
                       color: Colors.grey.shade100.withOpacity(0.4), width: 5),
@@ -44,20 +52,21 @@ class NewsCard extends StatelessWidget {
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.2,
+            // height: MediaQuery.of(context).size.height * 0.2,
             width: MediaQuery.of(context).size.width - 20,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Hero(
-                  tag: 'test-$title',
+                  tag: 'test-${widget.title}',
                   child: Material(
                     type: MaterialType.transparency,
                     child: Container(
                       padding: EdgeInsets.all(8),
                       child: Text(
-                        title.toString(),
+                        widget.title.toString(),
                         maxLines: 2,
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -72,13 +81,13 @@ class NewsCard extends StatelessWidget {
                   ),
                 ),
                 Hero(
-                  tag: 'test-$description',
+                  tag: 'test-${widget.description}',
                   child: Material(
                     type: MaterialType.transparency,
                     child: Container(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
-                        description.toString(),
+                        widget.description.toString(),
                         textAlign: TextAlign.center,
                         maxLines: 4,
                         style: const TextStyle(
@@ -104,62 +113,86 @@ class OneFullNewsPage extends StatelessWidget {
   OneFullNewsPage({this.title, this.description, this.photo});
   @override
   Widget build(BuildContext context) {
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return Scaffold(
-      body: Center(
-        child: Container(
-          width: MediaQuery.of(context).size.width - 20,
-          height: MediaQuery.of(context).size.height - 20,
-          decoration: const BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.all(Radius.circular(8))),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Hero(
-                  tag: 'test-$title',
-                  child: Material(
-                    type: MaterialType.transparency,
-                    child: Text(
-                      title.toString(),
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          backgroundColor:
-                              Colors.grey.shade100.withOpacity(0.2),
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontFamily: 'Unbounded',
-                          fontWeight: FontWeight.bold),
-                    ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+              child: Row(
+                children: [
+                  Container(
+                      padding: const EdgeInsets.all(16),
+                      height: 100,
+                      // width: MediaQuery.of(context).size.width * 0.1,
+                      child: CircleAvatar(
+                        backgroundColor:
+                            Colors.purpleAccent.shade100.withOpacity(0.4),
+                        child: IconButton(
+                          // iconSize: 20,
+                          icon: const Icon(
+                            Icons.arrow_back_ios_new_rounded,
+                            color: Colors.white,
+                            // size: 15,
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      )),
+                ],
+              ),
+            ),
+            Hero(
+              tag: 'test-$title',
+              child: Material(
+                type: MaterialType.transparency,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    title.toString(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        backgroundColor: isDark
+                            ? Colors.grey.shade100.withOpacity(0.2)
+                            : Colors.grey.shade200,
+                        color: isDark ? Colors.white : Colors.black,
+                        fontSize: 15,
+                        fontFamily: 'Unbounded',
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
-              Hero(
-                  tag: 'test-$photo',
+            ),
+            Hero(
+                tag: 'test-$photo',
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Image.network(photo.toString(),
-                      width: 500, fit: BoxFit.cover)),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Hero(
-                  tag: 'test-$description',
-                  child: Material(
-                    type: MaterialType.transparency,
-                    child: Text(
-                      description.toString(),
-                      textAlign: TextAlign.center,
-                      maxLines: 4,
-                      style: const TextStyle(
-                        color: Colors.white,
-                      ),
+                      width: 500, fit: BoxFit.cover),
+                )),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Hero(
+                tag: 'test-$description',
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: Text(
+                    description.toString(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: isDark ? Colors.white : Colors.black,
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ipfs/flutter_ipfs.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:foxxi/models/NFT_mint_controller.dart';
+import 'package:foxxi/services/user_service.dart';
 // import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../components/ipfsService.dart' as ipfs_service;
@@ -25,7 +26,7 @@ class mintNFT extends StatefulWidget {
 
 class mintNFTState extends State<mintNFT> {
   final TextEditingController _controller = TextEditingController();
-  AuthService authService = AuthService();
+  UserService userService = UserService();
 
   void initState() {
     super.initState();
@@ -347,7 +348,7 @@ class mintNFTState extends State<mintNFT> {
                                         Navigator.pop(context);
                                       },
                                     );
-                                    authService.updateProfileImage(
+                                    userService.updateProfileImage(
                                         context: context, image: imageNFT);
                                   } catch (e) {
                                     print(e);
@@ -361,7 +362,7 @@ class mintNFTState extends State<mintNFT> {
                                 String text = _controller.text;
                                 text = 'https://ipfs.io/ipfs/' + text;
 
-                                authService.updateProfileImage(
+                                userService.updateProfileImage(
                                     context: context, image: text);
                               }
                             },

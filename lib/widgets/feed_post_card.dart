@@ -1,6 +1,7 @@
 import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
+import 'package:foxxi/services/notification_service.dart';
 import 'package:provider/provider.dart';
 
 import 'package:foxxi/components/postlikebar.dart';
@@ -31,7 +32,7 @@ class FeedCard extends StatefulWidget {
 class _FeedCardState extends State<FeedCard> {
   final commentService = CommentService();
   VideoPlayerController? _controller;
-
+  NotificationService notificationService = NotificationService();
   PostService postService = PostService();
 
   @override
@@ -42,7 +43,6 @@ class _FeedCardState extends State<FeedCard> {
             ..initialize().then((_) {
               _controller!.setLooping(true);
 
-              // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
               setState(() {});
             });
     }
@@ -105,6 +105,8 @@ class _FeedCardState extends State<FeedCard> {
                             radius: 16,
                             backgroundImage: NetworkImage(
                                 widget.post.author.image.toString()),
+                            onBackgroundImageError: (exception, stackTrace) =>
+                                const Icon(Icons.person_outline),
                           ),
                         ),
                         Expanded(
@@ -183,7 +185,7 @@ class _FeedCardState extends State<FeedCard> {
                                                                 .toString());
                                                       }
                                                       if (e == 'Repost Post') {
-                                                        postService.reportPost(
+                                                        postService.repostPost(
                                                             id: widget.post.id,
                                                             context: context);
                                                       }
@@ -222,8 +224,9 @@ class _FeedCardState extends State<FeedCard> {
                           height: 400,
                           width: MediaQuery.of(context).size.width - 20,
                           decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.only(bottomLeft: Radius.circular(30),bottomRight: Radius.circular((30))),
+                            borderRadius: const BorderRadius.only(
+                                bottomLeft: Radius.circular(30),
+                                bottomRight: Radius.circular((30))),
                             // border: Border(
                             //     bottom: BorderSide(color: Colors.black.withOpacity(1))),
                             image: DecorationImage(
@@ -247,41 +250,46 @@ class _FeedCardState extends State<FeedCard> {
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Stack(
-                                    children: [
-                                      _controller!.value.isInitialized
-                                          ? Container(
-                                              decoration: const BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(30))),
-                                              height: 330,
-                                              width: 400,
-                                              child: VideoPlayer(_controller!))
-                                          : Container(),
-                                      Positioned(
-                                        top: 270,
-                                        left: 10,
-                                        child: FloatingActionButton(
-                                          heroTag: widget.post.id,
-                                          onPressed: () {
-                                            setState(
-                                              () {
-                                                _controller!.value.isPlaying
-                                                    ? _controller!.pause()
-                                                    : _controller!.play();
-                                              },
-                                            );
-                                          },
-                                          child: Icon(
-                                            _controller!.value.isPlaying
-                                                ? Icons.pause
-                                                : Icons.play_arrow,
-                                          ),
+                                  _controller?.value == null
+                                      ? const SizedBox()
+                                      : Stack(
+                                          children: [
+                                            _controller!.value.isInitialized
+                                                ? Container(
+                                                    decoration: const BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    30))),
+                                                    height: 330,
+                                                    width: 400,
+                                                    child: VideoPlayer(
+                                                        _controller!))
+                                                : Container(),
+                                            Positioned(
+                                              top: 270,
+                                              left: 10,
+                                              child: FloatingActionButton(
+                                                heroTag: widget.post.id,
+                                                onPressed: () {
+                                                  setState(
+                                                    () {
+                                                      _controller!
+                                                              .value.isPlaying
+                                                          ? _controller!.pause()
+                                                          : _controller!.play();
+                                                    },
+                                                  );
+                                                },
+                                                child: Icon(
+                                                  _controller!.value.isPlaying
+                                                      ? Icons.pause
+                                                      : Icons.play_arrow,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                    ],
-                                  ),
                                   PostLikeCommentBar(post: widget.post),
                                 ],
                               ),

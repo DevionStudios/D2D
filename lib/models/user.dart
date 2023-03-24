@@ -10,17 +10,17 @@ class User {
   final bool hasClaimed;
   final String image;
   final String? coverImage;
-  final String bio;
+  final String? bio;
   final List<dynamic>? followers;
   final List<dynamic>? following;
-  final List<String> hashtagsfollowed;
+  final List<String>? hashtagsfollowed;
   final List<dynamic>? posts;
-  final List<dynamic>? stories;
+  final bool stories;
   final String twitterUsername;
   final String accountWallet;
-  final List<String> reports;
+  final List<String>? reports;
   final bool isBanned;
-  final List<String> preferences;
+  final List<String>? preferences;
   User({
     required this.id,
     required this.email,
@@ -31,17 +31,17 @@ class User {
     required this.hasClaimed,
     required this.image,
     this.coverImage,
-    required this.bio,
+    this.bio,
     this.followers,
     this.following,
-    required this.hashtagsfollowed,
+    this.hashtagsfollowed,
     this.posts,
-    this.stories,
+    required this.stories,
     required this.twitterUsername,
     required this.accountWallet,
-    required this.reports,
+    this.reports,
     required this.isBanned,
-    required this.preferences,
+    this.preferences,
   });
 
   Map<String, dynamic> toMap() {
@@ -84,16 +84,19 @@ class User {
       followers:
           map['followers'] == null ? [] : List<dynamic>.from(map['followers']),
       following:
-          map['following'] == null ? [] : List<dynamic>.from(map['following']),
-      hashtagsfollowed: List<String>.from(map['hashtagsfollowed']),
+          map['following'] == [] ? [] : List<dynamic>.from(map['following']),
+      hashtagsfollowed: map['hashtagsfollowed'] == null
+          ? []
+          : List<String>.from(map['hashtagsfollowed']),
       posts: map['posts'] == null ? [] : List<dynamic>.from(map['posts']),
-      stories:
-          map['stories'] == false ? [] : List<dynamic>.from(map['stories']),
+      stories: map['stories'] ?? false,
       twitterUsername: map['twitterUsername'] ?? '',
       accountWallet: map['accountWallet'] ?? '',
-      reports: List<String>.from(map['reports']),
+      reports: map['reports'] == null ? [] : List<String>.from(map['reports']),
       isBanned: map['isBanned'] ?? false,
-      preferences: List<String>.from(map['preferences']),
+      preferences: map['preferences'] == null
+          ? []
+          : List<String>.from(map['preferences']),
     );
   }
 
@@ -101,3 +104,33 @@ class User {
 
   factory User.fromJson(String source) => User.fromMap(json.decode(source));
 }
+// factory User.fromMap(Map<String, dynamic> map) {
+//     return User(
+//       id: map['id'] ?? '',
+//       email: map['email'] ?? '',
+//       name: map['name'] ?? '',
+//       username: map['username'] ?? '',
+//       password: map['password'] ?? '',
+//       walletAddress: map['walletAddress'] ?? '',
+//       hasClaimed: map['hasClaimed'] ?? false,
+//       image: map['image'] ?? '',
+//       coverImage: map['coverImage'] ?? '',
+//       bio: map['bio'] ?? '',
+//       followers:
+//           map['followers'] == null ? [] : List<dynamic>.from(map['followers']),
+//       following:
+//           map['following'] == null ? [] : List<dynamic>.from(map['following']),
+//       hashtagsfollowed: map['hashtagsfollowed'] == null
+//           ? []
+//           : List<String>.from(map['hashtagsfollowed']),
+//       posts: map['posts'] == null ? [] : List<dynamic>.from(map['posts']),
+//       stories: map['stories'] ?? false,
+//       twitterUsername: map['twitterUsername'] ?? '',
+//       accountWallet: map['accountWallet'] ?? '',
+//       reports: map['reports'] == null ? [] : List<String>.from(map['reports']),
+//       isBanned: map['isBanned'] ?? false,
+//       preferences: map['preferences'] == null
+//           ? []
+//           : List<String>.from(map['preferences']),
+//     );
+//   }

@@ -56,14 +56,16 @@ class FeedPostModel {
       id: map['id'] ?? '',
       caption: map['caption'] ?? '',
       author: User.fromMap(map['author']),
-      hashtags: List<String>.from(map['hashtags']),
-      likes: List<dynamic>.from(map['likes']),
-      comments: List<dynamic>.from(map['comments']),
+      hashtags:
+          map['hashtags'] == null ? [] : List<String>.from(map['hashtags']),
+      likes: map['likes'] == null ? [] : List<dynamic>.from(map['likes']),
+      comments:
+          map['comments'] == null ? [] : List<dynamic>.from(map['comments']),
       reposts: map['reposts']?.toInt() ?? 0,
       media: map['media'] != null ? Media.fromMap(map['media']) : null,
-      gifLink: map['gifLink'],
+      gifLink: map['gifLink'] ?? '',
       twitterId: map['twitterId'] ?? '',
-      reports: List<String>.from(map['reports']),
+      reports: map['reports'] == null ? [] : List<String>.from(map['reports']),
       originalPostId: map['originalPostId'] ?? '',
     );
   }

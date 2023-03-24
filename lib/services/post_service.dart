@@ -5,16 +5,19 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:foxxi/http_error_handle.dart';
 import 'package:foxxi/models/comments.dart';
 import 'package:foxxi/models/feed_post_model.dart';
-import 'package:foxxi/models/user.dart';
+import 'package:foxxi/models/notification.dart';
 import 'package:foxxi/providers/post_provider.dart';
+import 'package:foxxi/services/notification_service.dart';
 import 'package:foxxi/utils.dart';
 import 'package:foxxi/constants.dart';
 import 'package:http/http.dart' as http;
 import 'dart:developer' as dev;
+import 'package:video_uploader/video_uploader.dart';
 
 import 'package:provider/provider.dart';
 
 const _storage = FlutterSecureStorage();
+final NotificationService notificationService = NotificationService();
 
 class PostService {
   Future<List<FeedPostModel>> getAllPost(
@@ -91,6 +94,7 @@ class PostService {
             }
           });
 
+      // ignore: use_build_context_synchronously
       Provider.of<PostProvider>(context, listen: false)
           .setTrendingPostsList(list);
     } catch (e) {
@@ -235,8 +239,9 @@ class PostService {
           await http.MultipartFile.fromPath('media', imageFilePath),
         );
         if (videoFilePath != null) {
-          request.files
-              .add(await http.MultipartFile.fromPath('media', videoFilePath));
+          request.files.add(
+            await http.MultipartFile.fromPath('media', videoFilePath),
+          );
         }
       }
       final res = await request.send();

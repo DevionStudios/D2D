@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foxxi/services/auth_service.dart';
+import 'package:foxxi/services/user_service.dart';
 import 'package:foxxi/utils.dart';
 
 class SecuritySettingScreen extends StatefulWidget {
@@ -18,7 +19,7 @@ class _SecuritySettingScreenState extends State<SecuritySettingScreen> {
 
   final TextEditingController _confirmNewPasswordTextController =
       TextEditingController();
-  AuthService authService = AuthService();
+  UserService userService = UserService();
   @override
   void dispose() {
     _confirmNewPasswordTextController.dispose();
@@ -166,7 +167,7 @@ class _SecuritySettingScreenState extends State<SecuritySettingScreen> {
                             onPressed: () {
                               if (_newPasswordTextController.text ==
                                   _confirmNewPasswordTextController.text) {
-                                authService.updatePassword(
+                                userService.updatePassword(
                                     context: context,
                                     oldPassword:
                                         _oldPasswordTextController.text,

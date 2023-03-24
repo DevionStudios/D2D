@@ -4,6 +4,10 @@ import 'package:foxxi/providers/theme_provider.dart';
 import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/screens/chatbot_screen.dart';
 import 'package:foxxi/screens/news_screen.dart';
+import 'package:foxxi/services/auth_service.dart';
+import 'package:foxxi/services/message_service.dart';
+import 'package:foxxi/services/story_service.dart';
+import 'package:foxxi/services/user_service.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:foxxi/widgets/add_post.dart';
@@ -13,19 +17,45 @@ import '../screens/profile_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:foxxi/routing_constants.dart';
 
+import '../services/post_service.dart';
+
 class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({Key? key}) : super(key: key);
+  const BottomNavBar({
+    super.key,
+  });
   static const String routeName = bottomNavBarScreenRoute;
   @override
   State<BottomNavBar> createState() => _BottomNavBarState();
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
+  String? userId;
   final _pageController = PageController(initialPage: 0);
-
+  AuthService authService = AuthService();
+  PostService postService = PostService();
+  StoryService storyService = StoryService();
+  MessageService messageService = MessageService();
+  UserService userService = UserService();
   int maxCount = 5;
+  String id = '';
 
   /// widget list
+  void getData(String id) {
+    userService.getCurrentUserData(context: context, id: id);
+    postService.getAllPost(context: context);
+    // postService.getTrendingPosts(context: context);
+    messageService.getAssociatedUsers(context: context);
+  }
+
+  void getUserId() {
+    authService.getCurrentUserId(context: context).then((value) {
+      setState(() {
+        id = value;
+      });
+
+      getData(id);
+    });
+  }
 
   @override
   void dispose() {
@@ -36,6 +66,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   void initState() {
     super.initState();
+    getUserId();
   }
 
   @override
@@ -45,7 +76,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
 
     final List<Widget> bottomBarPages = [
-      FeedScreen(),
+      const FeedScreen(),
       const SizedBox.shrink(),
       const ChatBotScreen(),
       ProfileWidget(

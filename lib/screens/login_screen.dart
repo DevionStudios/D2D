@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:foxxi/components/entry_Point1.dart';
 import 'package:foxxi/providers/navigation_argument_data_provider.dart';
 import 'package:foxxi/services/auth_service.dart';
 import 'package:foxxi/screens/email_verfication_screen.dart';
 import 'package:foxxi/routing_constants.dart';
+import 'package:foxxi/services/user_service.dart';
 import 'package:foxxi/text_field_widget.dart';
 import 'dart:developer' as dev;
 
@@ -21,15 +23,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
   AuthService authService = AuthService();
-
+  UserService userService = UserService();
   final _isLoading = false;
-
-  void loginUser() {
-    authService.signIn(
-        context: context,
-        email: _emailTextController.text,
-        password: _passwordTextController.text);
-  }
 
   void clearControllers() {
     _emailTextController.clear();
@@ -81,12 +76,26 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 24,
               ),
               InkWell(
-                onTap: () {
+                onTap: () async {
                   if (_formKey.currentState!.validate()) {
                     dev.log("Form Validation Passed",
                         name: "Login Screen Form Validation");
-                    loginUser();
+                    String id =
+                        await authService.getCurrentUserId(context: context);
+                    // ignore: use_build_context_synchronously
+                    int statusCode = await authService.signIn(
+                        context: context,
+                        email: _emailTextController.text,
+                        password: _passwordTextController.text);
+
                     clearControllers();
+
+                    if (statusCode == 200 || statusCode == 201) {
+                      if (context.mounted) {
+                        Navigator.pushNamed(context, BottomNavBar.routeName,
+                            arguments: id);
+                      }
+                    }
                   } else {
                     dev.log("Form Validation Failed",
                         name: "Login Screen Form Validation");

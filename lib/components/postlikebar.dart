@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:foxxi/components/donateButton.dart';
+import 'package:foxxi/services/notification_service.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +24,7 @@ class PostLikeCommentBar extends StatelessWidget {
   }) : super(key: key);
 
   final PostService postService = PostService();
+  final NotificationService notificationService = NotificationService();
   @override
   Widget build(BuildContext context) {
     final isDark = Provider.of<ThemeProvider>(context, listen: true).isDarkMode;

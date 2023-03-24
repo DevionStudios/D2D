@@ -94,11 +94,8 @@ class _SideMenuState extends State<SideMenu> {
                             selectedSideMenu = menu;
                           });
                           if (selectedSideMenu.title.toLowerCase() == 'home') {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const BottomNavBar()));
+                            Navigator.pushNamed(
+                                context, BottomNavBar.routeName);
                           }
                           if (selectedSideMenu.title.toLowerCase() ==
                               'settings') {

@@ -6,6 +6,7 @@ import 'package:foxxi/screens/story_screen.dart';
 import 'package:foxxi/services/story_service.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
+import 'dart:developer' as dev;
 
 // import '../screen/post_story.dart';
 import '../providers/theme_provider.dart';
@@ -24,7 +25,8 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
   Animation<double>? reverse;
   AnimationController? controller;
   StoryService storyService = StoryService();
-  List<User>? userWithStoryList;
+  List<dynamic>? usernameList;
+  List<List<Story>?> listOfStories = [];
 
   /// Init
   @override
@@ -42,9 +44,27 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
     controller!.forward();
   }
 
-  void getFollowingUserStories() async {
-    userWithStoryList =
-        await storyService.getFollowingUserWithStories(context: context);
+  void getFollowingUserStories() {
+    usernameList =
+        Provider.of<UserProvider>(context, listen: false).user.following;
+    if (usernameList != null) {
+      for (var username in usernameList!) {
+        dev.log(username['username'].toString());
+        storyService
+            .getUserStory(context: context, username: username['username'])
+            ?.then((value) {
+          dev.log(value.toString(), name: 'Story Value');
+          if (value.isNotEmpty) {
+            listOfStories.add(value);
+          }
+          dev.log(listOfStories.toString(), name: 'List of Stories');
+        });
+      }
+    } else {
+      dev.log(
+        'usernameList is Null',
+      );
+    }
   }
 
   /// Dispose
@@ -307,9 +327,7 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                   shrinkWrap: true,
                   physics: const ScrollPhysics(),
                   scrollDirection: Axis.horizontal,
-                  itemCount: userWithStoryList?.length == null
-                      ? 0
-                      : userWithStoryList!.length,
+                  itemCount: listOfStories.isEmpty ? 0 : listOfStories.length,
                   itemBuilder: (context, index) {
                     return Container(
                       // decoration: BoxDecoration(border: Border.all()),
@@ -340,33 +358,17 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                               child: InkWell(
                                 onTap: (() async {
                                   setState(() {
-                                    // userWithStoryList![index].isSeen = true;
+                                    listOfStories[index]![0].isSeen = true;
                                   });
 
-                                  List<Story>? userStories =
-                                      await storyService.getUserStory(
-                                          context: context,
-                                          username: userWithStoryList![index]
-                                              .username
-                                              .toString());
-
-                                  if (userWithStoryList?.length != null &&
-                                      userStories?.length != null) {
+                                  if (listOfStories.isNotEmpty) {
                                     if (context.mounted) {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => StoryScreen(
-                                                  stories: userStories!,
-                                                  isVideo: userStories[index]
-                                                              .media!
-                                                              .mediatype ==
-                                                          'Video'
-                                                      ? true
-                                                      : false,
-                                                  video: userStories[index]
-                                                      .media
-                                                      ?.url,
+                                                  stories:
+                                                      listOfStories[index]!,
                                                 )),
                                       );
                                     }
@@ -385,9 +387,7 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(10),
                                         child: Image.network(
-                                          userWithStoryList![index]
-                                              .image
-                                              .toString(),
+                                          listOfStories[index]![0].author.image,
                                           width: 50,
                                           height: 50,
                                         ),
@@ -399,9 +399,8 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(userWithStoryList![index]
-                                  .username
-                                  .toString()),
+                              child: Text(
+                                  listOfStories[index]![0].author.username),
                             )
                           ],
                         ),

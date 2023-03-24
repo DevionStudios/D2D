@@ -60,13 +60,13 @@ class StoryService {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
       dev.log(foxxijwt, name: "Reading JWT");
-      http.Response res = await http.get(Uri.parse('$url/api/story/getusers'),
+      http.Response res = await http.get(Uri.parse('$url/api/story/getstories'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'cookies': foxxijwt
           });
-      dev.log(res.body.toString(), name: 'Story data');
-
+      dev.log(res.body.toString(), name: 'User with story');
+      dev.log('story service called');
       if (context.mounted) {
         httpErrorHandle(
             context: context,
@@ -89,7 +89,7 @@ class StoryService {
     return userWitStoryList;
   }
 
-  Future<List<Story>?> getUserStory(
+  Future<List<Story>>? getUserStory(
       {required BuildContext context, required String username}) async {
     List<Story> userStoryList = [];
     try {

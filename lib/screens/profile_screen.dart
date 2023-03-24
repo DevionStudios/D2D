@@ -1,8 +1,10 @@
 import 'dart:math';
 import 'dart:ui';
-
+import 'dart:developer' as dev;
 import 'package:flutter/material.dart';
 import 'package:foxxi/providers/theme_provider.dart';
+import 'package:foxxi/screens/follower_following_screen.dart';
+import 'package:foxxi/services/user_service.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
@@ -38,7 +40,12 @@ class _ProfileWidgetState extends State<ProfileWidget>
   late Animation<double> scalAnimation;
   late Animation<double> animation;
   Future<List<FeedPostModel>?>? _userPost;
+  List<FeedPostModel>? awaitedUserpost;
   final postService = PostService();
+  final userService = UserService();
+  int statusCodeForFollow = 0;
+  bool isFollowed = false;
+  String followAndUnfollow = 'Unfollow';
 
   String? choiceChipsValue;
   final _unfocusNode = FocusNode();
@@ -54,6 +61,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
   @override
   void initState() {
     getUserPosts();
+    isFollowedByUser();
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 200))
       ..addListener(
@@ -68,11 +76,32 @@ class _ProfileWidgetState extends State<ProfileWidget>
     super.initState();
   }
 
-  void getUserPosts() {
-    _userPost = postService.getUserPosts(
-        context: context, username: widget.user.username.toString());
+  void getUserPosts() async {
+    if (awaitedUserpost?.length == null) {
+      _userPost = postService.getUserPosts(
+          context: context, username: widget.user.username.toString());
+
+      awaitedUserpost = await _userPost;
+      setState(() {});
+    }
   }
 
+  void isFollowedByUser() {
+    for (var following
+        in Provider.of<UserProvider>(context, listen: false).user.following!) {
+      if (following['username'] == widget.user.username) {
+        setState(() {
+          isFollowed = true;
+        });
+        break;
+      }
+    }
+  }
+// Future<void> refresh (){
+//   getUserPosts();
+//   isFollowedByUser();
+
+// }
   @override
   Widget build(BuildContext context) {
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
@@ -144,6 +173,31 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                             width: double.infinity,
                                             height: 200,
                                             fit: BoxFit.cover,
+                                            loadingBuilder: (context, child,
+                                                loadingProgress) {
+                                              if (loadingProgress == null) {
+                                                return child;
+                                              } else {
+                                                return const Center(
+                                                    child:
+                                                        CircularProgressIndicator());
+                                              }
+                                            },
+                                            errorBuilder:
+                                                (context, error, stackTrace) {
+                                              return Column(
+                                                children: const [
+                                                  SizedBox(
+                                                    height: 40,
+                                                  ),
+                                                  Center(
+                                                      child: Icon(
+                                                    Icons.image,
+                                                    size: 100,
+                                                  ))
+                                                ],
+                                              );
+                                            },
                                           ),
                                         ),
                                       ),
@@ -268,13 +322,13 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                         .center,
                                                                 children: [
                                                                   Text(
-                                                                    widget.isMe
-                                                                        ? userProvider.posts!.isEmpty
-                                                                            ? '0'
-                                                                            : userProvider.posts!.length.toString()
-                                                                        : widget.user.posts!.isEmpty
-                                                                            ? '0'
-                                                                            : widget.user.posts!.length.toString(),
+                                                                    awaitedUserpost?.length ==
+                                                                            null
+                                                                        ? '0'
+                                                                        : awaitedUserpost!
+                                                                            .length
+                                                                            .toString(),
+
                                                                     textAlign:
                                                                         TextAlign
                                                                             .center,
@@ -292,105 +346,139 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                               ),
                                                             ),
                                                           ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                    5, 0, 0, 0),
-                                                            child: Container(
-                                                              width: 70,
-                                                              height: 50,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: isDark
-                                                                    ? Colors
-                                                                        .grey
-                                                                        .shade600
-                                                                    : Colors
-                                                                        .white,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                              ),
-                                                              child: Column(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  Text(
-                                                                    widget.isMe
-                                                                        ? userProvider.followers!.isEmpty
-                                                                            ? '0'
-                                                                            : userProvider.followers!.length.toString()
-                                                                        : widget.user.followers!.isEmpty
-                                                                            ? '0'
-                                                                            : widget.user.followers!.length.toString(),
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .center,
-                                                                  ),
-                                                                  const Text(
-                                                                    'Followers',
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .center,
-                                                                  ),
-                                                                ],
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                    builder: (context) => FollowerFollowingScreen(
+                                                                        isMe: widget
+                                                                            .isMe,
+                                                                        username: widget
+                                                                            .user
+                                                                            .username),
+                                                                  ));
+                                                            },
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsetsDirectional
+                                                                          .fromSTEB(
+                                                                      5,
+                                                                      0,
+                                                                      0,
+                                                                      0),
+                                                              child: Container(
+                                                                width: 70,
+                                                                height: 50,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: isDark
+                                                                      ? Colors
+                                                                          .grey
+                                                                          .shade600
+                                                                      : Colors
+                                                                          .white,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
+                                                                ),
+                                                                child: Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Text(
+                                                                      widget.isMe
+                                                                          ? userProvider.followers!.isEmpty
+                                                                              ? '0'
+                                                                              : userProvider.followers!.length.toString()
+                                                                          : widget.user.followers!.isEmpty
+                                                                              ? '0'
+                                                                              : widget.user.followers!.length.toString(),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                    ),
+                                                                    const Text(
+                                                                      'Followers',
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                    ),
+                                                                  ],
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                    5, 0, 0, 0),
-                                                            child: Container(
-                                                              width: 70,
-                                                              height: 50,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: isDark
-                                                                    ? Colors
-                                                                        .grey
-                                                                        .shade600
-                                                                    : Colors
-                                                                        .white,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                              ),
-                                                              child: Column(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  Text(
-                                                                    widget.isMe
-                                                                        ? userProvider.following!.isEmpty
-                                                                            ? '0'
-                                                                            : userProvider.following!.length.toString()
-                                                                        : widget.user.following!.isEmpty
-                                                                            ? '0'
-                                                                            : widget.user.following!.length.toString(),
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .center,
-                                                                  ),
-                                                                  const Text(
-                                                                    'Following',
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .center,
-                                                                  ),
-                                                                ],
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                    builder: (context) => FollowerFollowingScreen(
+                                                                        isMe: widget
+                                                                            .isMe,
+                                                                        username: widget
+                                                                            .user
+                                                                            .username),
+                                                                  ));
+                                                            },
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsetsDirectional
+                                                                          .fromSTEB(
+                                                                      5,
+                                                                      0,
+                                                                      0,
+                                                                      0),
+                                                              child: Container(
+                                                                width: 70,
+                                                                height: 50,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: isDark
+                                                                      ? Colors
+                                                                          .grey
+                                                                          .shade600
+                                                                      : Colors
+                                                                          .white,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
+                                                                ),
+                                                                child: Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Text(
+                                                                      widget.isMe
+                                                                          ? userProvider.following!.isEmpty
+                                                                              ? '0'
+                                                                              : userProvider.following!.length.toString()
+                                                                          : widget.user.following!.isEmpty
+                                                                              ? '0'
+                                                                              : widget.user.following!.length.toString(),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                    ),
+                                                                    const Text(
+                                                                      'Following',
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                    ),
+                                                                  ],
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
@@ -426,72 +514,88 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                               ],
                                             ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsetsDirectional
-                                                .fromSTEB(20, 0, 20, 0),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Text(
-                                                  widget.isMe
-                                                      ? userProvider.username
-                                                      : widget.user.username
-                                                          .toString(),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsetsDirectional
-                                                .fromSTEB(20, 20, 20, 0),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Expanded(
-                                                  child: FlutterFlowChoiceChips(
-                                                    initiallySelected: const [
-                                                      'Posts'
-                                                    ],
-                                                    options: const [
-                                                      ChipData('Posts'),
-                                                      ChipData('Bio')
-                                                    ],
-                                                    onChanged: (val) =>
-                                                        setState(() =>
-                                                            choiceChipsValue =
-                                                                val?.first),
-                                                    selectedChipStyle:
-                                                        const ChipStyle(
-                                                      backgroundColor:
-                                                          Color(0xFF4B39EF),
-                                                      textStyle: TextStyle(
-                                                          color: Colors.white),
-                                                      iconColor: Colors.white,
-                                                      iconSize: 0,
-                                                      elevation: 0,
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                        .fromSTEB(20, 0, 20, 0),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Text(
+                                                      widget.isMe
+                                                          ? '@${userProvider.username}'
+                                                          : '@${widget.user.username}'
+                                                              .toString(),
                                                     ),
-                                                    unselectedChipStyle:
-                                                        const ChipStyle(
-                                                      backgroundColor:
-                                                          Colors.white,
-                                                      textStyle: TextStyle(
-                                                          color: Colors.grey),
-                                                      iconColor:
-                                                          Color(0xFFB3B3B3),
-                                                      iconSize: 18,
-                                                      elevation: 0,
-                                                    ),
-                                                    chipSpacing: 20,
-                                                    multiselect: false,
-                                                    initialized:
-                                                        choiceChipsValue !=
-                                                            null,
-                                                    alignment:
-                                                        WrapAlignment.start,
-                                                  ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                              widget.isMe
+                                                  ? const SizedBox()
+                                                  : InkWell(
+                                                      onTap: () {},
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                right: 50),
+                                                        child:
+                                                            FloatingActionButton(
+                                                          backgroundColor:
+                                                              Colors.blue,
+                                                          child: Text(
+                                                            isFollowed
+                                                                ? statusCodeForFollow ==
+                                                                        200
+                                                                    ? 'Follow'
+                                                                    : 'Unfollow'
+                                                                : statusCodeForFollow ==
+                                                                        201
+                                                                    ? 'Unfollow'
+                                                                    : 'Follow',
+                                                            style: TextStyle(
+                                                                color: isDark
+                                                                    ? Colors
+                                                                        .white
+                                                                    : Colors
+                                                                        .black),
+                                                          ),
+                                                          onPressed: () async {
+                                                            // if (followAndUnfollow ==
+                                                            //     'Unfollow') {
+                                                            //   setState(() {
+                                                            //     followAndUnfollow =
+                                                            //         'Follow';
+                                                            //   });
+                                                            // } else {
+                                                            //   setState(() {
+                                                            //     followAndUnfollow =
+                                                            //         'UnFollow';
+                                                            //   });
+                                                            // }
+                                                            await userService
+                                                                .followUser(
+                                                                    context:
+                                                                        context,
+                                                                    username: widget
+                                                                        .user
+                                                                        .username)
+                                                                .then((value) {
+                                                              setState(() {
+                                                                statusCodeForFollow =
+                                                                    value;
+                                                              });
+                                                            });
+                                                          },
+                                                        ),
+                                                      ),
+                                                    )
+                                            ],
                                           ),
                                           FutureBuilder<List<FeedPostModel>?>(
                                             future: _userPost,
@@ -503,6 +607,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                       context: context,
                                                       removeTop: true,
                                                       child: ListView.builder(
+                                                        reverse: true,
                                                         primary: false,
                                                         shrinkWrap: true,
                                                         itemCount: snapshot
