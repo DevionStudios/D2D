@@ -138,10 +138,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                   borderRadius: const BorderRadius.all(
                     Radius.circular(24),
                   ),
-                  child: GestureDetector(
-                    onTap: () =>
-                        FocusScope.of(context).requestFocus(_unfocusNode),
-                    child: Column(
+                  child:Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
@@ -218,7 +215,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                       decoration: BoxDecoration(
                                         color: isDark
                                             ? Colors.grey.shade900
-                                            : Colors.white,
+                                            : Colors.grey.shade100,
                                         borderRadius: const BorderRadius.only(
                                           bottomLeft: Radius.circular(0),
                                           bottomRight: Radius.circular(0),
@@ -597,6 +594,25 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                     )
                                             ],
                                           ),
+                                          Padding(
+                                            padding: const EdgeInsetsDirectional
+                                                .fromSTEB(20, 10, 20, 25),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  userProvider.bio.toString(),
+                                                  style: TextStyle(
+                                                      color: isDark
+                                                          ? Colors.grey.shade500
+                                                          : Colors
+                                                              .grey.shade700,
+                                                      fontFamily: 'Instagram'),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                           FutureBuilder<List<FeedPostModel>?>(
                                             future: _userPost,
                                             builder: (context, snapshot) {
@@ -661,7 +677,6 @@ class _ProfileWidgetState extends State<ProfileWidget>
                 ),
               ),
             ),
-          ),
           AnimatedPositioned(
             duration: const Duration(milliseconds: 200),
             curve: Curves.fastOutSlowIn,
