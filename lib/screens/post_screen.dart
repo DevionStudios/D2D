@@ -166,8 +166,7 @@ class _PostCardState extends State<PostCard> {
                                                     : Colors.black),
                                           ),
                                           Text(
-                                            widget.post.author.username
-                                                .toString(),
+                                            "@${widget.post.author.username}",
                                             style: TextStyle(
                                                 color: isDark
                                                     ? Colors.grey
@@ -235,6 +234,7 @@ class _PostCardState extends State<PostCard> {
                             child: Text(
                               widget.post.caption.toString(),
                               style: TextStyle(
+                                fontFamily: 'InstagramSans',
                                   color: isDark ? Colors.white : Colors.black),
                             ),
                           ),
