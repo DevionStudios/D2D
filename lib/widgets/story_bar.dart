@@ -111,13 +111,9 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                                 onTap: (() {
                                   showMaterialModalBottomSheet(
                                       elevation: 2,
-                                      shape: RoundedRectangleBorder(
-                                          side: BorderSide(
-                                              width: 1.0,
-                                              color: Colors.lightBlue.shade50),
-                                          borderRadius:
-                                              const BorderRadius.vertical(
-                                                  top: Radius.circular(30))),
+                                      shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.vertical(
+                                              top: Radius.circular(30))),
                                       context: context,
                                       builder: (context) => SizedBox(
                                               child: Column(

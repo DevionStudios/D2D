@@ -212,7 +212,7 @@ class _FeedCardState extends State<FeedCard> {
                         widget.post.caption.toString(),
                         style: TextStyle(
                           fontFamily: 'InstagramSans',
-                          color: Colors.grey.shade400,
+                          color: isDark?Colors.grey.shade400:Colors.grey.shade600,
                           fontSize: 15,
                         ),
                         maxLines: 4,

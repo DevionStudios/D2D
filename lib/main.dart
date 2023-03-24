@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:foxxi/components/check.dart';
-import 'package:foxxi/components/check2.dart';
+
 import 'package:foxxi/providers/navigation_argument_data_provider.dart';
 import 'package:foxxi/providers/post_provider.dart';
 import 'package:foxxi/providers/story_provider.dart';

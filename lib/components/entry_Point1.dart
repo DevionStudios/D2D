@@ -118,10 +118,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     padding: const EdgeInsets.all(0),
                     onPressed: () {
                       showMaterialModalBottomSheet(
-                          shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  width: 1.0, color: Colors.lightBlue.shade50),
-                              borderRadius: const BorderRadius.vertical(
+                          shape: const RoundedRectangleBorder(
+                             
+                              borderRadius:  BorderRadius.vertical(
                                   top: Radius.circular(25))),
                           context: context,
                           builder: (context) => SizedBox(
