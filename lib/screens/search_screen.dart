@@ -42,7 +42,6 @@ class _SearchScreenState extends State<SearchScreen> {
                 Padding(
                   padding: const EdgeInsets.only(right: 14),
                   child: AnimSearchBar(
-                      autoExpand: true,
                       width: MediaQuery.of(context).size.width - 30,
                       textController: _searchBarTextController,
                       onSuffixTap: () {
