@@ -1,20 +1,18 @@
 import 'dart:io';
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
 import 'package:flutter/services.dart';
+import 'package:foxxi/providers/user_provider.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:local_auth/local_auth.dart';
 
 import '../providers/wallet_address.dart';
-
+import 'dart:developer' as dev;
 import 'package:flutter/material.dart';
 import 'package:web3auth_flutter/web3auth_flutter.dart';
 import 'package:web3auth_flutter/enums.dart';
 import 'package:web3auth_flutter/input.dart';
-import 'package:web3auth_flutter/output.dart';
 import 'package:provider/provider.dart' as prov;
-import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class WalletWeb extends StatefulWidget {
   @override
@@ -27,13 +25,14 @@ class _WalletWebState extends State<WalletWeb>
   bool isAuth = false;
   late Animation<double> animation;
   String rpcUrl = 'https://rpc.ankr.com/eth';
+  String? privateKey;
 
   @override
   void initState() {
     initPlatformState();
     animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 1000),
+      duration: const Duration(milliseconds: 1000),
     );
     animation = CurvedAnimation(
       parent: animationController,
@@ -41,6 +40,18 @@ class _WalletWebState extends State<WalletWeb>
     );
 
     super.initState();
+  }
+
+  String? readPrivateKey() {
+    prov.Provider.of<WalletAddressProvider>(context, listen: false)
+        .readPrivateKey(
+            prov.Provider.of<UserProvider>(context, listen: false).user.id)
+        ?.then((value) {
+      setState(() {
+        privateKey = value;
+      });
+    });
+    return privateKey;
   }
 
   Future<void> initPlatformState() async {
@@ -66,6 +77,7 @@ class _WalletWebState extends State<WalletWeb>
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = prov.Provider.of<UserProvider>(context).user;
     final walletAddressProvider =
         prov.Provider.of<WalletAddressProvider>(context, listen: true);
     return Scaffold(
@@ -76,7 +88,7 @@ class _WalletWebState extends State<WalletWeb>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         height: 100,
                         // width: MediaQuery.of(context).size.width * 0.1,
                         child: CircleAvatar(
@@ -84,7 +96,7 @@ class _WalletWebState extends State<WalletWeb>
                               Colors.purpleAccent.shade100.withOpacity(0.4),
                           child: IconButton(
                             // iconSize: 20,
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.arrow_back_ios_new_rounded,
                               color: Colors.white,
                               // size: 15,
@@ -94,8 +106,8 @@ class _WalletWebState extends State<WalletWeb>
                             },
                           ),
                         )),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
                         'Connect Wallet',
                         style: TextStyle(
@@ -104,8 +116,8 @@ class _WalletWebState extends State<WalletWeb>
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
                         'Note - Use only one Google Account to Sign Up the Wallet',
                         style: TextStyle(
@@ -135,8 +147,8 @@ class _WalletWebState extends State<WalletWeb>
                                               .withOpacity(0.4),
                                         ],
                                         stops: [0, 1],
-                                        begin: AlignmentDirectional(1, 0),
-                                        end: AlignmentDirectional(-1, 0),
+                                        begin: const AlignmentDirectional(1, 0),
+                                        end: const AlignmentDirectional(-1, 0),
                                         // color: Colors.purpleAccent.shade100.withOpacity(
                                         // 0.3,
                                       ),
@@ -153,17 +165,21 @@ class _WalletWebState extends State<WalletWeb>
                                     final response =
                                         await Web3AuthFlutter.login(LoginParams(
                                             loginProvider: Provider.google));
-                                    print('XXX');
-                                    print(response.privKey);
-                                    print('XXX');
 
                                     Credentials _credentials =
                                         EthPrivateKey.fromHex(
                                             response.privKey!);
                                     walletAddressProvider.setPrivateKey(
-                                        response.privKey.toString());
+                                        privateKey: response.privKey.toString(),
+                                        userId: userProvider.id);
                                     walletAddressProvider.setAddress(
                                         _credentials.address.toString());
+                                    dev.log(_credentials.address.toString(),
+                                        name: 'Wallet Address');
+
+                                    setState(() {
+                                      readPrivateKey();
+                                    });
                                   },
                                   child: const Text('Connect'),
                                 ),
@@ -181,7 +197,7 @@ class _WalletWebState extends State<WalletWeb>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       height: 100,
                       // width: MediaQuery.of(context).size.width * 0.1,
                       child: CircleAvatar(
@@ -189,7 +205,7 @@ class _WalletWebState extends State<WalletWeb>
                             Colors.purpleAccent.shade100.withOpacity(0.4),
                         child: IconButton(
                           // iconSize: 20,
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.arrow_back_ios_new_rounded,
                             color: Colors.white,
                             // size: 15,
@@ -199,8 +215,8 @@ class _WalletWebState extends State<WalletWeb>
                           },
                         ),
                       )),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Text(
                       'Connect Wallet',
                       style: TextStyle(
@@ -209,8 +225,8 @@ class _WalletWebState extends State<WalletWeb>
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Text(
                       'You are about to see your Private Key\nMake sure you are Alone !!!',
                       style: TextStyle(
@@ -221,23 +237,23 @@ class _WalletWebState extends State<WalletWeb>
                   ),
                   CircularRevealAnimation(
                     centerAlignment: Alignment.bottomRight,
+                    animation: animation,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        walletAddressProvider.privateAddress.toString(),
-                        style: TextStyle(fontSize: 20),
+                        privateKey.toString(),
+                        style: const TextStyle(fontSize: 20),
                       ),
                     ),
-                    animation: animation,
                   ),
                 ],
               ),
             ),
       floatingActionButton: (walletAddressProvider.walletAddress != null)
           ? FloatingActionButton(
-              child: const Icon(Icons.warning),
               backgroundColor: Colors.purpleAccent.shade100.withOpacity(0.4),
               onPressed: () async {
+                readPrivateKey();
                 final LocalAuthentication auth = LocalAuthentication();
                 if (isAuth == false) {
                   try {
@@ -269,7 +285,8 @@ class _WalletWebState extends State<WalletWeb>
                   animationController.reverse();
                   isAuth = false;
                 }
-              })
+              },
+              child: const Icon(Icons.warning))
           : null,
     );
     // Your page

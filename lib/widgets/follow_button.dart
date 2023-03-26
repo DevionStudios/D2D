@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
 class FollowButton extends StatelessWidget {
-  final Function()? function;
+  final VoidCallback function;
   final Color backgroundColor;
   final Color borderColor;
-  final String text;
+  String? text;
   final Color textColor;
-  const FollowButton(
+  FollowButton(
       {Key? key,
       required this.backgroundColor,
       required this.borderColor,
-      required this.text,
+      this.text,
       required this.textColor,
-      this.function})
+      required this.function})
       : super(key: key);
 
   @override
@@ -32,14 +32,14 @@ class FollowButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
           ),
           alignment: Alignment.center,
+          height: 27,
           child: Text(
-            text,
+            text.toString(),
             style: TextStyle(
               color: textColor,
               fontWeight: FontWeight.bold,
             ),
           ),
-          height: 27,
         ),
       ),
     ));

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foxxi/constants.dart';
 import 'package:foxxi/models/notification.dart';
 import 'package:foxxi/providers/theme_provider.dart';
 import 'package:foxxi/routing_constants.dart';
@@ -22,6 +23,22 @@ class _NotificationScreenState extends State<NotificationScreen> {
   void initState() {
     super.initState();
     _notificationList = notificationService.getNotification(context: context);
+  }
+
+  String getStringfromNotificationType(String notificationType) {
+    if (notificationType == NotificationType.POST_LIKE.name) {
+      return 'post';
+    } else if (notificationType == NotificationType.USER_FOLLOW.name) {
+      return 'you';
+    } else if (notificationType == NotificationType.MESSAGE.name) {
+      return 'message';
+    } else if (notificationType == NotificationType.POST_REPLY.name) {
+      return 'post';
+    } else if (notificationType == NotificationType.MENTION.name) {
+      return 'post';
+    } else {
+      return 'admin';
+    }
   }
 
   @override
@@ -54,11 +71,16 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
                   if (notificationData[index].postId != null) {}
                 },
-                child: ListTile(
-                  title: Text(
-                    '${notificationData[index].username} ${notificationData[index].notification} ${notificationData[index].notificationType}',
-                    style:
-                        TextStyle(color: isDark ? Colors.white : Colors.black),
+                child: GestureDetector(
+                  onTap: () {
+                    if (notificationData[index].postId != null) {}
+                  },
+                  child: ListTile(
+                    title: Text(
+                      '${notificationData[index].username} ${notificationData[index].notification} ${getStringfromNotificationType(notificationData[index].notificationType)}',
+                      style: TextStyle(
+                          color: isDark ? Colors.white : Colors.black),
+                    ),
                   ),
                 ),
               ),

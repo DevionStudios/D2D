@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:foxxi/constants.dart';
+import 'package:foxxi/models/notification.dart';
+import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/services/comment_service.dart';
+import 'package:foxxi/services/notification_service.dart';
 
 class AddCommentWidget extends StatelessWidget {
+  final String? postUserId;
   final String postId;
   AddCommentWidget({
+    Key? key,
+    this.postUserId,
     required this.postId,
-    super.key,
-  });
+  }) : super(key: key);
   final TextEditingController _commentTextController = TextEditingController();
   final CommentService commentService = CommentService();
+  NotificationService notificationService = NotificationService();
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false).user;
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Column(
@@ -55,12 +65,27 @@ class AddCommentWidget extends StatelessWidget {
                           padding: const EdgeInsets.all(16.0),
                           textStyle: const TextStyle(fontSize: 20),
                         ),
-                        onPressed: () {
-                          commentService.addComment(
+                        onPressed: () async {
+                          int statusCode = await commentService.addComment(
                               context: context,
                               postId: postId,
                               caption: _commentTextController.text);
 
+                          if (userProvider.id != postUserId) {
+                            if (context.mounted) {
+                              if (statusCode == 201) {
+                                notificationService.addNotification(
+                                    context: context,
+                                    notification: NotificationModel(
+                                        notification: 'Commented On ',
+                                        notificationType:
+                                            NotificationType.POST_REPLY.name,
+                                        userId: postUserId.toString(),
+                                        username: userProvider.username,
+                                        postId: postId));
+                              }
+                            }
+                          }
                           _commentTextController.clear();
                         },
                         child: const Text('Comment'),

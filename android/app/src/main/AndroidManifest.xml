@@ -6,6 +6,14 @@
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+   <queries>
+            <intent>
+             <action android:name="android.intent.action.VIEW" />
+             <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+             <data android:scheme="https" />
+            </intent>
+           </queries>
 
    <application
         android:label="foxxi"
@@ -27,6 +35,9 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
+
+           
+           
             <intent-filter>
                 
                 <action android:name="android.intent.action.VIEW" />

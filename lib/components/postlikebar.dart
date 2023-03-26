@@ -1,13 +1,14 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:foxxi/components/donateButton.dart';
 import 'package:foxxi/services/notification_service.dart';
+import 'package:foxxi/utils.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
-
-import 'package:foxxi/like_animation.dart';
+import 'dart:developer' as dev;
 import 'package:foxxi/models/feed_post_model.dart';
 import 'package:foxxi/providers/theme_provider.dart';
 import 'package:foxxi/providers/user_provider.dart';
@@ -15,16 +16,62 @@ import 'package:foxxi/screens/chat.dart';
 import 'package:foxxi/services/post_service.dart';
 import 'package:foxxi/widgets/add_comment.dart';
 
-class PostLikeCommentBar extends StatelessWidget {
+class PostLikeCommentBar extends StatefulWidget {
   final FeedPostModel post;
 
-  PostLikeCommentBar({
+  const PostLikeCommentBar({
     Key? key,
     required this.post,
   }) : super(key: key);
 
+  @override
+  State<PostLikeCommentBar> createState() => _PostLikeCommentBarState();
+}
+
+class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
   final PostService postService = PostService();
+
   final NotificationService notificationService = NotificationService();
+  bool isLiked = false;
+  int? likes;
+  @override
+  void initState() {
+    super.initState();
+    isPostLikedByUser();
+    setLikes();
+  }
+
+  // void getlikes() {
+  //   postService.getPostById(context: context, id: widget.post.id).then((value) {
+  //     setState(() {
+  //       if (value?.likes?.length != null) {
+  //         likes = value!.likes!.length;
+  //       }
+  //     });
+  //   });
+  // }
+
+  void isPostLikedByUser() {
+    dev.log('isPostLiked ran');
+    if (widget.post.likes != null) {
+      if (widget.post.likes!.contains(
+          Provider.of<UserProvider>(context, listen: false).user.id)) {
+        setState(() {
+          isLiked = true;
+        });
+        dev.log(isLiked.toString(), name: 'IsPostLiked');
+      } else {
+        setState(() {
+          isLiked = false;
+        });
+      }
+    }
+  }
+
+  void setLikes() {
+    likes = widget.post.likes?.length ?? 0;
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = Provider.of<ThemeProvider>(context, listen: true).isDarkMode;
@@ -64,63 +111,57 @@ class PostLikeCommentBar extends StatelessWidget {
                 // mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
-                  LikeAnimation(
-                      isAnimating: true,
-                      smallLike: true,
-                      child: IconButton(
-                        icon: badges.Badge(
-                          badgeStyle: const badges.BadgeStyle(
-                              badgeColor: Color.fromARGB(255, 244, 179, 254)),
-                          badgeContent: post.likes?.length == null
-                              ? const Text('0')
-                              : Text(post.likes!.length.toString()),
-                          child: Icon(
-                            Icons.favorite_rounded,
-                            size: 30,
-                            color: const Color.fromARGB(255, 244, 204, 250)
+                  IconButton(
+                    icon: badges.Badge(
+                      badgeAnimation: const badges.BadgeAnimation.size(),
+                      badgeStyle: const badges.BadgeStyle(
+                          badgeColor: Color.fromARGB(255, 244, 179, 254)),
+                      badgeContent: widget.post.likes?.length == null
+                          ? const Text('0')
+                          : Text(likes.toString()),
+                      child: Icon(
+                        Icons.favorite_rounded,
+                        size: 30,
+                        color: isLiked
+                            ? Colors.red
+                            : const Color.fromARGB(255, 244, 204, 250)
                                 .withOpacity(0.7),
-                          ),
-                        ),
-                        onPressed: () {
-                          postService.likePost(
-                              context: context, id: post.id.toString());
-                        },
-                      )
-
-                      // color: Colors.grey.shade500,
-                      // size: 50,
-
-                      // color: ,
-
-                      // ignore: dead_code
-                      // : const Icon(
-                      //     Icons.favorite_border,
-                      //   ),
-                      // onPressed: () => FireStoreMethods().likePost(
-                      //   snap['postId'].toString(),
-                      //   user.uid,
-                      //   snap['likes'],
-                      // ),
-                      // onPressed: () {},
                       ),
+                    ),
+                    onPressed: () {
+                      if (userProvider.id != widget.post.author.id) {
+                        postService
+                            .likePost(
+                                context: context, id: widget.post.id.toString())
+                            .then((value) {
+                          setState(() {
+                            if (isLiked) {
+                              isLiked = false;
+                              likes = likes! - 1;
+                            } else {
+                              isLiked = true;
+                              if (likes == 0) {
+                                likes = 1;
+                              }
+                            }
+                          });
+                        });
+                      } else {
+                        showSnackBar(context, 'You Cannot like your own post');
+                      }
+                    },
+                  ),
                   IconButton(
                     icon: badges.Badge(
                       badgeStyle: const badges.BadgeStyle(
                           badgeColor: Color.fromARGB(255, 244, 179, 254)),
-                      badgeContent: post.comments?.length == null
+                      badgeContent: widget.post.comments?.length == null
                           ? const Text('0')
-                          : Text(post.comments!.length.toString()),
+                          : Text(widget.post.comments!.length.toString()),
                       child: Icon(Icons.comment_rounded,
                           color: const Color.fromARGB(255, 244, 204, 250)
                               .withOpacity(0.7),
                           size: 30),
-                      // onPressed: () => Navigator.of(context).push(
-                      //   MaterialPageRoute(
-                      //     builder: (context) => CommentsScreen(
-                      //       postId: snap['postId'].toString(),
-                      //     ),
-                      //   ),
-                      // ),
                     ),
                     onPressed: () {
                       showMaterialModalBottomSheet<void>(
@@ -152,7 +193,7 @@ class PostLikeCommentBar extends StatelessWidget {
                                     child: CircleAvatar(
                                       radius: 16,
                                       backgroundImage: NetworkImage(
-                                          post.author.image.toString()),
+                                          widget.post.author.image.toString()),
                                     ),
                                   ),
                                   Column(
@@ -165,7 +206,8 @@ class PostLikeCommentBar extends StatelessWidget {
                                             padding:
                                                 const EdgeInsets.only(left: 8),
                                             child: Text(
-                                              post.author.name.toString(),
+                                              widget.post.author.name
+                                                  .toString(),
                                               style: TextStyle(
                                                 color: isDark
                                                     ? Colors.grey.shade200
@@ -177,7 +219,7 @@ class PostLikeCommentBar extends StatelessWidget {
                                             padding: const EdgeInsets.only(
                                                 left: 4.0),
                                             child: Text(
-                                              '@${post.author.username}',
+                                              '@${widget.post.author.username}',
                                               style: TextStyle(
                                                 color: isDark
                                                     ? Colors.grey.shade600
@@ -212,7 +254,8 @@ class PostLikeCommentBar extends StatelessWidget {
                                 ],
                               ),
                               AddCommentWidget(
-                                postId: post.id,
+                                postUserId: widget.post.author.id,
+                                postId: widget.post.id,
                               ),
                             ],
                           ),
@@ -220,7 +263,7 @@ class PostLikeCommentBar extends StatelessWidget {
                       );
                     },
                   ),
-                  post.author.id != userProvider.id
+                  widget.post.author.id != userProvider.id
                       ? IconButton(
                           icon: Icon(
                             Icons.send_rounded,
@@ -233,15 +276,17 @@ class PostLikeCommentBar extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => OneOneChatScreen(
-                                      senderId: post.author.id,
-                                      senderName: post.author.name.toString(),
-                                      senderUsername: post.author.id.toString(),
+                                      senderId: widget.post.author.id,
+                                      senderName:
+                                          widget.post.author.name.toString(),
+                                      senderUsername:
+                                          widget.post.author.id.toString(),
                                       senderImage:
-                                          post.author.image.toString()),
+                                          widget.post.author.image.toString()),
                                 ));
                           })
                       : const SizedBox(),
-                  DonateButton(post: post),
+                  DonateButton(post: widget.post),
                 ],
               ),
             ),

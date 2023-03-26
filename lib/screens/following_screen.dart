@@ -26,7 +26,7 @@ class _FollowerScreenState extends State<FollowingScreen> {
   var userData;
   UserService userService = UserService();
   void getUserData() async {
-    if (!widget.isMe) {
+    if (widget.isMe == false) {
       user = await userService.getCurrentUserDatawithUsername(
           context: context, username: widget.username);
       setState(() {});
@@ -62,8 +62,8 @@ class _FollowerScreenState extends State<FollowingScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ProfileWidget(
-                      isMe: widget.isMe,
-                      user: User.fromMap(userData?.following[index])),
+                      isMe: false,
+                      username: userData?.following[index]['username']),
                 ));
           },
           child: ListTile(
@@ -71,7 +71,7 @@ class _FollowerScreenState extends State<FollowingScreen> {
                 backgroundImage:
                     NetworkImage(userData?.following[index]['image'])),
             title: Text(userData?.following[index]['name']),
-            subtitle: Text(userData?.following[index]['username']),
+            subtitle: Text('@${userData?.following[index]['username']}'),
           ),
         ),
       );

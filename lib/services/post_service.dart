@@ -1,18 +1,18 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:foxxi/http_error_handle.dart';
 import 'package:foxxi/models/comments.dart';
 import 'package:foxxi/models/feed_post_model.dart';
-import 'package:foxxi/models/notification.dart';
+import 'package:foxxi/models/foxxi_trends_post_model.dart';
 import 'package:foxxi/providers/post_provider.dart';
 import 'package:foxxi/services/notification_service.dart';
 import 'package:foxxi/utils.dart';
 import 'package:foxxi/constants.dart';
 import 'package:http/http.dart' as http;
 import 'dart:developer' as dev;
-import 'package:video_uploader/video_uploader.dart';
 
 import 'package:provider/provider.dart';
 
@@ -76,8 +76,9 @@ class PostService {
     return comments;
   }
 
-  void getTrendingPosts({required BuildContext context}) async {
-    List<FeedPostModel> list = [];
+  Future<List<FeedPostModel>> getTrendingPosts(
+      {required BuildContext context}) async {
+    List<FeedPostModel> trendingPostList = [];
     try {
       http.Response res = await http.get(
         Uri.parse('$url/api/posts/trending'),
@@ -89,18 +90,17 @@ class PostService {
           context: context,
           onSuccess: () {
             final data = jsonDecode(res.body);
-            for (int i = 0; i < data.length; i++) {
-              list.add(FeedPostModel.fromJson(jsonEncode(data[i])));
+            for (var posts in data) {
+              trendingPostList.add(FeedPostModel.fromJson(jsonEncode(posts)));
             }
           });
 
       // ignore: use_build_context_synchronously
-      Provider.of<PostProvider>(context, listen: false)
-          .setTrendingPostsList(list);
     } catch (e) {
       dev.log(e.toString(), name: 'Get All Post Error');
       showSnackBar(context, e.toString());
     }
+    return trendingPostList;
   }
 
   Future<List<FeedPostModel>> getUserFeed(
@@ -182,8 +182,9 @@ class PostService {
             response: res,
             onSuccess: () {
               final data = jsonDecode(res.body);
-              preferencePostList =
-                  (data as List).map((i) => FeedPostModel.fromJson(i)).toList();
+              preferencePostList = (data as List)
+                  .map((i) => FeedPostModel.fromJson(jsonEncode(i)))
+                  .toList();
             });
       }
     } catch (e) {
@@ -193,10 +194,74 @@ class PostService {
     return preferencePostList;
   }
 
-  void searchPost({
+  Future<List<FoxxiTrendsPost>> getTwitterTrends(
+      {required BuildContext context}) async {
+    List<FoxxiTrendsPost> twittertrendsList = [];
+    try {
+      var jwt = await _storage.read(key: 'cookies');
+      final foxxijwt = 'foxxi_jwt=$jwt;';
+      dev.log(foxxijwt, name: "Reading JWT");
+      http.Response res = await http.get(Uri.parse('$url/api/tweets/trending'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'cookies': foxxijwt
+          });
+
+      if (context.mounted) {
+        httpErrorHandle(
+            context: context,
+            response: res,
+            onSuccess: () {
+              final data = jsonDecode(res.body);
+              dev.log(data.toString(), name: 'Twitter Trends');
+              for (var posts in data) {
+                twittertrendsList
+                    .add(FoxxiTrendsPost.fromJson(jsonEncode(posts)));
+              }
+            });
+      }
+    } catch (e) {
+      dev.log(e.toString(), name: 'Post Service : TwitterTrends Error');
+    }
+
+    return twittertrendsList;
+  }
+
+  Future<FeedPostModel?> getPostById(
+      {required BuildContext context, required String id}) async {
+    FeedPostModel? post;
+    try {
+      var jwt = await _storage.read(key: 'cookies');
+      final foxxijwt = 'foxxi_jwt=$jwt;';
+      dev.log(foxxijwt, name: "Reading JWT");
+      http.Response res = await http.get(Uri.parse('$url/api/post/search/$id'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'cookies': foxxijwt
+          });
+      if (context.mounted) {
+        httpErrorHandle(
+            context: context,
+            response: res,
+            onSuccess: () {
+              dev.log(res.body.toString(), name: 'Post Search Log');
+              final data = jsonDecode(res.body);
+              if (data != null) {
+                post = FeedPostModel.fromJson(jsonEncode(data));
+              }
+            });
+      }
+    } catch (e) {
+      dev.log(e.toString(), name: 'Post Service - Get Post By Id');
+    }
+    return post;
+  }
+
+  Future<List<FeedPostModel>?> searchPost({
     required BuildContext context,
     required String searchWord,
   }) async {
+    List<FeedPostModel> postList = [];
     try {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
@@ -207,22 +272,33 @@ class PostService {
             'Content-Type': 'application/json; charset=UTF-8',
             'cookies': foxxijwt
           });
-      httpErrorHandle(
-          context: context,
-          response: res,
-          onSuccess: () {
-            dev.log(res.body.toString(), name: 'Post Search Log');
-          });
+      if (context.mounted) {
+        httpErrorHandle(
+            context: context,
+            response: res,
+            onSuccess: () {
+              dev.log(res.body.toString(), name: 'Post Search Log');
+              final data = jsonDecode(res.body);
+              if (data != null) {
+                for (var posts in data) {
+                  postList.add(FeedPostModel.fromJson(jsonEncode(posts)));
+                }
+              }
+            });
+      }
     } catch (e) {
       dev.log(e.toString(), name: 'Post Service : Search Post Error');
     }
+    return postList;
   }
 
-  void createPost({
+  Future<int> createPost({
+    required BuildContext context,
     required String caption,
     String? imageFilePath,
     String? videoFilePath,
   }) async {
+    int statusCode = 0;
     try {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
@@ -238,22 +314,31 @@ class PostService {
         request.files.add(
           await http.MultipartFile.fromPath('media', imageFilePath),
         );
-        if (videoFilePath != null) {
-          request.files.add(
-            await http.MultipartFile.fromPath('media', videoFilePath),
-          );
-        }
       }
+
+      if (videoFilePath != null) {
+        request.files.add(
+          await http.MultipartFile.fromPath('media', videoFilePath),
+        );
+      }
+
       final res = await request.send();
+
       if (res.statusCode == 201) {
+        statusCode = 201;
+        if (context.mounted) {
+          showSnackBar(context, 'Post Uploaded');
+        }
         dev.log('Post Uploaded! ', name: 'Create Post Successfull');
       }
       if (res.statusCode == 500) {
+        statusCode = 500;
         dev.log('Post Upload Error', name: 'Create Post: Error');
       }
     } catch (e) {
       dev.log(e.toString(), name: 'Post Service : Create Post Error');
     }
+    return statusCode;
   }
 
   void deletePost({
@@ -276,8 +361,9 @@ class PostService {
             response: res,
             context: context,
             onSuccess: () {
-              showSnackBar(context, 'Post Deleted');
               dev.log('Post Deleted id:$id', name: 'Post Service: Delete Post');
+
+              showSnackBar(context, 'Post Deleted');
             });
       }
     } catch (e) {
@@ -345,10 +431,11 @@ class PostService {
     }
   }
 
-  void likePost({
+  Future<int> likePost({
     required BuildContext context,
     required String id,
   }) async {
+    int statusCode = 0;
     try {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
@@ -366,12 +453,14 @@ class PostService {
             response: res,
             onSuccess: () {
               dev.log('Post liked id:$id', name: 'Post Service: Like Post');
+              statusCode = res.statusCode;
               // dev.log(res.body.toString());
             });
       }
     } catch (e) {
       dev.log(e.toString(), name: 'Post Service : Like Post Error');
     }
+    return statusCode;
   }
 
   void repostPost({

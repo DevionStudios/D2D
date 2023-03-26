@@ -183,11 +183,14 @@ class _FeedCardState extends State<FeedCard> {
                                                             context: context,
                                                             id: widget.post.id
                                                                 .toString());
+
+                                                        Navigator.pop(context);
                                                       }
                                                       if (e == 'Repost Post') {
                                                         postService.repostPost(
                                                             id: widget.post.id,
                                                             context: context);
+                                                        Navigator.pop(context);
                                                       }
                                                       Navigator.pop(context);
                                                     }),
@@ -212,7 +215,9 @@ class _FeedCardState extends State<FeedCard> {
                         widget.post.caption.toString(),
                         style: TextStyle(
                           fontFamily: 'InstagramSans',
-                          color: isDark?Colors.grey.shade400:Colors.grey.shade600,
+                          color: isDark
+                              ? Colors.grey.shade400
+                              : Colors.grey.shade600,
                           fontSize: 15,
                         ),
                         maxLines: 4,
@@ -295,6 +300,9 @@ class _FeedCardState extends State<FeedCard> {
                               ),
                             )
                           : const SizedBox(),
+                  widget.isImage == false && widget.isVideo == false
+                      ? PostLikeCommentBar(post: widget.post)
+                      : const SizedBox()
                 ],
               ),
             ),

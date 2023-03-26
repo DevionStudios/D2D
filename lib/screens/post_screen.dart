@@ -148,8 +148,10 @@ class _PostCardState extends State<PostCard> {
                                                   builder: (context) =>
                                                       ProfileWidget(
                                                           isMe: false,
-                                                          user: widget
-                                                              .post.author)));
+                                                          username: widget
+                                                              .post
+                                                              .author
+                                                              .username)));
                                         }
                                       },
                                       child: Column(
@@ -234,7 +236,7 @@ class _PostCardState extends State<PostCard> {
                             child: Text(
                               widget.post.caption.toString(),
                               style: TextStyle(
-                                fontFamily: 'InstagramSans',
+                                  fontFamily: 'InstagramSans',
                                   color: isDark ? Colors.white : Colors.black),
                             ),
                           ),

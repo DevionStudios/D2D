@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:developer' as dev;
 import 'package:foxxi/http_error_handle.dart';
+import 'package:foxxi/models/notification.dart';
 import 'package:foxxi/models/user.dart';
 import 'package:foxxi/providers/user_provider.dart';
+import 'package:foxxi/services/notification_service.dart';
 import 'package:foxxi/utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -11,6 +13,7 @@ import 'package:foxxi/constants.dart';
 import 'package:provider/provider.dart';
 
 const _storage = FlutterSecureStorage();
+NotificationService notificationService = NotificationService();
 
 class UserService {
   void getCurrentUserData(
@@ -37,7 +40,7 @@ class UserService {
     }
   }
 
-  Future<User> getCurrentUserDatawithUsername(
+  Future<User?>? getCurrentUserDatawithUsername(
       {required BuildContext context, required String username}) async {
     dynamic user;
     try {
@@ -81,13 +84,59 @@ class UserService {
             response: res,
             context: context,
             onSuccess: () {
+              final userProvider =
+                  Provider.of<UserProvider>(context, listen: false).user;
               statusCode = res.statusCode;
+              if (res.statusCode == 201) {
+                dev.log(NotificationType.USER_FOLLOW.name);
+                notificationService.addNotification(
+                    context: context,
+                    notification: NotificationModel(
+                        notification: 'followed you',
+                        notificationType: NotificationType.USER_FOLLOW.name,
+                        userId: userProvider.id,
+                        username: userProvider.username));
+              }
             });
       }
     } catch (e) {
       dev.log(e.toString(), name: 'UserService: UserFollow Error');
     }
     return statusCode;
+  }
+
+  Future<List<User>?>? searchUser(
+      {required BuildContext context, required String searchWord}) async {
+    List<User>? listOfUsers = [];
+    try {
+      var jwt = await _storage.read(key: 'cookies');
+      final foxxijwt = 'foxxi_jwt=$jwt;';
+      dev.log(foxxijwt, name: "Reading JWT");
+      http.Response res = await http.get(
+          Uri.parse('$url/api/users/search/$searchWord'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'cookies': foxxijwt
+          });
+      if (context.mounted) {
+        httpErrorHandle(
+            context: context,
+            response: res,
+            onSuccess: () {
+              dev.log(searchWord, name: 'SearchWord');
+              dev.log(res.body.toString(), name: 'User Search Log');
+              final data = jsonDecode(res.body);
+              if (data != null) {
+                for (var users in data) {
+                  listOfUsers.add(User.fromJson(jsonEncode(users)));
+                }
+              }
+            });
+      }
+    } catch (e) {
+      dev.log(e.toString(), name: 'user Service : Search User Error');
+    }
+    return listOfUsers;
   }
 
   void updateProfileImage(
@@ -175,6 +224,36 @@ class UserService {
     }
   }
 
+  Future<int> addPreferences(
+      {required BuildContext context,
+      required List<String> preferences}) async {
+    int stattusCode = 0;
+    try {
+      var jwt = await _storage.read(key: 'cookies');
+      final foxxijwt = 'foxxi_jwt=$jwt;';
+      dev.log(foxxijwt, name: "Reading JWT");
+      final res = await http.put(Uri.parse('$url/api/preferences/add'),
+          body: jsonEncode(preferences),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'cookies': foxxijwt
+          });
+
+      if (context.mounted) {
+        httpErrorHandle(
+            response: res,
+            context: context,
+            onSuccess: () {
+              stattusCode = res.statusCode;
+            });
+      }
+    } catch (e) {
+      dev.log(e.toString(), name: 'Preference Add Error');
+      showSnackBar(context, e.toString());
+    }
+    return stattusCode;
+  }
+
   void updatePassword({
     required BuildContext context,
     required String oldPassword,
@@ -203,6 +282,34 @@ class UserService {
     } catch (e) {
       dev.log(e.toString(), name: 'Update Password Error');
       showSnackBar(context, e.toString());
+    }
+  }
+
+  void requestAirdrop(
+      {required BuildContext context,
+      required String email,
+      required String walletAddress,
+      String? message}) async {
+    try {
+      http.Response res = await http.post(Uri.parse('$url/api/airdrop/request'),
+          body: jsonEncode({
+            'email': email,
+            'walletAddress': walletAddress,
+            'message': message
+          }));
+
+      if (context.mounted) {
+        httpErrorHandle(
+            response: res,
+            context: context,
+            onSuccess: () {
+              showSnackBar(context,
+                  'Airdrop request sent. You will soon receive the foxxi tokens.');
+            });
+      }
+    } catch (e) {
+      showSnackBar(context, e.toString());
+      dev.log(e.toString(), name: 'User Service - AirDrop Request Error');
     }
   }
 }

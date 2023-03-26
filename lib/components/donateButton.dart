@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foxxi/models/donate_controller.dart';
 import 'package:foxxi/models/feed_post_model.dart';
 import 'package:foxxi/providers/theme_provider.dart';
+import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/providers/wallet_address.dart';
 import 'package:foxxi/screens/wallet_screen.dart';
 import 'package:foxxi/utils.dart';
@@ -16,6 +17,7 @@ class DonateButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Provider.of<ThemeProvider>(context, listen: true).isDarkMode;
+    final userProvider = Provider.of<UserProvider>(context, listen: true).user;
     final walletAddressProvider =
         Provider.of<WalletAddressProvider>(context, listen: true);
     return Expanded(
@@ -155,37 +157,42 @@ class DonateButton extends StatelessWidget {
                                       textStyle: const TextStyle(fontSize: 20),
                                     ),
                                     onPressed: () {
-                                      double amount =
-                                          double.parse(_controller.text);
-                                      dev.log(amount.toString());
-                                      dev.log('---');
+                                      if (_controller.text.isNotEmpty) {
+                                        double amount =
+                                            double.parse(_controller.text);
+                                        dev.log(amount.toString());
+                                        dev.log('---');
 
-                                      if (walletAddressProvider
-                                              .privateAddress ==
-                                          null) {
-                                        showSnackBar(context,
-                                            'Connect your Wallet to Donate !!!');
-                                        Navigator.pop(context);
-                                      } else if (post.author.walletAddress ==
-                                          'undefined') {
-                                        showSnackBar(context,
-                                            'Ask ${post.author.name} to set their Receiving Wallet Address !!!');
-                                        Navigator.pop(context);
-                                      } else {
-                                        DonateController()
-                                            .donate(
-                                                walletAddressProvider
-                                                    .privateAddress!,
-                                                walletAddressProvider
-                                                    .walletAddress!,
-                                                post.author.walletAddress,
-                                                amount)
-                                            .then((String result) {
+                                        if (walletAddressProvider
+                                            .readPrivateKey(userProvider.id)
+                                            .toString()
+                                            .isEmpty) {
                                           showSnackBar(context,
-                                              'Transaction added to Pending Transaction List!! ');
-
+                                              'Connect your Wallet to Donate !!!');
                                           Navigator.pop(context);
-                                        });
+                                        } else if (post.author.walletAddress ==
+                                            'undefined') {
+                                          showSnackBar(context,
+                                              'Ask ${post.author.name} to set their Receiving Wallet Address !!!');
+                                          Navigator.pop(context);
+                                        } else {
+                                          DonateController()
+                                              .donate(
+                                                  walletAddressProvider
+                                                      .readPrivateKey(
+                                                          userProvider.id)
+                                                      .toString(),
+                                                  walletAddressProvider
+                                                      .walletAddress!,
+                                                  post.author.walletAddress,
+                                                  amount)
+                                              .then((String result) {
+                                            showSnackBar(context,
+                                                'Transaction added to Pending Transaction List!! ');
+
+                                            Navigator.pop(context);
+                                          });
+                                        }
                                       }
                                     },
                                     child: const Text('Donate'),

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:foxxi/models/user.dart';
+import 'package:foxxi/screens/preference_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:foxxi/http_error_handle.dart';
 import 'package:foxxi/screens/login_screen.dart';
@@ -39,20 +40,27 @@ class AuthService {
           });
       // ignore: use_build_context_synchronously
       httpErrorHandle(
-        response: res,
-        context: context,
-        onSuccess: () async {
-          await _storage.write(
-              key: "cookies", value: jsonDecode(res.body)['jwt'].toString());
-          dev.log('cookies saved', name: 'JWT');
-          statusCode = res.statusCode;
-          // ignore: use_build_context_synchronously
-          showSnackBar(
-            context,
-            'Account created!',
-          );
-        },
-      );
+          response: res,
+          context: context,
+          onSuccess: () async {
+            await _storage.write(
+                key: "cookies", value: jsonDecode(res.body)['jwt'].toString());
+            dev.log('cookies saved', name: 'JWT');
+            statusCode = res.statusCode;
+            // ignore: use_build_context_synchronously
+            showSnackBar(
+              context,
+              'Account created!',
+            );
+
+            if (context.mounted) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PreferenceScreen(),
+                  ));
+            }
+          });
     } catch (e) {
       dev.log(e.toString(), name: "SignUpErrorCatch");
       showSnackBar(context, e.toString());
@@ -204,14 +212,10 @@ class AuthService {
           response: res,
           context: context,
           onSuccess: () {
-            // Map<String, dynamic> userMap = jsonDecode(res.body)['currentUser'];
             dev.log('GetCurrentUserCalled');
             dev.log(jsonDecode(res.body)['currentUser']['id'].toString());
             id = jsonDecode(res.body)['currentUser']['id'].toString();
           });
-      // Map<String, dynamic>? userData = jsonDecode((res.body))['currentUser'];
-      // final currentUser = jsonEncode(jsonDecode(res.body)['currentUser']);
-      // dev.log(currentUser, name: 'Current User Bruh');
     } catch (e) {
       dev.log(e.toString(), name: 'Get Current User Error');
       showSnackBar(context, e.toString());
@@ -224,6 +228,7 @@ class AuthService {
     try {
       await http.post(Uri.parse('$url/api/users/signout'));
       await _storage.delete(key: 'cookies');
+
       if (context.mounted) {
         Navigator.pushNamed(context, LoginScreen.routeName);
       }

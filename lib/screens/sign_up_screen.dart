@@ -3,6 +3,7 @@ import 'dart:developer' as dev;
 import 'package:flutter/material.dart';
 import 'package:foxxi/components/entry_Point1.dart';
 import 'package:foxxi/providers/navigation_argument_data_provider.dart';
+import 'package:foxxi/screens/preference_screen.dart';
 
 import 'package:foxxi/services/auth_service.dart';
 import 'package:foxxi/routing_constants.dart';
@@ -29,7 +30,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _userNameTextController = TextEditingController();
   AuthService authService = AuthService();
   final bool _isLoading = false;
-  late final String email;
+  String email = '';
+
+  // void navigateToPreferenceSCreen() {
+  //   Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => PreferenceScreen(),
+  //       ));
+  // }
 
   void clearControllers() {
     _userNameTextController.clear();
@@ -98,27 +107,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: 24,
               ),
               InkWell(
-                onTap: () async {
+                onTap: () {
                   if (_formKey.currentState!.validate()) {
                     dev.log("SignUp Form Validation Passed ",
                         name: "SignUp Form Validation");
-                    int statusCode = await authService.signUp(
+                    authService.signUp(
                         context: context,
                         username: _userNameTextController.text,
                         name: _nameTextController.text,
                         password: _passwordTextController.text,
                         email: email);
-
-                    String id =
-                        // ignore: use_build_context_synchronously
-                        await authService.getCurrentUserId(context: context);
-
-                    if (statusCode == 200 || statusCode == 201) {
-                      if (context.mounted) {
-                        Navigator.pushNamed(context, BottomNavBar.routeName,
-                            arguments: id);
-                      }
-                    }
                   } else {
                     dev.log("SignUp Form Validation Failed",
                         name: "SignUp Form Validation");

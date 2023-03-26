@@ -1,5 +1,6 @@
 import 'dart:convert' as convert;
 // import 'dart:js_util';
+import 'package:foxxi/constants.dart';
 import 'package:foxxi/providers/theme_provider.dart';
 import 'package:http/http.dart' as http;
 
@@ -45,7 +46,7 @@ class ApiService {
       'q': query,
       'lang': 'en',
     };
-    var headers = {'x-api-key': 'Qr-e4e9cpr5K1bg25afqiADBQJ_OUCa78bLElzqsipI'};
+    var headers = {'x-api-key': newsCatcherApi};
     var url =
         Uri.https('api.newscatcherapi.com', '/v2/search', queryParameters);
     var response = await http.get(url, headers: headers);

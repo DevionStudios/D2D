@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:foxxi/http_error_handle.dart';
+import 'package:foxxi/services/notification_service.dart';
 import 'package:foxxi/utils.dart';
 import 'package:http/http.dart' as http;
 import 'dart:developer' as dev;
@@ -9,12 +10,14 @@ import 'dart:developer' as dev;
 import '../constants.dart';
 
 const _storage = FlutterSecureStorage();
+NotificationService notificationService = NotificationService();
 
 class CommentService {
-  void addComment(
+  Future<int> addComment(
       {required BuildContext context,
       required String postId,
       required String caption}) async {
+    int statusCode = 0;
     try {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
@@ -30,12 +33,14 @@ class CommentService {
             context: context,
             response: res,
             onSuccess: () {
+              statusCode = res.statusCode;
               showSnackBar(context, "Commment Added");
             });
       }
     } catch (e) {
       dev.log(e.toString(), name: 'CommentService : Create Comment Error');
     }
+    return statusCode;
   }
 
   void deleteComment(

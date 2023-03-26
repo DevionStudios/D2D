@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:foxxi/providers/navigation_argument_data_provider.dart';
 import 'package:foxxi/screens/forgot_password_resetscreen.dart';
+import 'package:foxxi/screens/preference_screen.dart';
 import 'package:foxxi/screens/sign_up_screen.dart';
 import 'package:foxxi/services/auth_service.dart';
 import 'package:foxxi/routing_constants.dart';
@@ -25,6 +26,7 @@ class OTPScreen extends StatelessWidget {
   }
 
   void navigateToSignUpScreen(BuildContext context) async {
+    // Navigator.pushNamed(context, SignUpScreen.routeName);
     Navigator.pushNamed(context, SignUpScreen.routeName);
   }
 

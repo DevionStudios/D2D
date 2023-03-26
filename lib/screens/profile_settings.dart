@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/services/auth_service.dart';
 import 'package:foxxi/services/user_service.dart';
+import 'package:foxxi/widgets/textfield_widget_2.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -48,6 +50,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   @override
   Widget build(BuildContext context) {
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+    final userProvider = Provider.of<UserProvider>(context, listen: true).user;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -59,7 +62,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   height: 100,
                   // width: MediaQuery.of(context).size.width * 0.1,
                   child: CircleAvatar(
@@ -67,7 +70,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         Colors.purpleAccent.shade100.withOpacity(0.4),
                     child: IconButton(
                       // iconSize: 20,
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.arrow_back_ios_new_rounded,
                         color: Colors.white,
                         // size: 15,
@@ -181,72 +184,27 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   ),
                 ],
               ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  'Full Name',
-                  style: TextStyle(fontFamily: 'InstagramSans', fontSize: 15),
-                ),
+              TextFieldWidget2(
+                controller: _nameTextController,
+                headingText: 'FullName',
+                hintText: userProvider.name,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: TextField(
-                  controller: _nameTextController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    // prefixText: 'Kuntal',
-                  ),
-                ),
+              TextFieldWidget2(
+                controller: _usernameTextController,
+                headingText: 'Username on Twitter (Cannot be changed once set)',
+                hintText: userProvider.twitterUsername.isEmpty
+                    ? 'You cannot change this later'
+                    : userProvider.twitterUsername,
               ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  'Username on Twitter (Cannot be changed once set)',
-                  style: TextStyle(fontFamily: 'InstagramSans', fontSize: 15),
-                ),
+              TextFieldWidget2(
+                controller: _walletAddressTextController,
+                headingText: 'Wallet Address',
+                hintText: userProvider.walletAddress,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: TextField(
-                  controller: _usernameTextController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'You cannot change this later',
-                  ),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  "Wallet Address",
-                  style: TextStyle(fontFamily: 'InstagramSans', fontSize: 15),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: TextField(
-                  controller: _walletAddressTextController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  'Bio',
-                  style: TextStyle(fontFamily: 'InstagramSans', fontSize: 15),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: TextField(
-                  controller: _bioTextController,
-                  maxLines: 3,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                  ),
-                ),
+              TextFieldWidget2(
+                controller: _bioTextController,
+                headingText: 'Bio',
+                hintText: userProvider.bio,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -267,9 +225,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                     Colors.purpleAccent.shade100
                                         .withOpacity(0.4),
                                   ],
-                                  stops: [0, 1],
-                                  begin: AlignmentDirectional(1, 0),
-                                  end: AlignmentDirectional(-1, 0),
+                                  stops: const [0, 1],
+                                  begin: const AlignmentDirectional(1, 0),
+                                  end: const AlignmentDirectional(-1, 0),
                                   // color: Colors.purpleAccent.shade100.withOpacity(
                                   // 0.3,
                                 ),

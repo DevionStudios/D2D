@@ -70,7 +70,7 @@ class MintController extends ChangeNotifier {
     // await getCreadentials();
 
     await getDeployedContract();
-    uri = 'ipfs://' + uri;
+    uri = 'ipfs://$uri';
     NFTMetaData metadata =
         NFTMetaData(url: uri, name: name, description: 'Minted NFT');
     String data = jsonEncode(metadata);
@@ -78,7 +78,7 @@ class MintController extends ChangeNotifier {
 
     final cid = await FlutterIpfs().uploadToIpfs(path.uri.toFilePath());
 
-    String uri2 = 'ipfs://' + cid;
+    String uri2 = 'ipfs://$cid';
 
     // const infuraId = 'adfc4b8e46eb43aeac02399b0c8107f2';
     // final client = Web3Client(

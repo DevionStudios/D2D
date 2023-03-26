@@ -1,17 +1,18 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/screens/chat_screen.dart';
+import 'package:foxxi/screens/foxxi_trends.dart';
 import 'package:foxxi/screens/notification_screen.dart';
+import 'package:foxxi/screens/search_screen.dart';
+import 'package:foxxi/screens/trending_screen.dart';
+import 'package:foxxi/screens/your_feed_screen.dart';
 import 'package:foxxi/services/post_service.dart';
-import 'package:foxxi/services/story_service.dart';
+import 'package:foxxi/services/user_service.dart';
+import 'package:foxxi/utils.dart';
 // import 'package:foxxi/models/post.dart';
 // import 'package:foxxi/widgets/card.dart';
 import 'package:foxxi/widgets/feed_post_card.dart';
 import 'package:foxxi/widgets/story_bar.dart';
 import 'package:provider/provider.dart';
-import 'dart:developer' as dev;
 import '../models/feed_post_model.dart';
 import '../providers/theme_provider.dart';
 
@@ -24,7 +25,10 @@ class FeedScreen extends StatefulWidget {
 
 class _FeedScreenState extends State<FeedScreen> {
   PostService postService = PostService();
+  UserService userService = UserService();
   Future<List<FeedPostModel>>? _post;
+  final TextEditingController _searchBarTextController =
+      TextEditingController();
 
   @override
   void initState() {
@@ -32,12 +36,14 @@ class _FeedScreenState extends State<FeedScreen> {
     super.initState();
   }
 
-  Future<Null> getPosts() async {
+  Future<void> getPosts() async {
     await Future.delayed(const Duration(seconds: 1));
-    setState(() {
-      _post = postService.getAllPost(context: context);
-    });
-    return null;
+    if (mounted) {
+      setState(() {
+        _post = postService.getAllPost(context: context);
+      });
+    }
+    return;
   }
 
   @override
@@ -61,43 +67,92 @@ class _FeedScreenState extends State<FeedScreen> {
                     child: Column(
                       children: [
                         Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            SizedBox(
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.notifications_none,
-                                  color: isDark
-                                      ? Colors.grey.shade100
-                                      : Colors.grey.shade900,
-                                  size: 30,
-                                ),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const NotificationScreen()));
-                                },
-                              ),
+                            PopupMenuButton<String>(
+                              icon: const Icon(Icons.arrow_drop_down_outlined),
+                              onSelected: (selectedTab) {
+                                if (selectedTab == 'Foxxi Trends') {
+                                  Navigator.pushNamed(
+                                      context, FoxxiTrendScreen.routeName);
+                                }
+                                if (selectedTab == 'Trending') {
+                                  Navigator.pushNamed(
+                                      context, TrendingScreen.routeName);
+                                }
+
+                                if (selectedTab == 'Your Feed') {
+                                  Navigator.pushNamed(
+                                      context, YourFeedScreen.routeName);
+                                }
+                              },
+                              itemBuilder: (context) {
+                                return Items.items
+                                    .map((choice) => PopupMenuItem(
+                                          value: choice,
+                                          child: Row(
+                                            children: [
+                                              Text(choice),
+                                            ],
+                                          ),
+                                        ))
+                                    .toList();
+                              },
                             ),
-                            SizedBox(
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.send_rounded,
-                                  color: isDark
-                                      ? Colors.grey.shade100
-                                      : Colors.grey.shade900,
-                                  size: 30,
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Hero(
+                                  tag: 'anim_search_bar',
+                                  child: IconButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const SearchScreen(),
+                                            ));
+                                      },
+                                      icon: const Icon(Icons.search_outlined)),
                                 ),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => const Chat()));
-                                },
-                              ),
+                                SizedBox(
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.notifications_none,
+                                      color: isDark
+                                          ? Colors.grey.shade100
+                                          : Colors.grey.shade900,
+                                      size: 30,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const NotificationScreen()));
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.send_rounded,
+                                      color: isDark
+                                          ? Colors.grey.shade100
+                                          : Colors.grey.shade900,
+                                      size: 30,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const Chat()));
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),

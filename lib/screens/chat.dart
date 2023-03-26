@@ -1,6 +1,8 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
+import 'package:foxxi/constants.dart';
+import 'package:foxxi/models/notification.dart';
 import 'dart:developer' as dev;
 import 'package:foxxi/models/user.dart';
 import 'package:foxxi/providers/user_provider.dart';
@@ -290,14 +292,26 @@ class _OneOneChatScreenState extends State<OneOneChatScreen> {
                         color: Colors.purpleAccent.shade100.withOpacity(0.4),
                         size: 30,
                       ),
-                      onPressed: () {
-                        messageService.addMessage(
+                      onPressed: () async {
+                        int statusCode = await messageService.addMessage(
                             context: context,
                             text: _messageTextController.text,
                             from: userProvider.id.toString(),
                             to: widget.senderId.toString());
 
                         _messageTextController.clear();
+                        if (context.mounted) {
+                          if (statusCode == 201) {
+                            notificationService.addNotification(
+                                context: context,
+                                notification: NotificationModel(
+                                    notification: 'sent you',
+                                    notificationType:
+                                        NotificationType.MESSAGE.name,
+                                    userId: widget.senderId,
+                                    username: userProvider.username));
+                          }
+                        }
                       },
                     ),
                   ],

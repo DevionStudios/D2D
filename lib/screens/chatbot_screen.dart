@@ -1,5 +1,6 @@
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter/material.dart';
+import 'package:foxxi/constants.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/theme_provider.dart';
@@ -24,7 +25,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
   @override
   void initState() {
     chatGPT = OpenAI.instance.build(
-        token: "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",
+        token: openAIKey,
         baseOption: HttpSetup(receiveTimeout: Duration(seconds: 5)));
     super.initState();
   }

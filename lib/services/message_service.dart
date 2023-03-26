@@ -3,13 +3,19 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:foxxi/http_error_handle.dart';
 import 'package:foxxi/models/chat_model.dart';
+import 'package:foxxi/models/notification.dart';
 import 'package:foxxi/models/user.dart';
+import 'package:foxxi/providers/user_provider.dart';
+import 'package:foxxi/services/notification_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:foxxi/constants.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:developer' as dev;
 
+import 'package:provider/provider.dart';
+
 const _storage = FlutterSecureStorage();
+NotificationService notificationService = NotificationService();
 
 class MessageService {
   // void getMessages() async {
@@ -85,11 +91,12 @@ class MessageService {
     return messageList;
   }
 
-  void addMessage(
+  Future<int> addMessage(
       {required String text,
       required String from,
       required String to,
       required BuildContext context}) async {
+    int statusCode = 0;
     try {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
@@ -106,11 +113,13 @@ class MessageService {
             context: context,
             response: res,
             onSuccess: () {
+              statusCode = res.statusCode;
               dev.log('message sent');
             });
       }
     } catch (e) {
       dev.log(e.toString(), name: 'Message Service : Add Message Error');
     }
+    return statusCode;
   }
 }

@@ -63,29 +63,29 @@ class _bottomNavBar2State extends State<bottomNavBar2> {
               color: isDark ? Colors.black : Colors.white,
               notchColor: isDark ? Colors.black54 : Colors.white,
               showLabel: false,
-              bottomBarItems: [
-                const BottomBarItem(
+              bottomBarItems: const [
+                BottomBarItem(
                   inActiveItem: Icon(
                     Icons.settings,
                     color: Colors.blueGrey,
                   ),
                   activeItem: Icon(
-                    Icons.wallet,
+                    Icons.settings,
                     color: Colors.blueAccent,
                   ),
                 ),
-                const BottomBarItem(
+                BottomBarItem(
                   inActiveItem: Icon(
                     Icons.wallet,
                     color: Colors.blueGrey,
                   ),
                   activeItem: Icon(
-                    Icons.settings,
+                    Icons.wallet,
                     color: Colors.blueAccent,
                   ),
                 ),
 
-                const BottomBarItem(
+                BottomBarItem(
                   inActiveItem: Icon(
                     Icons.photo_album_rounded,
                     color: Colors.blueGrey,
@@ -96,7 +96,7 @@ class _bottomNavBar2State extends State<bottomNavBar2> {
                   ),
                   itemLabel: 'Page 2',
                 ),
-                const BottomBarItem(
+                BottomBarItem(
                   inActiveItem: Icon(
                     Icons.security_rounded,
                     color: Colors.blueGrey,
@@ -107,7 +107,7 @@ class _bottomNavBar2State extends State<bottomNavBar2> {
                   ),
                   itemLabel: 'Page 2',
                 ),
-                const BottomBarItem(
+                BottomBarItem(
                   inActiveItem: Icon(
                     Icons.move_to_inbox_rounded,
                     color: Colors.blueGrey,

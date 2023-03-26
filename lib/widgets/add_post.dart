@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:foxxi/services/post_service.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
+import 'package:platform/platform.dart';
 
 class AddPost extends StatefulWidget {
   // const AddPost({super.key});
@@ -166,6 +167,7 @@ class _AddPostState extends State<AddPost> {
                                     ),
                                     onPressed: () {
                                       postService.createPost(
+                                          context: context,
                                           caption: _captionTextEditingController
                                               .text,
                                           imageFilePath: image!.path);
@@ -276,6 +278,7 @@ class _AddPostState extends State<AddPost> {
                             ),
                             onPressed: () {
                               postService.createPost(
+                                  context: context,
                                   caption: _captionTextEditingController.text,
                                   videoFilePath: pickedFile!.path);
                             },

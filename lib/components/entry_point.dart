@@ -101,7 +101,7 @@ class _EntryPointState extends State<EntryPoint>
                     Radius.circular(24),
                   ),
                   child: ProfileWidget(
-                    user: userProvider,
+                    username: userProvider.username,
                     isMe: true,
                   ),
                 ),

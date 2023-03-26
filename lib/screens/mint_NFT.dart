@@ -1,18 +1,17 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ipfs/flutter_ipfs.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:foxxi/models/NFT_mint_controller.dart';
+import 'package:foxxi/providers/user_provider.dart';
+import 'package:foxxi/screens/airdrop_screen.dart';
 import 'package:foxxi/services/user_service.dart';
 // import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../components/ipfsService.dart' as ipfs_service;
-
 import '../providers/theme_provider.dart';
 import '../providers/wallet_address.dart';
-import '../services/auth_service.dart';
+import 'dart:developer' as dev;
 
 // import '../provider/theme_provider.dart';
 
@@ -28,6 +27,7 @@ class mintNFTState extends State<mintNFT> {
   final TextEditingController _controller = TextEditingController();
   UserService userService = UserService();
 
+  @override
   void initState() {
     super.initState();
     // imagePicker = ImagePicker();
@@ -41,7 +41,7 @@ class mintNFTState extends State<mintNFT> {
   @override
   Widget build(BuildContext context) {
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
-
+    final userProvider = Provider.of<UserProvider>(context, listen: true).user;
     final walletAddressProvider =
         Provider.of<WalletAddressProvider>(context, listen: true);
     return Scaffold(
@@ -52,7 +52,7 @@ class mintNFTState extends State<mintNFT> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   height: 100,
                   // width: MediaQuery.of(context).size.width * 0.1,
                   child: CircleAvatar(
@@ -60,7 +60,7 @@ class mintNFTState extends State<mintNFT> {
                         Colors.purpleAccent.shade100.withOpacity(0.4),
                     child: IconButton(
                       // iconSize: 20,
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.arrow_back_ios_new_rounded,
                         color: Colors.white,
                         // size: 15,
@@ -70,15 +70,15 @@ class mintNFTState extends State<mintNFT> {
                       },
                     ),
                   )),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Text(
                   "Options",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Text(
                   'Adjust these settings according to your needs',
                   style: TextStyle(
@@ -92,9 +92,9 @@ class mintNFTState extends State<mintNFT> {
                 children: [
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: const [
                         Padding(
-                          padding: const EdgeInsets.only(left: 8),
+                          padding: EdgeInsets.only(left: 8),
                           child: Text(
                             'Contact us to Claim Free Tokens',
                             style: TextStyle(
@@ -134,9 +134,9 @@ class mintNFTState extends State<mintNFT> {
                                         Colors.purpleAccent.shade100
                                             .withOpacity(0.4),
                                       ],
-                                      stops: [0, 1],
-                                      begin: AlignmentDirectional(1, 0),
-                                      end: AlignmentDirectional(-1, 0),
+                                      stops: const [0, 1],
+                                      begin: const AlignmentDirectional(1, 0),
+                                      end: const AlignmentDirectional(-1, 0),
                                       // color: Colors.purpleAccent.shade100.withOpacity(
                                       // 0.3,
                                     ),
@@ -149,7 +149,10 @@ class mintNFTState extends State<mintNFT> {
                                   padding: const EdgeInsets.all(16.0),
                                   textStyle: const TextStyle(fontSize: 20),
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, AirDropScreen.routeName);
+                                },
                                 child: const Text('Claim'),
                               ),
                             ]),
@@ -163,8 +166,8 @@ class mintNFTState extends State<mintNFT> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Text(
                       "have NFT?",
                       style: TextStyle(
@@ -213,9 +216,9 @@ class mintNFTState extends State<mintNFT> {
               !widget.haveNFT
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: const [
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: EdgeInsets.all(8.0),
                           child: Text(
                             'Image',
                             style: TextStyle(
@@ -228,9 +231,9 @@ class mintNFTState extends State<mintNFT> {
                     )
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: const [
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: EdgeInsets.all(8.0),
                           child: Text(
                             'IPFS CID',
                             style: TextStyle(
@@ -250,11 +253,13 @@ class mintNFTState extends State<mintNFT> {
                             image =
                                 await ipfs_service.ImagePickerService.pickImage(
                                     context);
-                            uri = uri.toString() + image.toString();
-                            setState(() {
-                              imageNFT = uri;
-                              uri = 'https://ipfs.io/ipfs/';
-                            });
+                            if (image != null) {
+                              uri = uri.toString() + image.toString();
+                              setState(() {
+                                imageNFT = uri;
+                                uri = 'https://ipfs.io/ipfs/';
+                              });
+                            }
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -282,10 +287,10 @@ class mintNFTState extends State<mintNFT> {
                       ],
                     )
                   : Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: TextField(
                         controller: _controller,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                         ),
                       ),
@@ -309,9 +314,9 @@ class mintNFTState extends State<mintNFT> {
                                     Colors.purpleAccent.shade100
                                         .withOpacity(0.4),
                                   ],
-                                  stops: [0, 1],
-                                  begin: AlignmentDirectional(1, 0),
-                                  end: AlignmentDirectional(-1, 0),
+                                  stops: const [0, 1],
+                                  begin: const AlignmentDirectional(1, 0),
+                                  end: const AlignmentDirectional(-1, 0),
                                   // color: Colors.purpleAccent.shade100.withOpacity(
                                   // 0.3,
                                 ),
@@ -326,8 +331,10 @@ class mintNFTState extends State<mintNFT> {
                             ),
                             onPressed: () {
                               if (!widget.haveNFT) {
-                                if (walletAddressProvider.privateAddress !=
-                                    null) {
+                                if (walletAddressProvider
+                                    .readPrivateKey(userProvider.id)
+                                    .toString()
+                                    .isNotEmpty) {
                                   showDialog(
                                     barrierDismissible: false,
                                     context: context,
@@ -339,7 +346,8 @@ class mintNFTState extends State<mintNFT> {
                                   try {
                                     MintController()
                                         .mint(
-                                            walletAddressProvider.privateAddress
+                                            walletAddressProvider
+                                                .readPrivateKey(userProvider.id)
                                                 .toString(),
                                             image!,
                                             image!)
@@ -351,7 +359,7 @@ class mintNFTState extends State<mintNFT> {
                                     userService.updateProfileImage(
                                         context: context, image: imageNFT);
                                   } catch (e) {
-                                    print(e);
+                                    dev.log(e.toString());
                                   }
                                 } else {
                                   Fluttertoast.showToast(
@@ -360,7 +368,7 @@ class mintNFTState extends State<mintNFT> {
                                 }
                               } else {
                                 String text = _controller.text;
-                                text = 'https://ipfs.io/ipfs/' + text;
+                                text = 'https://ipfs.io/ipfs/$text';
 
                                 userService.updateProfileImage(
                                     context: context, image: text);

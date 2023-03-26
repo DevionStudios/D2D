@@ -6,6 +6,7 @@ import 'package:foxxi/screens/chatbot_screen.dart';
 import 'package:foxxi/screens/news_screen.dart';
 import 'package:foxxi/services/auth_service.dart';
 import 'package:foxxi/services/message_service.dart';
+import 'package:foxxi/services/notification_service.dart';
 import 'package:foxxi/services/story_service.dart';
 import 'package:foxxi/services/user_service.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
@@ -36,6 +37,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   StoryService storyService = StoryService();
   MessageService messageService = MessageService();
   UserService userService = UserService();
+  NotificationService notificationService = NotificationService();
   int maxCount = 5;
   String id = '';
 
@@ -80,7 +82,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       const SizedBox.shrink(),
       const ChatBotScreen(),
       ProfileWidget(
-        user: userProvider,
+        username: userProvider.username,
         isMe: true,
       ),
       NewsScreen(),
@@ -119,8 +121,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     onPressed: () {
                       showMaterialModalBottomSheet(
                           shape: const RoundedRectangleBorder(
-                             
-                              borderRadius:  BorderRadius.vertical(
+                              borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(25))),
                           context: context,
                           builder: (context) => SizedBox(
