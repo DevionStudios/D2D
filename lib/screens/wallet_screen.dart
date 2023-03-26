@@ -250,43 +250,48 @@ class _WalletWebState extends State<WalletWeb>
               ),
             ),
       floatingActionButton: (walletAddressProvider.walletAddress != null)
-          ? FloatingActionButton(
-              backgroundColor: Colors.purpleAccent.shade100.withOpacity(0.4),
-              onPressed: () async {
-                readPrivateKey();
-                final LocalAuthentication auth = LocalAuthentication();
-                if (isAuth == false) {
-                  try {
-                    final bool didAuthenticate = await auth.authenticate(
-                        localizedReason: 'Please authenticate',
-                        options: const AuthenticationOptions(
-                            useErrorDialogs: false));
-                    isAuth = didAuthenticate;
-                    if (isAuth == true) {
-                      if (animationController.status ==
-                              AnimationStatus.forward ||
-                          animationController.status ==
-                              AnimationStatus.completed) {
-                        animationController.reverse();
-                      } else {
-                        animationController.forward();
+          ? Padding(
+              padding: const EdgeInsets.only(bottom: 65),
+              child: FloatingActionButton(
+                  backgroundColor:
+                      Colors.purpleAccent.shade100.withOpacity(0.4),
+                  onPressed: () async {
+                    readPrivateKey();
+                    final LocalAuthentication auth = LocalAuthentication();
+                    if (isAuth == false) {
+                      try {
+                        final bool didAuthenticate = await auth.authenticate(
+                            localizedReason: 'Please authenticate',
+                            options: const AuthenticationOptions(
+                                useErrorDialogs: false));
+                        isAuth = didAuthenticate;
+                        if (isAuth == true) {
+                          if (animationController.status ==
+                                  AnimationStatus.forward ||
+                              animationController.status ==
+                                  AnimationStatus.completed) {
+                            animationController.reverse();
+                          } else {
+                            animationController.forward();
+                          }
+                        }
+                      } on PlatformException catch (e) {
+                        if (e.code == auth_error.notAvailable) {
+                        } else if (e.code == auth_error.notEnrolled) {
+                        } else {
+                          // ...
+                        }
                       }
+                    } else if (animationController.status ==
+                            AnimationStatus.forward ||
+                        animationController.status ==
+                            AnimationStatus.completed) {
+                      animationController.reverse();
+                      isAuth = false;
                     }
-                  } on PlatformException catch (e) {
-                    if (e.code == auth_error.notAvailable) {
-                    } else if (e.code == auth_error.notEnrolled) {
-                    } else {
-                      // ...
-                    }
-                  }
-                } else if (animationController.status ==
-                        AnimationStatus.forward ||
-                    animationController.status == AnimationStatus.completed) {
-                  animationController.reverse();
-                  isAuth = false;
-                }
-              },
-              child: const Icon(Icons.warning))
+                  },
+                  child: const Icon(Icons.warning)),
+            )
           : null,
     );
     // Your page
