@@ -30,6 +30,7 @@ class mintNFTState extends State<mintNFT> {
   @override
   void initState() {
     super.initState();
+    readPrivateKey();
     // imagePicker = ImagePicker();
   }
 
@@ -38,6 +39,20 @@ class mintNFTState extends State<mintNFT> {
 
   var imagePicker;
   var imageNFT;
+  String? privateKey;
+
+  String? readPrivateKey() {
+    Provider.of<WalletAddressProvider>(context, listen: false)
+        .readPrivateKey(
+            Provider.of<UserProvider>(context, listen: false).user.id)
+        ?.then((value) {
+      setState(() {
+        privateKey = value;
+      });
+    });
+    return privateKey;
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
@@ -330,11 +345,11 @@ class mintNFTState extends State<mintNFT> {
                               textStyle: const TextStyle(fontSize: 20),
                             ),
                             onPressed: () {
+                              readPrivateKey();
+                              dev.log(privateKey.toString());
+                              dev.log(image.toString());
                               if (!widget.haveNFT) {
-                                if (walletAddressProvider
-                                    .readPrivateKey(userProvider.id)
-                                    .toString()
-                                    .isNotEmpty) {
+                                if (privateKey != null && imageNFT != null) {
                                   showDialog(
                                     barrierDismissible: false,
                                     context: context,
@@ -345,11 +360,7 @@ class mintNFTState extends State<mintNFT> {
                                   );
                                   try {
                                     MintController()
-                                        .mint(
-                                            walletAddressProvider
-                                                .readPrivateKey(userProvider.id)
-                                                .toString(),
-                                            image!,
+                                        .mint(privateKey.toString(), image!,
                                             image!)
                                         .then(
                                       (value) {
