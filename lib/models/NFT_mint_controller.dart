@@ -125,18 +125,26 @@ class MintController extends ChangeNotifier {
 // // Kill the session
 //     connector.killSession();
     // print(_credentials.address.toString());
-
-    final result = await _client.sendTransaction(
-        _credentials,
-        Transaction.callContract(
-            maxGas: 500000,
-            from: _credentials.address,
-            contract: _contract,
-            function: _mint,
-            parameters: [uri2]),
-        chainId: 5);
-    print(result);
-    return 'Transaction Successfull !! \nTransaction Hash $result';
+    String? result;
+    String? error;
+    try {
+      result = await _client.sendTransaction(
+          _credentials,
+          Transaction.callContract(
+              maxGas: 500000,
+              from: _credentials.address,
+              contract: _contract,
+              function: _mint,
+              parameters: [uri2]),
+          chainId: 5);
+    } catch (e) {
+      error = e.toString();
+    }
+    if (error == null) {
+      return 'Transaction Successfull !! \nTransaction Hash $result';
+    } else {
+      return error;
+    }
 
     // await _client.call(
     //     sender: EthereumAddress.fromHex(fromAddress),

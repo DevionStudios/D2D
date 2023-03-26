@@ -6,6 +6,7 @@ import 'package:foxxi/models/NFT_mint_controller.dart';
 import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/screens/airdrop_screen.dart';
 import 'package:foxxi/services/user_service.dart';
+import 'package:foxxi/utils.dart';
 // import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../components/ipfsService.dart' as ipfs_service;
@@ -364,18 +365,30 @@ class mintNFTState extends State<mintNFT> {
                                             image!)
                                         .then(
                                       (value) {
-                                        Navigator.pop(context);
+                                        if (value.contains(
+                                            'Transaction Successfull !!')) {
+                                          userService.updateProfileImage(
+                                              context: context,
+                                              image: imageNFT);
+                                          Navigator.pop(context);
+                                        } else {
+                                          showSnackBar(
+                                              context, 'Insufficient Funds');
+                                          dev.log(value, name: 'Rpc Error');
+                                          Navigator.pop(context);
+                                        }
                                       },
                                     );
-                                    userService.updateProfileImage(
-                                        context: context, image: imageNFT);
                                   } catch (e) {
                                     dev.log(e.toString());
+                                    showSnackBar(context, e.toString());
                                   }
-                                } else {
+                                } else if (privateKey == null) {
                                   Fluttertoast.showToast(
                                     msg: 'Connect Wallet First',
                                   );
+                                } else {
+                                  showSnackBar(context, 'Image not selected');
                                 }
                               } else {
                                 String text = _controller.text;
