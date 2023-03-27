@@ -53,7 +53,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
     _controller.clear();
 
     if (_isImageSearch) {
-      final request = GenerateImage(message.text, 1, size: "256x256");
+      final request = GenerateImage(message.text, 1, size: ImageSize.size512);
 
       final response = await chatGPT!.generateImage(request);
       insertNewData(response!.data!.last!.url!, isImage: true);
