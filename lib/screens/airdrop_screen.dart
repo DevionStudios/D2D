@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foxxi/routing_constants.dart';
 import 'package:foxxi/services/user_service.dart';
+import 'package:foxxi/utils.dart';
 import 'package:foxxi/widgets/textfield_widget_2.dart';
 
 class AirDropScreen extends StatelessWidget {
@@ -28,21 +29,26 @@ class AirDropScreen extends StatelessWidget {
           ),
           TextFieldWidget2(
             controller: _emailTextController,
-            headingText: 'Email Address',
+            headingText: 'Email Address*',
           ),
           TextFieldWidget2(
               controller: _walletAddressTextController,
-              headingText: 'Wallet Address'),
+              headingText: 'Wallet Address*'),
           TextFieldWidget2(
               controller: _messageTextController, headingText: 'Message'),
           const SizedBox(height: 20),
           ElevatedButton(
               onPressed: () {
-                userService.requestAirdrop(
-                    context: context,
-                    email: _emailTextController.text,
-                    walletAddress: _walletAddressTextController.text,
-                    message: _messageTextController.text);
+                if (_emailTextController.text.isEmpty ||
+                    _walletAddressTextController.text.isEmpty) {
+                  showSnackBar(context, 'Fill the Required Fields');
+                } else {
+                  userService.requestAirdrop(
+                      context: context,
+                      email: _emailTextController.text,
+                      walletAddress: _walletAddressTextController.text,
+                      message: _messageTextController.text);
+                }
               },
               child: const Text('Send Email'))
         ],
