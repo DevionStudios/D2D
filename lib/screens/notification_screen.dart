@@ -4,6 +4,8 @@ import 'package:foxxi/models/notification.dart';
 import 'package:foxxi/providers/theme_provider.dart';
 import 'package:foxxi/routing_constants.dart';
 import 'package:foxxi/screens/chat_screen.dart';
+import 'package:foxxi/screens/post_screen.dart';
+import 'package:foxxi/screens/profile_screen.dart';
 import 'package:foxxi/services/notification_service.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +31,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     if (notificationType == NotificationType.POST_LIKE.name) {
       return 'post';
     } else if (notificationType == NotificationType.USER_FOLLOW.name) {
-      return 'you';
+      return '';
     } else if (notificationType == NotificationType.MESSAGE.name) {
       return 'message';
     } else if (notificationType == NotificationType.POST_REPLY.name) {
@@ -74,10 +76,21 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 child: GestureDetector(
                   onTap: () {
                     if (notificationData[index].postId != null) {}
+
+                    if (notificationData[index].notificationType ==
+                        NotificationType.USER_FOLLOW.name) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfileWidget(
+                                isMe: false,
+                                username: notificationData[index].username),
+                          ));
+                    }
                   },
                   child: ListTile(
                     title: Text(
-                      '${notificationData[index].username} ${notificationData[index].notification} ${getStringfromNotificationType(notificationData[index].notificationType)}',
+                      '@${notificationData[index].username} ${notificationData[index].notification} ${getStringfromNotificationType(notificationData[index].notificationType)}',
                       style: TextStyle(
                           color: isDark ? Colors.white : Colors.black),
                     ),
