@@ -77,7 +77,7 @@ class AddCommentWidget extends StatelessWidget {
                                 notificationService.addNotification(
                                     context: context,
                                     notification: NotificationModel(
-                                        notification: 'Commented On ',
+                                        notification: 'commented on your',
                                         notificationType:
                                             NotificationType.POST_REPLY.name,
                                         userId: postUserId.toString(),

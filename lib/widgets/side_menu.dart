@@ -130,17 +130,28 @@ class _SideMenuState extends State<SideMenu> {
                   provider.toggleTheme(value);
                 },
               ),
-              ListTile(
-                title: Center(
-                  child: Text(
-                    'Log Out',
-                    style:
-                        TextStyle(color: isDark ? Colors.white : Colors.black),
-                  ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width,
+                              right: MediaQuery.of(context).size.width) /
+                          15,
+                      child: const Icon(
+                        Icons.logout_rounded,
+                        size: 30,
+                      ),
+                    ),
+                    Text(
+                      'Log Out',
+                      style: TextStyle(
+                          color: isDark ? Colors.white : Colors.black,
+                          fontSize: 18),
+                    )
+                  ],
                 ),
-                onTap: () {
-                  authService.signOut(context: context);
-                },
               )
             ],
           ),

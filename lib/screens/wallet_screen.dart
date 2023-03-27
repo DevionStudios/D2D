@@ -251,7 +251,8 @@ class _WalletWebState extends State<WalletWeb>
             ),
       floatingActionButton: (walletAddressProvider.walletAddress != null)
           ? Padding(
-              padding: const EdgeInsets.only(bottom: 65),
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).size.height / 9),
               child: FloatingActionButton(
                   backgroundColor:
                       Colors.purpleAccent.shade100.withOpacity(0.4),
