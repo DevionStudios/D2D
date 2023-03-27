@@ -61,7 +61,7 @@ class _WalletWebState extends State<WalletWeb>
 
       print(redirectUrl.toString());
     } else if (Platform.isIOS) {
-      redirectUrl = Uri.parse('{bundleId}://openlogin');
+      redirectUrl = Uri.parse('com.example.foxxi://openlogin');
 
       // com.example.w3aflutter://openlogin
     } else {
