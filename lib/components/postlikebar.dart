@@ -286,7 +286,9 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
                                 ));
                           })
                       : const SizedBox(),
-                  DonateButton(post: widget.post),
+                  widget.post.author.id != userProvider.id
+                      ? DonateButton(post: widget.post)
+                      : const SizedBox()
                 ],
               ),
             ),
