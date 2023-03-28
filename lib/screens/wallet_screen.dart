@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
 import 'package:flutter/services.dart';
 import 'package:foxxi/providers/user_provider.dart';
+import 'package:foxxi/utils.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:local_auth/local_auth.dart';
 
@@ -278,9 +279,13 @@ class _WalletWebState extends State<WalletWeb>
                         }
                       } on PlatformException catch (e) {
                         if (e.code == auth_error.notAvailable) {
-                        } else if (e.code == auth_error.notEnrolled) {
-                        } else {
-                          // ...
+                          showSnackBar(context, 'No Secuity Hardware available');
+                        }
+                        if (e.code == auth_error.passcodeNotSet) {
+                          showSnackBar(context, 'Enroll passcode in Security');
+                        }
+                        if (e.code == auth_error.notEnrolled) {
+                          showSnackBar(context, 'Enroll Biometric Security');
                         }
                       }
                     } else if (animationController.status ==
