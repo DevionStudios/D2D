@@ -139,14 +139,16 @@ class _SideMenuState extends State<SideMenu> {
                               left: MediaQuery.of(context).size.width,
                               right: MediaQuery.of(context).size.width) /
                           15,
-                      child: const Icon(
+                      child:  Icon(
                         Icons.logout_rounded,
                         size: 30,
+                          color: Colors.white,
                       ),
                     ),
                     Text(
                       'Log Out',
                       style: TextStyle(
+                        fontFamily: 'InstagramSans',
                           color: isDark ? Colors.white : Colors.black,
                           fontSize: 18),
                     )

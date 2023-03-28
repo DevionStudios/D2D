@@ -68,29 +68,31 @@ class Chat extends StatelessWidget {
                   radius: 30,
                   backgroundImage: NetworkImage(userProvider.image.toString()),
                 ),
-                leading: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      userProvider.name,
-                      style: TextStyle(
-                        fontFamily: 'Unbounded',
-                        color: isDark ? Colors.grey.shade500 : Colors.black38,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25,
+                leading: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        userProvider.name,
+                        style: TextStyle(
+                          fontFamily: 'Unbounded',
+                          color: isDark ? Colors.grey.shade500 : Colors.black38,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25,
+                        ),
                       ),
-                    ),
-                    Text(
-                      '@${userProvider.username.toLowerCase()}',
-                      style: TextStyle(
-                        color: isDark ? Colors.grey.shade400 : Colors.black38,
-                        fontSize: 15,
-                        fontFamily: 'Unbounded',
+                      Text(
+                        '@${userProvider.username.toLowerCase()}',
+                        style: TextStyle(
+                          color: isDark ? Colors.grey.shade400 : Colors.black38,
+                          fontSize: 15,
+                          fontFamily: 'Unbounded',
+                        ),
+                        textAlign: TextAlign.right,
                       ),
-                      textAlign: TextAlign.right,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

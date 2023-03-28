@@ -345,6 +345,9 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                       : awaitedUserpost!
                                                                           .length
                                                                           .toString(),
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15),
 
                                                                   textAlign:
                                                                       TextAlign
@@ -358,6 +361,9 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                   textAlign:
                                                                       TextAlign
                                                                           .center,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          12),
                                                                 ),
                                                               ],
                                                             ),
@@ -423,12 +429,18 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                     textAlign:
                                                                         TextAlign
                                                                             .center,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            15),
                                                                   ),
                                                                   const Text(
                                                                     'Followers',
                                                                     textAlign:
                                                                         TextAlign
                                                                             .center,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            12),
                                                                   ),
                                                                 ],
                                                               ),
@@ -495,12 +507,18 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                     textAlign:
                                                                         TextAlign
                                                                             .center,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            15),
                                                                   ),
                                                                   const Text(
                                                                     'Following',
                                                                     textAlign:
                                                                         TextAlign
                                                                             .center,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            12),
                                                                   ),
                                                                 ],
                                                               ),
@@ -558,6 +576,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                             ? ''
                                                             : '@${user!.username}'
                                                                 .toString(),
+                                                                style: TextStyle(color:isDark?Colors.grey.shade300:Colors.grey.shade700,fontFamily: 'InstagramSans'),
                                                   ),
                                                 ],
                                               ),
@@ -624,7 +643,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                 style: TextStyle(
                                                     color: isDark
                                                         ? Colors.grey.shade500
-                                                        : Colors.grey.shade700,
+                                                        : Colors.grey.shade800,
                                                     fontFamily: 'Instagram'),
                                               ),
                                             ],
