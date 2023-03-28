@@ -263,7 +263,7 @@ class _WalletWebState extends State<WalletWeb>
                     if (isAuth == false) {
                       try {
                         final bool didAuthenticate = await auth.authenticate(
-                            localizedReason: 'Please authenticate',
+                            localizedReason: 'Please authenticate to see Private Key',
                             options: const AuthenticationOptions(
                                 useErrorDialogs: false));
                         isAuth = didAuthenticate;
@@ -279,13 +279,19 @@ class _WalletWebState extends State<WalletWeb>
                         }
                       } on PlatformException catch (e) {
                         if (e.code == auth_error.notAvailable) {
-                          showSnackBar(context, 'No Secuity Hardware available');
+                          showSnackBar(context, 'Enroll Passcode to View ');
                         }
                         if (e.code == auth_error.passcodeNotSet) {
                           showSnackBar(context, 'Enroll passcode in Security');
                         }
                         if (e.code == auth_error.notEnrolled) {
                           showSnackBar(context, 'Enroll Biometric Security');
+                        }
+                        if(e.code == auth_error.permanentlyLockedOut){
+                          showSnackBar(context, 'You are locked out of this device');
+                        }
+                        if(e.code==auth_error.otherOperatingSystem){
+                          showSnackBar(context, 'Unsupported OS');
                         }
                       }
                     } else if (animationController.status ==
