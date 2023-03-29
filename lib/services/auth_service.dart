@@ -1,18 +1,15 @@
 import 'dart:convert';
+import 'dart:developer' as dev;
+
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:foxxi/models/user.dart';
-import 'package:foxxi/screens/preference_screen.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+
+import 'package:foxxi/constants.dart';
 import 'package:foxxi/http_error_handle.dart';
 import 'package:foxxi/screens/login_screen.dart';
-
-import 'package:foxxi/providers/user_provider.dart';
+import 'package:foxxi/screens/preference_screen.dart';
 import 'package:foxxi/utils.dart';
-import 'package:foxxi/constants.dart';
-import 'dart:developer' as dev;
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:provider/provider.dart';
 
 import '../components/entry_Point1.dart';
 
@@ -95,15 +92,19 @@ class AuthService {
           await _storage.write(
               key: "cookies", value: jsonDecode(res.body)['jwt'].toString());
           dev.log(res.body, name: 'login JWT');
-          Navigator.pushNamed(
-            context,
-            BottomNavBar.routeName,
-          );
+
+          if (context.mounted) {
+            showSnackBar(context, 'Login Successfull');
+
+            Navigator.pushNamed(
+              context,
+              BottomNavBar.routeName,
+            );
+          }
         },
       );
     } catch (e) {
       dev.log(e.toString(), name: "LoginInErrorCatch");
-      showSnackBar(context, e.toString());
     }
     return statusCode;
   }
@@ -228,9 +229,14 @@ class AuthService {
     try {
       await http.post(Uri.parse('$url/api/users/signout'));
       await _storage.delete(key: 'cookies');
-
+      await _storage.delete(key: 'PRIVATE_KEY');
+      dev.log('SIGN OUT');
       if (context.mounted) {
-        Navigator.pushNamed(context, LoginScreen.routeName);
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          LoginScreen.routeName,
+          (route) => false,
+        );
       }
     } catch (e) {
       dev.log(e.toString(), name: 'SIGN OUT');

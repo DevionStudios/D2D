@@ -1,18 +1,15 @@
 import 'dart:convert';
-
-import 'package:flutter/material.dart';
-import 'package:foxxi/http_error_handle.dart';
-import 'package:foxxi/models/chat_model.dart';
-import 'package:foxxi/models/notification.dart';
-import 'package:foxxi/models/user.dart';
-import 'package:foxxi/providers/user_provider.dart';
-import 'package:foxxi/services/notification_service.dart';
-import 'package:http/http.dart' as http;
-import 'package:foxxi/constants.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:developer' as dev;
 
-import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
+
+import 'package:foxxi/constants.dart';
+import 'package:foxxi/http_error_handle.dart';
+import 'package:foxxi/models/chat_model.dart';
+import 'package:foxxi/models/user.dart';
+import 'package:foxxi/services/notification_service.dart';
 
 const _storage = FlutterSecureStorage();
 NotificationService notificationService = NotificationService();

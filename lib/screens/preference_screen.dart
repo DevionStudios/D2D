@@ -4,7 +4,7 @@ import 'package:foxxi/services/user_service.dart';
 import 'package:foxxi/utils.dart';
 
 class PreferenceScreen extends StatefulWidget {
-  PreferenceScreen({super.key});
+  const PreferenceScreen({super.key});
 
   @override
   State<PreferenceScreen> createState() => _PreferenceScreenState();
@@ -71,6 +71,10 @@ class _PreferenceScreenState extends State<PreferenceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Select Preferences'),
+        elevation: 0,
+      ),
       body: Column(children: [
         Expanded(
           child: ListView.builder(
@@ -88,8 +92,6 @@ class _PreferenceScreenState extends State<PreferenceScreen> {
                   } else {
                     selectedPreferences.remove(preferences[index]);
                   }
-
-                  print(selectedPreferences.toString());
                 },
               ),
             ),
@@ -113,7 +115,7 @@ class _PreferenceScreenState extends State<PreferenceScreen> {
                               Colors.lightBlue.shade100.withOpacity(0.4),
                               Colors.purpleAccent.shade100.withOpacity(0.4),
                             ],
-                            stops: [0, 1],
+                            stops: const [0, 1],
                             begin: const AlignmentDirectional(1, 0),
                             end: const AlignmentDirectional(-1, 0),
                             // color: Colors.purpleAccent.shade100.withOpacity(

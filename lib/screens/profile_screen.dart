@@ -5,14 +5,15 @@ import 'package:foxxi/providers/theme_provider.dart';
 import 'package:foxxi/routing_constants.dart';
 import 'package:foxxi/screens/follower_following_screen.dart';
 import 'package:foxxi/services/user_service.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:foxxi/utils.dart';
+import 'package:foxxi/widgets/follow_button.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 
 import 'package:foxxi/models/user.dart';
 import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/services/post_service.dart';
-
+import 'dart:developer' as dev;
 import '../models/feed_post_model.dart';
 import '../widgets/feed_post_card.dart';
 import '../widgets/menu_button.dart';
@@ -62,9 +63,9 @@ class _ProfileWidgetState extends State<ProfileWidget>
 
   @override
   void initState() {
-    getUserFromUsername();
+    getUserData();
     getUserPosts();
-    isFollowedByUser();
+
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 200))
       ..addListener(
@@ -79,9 +80,19 @@ class _ProfileWidgetState extends State<ProfileWidget>
     super.initState();
   }
 
-  void getUserFromUsername() async {
-    user = await userService.getCurrentUserDatawithUsername(
-        context: context, username: widget.username);
+  void getUserData() {
+    userService
+        .getCurrentUserDatawithUsername(
+            context: context, username: widget.username)
+        ?.then((value) {
+      user = value;
+      if (user != null) {
+        userService.getCurrentUserData(
+            context: context,
+            id: Provider.of<UserProvider>(context, listen: false).user.id);
+      }
+      isFollowedByUser();
+    });
     if (mounted) {
       setState(() {});
     }
@@ -106,9 +117,16 @@ class _ProfileWidgetState extends State<ProfileWidget>
         setState(() {
           isFollowed = true;
         });
+
         break;
+      } else {
+        setState(() {
+          isFollowed = false;
+        });
       }
     }
+
+    dev.log(isFollowed.toString(), name: 'Is User Followed By You ');
   }
 // Future<void> refresh (){
 //   getUserPosts();
@@ -189,9 +207,14 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                             if (loadingProgress == null) {
                                               return child;
                                             } else {
-                                              return const Center(
-                                                  child:
-                                                      CircularProgressIndicator());
+                                              return Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: MediaQuery.of(context)
+                                                            .size
+                                                            .height /
+                                                        9),
+                                                child: const CustomLoader(),
+                                              );
                                             }
                                           },
                                           errorBuilder:
@@ -274,14 +297,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                               null) {
                                                             return child;
                                                           }
-                                                          return LoadingAnimationWidget
-                                                              .hexagonDots(
-                                                                  color: isDark
-                                                                      ? Colors
-                                                                          .white
-                                                                      : Colors
-                                                                          .black,
-                                                                  size: 30);
+                                                          return const CustomLoader();
                                                         },
                                                         errorBuilder: (context,
                                                             error, stackTrace) {
@@ -515,120 +531,137 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                             ],
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsetsDirectional
-                                              .fromSTEB(20, 20, 20, 0),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              Text(
-                                                widget.isMe
-                                                    ? userProvider.name
-                                                        .toString()
-                                                    : user == null
-                                                        ? ''
-                                                        : user!.name.toString(),
-                                              ),
-                                              const Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(5, 0, 0, 0),
-                                                child: Icon(
-                                                  Icons.verified_rounded,
-                                                  size: 16,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsetsDirectional
-                                                      .fromSTEB(20, 0, 20, 0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: [
-                                                  Text(
-                                                    widget.isMe
-                                                        ? '@${userProvider.username}'
-                                                        : user == null
-                                                            ? ''
-                                                            : '@${user!.username}'
-                                                                .toString(),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                          20, 20, 20, 0),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: [
+                                                      Text(
+                                                        widget.isMe
+                                                            ? userProvider.name
+                                                                .toString()
+                                                            : user == null
+                                                                ? ''
+                                                                : user!.name
+                                                                    .toString(),
+                                                      ),
+                                                      const Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    5, 0, 0, 0),
+                                                        child: Icon(
+                                                          Icons
+                                                              .verified_rounded,
+                                                          size: 16,
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                          20, 0, 20, 0),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: [
+                                                      Text(
+                                                        widget.isMe
+                                                            ? '@${userProvider.username}'
+                                                            : user == null
+                                                                ? ''
+                                                                : '@${user!.username}'
+                                                                    .toString(),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                          20, 10, 20, 25),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        userProvider.bio
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            color: isDark
+                                                                ? Colors.grey
+                                                                    .shade500
+                                                                : Colors.grey
+                                                                    .shade700,
+                                                            fontFamily:
+                                                                'Instagram'),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                             widget.isMe
                                                 ? const SizedBox()
-                                                : InkWell(
-                                                    onTap: () {},
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              right: 50),
-                                                      child:
-                                                          FloatingActionButton(
-                                                        backgroundColor:
-                                                            Colors.blue,
-                                                        child: Text(
-                                                          isFollowed
-                                                              ? statusCodeForFollow ==
-                                                                      200
-                                                                  ? 'Follow'
-                                                                  : 'Unfollow'
-                                                              : statusCodeForFollow ==
-                                                                      201
-                                                                  ? 'Unfollow'
-                                                                  : 'Follow',
-                                                          style: TextStyle(
-                                                              color: isDark
-                                                                  ? Colors.white
-                                                                  : Colors
-                                                                      .black),
-                                                        ),
-                                                        onPressed: () async {
-                                                          await userService
-                                                              .followUser(
+                                                : Padding(
+                                                    padding: EdgeInsets.only(
+                                                        right: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            7),
+                                                    child: FollowButton(
+                                                      backgroundColor:
+                                                          Colors.white,
+                                                      borderColor: Colors.white,
+                                                      textColor: Colors.black,
+                                                      function: () {
+                                                        userService
+                                                            .followUser(
+                                                                context:
+                                                                    context,
+                                                                username: user!
+                                                                    .username)
+                                                            .then((value) {
+                                                          setState(() {
+                                                            // if (value == 201) {
+                                                            //   isFollowed = true;
+                                                            // }
+
+                                                            // if (value == 200) {
+                                                            //   isFollowed =
+                                                            //       false;
+                                                            // }
+                                                          });
+
+                                                          userService
+                                                              .getCurrentUserData(
                                                                   context:
                                                                       context,
-                                                                  username: user ==
-                                                                          null
-                                                                      ? ''
-                                                                      : user!
-                                                                          .username)
-                                                              .then((value) {
-                                                            setState(() {
-                                                              statusCodeForFollow =
-                                                                  value;
-                                                            });
-                                                          });
-                                                        },
-                                                      ),
+                                                                  id: userProvider
+                                                                      .id);
+                                                        });
+                                                      },
+                                                      isFollowed: isFollowed,
                                                     ),
-                                                  )
+                                                  ),
                                           ],
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsetsDirectional
-                                              .fromSTEB(20, 10, 20, 25),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                userProvider.bio.toString(),
-                                                style: TextStyle(
-                                                    color: isDark
-                                                        ? Colors.grey.shade500
-                                                        : Colors.grey.shade700,
-                                                    fontFamily: 'Instagram'),
-                                              ),
-                                            ],
-                                          ),
                                         ),
                                         FutureBuilder<List<FeedPostModel>?>(
                                           future: _userPost,
@@ -674,8 +707,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                               );
                                             } else {
                                               return const Center(
-                                                  child:
-                                                      CircularProgressIndicator());
+                                                  child: CustomLoader());
                                             }
                                           },
                                         ),

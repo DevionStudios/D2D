@@ -41,7 +41,7 @@ class _MyRiveAnimationState extends State<SplashScreen> {
       Timer(
           const Duration(milliseconds: 1500),
           () => Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => BottomNavBar())));
+              MaterialPageRoute(builder: (context) => const BottomNavBar())));
     }
   }
 

@@ -1,19 +1,19 @@
-import 'dart:async';
+import 'dart:developer' as dev;
 import 'dart:ui';
 
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
-import 'package:foxxi/components/donateButton.dart';
-import 'package:foxxi/services/notification_service.dart';
-import 'package:foxxi/utils.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
-import 'dart:developer' as dev;
+
+import 'package:foxxi/components/donate_button.dart';
 import 'package:foxxi/models/feed_post_model.dart';
 import 'package:foxxi/providers/theme_provider.dart';
 import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/screens/chat.dart';
+import 'package:foxxi/services/notification_service.dart';
 import 'package:foxxi/services/post_service.dart';
+import 'package:foxxi/utils.dart';
 import 'package:foxxi/widgets/add_comment.dart';
 
 class PostLikeCommentBar extends StatefulWidget {
@@ -233,12 +233,6 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
                                         padding: EdgeInsets.only(
                                           left: 8,
                                         ),
-                                        // child: Text(
-                                        //  ,
-                                        //   style: TextStyle(
-                                        //     color: Colors.grey,
-                                        //   ),
-                                        // ),
                                       )
                                     ],
                                   )
@@ -254,7 +248,6 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
                                 ],
                               ),
                               AddCommentWidget(
-                                postUserId: widget.post.author.id,
                                 postId: widget.post.id,
                               ),
                             ],

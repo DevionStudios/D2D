@@ -1,11 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:foxxi/routing_constants.dart';
-import 'package:foxxi/screens/login_screen.dart';
-import 'package:foxxi/services/auth_service.dart';
-import 'package:foxxi/text_field_widget.dart';
 import 'dart:developer' as dev;
 
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'package:foxxi/routing_constants.dart';
+import 'package:foxxi/services/auth_service.dart';
+import 'package:foxxi/text_field_widget.dart';
+import 'package:foxxi/utils.dart';
 
 import '../providers/navigation_argument_data_provider.dart';
 
@@ -43,13 +44,22 @@ class _ForgotPasswordResetScreenState extends State<ForgotPasswordResetScreen> {
       body: Form(
         key: _formKey,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
+          padding: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height / 9,
+              right: MediaQuery.of(context).size.height / 20,
+              left: MediaQuery.of(context).size.height / 20),
           width: double.infinity,
           child: Column(
             children: [
-              Flexible(
+              const Flexible(
                 flex: 2,
-                child: Container(),
+                child: Hero(
+                    tag: 'foxxi_logo',
+                    child:
+                        Image(image: AssetImage('lib/assets/foxxiLogo.png'))),
+              ),
+              const SizedBox(
+                height: 30,
               ),
               const Center(child: Text('Password Reset')),
               const SizedBox(
@@ -93,9 +103,7 @@ class _ForgotPasswordResetScreenState extends State<ForgotPasswordResetScreen> {
                   ),
                   child: _isLoading
                       ? const Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.lightBlue,
-                          ),
+                          child: CustomLoader(),
                         )
                       : const Center(
                           child: Text("Reset Password"),

@@ -44,8 +44,7 @@ class mintNFTState extends State<mintNFT> {
 
   String? readPrivateKey() {
     Provider.of<WalletAddressProvider>(context, listen: false)
-        .readPrivateKey(
-            Provider.of<UserProvider>(context, listen: false).user.id)
+        .readPrivateKey()
         ?.then((value) {
       setState(() {
         privateKey = value;

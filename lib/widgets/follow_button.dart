@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 
 class FollowButton extends StatelessWidget {
   final VoidCallback function;
+  bool? isFollowed;
+  int? followStatusCode;
   final Color backgroundColor;
   final Color borderColor;
-  String? text;
   final Color textColor;
   FollowButton(
       {Key? key,
       required this.backgroundColor,
       required this.borderColor,
-      this.text,
+      this.isFollowed,
+      this.followStatusCode,
       required this.textColor,
       required this.function})
       : super(key: key);
@@ -23,24 +25,23 @@ class FollowButton extends StatelessWidget {
       child: TextButton(
         onPressed: function,
         child: Container(
-          padding: const EdgeInsets.all(5),
-          decoration: BoxDecoration(
-            color: backgroundColor,
-            border: Border.all(
-              color: borderColor,
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              border: Border.all(
+                color: borderColor,
+              ),
+              borderRadius: BorderRadius.circular(5),
             ),
-            borderRadius: BorderRadius.circular(5),
-          ),
-          alignment: Alignment.center,
-          height: 27,
-          child: Text(
-            text.toString(),
-            style: TextStyle(
-              color: textColor,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
+            alignment: Alignment.center,
+            height: 27,
+            child: Text(
+              isFollowed! ? 'UnFollow' : 'Follow',
+              style: TextStyle(
+                color: textColor,
+                fontWeight: FontWeight.bold,
+              ),
+            )),
       ),
     ));
   }

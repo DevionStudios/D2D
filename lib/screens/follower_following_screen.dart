@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:foxxi/models/user.dart';
-import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/screens/followers_screen.dart';
 import 'package:foxxi/screens/following_screen.dart';
 import 'package:foxxi/services/user_service.dart';
@@ -37,10 +35,6 @@ class _FollowerFollowingScreenState extends State<FollowerFollowingScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: const [Text('Followers'), Text('Following')],
-            ),
-            const SizedBox(
-              width: 100,
-              child: const Divider(),
             ),
             Expanded(
               child: PageView(

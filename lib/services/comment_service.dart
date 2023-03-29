@@ -34,7 +34,7 @@ class CommentService {
             response: res,
             onSuccess: () {
               statusCode = res.statusCode;
-              showSnackBar(context, "Commment Added");
+              showSnackBar(context, "Comment Added");
             });
       }
     } catch (e) {
@@ -43,8 +43,9 @@ class CommentService {
     return statusCode;
   }
 
-  void deleteComment(
+  Future<int> deleteComment(
       {required BuildContext context, required String id}) async {
+    int statusCode = 0;
     try {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
@@ -61,18 +62,21 @@ class CommentService {
             context: context,
             response: res,
             onSuccess: () {
+              statusCode = res.statusCode;
               showSnackBar(context, 'Comment Deleted ');
             });
       }
     } catch (e) {
       dev.log(e.toString(), name: 'CommentService : Delete Comment Error');
     }
+    return statusCode;
   }
 
-  void updateComment(
+  Future<int> updateComment(
       {required BuildContext context,
       required String id,
       required String caption}) async {
+    int statusCode = 0;
     try {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
@@ -82,20 +86,20 @@ class CommentService {
             'Content-Type': 'application/json; charset=UTF-8',
             'cookies': foxxijwt
           },
-          body: {
-            'id': id,
-            'caption': caption
-          });
+          body: jsonEncode({'id': id, 'caption': caption}));
       if (context.mounted) {
         httpErrorHandle(
             context: context,
             response: res,
             onSuccess: () {
-              showSnackBar(context, res.body.toString());
+              statusCode = res.statusCode;
+              dev.log('Comment Updated');
+              showSnackBar(context, 'Comment Updated!');
             });
       }
     } catch (e) {
       dev.log(e.toString(), name: 'CommentService : Update Comment Error');
     }
+    return statusCode;
   }
 }

@@ -2,6 +2,8 @@ import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
 import 'package:foxxi/services/notification_service.dart';
+import 'package:foxxi/widgets/add_comment.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
 import 'package:foxxi/components/postlikebar.dart';
@@ -70,9 +72,7 @@ class _FeedCardState extends State<FeedCard> {
           context,
           MaterialPageRoute(
             builder: (context) => PostCard(
-              post: widget.post,
-              isImage: widget.isImage,
-              isVideo: widget.isVideo,
+              postId: widget.post.id,
             ),
           ),
         );
@@ -137,10 +137,12 @@ class _FeedCardState extends State<FeedCard> {
                         true
                             ? IconButton(
                                 onPressed: () {
+                                  BuildContext dialogContext;
                                   showDialog(
                                     useRootNavigator: false,
                                     context: context,
                                     builder: (context) {
+                                      dialogContext = context;
                                       return Dialog(
                                         child: ListView(
                                           padding: const EdgeInsets.symmetric(
@@ -155,6 +157,10 @@ class _FeedCardState extends State<FeedCard> {
                                                     userProvider.user.id
                                                 ? null
                                                 : 'Repost Post',
+                                            widget.post.author.id ==
+                                                    userProvider.user.id
+                                                ? null
+                                                : 'Report Post',
                                             widget.post.author.id ==
                                                     userProvider.user.id
                                                 ? 'Update Post'
@@ -183,16 +189,156 @@ class _FeedCardState extends State<FeedCard> {
                                                             context: context,
                                                             id: widget.post.id
                                                                 .toString());
-
-                                                        Navigator.pop(context);
+                                                        Navigator.pop(
+                                                            dialogContext);
                                                       }
                                                       if (e == 'Repost Post') {
                                                         postService.repostPost(
                                                             id: widget.post.id,
                                                             context: context);
-                                                        Navigator.pop(context);
+                                                        Navigator.pop(
+                                                            dialogContext);
                                                       }
-                                                      Navigator.pop(context);
+                                                      if (e == 'Report Post') {
+                                                        postService.reportPost(
+                                                            id: widget.post.id,
+                                                            context: context);
+                                                        Navigator.pop(
+                                                            dialogContext);
+                                                      }
+
+                                                      if (e == 'Update Post') {
+                                                        Navigator.pop(
+                                                            dialogContext);
+                                                        showMaterialModalBottomSheet<
+                                                            void>(
+                                                          shape: const RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius.vertical(
+                                                                      top: Radius
+                                                                          .circular(
+                                                                              25))),
+                                                          context: context,
+                                                          builder: (context) =>
+                                                              Padding(
+                                                            padding: EdgeInsets.only(
+                                                                bottom: MediaQuery.of(
+                                                                        context)
+                                                                    .viewInsets
+                                                                    .bottom),
+                                                            child: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: [
+                                                                Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                              .all(
+                                                                          8.0),
+                                                                  child: Text(
+                                                                      'Update Post',
+                                                                      style: TextStyle(
+                                                                          color: isDark
+                                                                              ? Colors
+                                                                                  .grey.shade400
+                                                                              : Colors
+                                                                                  .black,
+                                                                          fontFamily:
+                                                                              'InstagramSans',
+                                                                          fontSize:
+                                                                              25,
+                                                                          fontWeight:
+                                                                              FontWeight.bold)),
+                                                                ),
+                                                                Row(
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding:
+                                                                          const EdgeInsets.all(
+                                                                              8),
+                                                                      child:
+                                                                          CircleAvatar(
+                                                                        radius:
+                                                                            16,
+                                                                        backgroundImage: NetworkImage(widget
+                                                                            .post
+                                                                            .author
+                                                                            .image
+                                                                            .toString()),
+                                                                      ),
+                                                                    ),
+                                                                    Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Row(
+                                                                          children: [
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left: 8),
+                                                                              child: Text(
+                                                                                widget.post.author.name.toString(),
+                                                                                style: TextStyle(
+                                                                                  color: isDark ? Colors.grey.shade200 : Colors.black,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left: 4.0),
+                                                                              child: Text(
+                                                                                '@${widget.post.author.username}',
+                                                                                style: TextStyle(
+                                                                                  color: isDark ? Colors.grey.shade600 : Colors.black,
+                                                                                ),
+                                                                              ),
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                        const Padding(
+                                                                          padding:
+                                                                              EdgeInsets.only(
+                                                                            left:
+                                                                                8,
+                                                                          ),
+                                                                        )
+                                                                      ],
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
+                                                                  children: const [
+                                                                    Padding(
+                                                                      padding: EdgeInsets.only(
+                                                                          left:
+                                                                              8.0),
+                                                                      child: Text(
+                                                                          'Your Reply'),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                AddCommentWidget(
+                                                                  isPostUpdate:
+                                                                      true,
+                                                                  hashtags: widget
+                                                                      .post
+                                                                      .hashtags,
+                                                                  postUserId:
+                                                                      widget
+                                                                          .post
+                                                                          .author
+                                                                          .id,
+                                                                  postId: widget
+                                                                      .post.id,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      }
                                                     }),
                                               )
                                               .toList(),

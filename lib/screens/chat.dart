@@ -1,19 +1,17 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_bubble/chat_bubble.dart';
+import 'package:provider/provider.dart';
+
 import 'package:foxxi/constants.dart';
 import 'package:foxxi/models/notification.dart';
-import 'dart:developer' as dev;
 import 'package:foxxi/models/user.dart';
 import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/routing_constants.dart';
 import 'package:foxxi/services/message_service.dart';
 import 'package:foxxi/widgets/message_bubble.dart';
-import 'package:provider/provider.dart';
 
 import '../models/chat_model.dart';
 import '../providers/theme_provider.dart';
-import 'chat_screen.dart';
 
 class ChatScreen extends StatefulWidget {
   final String? userName;

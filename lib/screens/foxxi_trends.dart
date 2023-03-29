@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foxxi/models/foxxi_trends_post_model.dart';
 import 'package:foxxi/routing_constants.dart';
 import 'package:foxxi/services/post_service.dart';
+import 'package:foxxi/utils.dart';
 import 'package:foxxi/widgets/foxxi_trends_card.dart';
 import 'dart:developer' as dev;
 
@@ -39,11 +40,11 @@ class _FoxxiTrendScreenState extends State<FoxxiTrendScreen> {
                           : snapshot.data!.length,
                       itemBuilder: (context, index) => FoxxiTrendCard(
                           caption: snapshot.data![index].text,
-                          createdAt: snapshot.data![index].created_at)),
+                          createdAt: snapshot.data![index].createdAt)),
                 );
               } else {
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: CustomLoader(),
                 );
               }
             },

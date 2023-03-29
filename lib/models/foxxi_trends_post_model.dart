@@ -2,23 +2,23 @@ import 'dart:convert';
 
 class FoxxiTrendsPost {
   final String text;
-  final String created_at;
+  final String createdAt;
   FoxxiTrendsPost({
     required this.text,
-    required this.created_at,
+    required this.createdAt,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'text': text,
-      'created_at': created_at,
+      'createdAt': createdAt,
     };
   }
 
   factory FoxxiTrendsPost.fromMap(Map<String, dynamic> map) {
     return FoxxiTrendsPost(
       text: map['text'] ?? '',
-      created_at: map['created_at'] ?? '',
+      createdAt: map['created_at'] ?? '',
     );
   }
 

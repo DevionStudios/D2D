@@ -1,16 +1,19 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:foxxi/services/post_service.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
-import 'package:platform/platform.dart';
+
+import 'package:foxxi/services/post_service.dart';
 
 class AddPost extends StatefulWidget {
   // const AddPost({super.key});
   //Photo -- true Video -- false
   bool IsImage;
-  AddPost({required this.IsImage});
+  AddPost({
+    Key? key,
+    required this.IsImage,
+  }) : super(key: key);
 
   @override
   State<AddPost> createState() => _AddPostState();
@@ -150,9 +153,11 @@ class _AddPostState extends State<AddPost> {
                                             Colors.purpleAccent.shade100
                                                 .withOpacity(0.4),
                                           ],
-                                          stops: [0, 1],
-                                          begin: AlignmentDirectional(1, 0),
-                                          end: AlignmentDirectional(-1, 0),
+                                          stops: const [0, 1],
+                                          begin:
+                                              const AlignmentDirectional(1, 0),
+                                          end:
+                                              const AlignmentDirectional(-1, 0),
                                           // color: Colors.purpleAccent.shade100.withOpacity(
                                           // 0.3,
                                         ),
@@ -171,6 +176,8 @@ class _AddPostState extends State<AddPost> {
                                           caption: _captionTextEditingController
                                               .text,
                                           imageFilePath: image!.path);
+
+                                      Navigator.pop(context);
                                     },
                                     child: const Text('Upload'),
                                   ),
@@ -281,6 +288,7 @@ class _AddPostState extends State<AddPost> {
                                   context: context,
                                   caption: _captionTextEditingController.text,
                                   videoFilePath: pickedFile!.path);
+                              Navigator.pop(context);
                             },
                             child: const Text('Upload'),
                           ),

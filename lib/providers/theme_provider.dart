@@ -17,5 +17,5 @@ class myThemes {
   static final lightTheme = ThemeData(
       useMaterial3: true,
       scaffoldBackgroundColor: Colors.white,
-      colorScheme: ColorScheme.light());
+      colorScheme: const ColorScheme.light());
 }

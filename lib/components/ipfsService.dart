@@ -23,19 +23,23 @@ class ImagePickerService {
         );
         return null;
       } else {
-        showDialog(
-          barrierDismissible: false,
-          context: context,
-          builder: (BuildContext context) => ProgressDialog(
-            status: 'Uploading to IPFS',
-          ),
-        );
+        if (context.mounted) {
+          showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (BuildContext context) => ProgressDialog(
+              status: 'Uploading to IPFS',
+            ),
+          );
+        }
 
         // upload image to ipfs
         final cid = await FlutterIpfs().uploadToIpfs(image.path);
 
         // Popping out the dialog box
-        Navigator.pop(context);
+        if (context.mounted) {
+          Navigator.pop(context);
+        }
 
         //Return Path
         return cid;

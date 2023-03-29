@@ -3,6 +3,7 @@ import 'dart:developer' as dev;
 import 'package:flutter/material.dart';
 import 'package:foxxi/screens/profile_screen.dart';
 import 'package:foxxi/services/user_service.dart';
+import 'package:foxxi/utils.dart';
 import 'package:provider/provider.dart';
 
 import 'package:foxxi/models/user.dart';
@@ -77,7 +78,7 @@ class _FollowerScreenState extends State<FollowingScreen> {
       );
     } else {
       return const Center(
-        child: CircularProgressIndicator(),
+        child: CustomLoader(),
       );
     }
   }

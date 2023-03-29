@@ -4,6 +4,8 @@ import 'package:foxxi/routing_constants.dart';
 import 'package:foxxi/text_field_widget.dart';
 import 'dart:developer' as dev;
 
+import 'package:foxxi/utils.dart';
+
 class ForgotPasswordEmailScreen extends StatefulWidget {
   static const String routeName = forgotPasswordEmailScreenRoute;
 
@@ -77,9 +79,7 @@ class _ForgotPasswordEmailScreenState extends State<ForgotPasswordEmailScreen> {
                   ),
                   child: _isLoading
                       ? const Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.lightBlue,
-                          ),
+                          child: CustomLoader(),
                         )
                       : const Center(child: Text("Send Reset Code")),
                 ),

@@ -6,13 +6,13 @@ import 'package:flutter_carousel_slider/carousel_slider.dart';
 
 class StoryScreen extends StatefulWidget {
   List<Story> stories;
-  StoryScreen({required this.stories});
+  StoryScreen({super.key, required this.stories});
 
   @override
-  State<StoryScreen> createState() => _storyScreenState();
+  State<StoryScreen> createState() => _StoryScreenState();
 }
 
-class _storyScreenState extends State<StoryScreen> {
+class _StoryScreenState extends State<StoryScreen> {
   VideoPlayerController? _controller;
 
   late CarouselSliderController _sliderController;
@@ -59,7 +59,6 @@ class _storyScreenState extends State<StoryScreen> {
           width: MediaQuery.of(context).size.width,
           child: CarouselSlider.builder(
             enableAutoSlider: false,
-
             unlimitedMode: true,
             controller: _sliderController,
             slideBuilder: (index) {
@@ -209,11 +208,6 @@ class _storyScreenState extends State<StoryScreen> {
               );
             },
             slideTransform: const CubeTransform(),
-            // slideIndicator: CircularSlideIndicator(
-            //     // padding: EdgeInsets.only(bottom: 32),
-            //     // indicatorBorderColor: Colors.black,
-            //     ),
-            // enableAutoSlider: true,
             itemCount: widget.stories.length,
           ),
         ),

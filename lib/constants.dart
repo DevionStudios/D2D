@@ -1,17 +1,19 @@
-// const url = 'http://10.0.2.2:5000'; // while using emulator
-// const url = 'http://localhost:5000'; // while using usb
-//const url =
-//  'http://192.168.1.6:5000'; // while using wireless method (adb connect)
 const url = 'https://foxxi.vercel.app';
 
 const openAIKey = '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';
 const newsCatcherApi = '';
 
 enum NotificationType {
+  // ignore: constant_identifier_names
   USER_FOLLOW,
+  // ignore: constant_identifier_names
   POST_LIKE,
+  // ignore: constant_identifier_names
   POST_REPLY,
+  // ignore: constant_identifier_names
   MESSAGE,
+  // ignore: constant_identifier_names
   ADMIN,
+  // ignore: constant_identifier_names
   MENTION,
 }

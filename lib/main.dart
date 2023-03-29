@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
 
 import 'package:foxxi/providers/navigation_argument_data_provider.dart';
 import 'package:foxxi/providers/post_provider.dart';
 import 'package:foxxi/providers/story_provider.dart';
 import 'package:foxxi/providers/theme_provider.dart';
-import 'package:foxxi/providers/wallet_address.dart';
-import 'package:foxxi/screens/login_screen.dart';
-import 'package:foxxi/router.dart';
 import 'package:foxxi/providers/user_provider.dart';
+import 'package:foxxi/providers/wallet_address.dart';
+import 'package:foxxi/router.dart';
 import 'package:foxxi/screens/splash_screen.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   runApp(MultiProvider(

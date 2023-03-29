@@ -7,6 +7,7 @@ import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/screens/profile_screen.dart';
 import 'package:foxxi/services/post_service.dart';
 import 'package:foxxi/services/user_service.dart';
+import 'package:foxxi/utils.dart';
 import 'package:foxxi/widgets/feed_post_card.dart';
 import 'package:provider/provider.dart';
 
@@ -100,7 +101,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         );
                       } else {
                         return const Center(
-                          child: CircularProgressIndicator(),
+                          child: CustomLoader(),
                         );
                       }
                     },
@@ -147,7 +148,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             );
                           } else {
                             return const Center(
-                              child: CircularProgressIndicator(),
+                              child: CustomLoader(),
                             );
                           }
                         },

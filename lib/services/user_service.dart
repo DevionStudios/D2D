@@ -24,7 +24,7 @@ class UserService {
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           });
-      dev.log(res.body.toString(), name: 'UserDAta');
+      // dev.log(res.body.toString(), name: 'UserDAta');
 
       if (context.mounted) {
         httpErrorHandle(
@@ -49,7 +49,7 @@ class UserService {
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           });
-      dev.log(res.body.toString(), name: 'UserDAta by using username');
+      // dev.log(res.body.toString(), name: 'UserDAta by using username');
       dev.log(username, name: 'UserService = username');
       if (context.mounted) {
         httpErrorHandle(
@@ -123,7 +123,7 @@ class UserService {
             context: context,
             response: res,
             onSuccess: () {
-              dev.log(searchWord, name: 'SearchWord');
+              // dev.log(searchWord, name: 'SearchWord');
               dev.log(res.body.toString(), name: 'User Search Log');
               final data = jsonDecode(res.body);
               if (data != null) {

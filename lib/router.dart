@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foxxi/components/entry_Point1.dart';
 import 'package:foxxi/screens/airdrop_screen.dart';
-import 'package:foxxi/screens/chat.dart';
 import 'package:foxxi/screens/email_verfication_screen.dart';
 import 'package:foxxi/screens/forgot_password_email_screen.dart';
 import 'package:foxxi/screens/forgot_password_resetscreen.dart';
@@ -9,9 +8,8 @@ import 'package:foxxi/screens/foxxi_trends.dart';
 import 'package:foxxi/screens/login_screen.dart';
 import 'package:foxxi/screens/notification_screen.dart';
 import 'package:foxxi/screens/otp_screen.dart';
-import 'package:foxxi/screens/profile_screen.dart';
 import 'package:foxxi/screens/sign_up_screen.dart';
-import 'package:foxxi/screens/trending_screen.dart';
+import 'package:foxxi/screens/trending_screen.dart' show TrendingScreen;
 import 'package:foxxi/screens/your_feed_screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {

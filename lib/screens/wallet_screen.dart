@@ -15,6 +15,8 @@ import 'package:provider/provider.dart' as prov;
 import 'package:web3dart/web3dart.dart';
 
 class WalletWeb extends StatefulWidget {
+  const WalletWeb({super.key});
+
   @override
   _WalletWebState createState() => _WalletWebState();
 }
@@ -44,8 +46,7 @@ class _WalletWebState extends State<WalletWeb>
 
   String? readPrivateKey() {
     prov.Provider.of<WalletAddressProvider>(context, listen: false)
-        .readPrivateKey(
-            prov.Provider.of<UserProvider>(context, listen: false).user.id)
+        .readPrivateKey()
         ?.then((value) {
       setState(() {
         privateKey = value;
@@ -59,7 +60,7 @@ class _WalletWebState extends State<WalletWeb>
     if (Platform.isAndroid) {
       redirectUrl = Uri.parse('w3a://com.example.foxxi/auth');
 
-      print(redirectUrl.toString());
+      dev.log(redirectUrl.toString(), name: 'REDIRECT URL');
     } else if (Platform.isIOS) {
       redirectUrl = Uri.parse('com.example.foxxi://openlogin');
 
@@ -146,7 +147,7 @@ class _WalletWebState extends State<WalletWeb>
                                           Colors.purpleAccent.shade100
                                               .withOpacity(0.4),
                                         ],
-                                        stops: [0, 1],
+                                        stops: const [0, 1],
                                         begin: const AlignmentDirectional(1, 0),
                                         end: const AlignmentDirectional(-1, 0),
                                         // color: Colors.purpleAccent.shade100.withOpacity(
@@ -170,8 +171,8 @@ class _WalletWebState extends State<WalletWeb>
                                         EthPrivateKey.fromHex(
                                             response.privKey!);
                                     walletAddressProvider.setPrivateKey(
-                                        privateKey: response.privKey.toString(),
-                                        userId: userProvider.id);
+                                      privateKey: response.privKey.toString(),
+                                    );
                                     walletAddressProvider.setAddress(
                                         _credentials.address.toString());
                                     dev.log(_credentials.address.toString(),

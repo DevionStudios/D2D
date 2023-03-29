@@ -1,20 +1,17 @@
 import 'dart:convert';
-import 'dart:math';
+import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
+
+import 'package:foxxi/constants.dart';
 import 'package:foxxi/http_error_handle.dart';
 import 'package:foxxi/models/comments.dart';
 import 'package:foxxi/models/feed_post_model.dart';
 import 'package:foxxi/models/foxxi_trends_post_model.dart';
-import 'package:foxxi/providers/post_provider.dart';
 import 'package:foxxi/services/notification_service.dart';
 import 'package:foxxi/utils.dart';
-import 'package:foxxi/constants.dart';
-import 'package:http/http.dart' as http;
-import 'dart:developer' as dev;
-
-import 'package:provider/provider.dart';
 
 const _storage = FlutterSecureStorage();
 final NotificationService notificationService = NotificationService();
@@ -63,14 +60,15 @@ class PostService {
           response: res,
           context: context,
           onSuccess: () {
-            // dev.log(res.body.toString(), name: 'Get Post By Id Body');
             final data = jsonDecode(res.body)['comments'];
+            dev.log(jsonEncode(data), name: 'Comments List');
+
             for (var comment in data) {
               comments.add(Comment.fromJson(jsonEncode(comment)));
             }
           });
     } catch (e) {
-      dev.log(e.toString(), name: 'Post By Id Error');
+      dev.log(e.toString(), name: 'Comment By Id Error');
       showSnackBar(context, e.toString());
     }
     return comments;
@@ -234,7 +232,7 @@ class PostService {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
       dev.log(foxxijwt, name: "Reading JWT");
-      http.Response res = await http.get(Uri.parse('$url/api/post/search/$id'),
+      http.Response res = await http.get(Uri.parse('$url/api/post/$id'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'cookies': foxxijwt
@@ -379,19 +377,20 @@ class PostService {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
       dev.log(foxxijwt, name: "Reading JWT");
-      http.Response res = await http.put(Uri.parse('$url/posts/report'), body: {
-        'postId': id
-      }, headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'cookies': foxxijwt
-      });
+      http.Response res = await http.put(Uri.parse('$url/posts/report'),
+          body: jsonEncode({'postId': id}),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'cookies': foxxijwt
+          });
 
       if (context.mounted) {
         httpErrorHandle(
             response: res,
             context: context,
             onSuccess: () {
-              showSnackBar(context, 'Post Reported Successfully');
+              dev.log('Post $id Reported');
+              showSnackBar(context, 'Post Reported');
             });
       }
     } catch (e) {
@@ -402,21 +401,22 @@ class PostService {
   void updatePost({
     required BuildContext context,
     required String id,
-    String? caption,
-    String? hashtags,
+    required String caption,
+    required List<String> hashtags,
   }) async {
     try {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
       dev.log(foxxijwt, name: "Reading JWT");
-      http.Response res =
-          await http.put(Uri.parse('$url/posts/edit/$id'), body: {
-        'caption': caption ?? '',
-        'hashtags': hashtags ?? '',
-      }, headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'cookies': foxxijwt
-      });
+      http.Response res = await http.put(Uri.parse('$url/api/posts/edit/$id'),
+          body: jsonEncode({
+            'caption': caption,
+            'hashtags': hashtags,
+          }),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'cookies': foxxijwt
+          });
 
       if (context.mounted) {
         httpErrorHandle(

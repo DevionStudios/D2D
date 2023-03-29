@@ -164,7 +164,7 @@ class DonateButton extends StatelessWidget {
                                         dev.log('---');
 
                                         if (walletAddressProvider
-                                            .readPrivateKey(userProvider.id)
+                                            .readPrivateKey()
                                             .toString()
                                             .isEmpty) {
                                           showSnackBar(context,
@@ -179,8 +179,7 @@ class DonateButton extends StatelessWidget {
                                           DonateController()
                                               .donate(
                                                   walletAddressProvider
-                                                      .readPrivateKey(
-                                                          userProvider.id)
+                                                      .readPrivateKey()
                                                       .toString(),
                                                   walletAddressProvider
                                                       .walletAddress!,
@@ -208,7 +207,7 @@ class DonateButton extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => WalletWeb()));
+                                    builder: (context) => const WalletWeb()));
                           },
                           child: const Text('Donate Screen'))
                     ],

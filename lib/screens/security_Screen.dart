@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:foxxi/services/auth_service.dart';
 import 'package:foxxi/services/user_service.dart';
 import 'package:foxxi/utils.dart';
 
 class SecuritySettingScreen extends StatefulWidget {
-  SecuritySettingScreen({super.key});
+  const SecuritySettingScreen({super.key});
 
   @override
   State<SecuritySettingScreen> createState() => _SecuritySettingScreenState();
@@ -149,7 +148,7 @@ class _SecuritySettingScreenState extends State<SecuritySettingScreen> {
                                     Colors.purpleAccent.shade100
                                         .withOpacity(0.4),
                                   ],
-                                  stops: [0, 1],
+                                  stops: const [0, 1],
                                   begin: const AlignmentDirectional(1, 0),
                                   end: const AlignmentDirectional(-1, 0),
                                   // color: Colors.purpleAccent.shade100.withOpacity(

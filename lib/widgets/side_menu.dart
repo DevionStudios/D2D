@@ -1,14 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:foxxi/providers/theme_provider.dart';
+import 'package:flutter/src/painting/gradient.dart' as gradient;
+import 'package:provider/provider.dart';
+
 import 'package:foxxi/components/entry_Point1.dart';
 import 'package:foxxi/components/entry_point2.dart';
 import 'package:foxxi/models/menu.dart';
+import 'package:foxxi/providers/theme_provider.dart';
 import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/services/auth_service.dart';
 import 'package:foxxi/utils/rive_utils.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter/src/painting/gradient.dart' as gradient;
 
 import '../components/side_menu_tile.dart';
 import 'light_dark_switch.dart';
@@ -131,7 +132,7 @@ class _SideMenuState extends State<SideMenu> {
                 },
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 8),
+                padding: const EdgeInsets.only(top: 10),
                 child: Row(
                   children: [
                     Padding(
@@ -144,11 +145,16 @@ class _SideMenuState extends State<SideMenu> {
                         size: 30,
                       ),
                     ),
-                    Text(
-                      'Log Out',
-                      style: TextStyle(
-                          color: isDark ? Colors.white : Colors.black,
-                          fontSize: 18),
+                    InkWell(
+                      onTap: () {
+                        authService.signOut(context: context);
+                      },
+                      child: Text(
+                        'Log Out',
+                        style: TextStyle(
+                            color: isDark ? Colors.white : Colors.black,
+                            fontSize: 18),
+                      ),
                     )
                   ],
                 ),

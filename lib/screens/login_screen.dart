@@ -6,6 +6,7 @@ import 'package:foxxi/screens/email_verfication_screen.dart';
 import 'package:foxxi/routing_constants.dart';
 import 'package:foxxi/services/user_service.dart';
 import 'package:foxxi/text_field_widget.dart';
+import 'package:foxxi/utils.dart';
 import 'dart:developer' as dev;
 
 import 'package:provider/provider.dart';
@@ -47,17 +48,21 @@ class _LoginScreenState extends State<LoginScreen> {
         key: _formKey,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 32),
-          width: double.infinity,
+          width: MediaQuery.of(context).size.width - 10,
+          height: MediaQuery.of(context).size.height,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Flexible(
+              const Flexible(
                 flex: 2,
-                child: Container(),
+                child: Hero(
+                    tag: 'foxxi_logo',
+                    child:
+                        Image(image: AssetImage('lib/assets/foxxiLogo.png'))),
               ),
               const SizedBox(
-                height: 64,
+                height: 30,
               ),
               TextFieldWidget(
                   isEmail: true,
@@ -116,9 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   child: _isLoading
                       ? const Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.lightBlue,
-                          ),
+                          child: CustomLoader(),
                         )
                       : const Center(child: Text("Login")),
                 ),
@@ -142,12 +145,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 12,
-              ),
-              Flexible(
-                flex: 2,
-                child: Container(),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 13,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

@@ -3,7 +3,7 @@ import 'package:foxxi/services/post_service.dart';
 
 class TweetMigrationScreen extends StatelessWidget {
   TweetMigrationScreen({super.key});
-  PostService postService = PostService();
+  final PostService postService = PostService();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -66,7 +66,7 @@ class TweetMigrationScreen extends StatelessWidget {
                                   Colors.lightBlue.shade100.withOpacity(0.4),
                                   Colors.purpleAccent.shade100.withOpacity(0.4),
                                 ],
-                                stops: [0, 1],
+                                stops: const [0, 1],
                                 begin: const AlignmentDirectional(1, 0),
                                 end: const AlignmentDirectional(-1, 0),
                                 // color: Colors.purpleAccent.shade100.withOpacity(

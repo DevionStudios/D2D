@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:foxxi/models/news.dart';
-import 'package:foxxi/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
+
+import 'package:foxxi/providers/theme_provider.dart';
 
 // ignore: use_key_in_widget_constructors
 class NewsCard extends StatefulWidget {
   String? title;
   String? description;
   String? photo;
-  NewsCard({this.title, this.description, this.photo});
+  NewsCard({
+    Key? key,
+    this.title,
+    this.description,
+    this.photo,
+  }) : super(key: key);
 
   @override
   State<NewsCard> createState() => _NewsCardState();
@@ -17,7 +22,7 @@ class NewsCard extends StatefulWidget {
 class _NewsCardState extends State<NewsCard> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height * 0.12,
       width: MediaQuery.of(context).size.height * 0.12,
       child: Stack(
@@ -51,7 +56,7 @@ class _NewsCardState extends State<NewsCard> {
               ),
             ),
           ),
-          Container(
+          SizedBox(
             // height: MediaQuery.of(context).size.height * 0.2,
             width: MediaQuery.of(context).size.width - 20,
             child: Column(
@@ -64,7 +69,7 @@ class _NewsCardState extends State<NewsCard> {
                   child: Material(
                     type: MaterialType.transparency,
                     child: Container(
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       child: Text(
                         widget.title.toString(),
                         maxLines: 2,
@@ -85,7 +90,7 @@ class _NewsCardState extends State<NewsCard> {
                   child: Material(
                     type: MaterialType.transparency,
                     child: Container(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Text(
                         widget.description.toString(),
                         textAlign: TextAlign.center,
@@ -110,7 +115,12 @@ class OneFullNewsPage extends StatelessWidget {
   String? title;
   String? description;
   String? photo;
-  OneFullNewsPage({this.title, this.description, this.photo});
+  OneFullNewsPage({
+    Key? key,
+    this.title,
+    this.description,
+    this.photo,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;

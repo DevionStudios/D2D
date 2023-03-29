@@ -17,12 +17,13 @@ class WalletAddressProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<String?>? readPrivateKey(String id) {
-    return _storage.read(key: "PRIVATE_KEY_$id").then((value) => value);
+  Future<String?>? readPrivateKey() {
+    return _storage.read(key: "PRIVATE_KEY").then((value) => value);
   }
 
-  void setPrivateKey(
-      {required String privateKey, required String userId}) async {
-    await _storage.write(key: 'PRIVATE_KEY_$userId', value: privateKey);
+  void setPrivateKey({
+    required String privateKey,
+  }) async {
+    await _storage.write(key: 'PRIVATE_KEY', value: privateKey);
   }
 }

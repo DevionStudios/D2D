@@ -5,9 +5,12 @@ import 'package:foxxi/screens/notification_screen.dart';
 import 'package:foxxi/screens/search_screen.dart';
 import 'package:foxxi/screens/trending_screen.dart';
 import 'package:foxxi/screens/your_feed_screen.dart';
+import 'package:foxxi/services/notification_service.dart';
 import 'package:foxxi/services/post_service.dart';
 import 'package:foxxi/services/user_service.dart';
 import 'package:foxxi/utils.dart';
+import 'dart:developer' as dev;
+import 'package:badges/badges.dart' as badges;
 // import 'package:foxxi/models/post.dart';
 // import 'package:foxxi/widgets/card.dart';
 import 'package:foxxi/widgets/feed_post_card.dart';
@@ -26,17 +29,25 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> {
   PostService postService = PostService();
   UserService userService = UserService();
+  NotificationService notificationService = NotificationService();
+  // StoryService storyService = StoryService();
   Future<List<FeedPostModel>>? _post;
-  final TextEditingController _searchBarTextController =
-      TextEditingController();
+  List<dynamic>? notificationList;
 
   @override
   void initState() {
-    getPosts();
+    getData();
+    fetchData();
     super.initState();
   }
 
-  Future<void> getPosts() async {
+  void fetchData() {
+    notificationService.getNotification(context: context)?.then((value) {
+      notificationList = value;
+    });
+  }
+
+  Future<void> getData() async {
     await Future.delayed(const Duration(seconds: 1));
     if (mounted) {
       setState(() {
@@ -59,7 +70,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   isDark ? Colors.grey.shade900 : Colors.grey.shade100,
               // appBar: AppBar(),
               body: RefreshIndicator(
-                onRefresh: getPosts,
+                onRefresh: getData,
                 child: Padding(
                   padding:
                       EdgeInsets.only(top: MediaQuery.of(context).padding.top),
@@ -118,12 +129,24 @@ class _FeedScreenState extends State<FeedScreen> {
                                 ),
                                 SizedBox(
                                   child: IconButton(
-                                    icon: Icon(
-                                      Icons.notifications_none,
-                                      color: isDark
-                                          ? Colors.grey.shade100
-                                          : Colors.grey.shade900,
-                                      size: 30,
+                                    icon: badges.Badge(
+                                      badgeStyle: const badges.BadgeStyle(),
+                                      badgeAnimation:
+                                          const badges.BadgeAnimation.fade(),
+                                      badgeContent: notificationList?.length !=
+                                              null
+                                          ? notificationList!.isEmpty
+                                              ? null
+                                              : Text(notificationList!.length
+                                                  .toString())
+                                          : null,
+                                      child: Icon(
+                                        Icons.notifications_none,
+                                        color: isDark
+                                            ? Colors.grey.shade100
+                                            : Colors.grey.shade900,
+                                        size: 30,
+                                      ),
                                     ),
                                     onPressed: () {
                                       Navigator.push(
@@ -188,7 +211,7 @@ class _FeedScreenState extends State<FeedScreen> {
               ),
             );
           } else {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CustomLoader());
           }
         });
   }

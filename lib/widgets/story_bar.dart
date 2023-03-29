@@ -1,12 +1,13 @@
+import 'dart:developer' as dev;
+
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:provider/provider.dart';
+
 import 'package:foxxi/models/story.dart';
-import 'package:foxxi/models/user.dart';
 import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/screens/story_screen.dart';
 import 'package:foxxi/services/story_service.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:provider/provider.dart';
-import 'dart:developer' as dev;
 
 // import '../screen/post_story.dart';
 import '../providers/theme_provider.dart';
@@ -44,7 +45,7 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
     controller!.forward();
   }
 
-  void getFollowingUserStories() {
+  getFollowingUserStories() {
     usernameList =
         Provider.of<UserProvider>(context, listen: false).user.following;
     if (usernameList != null) {
@@ -278,7 +279,10 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                                     userProvider.image.toString(),
                                     errorBuilder:
                                         (context, error, stackTrace) =>
-                                            const Text('Error Widget'),
+                                            const SizedBox(
+                                      width: 50,
+                                      height: 50,
+                                    ),
                                     fit: BoxFit.cover,
                                     width: 50,
                                     height: 50,

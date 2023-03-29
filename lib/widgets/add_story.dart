@@ -155,6 +155,7 @@ class _AddStoryState extends State<AddStory> {
                                   context: context,
                                   caption: _captionController.text,
                                   imageFilePath: image!.path);
+                              Navigator.pop(context);
                             },
                             child: const Text('Upload'),
                           ),
@@ -263,6 +264,7 @@ class _AddStoryState extends State<AddStory> {
                                   context: context,
                                   caption: _captionController.text,
                                   videoFilePath: pickedFile!.path);
+                              Navigator.pop(context);
                             },
                             child: const Text('Upload'),
                           ),

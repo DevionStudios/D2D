@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foxxi/models/feed_post_model.dart';
 import 'package:foxxi/routing_constants.dart';
 import 'package:foxxi/services/post_service.dart';
+import 'package:foxxi/utils.dart';
 import 'package:foxxi/widgets/feed_post_card.dart';
 import 'dart:developer' as dev;
 
@@ -52,7 +53,7 @@ class _FoxxiTrendScreenState extends State<YourFeedScreen> {
                             )));
               } else {
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: CustomLoader(),
                 );
               }
             },

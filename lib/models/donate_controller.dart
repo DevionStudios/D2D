@@ -1,14 +1,13 @@
 import 'dart:convert';
 import 'dart:math';
 // import 'package:erc20/erc20.dart';
-import 'package:web3auth_flutter/web3auth_flutter.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:web_socket_channel/io.dart';
-import 'package:provider/provider.dart';
+import 'dart:developer' as dev;
 
 class DonateController extends ChangeNotifier {
   final String _rpcUrl =
@@ -97,7 +96,7 @@ class DonateController extends ChangeNotifier {
               BigInt.from(amount) * BigInt.from(pow(10, 18))
             ]),
         chainId: 5);
-    print(result);
+    dev.log(result);
     return 'Transaction Successfull !! \nTransaction Hash $result';
 
     // await _client.call(

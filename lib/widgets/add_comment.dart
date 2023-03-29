@@ -1,3 +1,5 @@
+import 'dart:developer' as dev;
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -6,17 +8,27 @@ import 'package:foxxi/models/notification.dart';
 import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/services/comment_service.dart';
 import 'package:foxxi/services/notification_service.dart';
+import 'package:foxxi/services/post_service.dart';
 
 class AddCommentWidget extends StatelessWidget {
+  bool isUpdateComment;
+  bool isPostUpdate;
+  final List<String>? hashtags;
+  final String? commentId;
   final String? postUserId;
-  final String postId;
+  final String? postId;
   AddCommentWidget({
     Key? key,
+    this.isUpdateComment = false,
+    this.isPostUpdate = false,
+    this.hashtags,
+    this.commentId,
     this.postUserId,
     required this.postId,
   }) : super(key: key);
   final TextEditingController _commentTextController = TextEditingController();
   final CommentService commentService = CommentService();
+  PostService postService = PostService();
   NotificationService notificationService = NotificationService();
   @override
   Widget build(BuildContext context) {
@@ -27,9 +39,9 @@ class AddCommentWidget extends StatelessWidget {
         children: [
           TextField(
             controller: _commentTextController,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'An Interesting Reply',
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              hintText: isUpdateComment ? '' : 'An Interesting Reply',
             ),
           ),
           Row(
@@ -66,29 +78,65 @@ class AddCommentWidget extends StatelessWidget {
                           textStyle: const TextStyle(fontSize: 20),
                         ),
                         onPressed: () async {
-                          int statusCode = await commentService.addComment(
-                              context: context,
-                              postId: postId,
-                              caption: _commentTextController.text);
+                          if (isUpdateComment == false &&
+                              isPostUpdate == false) {
+                            dev.log('Add Comment Started');
+                            int statusCode = await commentService.addComment(
+                                context: context,
+                                postId: postId!,
+                                caption: _commentTextController.text);
 
-                          if (userProvider.id != postUserId) {
-                            if (context.mounted) {
-                              if (statusCode == 201) {
-                                notificationService.addNotification(
-                                    context: context,
-                                    notification: NotificationModel(
-                                        notification: 'commented on your',
-                                        notificationType:
-                                            NotificationType.POST_REPLY.name,
-                                        userId: postUserId.toString(),
-                                        username: userProvider.username,
-                                        postId: postId));
+                            if (userProvider.id != postUserId) {
+                              if (context.mounted) {
+                                if (statusCode == 201) {
+                                  notificationService.addNotification(
+                                      context: context,
+                                      notification: NotificationModel(
+                                          notification: 'commented on your',
+                                          notificationType:
+                                              NotificationType.POST_REPLY.name,
+                                          userId: postUserId.toString(),
+                                          username: userProvider.username,
+                                          postId: postId));
+                                }
                               }
                             }
                           }
+                          if (isUpdateComment == true &&
+                              isPostUpdate == false) {
+                            dev.log('Update Comment Started');
+                            if (context.mounted) {
+                              commentService
+                                  .updateComment(
+                                      context: context,
+                                      id: commentId!,
+                                      caption: _commentTextController.text)
+                                  .then((value) {
+                                if (value == 201) {}
+                              });
+                            }
+                          }
+                          if (isPostUpdate == true &&
+                              isUpdateComment == false) {
+                            dev.log('Update Post Started');
+                            if (context.mounted) {
+                              postService.updatePost(
+                                  context: context,
+                                  id: postId!,
+                                  caption: _commentTextController.text,
+                                  hashtags: hashtags!);
+                            }
+                          }
                           _commentTextController.clear();
+                          if (context.mounted) {
+                            Navigator.pop(context);
+                          }
                         },
-                        child: const Text('Comment'),
+                        child: Text(isUpdateComment
+                            ? 'Update Comment'
+                            : isPostUpdate
+                                ? 'Post Update'
+                                : 'Comment'),
                       ),
                     ]),
                   ],

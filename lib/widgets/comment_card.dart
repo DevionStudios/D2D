@@ -1,10 +1,14 @@
+import 'dart:developer' as dev;
+
 import 'package:flutter/material.dart';
+import 'package:foxxi/widgets/add_comment.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:provider/provider.dart';
+
 import 'package:foxxi/models/comments.dart';
 import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/services/comment_service.dart';
-import 'package:foxxi/services/post_service.dart';
-import 'package:provider/provider.dart';
-import 'dart:developer' as dev;
+
 import '../models/feed_post_model.dart';
 import '../providers/theme_provider.dart';
 
@@ -18,6 +22,8 @@ class CommentCard extends StatelessWidget {
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
     final userProvider = Provider.of<UserProvider>(context, listen: true);
     CommentService commentService = CommentService();
+
+    dev.log('${comment!.author.id} " " ${userProvider.user.id}');
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -78,21 +84,25 @@ class CommentCard extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
+                  BuildContext dialogContext;
                   showDialog(
                     useRootNavigator: false,
                     context: context,
                     builder: (context) {
+                      dialogContext = context;
                       return Dialog(
                         child: ListView(
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shrinkWrap: true,
                           children: [
-                            comment!.author.id == userProvider.user.id
+                            comment!.author.username ==
+                                    userProvider.user.username
                                 ? 'Delete Comment'
                                 : null,
-                            // comment!.author.id == userProvider.user.id
-                            //     ? 'Update Comment'
-                            //     : null,
+                            comment!.author.username ==
+                                    userProvider.user.username
+                                ? 'Update Comment'
+                                : null,
                           ]
                               .map(
                                 (e) => InkWell(
@@ -108,16 +118,136 @@ class CommentCard extends StatelessWidget {
                                       dev.log('$e Button Pressed',
                                           name: 'Comment Delete button');
                                       if (e == 'Delete Comment') {
+                                        Navigator.pop(dialogContext);
+
                                         commentService.deleteComment(
                                             context: context, id: comment!.id);
                                       }
-                                      // if (e == 'Repost Comment') {
-                                      //   commentService.updateComment(
-                                      //       context: context,
-                                      //       id: comment!.id,
-                                      //       caption: caption);
-                                      // }
-                                      Navigator.pop(context);
+                                      if (e == 'Update Comment') {
+                                        Navigator.pop(dialogContext);
+                                        showMaterialModalBottomSheet<void>(
+                                          shape: const RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.vertical(
+                                                      top:
+                                                          Radius.circular(25))),
+                                          context: context,
+                                          builder: (context) => Padding(
+                                            padding: EdgeInsets.only(
+                                                bottom: MediaQuery.of(context)
+                                                    .viewInsets
+                                                    .bottom),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text('Update Comment',
+                                                      style: TextStyle(
+                                                          color: isDark
+                                                              ? Colors
+                                                                  .grey.shade400
+                                                              : Colors.black,
+                                                          fontFamily:
+                                                              'InstagramSans',
+                                                          fontSize: 25,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8),
+                                                      child: CircleAvatar(
+                                                        radius: 16,
+                                                        backgroundImage:
+                                                            NetworkImage(post
+                                                                .author.image
+                                                                .toString()),
+                                                      ),
+                                                    ),
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      left: 8),
+                                                              child: Text(
+                                                                post.author.name
+                                                                    .toString(),
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: isDark
+                                                                      ? Colors
+                                                                          .grey
+                                                                          .shade200
+                                                                      : Colors
+                                                                          .black,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          4.0),
+                                                              child: Text(
+                                                                '@${post.author.username}',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: isDark
+                                                                      ? Colors
+                                                                          .grey
+                                                                          .shade600
+                                                                      : Colors
+                                                                          .black,
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        const Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                            left: 8,
+                                                          ),
+                                                        )
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: const [
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 8.0),
+                                                      child: Text(
+                                                          'Update Comment'),
+                                                    ),
+                                                  ],
+                                                ),
+                                                AddCommentWidget(
+                                                  isUpdateComment: true,
+                                                  postId: post.id,
+                                                  commentId: comment!.id,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      }
                                     }),
                               )
                               .toList(),

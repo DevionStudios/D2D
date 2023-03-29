@@ -1,17 +1,19 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:foxxi/providers/user_provider.dart';
-import 'package:foxxi/services/auth_service.dart';
-import 'package:foxxi/services/user_service.dart';
-import 'package:foxxi/widgets/textfield_widget_2.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+
+import 'package:foxxi/providers/user_provider.dart';
+import 'package:foxxi/services/user_service.dart';
+import 'package:foxxi/widgets/textfield_widget_2.dart';
 
 import '../providers/theme_provider.dart';
 
 // import 'package:flutter/material.dart';
 class ProfileSettings extends StatefulWidget {
+  const ProfileSettings({super.key});
+
   // const ProfileSettings
 // ({super.key});
 

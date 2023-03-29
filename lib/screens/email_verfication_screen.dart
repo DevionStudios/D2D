@@ -7,6 +7,7 @@ import 'package:foxxi/services/auth_service.dart';
 import 'package:foxxi/screens/otp_screen.dart';
 import 'package:foxxi/routing_constants.dart';
 import 'package:foxxi/text_field_widget.dart';
+import 'package:foxxi/utils.dart';
 import 'package:provider/provider.dart';
 
 class EmailVerificationScreen extends StatefulWidget {
@@ -52,13 +53,22 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
           child: Column(
             children: [
               Flexible(
-                flex: 2,
+                flex: 1,
                 child: Container(),
+              ),
+              const Flexible(
+                flex: 2,
+                child: Hero(
+                    tag: 'foxxi_logo',
+                    child:
+                        Image(image: AssetImage('lib/assets/foxxiLogo.png'))),
               ),
               const Center(
                 child: Text(
                   'Enter Email for Verification',
-                  style: TextStyle(fontSize: 10),
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
                 ),
               ),
               const SizedBox(
@@ -98,11 +108,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                     ),
                   ),
                   child: _isLoading
-                      ? const Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.lightBlue,
-                          ),
-                        )
+                      ? const Center(child: CustomLoader())
                       : const Center(child: Text("SUBMIT")),
                 ),
               ),

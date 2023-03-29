@@ -7,6 +7,7 @@ import 'package:foxxi/screens/chat_screen.dart';
 import 'package:foxxi/screens/post_screen.dart';
 import 'package:foxxi/screens/profile_screen.dart';
 import 'package:foxxi/services/notification_service.dart';
+import 'package:foxxi/utils.dart';
 import 'package:provider/provider.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -24,6 +25,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   void initState() {
     super.initState();
+    setNotificationList();
+  }
+
+  void setNotificationList() {
     _notificationList = notificationService.getNotification(context: context);
   }
 
@@ -71,12 +76,22 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         MaterialPageRoute(builder: (context) => const Chat()));
                   }
 
-                  if (notificationData[index].postId != null) {}
-                },
-                child: GestureDetector(
-                  onTap: () {
-                    if (notificationData[index].postId != null) {}
+                  if (notificationData[index].notificationType ==
+                          NotificationType.POST_REPLY.name ||
+                      notificationData[index].notificationType ==
+                          NotificationType.POST_LIKE.name) {
+                    if (notificationData[index].postId != null) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PostCard(
+                              postId: notificationData[index].postId.toString(),
+                            ),
+                          ));
+                    }
+                  }
 
+                  if (notificationData[index].postId != null) {
                     if (notificationData[index].notificationType ==
                         NotificationType.USER_FOLLOW.name) {
                       Navigator.push(
@@ -87,13 +102,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 username: notificationData[index].username),
                           ));
                     }
-                  },
-                  child: ListTile(
-                    title: Text(
-                      '@${notificationData[index].username} ${notificationData[index].notification} ${getStringfromNotificationType(notificationData[index].notificationType)}',
-                      style: TextStyle(
-                          color: isDark ? Colors.white : Colors.black),
-                    ),
+                  }
+                },
+                child: ListTile(
+                  title: Text(
+                    '@${notificationData[index].username} ${notificationData[index].notification} ${getStringfromNotificationType(notificationData[index].notificationType)}',
+                    style:
+                        TextStyle(color: isDark ? Colors.white : Colors.black),
                   ),
                 ),
               ),
@@ -107,7 +122,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             ));
           } else {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CustomLoader(),
             );
           }
         },

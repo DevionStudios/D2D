@@ -1,7 +1,7 @@
-import 'dart:convert' as convert;
 // import 'dart:js_util';
 import 'package:foxxi/constants.dart';
 import 'package:foxxi/providers/theme_provider.dart';
+import 'package:foxxi/utils.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
@@ -10,7 +10,6 @@ import 'package:foxxi/widgets/news_card.dart';
 import 'package:provider/provider.dart';
 import 'package:swipeable_card_stack/swipeable_card_stack.dart';
 
-import '../models/news.dart';
 // void _getData(String? query) async {
 //     _news = (await ApiService().getNews(query));
 //     Future.delayed(const Duration(seconds: 5)).then((value) => setState(() {}));
@@ -19,6 +18,8 @@ import '../models/news.dart';
 class NewsScreen extends StatefulWidget {
   SwipeableCardSectionController cardController =
       SwipeableCardSectionController();
+
+  NewsScreen({super.key});
 
   @override
   State<NewsScreen> createState() => _NewsScreenState();
@@ -66,6 +67,7 @@ class _NewsScreenState extends State<NewsScreen> {
   String? query = 'trending';
   late Future<News?> _news;
 
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
   }
@@ -147,8 +149,7 @@ class _NewsScreenState extends State<NewsScreen> {
               return Text('${snapshot.error}');
             }
             return const Center(
-              child: SizedBox(
-                  width: 20, height: 20, child: CircularProgressIndicator()),
+              child: SizedBox(width: 20, height: 20, child: CustomLoader()),
             );
           }),
         ),

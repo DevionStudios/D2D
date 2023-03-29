@@ -8,6 +8,7 @@ import 'package:foxxi/screens/preference_screen.dart';
 import 'package:foxxi/services/auth_service.dart';
 import 'package:foxxi/routing_constants.dart';
 import 'package:foxxi/text_field_widget.dart';
+import 'package:foxxi/utils.dart';
 import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -66,17 +67,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: Form(
         key: _formKey,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
+          padding: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height / 9,
+              right: MediaQuery.of(context).size.height / 20,
+              left: MediaQuery.of(context).size.height / 20),
+          height: MediaQuery.of(context).size.height,
           width: double.infinity,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Flexible(
+              const Flexible(
                 flex: 2,
-                child: Container(),
+                child: Hero(
+                    tag: 'foxxi_logo',
+                    child:
+                        Image(image: AssetImage('lib/assets/foxxiLogo.png'))),
               ),
               const SizedBox(
-                height: 40,
+                height: 30,
               ),
               Text(email),
               const SizedBox(
@@ -137,16 +145,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   child: _isLoading
                       ? const Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.lightBlue,
-                          ),
+                          child: CustomLoader(),
                         )
                       : const Center(child: Text("Sign Up")),
                 ),
-              ),
-              Flexible(
-                flex: 2,
-                child: Container(),
               ),
             ],
           ),
