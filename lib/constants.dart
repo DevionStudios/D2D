@@ -1,8 +1,8 @@
 const url = 'https://foxxi.vercel.app';
 
-const openAIKey = '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';
+const openAIKey = '';
 const newsCatcherApi = '';
-const web3authApi= 'BEEIC0Lz9CJDCy3FzjMgzZ6HduXn76CiG3qUxh_Xzqqa8XRIOPMOW_8Eck76GG8_Fpr8cq86C39eSCcwc7__APk';
+const web3authApi= '';
 
 enum NotificationType {
   // ignore: constant_identifier_names
