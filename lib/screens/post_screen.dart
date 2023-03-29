@@ -504,8 +504,11 @@ class _PostCardState extends State<PostCard> {
         ),
       );
     } else {
-      return const Center(
-        child: CustomLoader(),
+      return Scaffold(
+        backgroundColor: isDark?Colors.grey.shade900:Colors.white,
+       body: const Center(
+          child: CustomLoader(),
+        ),
       );
     }
   }

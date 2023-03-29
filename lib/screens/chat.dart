@@ -160,163 +160,165 @@ class _OneOneChatScreenState extends State<OneOneChatScreen> {
     return Scaffold(
       backgroundColor:
           isDark ? Colors.black.withOpacity(0.9) : Colors.grey.shade400,
-      body: Padding(
-        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-        child: Stack(
-          fit: StackFit.passthrough,
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+          child: Stack(
+            fit: StackFit.passthrough,
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Container(
+                            padding: const EdgeInsets.all(16),
+                            height: 100,
+                            // width: MediaQuery.of(context).size.width * 0.1,
+                            child: CircleAvatar(
+                              backgroundColor:
+                                  Colors.purpleAccent.shade100.withOpacity(0.4),
+                              child: IconButton(
+                                // iconSize: 20,
+                                icon: const Icon(
+                                  Icons.arrow_back_ios_new,
+                                  color: Colors.grey,
+                                  // size: 15,
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            )),
+                        Container(
                           padding: const EdgeInsets.all(16),
                           height: 100,
-                          // width: MediaQuery.of(context).size.width * 0.1,
-                          child: CircleAvatar(
-                            backgroundColor:
-                                Colors.purpleAccent.shade100.withOpacity(0.4),
-                            child: IconButton(
-                              // iconSize: 20,
-                              icon: const Icon(
-                                Icons.arrow_back_ios_new,
-                                color: Colors.grey,
-                                // size: 15,
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                          )),
-                      Container(
-                        padding: const EdgeInsets.all(16),
-                        height: 100,
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Text(
-                                widget.senderName.toString(),
-                                style: TextStyle(
-                                    color: isDark ? Colors.grey : Colors.black,
-                                    fontSize: 15,
-                                    fontFamily: 'Unbounded',
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                '@${widget.senderUsername.toString()}',
-                                style: TextStyle(
-                                  color: isDark ? Colors.grey : Colors.black,
-                                  fontSize: 10,
-                                  fontFamily: 'Unbounded',
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Text(
+                                  widget.senderName.toString(),
+                                  style: TextStyle(
+                                      color: isDark ? Colors.grey : Colors.black,
+                                      fontSize: 15,
+                                      fontFamily: 'Unbounded',
+                                      fontWeight: FontWeight.bold),
                                 ),
-                              )
-                            ]),
-                        // width: MediaQuery.of(context).size.width * 0.8),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: ClipRRect(
+                                Text(
+                                  '@${widget.senderUsername.toString()}',
+                                  style: TextStyle(
+                                    color: isDark ? Colors.grey : Colors.black,
+                                    fontSize: 10,
+                                    fontFamily: 'Unbounded',
+                                  ),
+                                )
+                              ]),
+                          // width: MediaQuery.of(context).size.width * 0.8),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: ClipRRect(
+                              // padding: EdgeInsets.all(16),
+                              // height: 100,
+                              child: Container(
                             // padding: EdgeInsets.all(16),
-                            // height: 100,
-                            child: Container(
-                          // padding: EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.white, width: 2),
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(20))),
+                            child: CircleAvatar(
+                              radius: 20,
+                              backgroundImage:
+                                  NetworkImage(widget.senderImage.toString()),
+                            ),
+                          )
+      
+                              // width: MediaQuery.of(context).size.width * 0.1,
+                              ),
+                        ),
+                      ]),
+                  Expanded(
+                    child: Container(
+                        padding: const EdgeInsets.only(
+                          bottom: 70,
+                        ),
+                        decoration: BoxDecoration(
+                            color: isDark ? Colors.grey.shade900 : Colors.white,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(30),
+                                topRight: Radius.circular(30))),
+                        child: ChatStreamBuilder(
+                          senderId: widget.senderId.toString(),
+                        )),
+                  ),
+                ],
+              ),
+              Align(
+                alignment: const AlignmentDirectional(-1, 1),
+                child: Container(
+                  padding: const EdgeInsetsDirectional.fromSTEB(30, 10, 30, 10),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Container(
                           decoration: BoxDecoration(
-                              border: Border.all(color: Colors.white, width: 2),
+                              color: Colors.grey.shade300.withOpacity(0.6),
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(20))),
-                          child: CircleAvatar(
-                            radius: 20,
-                            backgroundImage:
-                                NetworkImage(widget.senderImage.toString()),
-                          ),
-                        )
-
-                            // width: MediaQuery.of(context).size.width * 0.1,
+                          // color: Colors.grey.shade400,
+                          width: double.infinity,
+                          child: TextFormField(
+                            controller: _messageTextController,
+                            autofocus: false,
+                            obscureText: false,
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Message...',
                             ),
-                      ),
-                    ]),
-                Expanded(
-                  child: Container(
-                      padding: const EdgeInsets.only(
-                        bottom: 70,
-                      ),
-                      decoration: BoxDecoration(
-                          color: isDark ? Colors.grey.shade900 : Colors.white,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(30),
-                              topRight: Radius.circular(30))),
-                      child: ChatStreamBuilder(
-                        senderId: widget.senderId.toString(),
-                      )),
-                ),
-              ],
-            ),
-            Align(
-              alignment: const AlignmentDirectional(-1, 1),
-              child: Container(
-                padding: const EdgeInsetsDirectional.fromSTEB(30, 10, 30, 10),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.grey.shade300.withOpacity(0.6),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(20))),
-                        // color: Colors.grey.shade400,
-                        width: double.infinity,
-                        child: TextFormField(
-                          controller: _messageTextController,
-                          autofocus: false,
-                          obscureText: false,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Message...',
+                            textAlign: TextAlign.end,
                           ),
-                          textAlign: TextAlign.end,
                         ),
                       ),
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.send_rounded,
-                        color: Colors.purpleAccent.shade100.withOpacity(0.4),
-                        size: 30,
-                      ),
-                      onPressed: () async {
-                        int statusCode = await messageService.addMessage(
-                            context: context,
-                            text: _messageTextController.text,
-                            from: userProvider.id.toString(),
-                            to: widget.senderId.toString());
-
-                        _messageTextController.clear();
-                        if (context.mounted) {
-                          if (statusCode == 201) {
-                            notificationService.addNotification(
-                                context: context,
-                                notification: NotificationModel(
-                                    notification: 'sent you',
-                                    notificationType:
-                                        NotificationType.MESSAGE.name,
-                                    userId: widget.senderId,
-                                    username: userProvider.username));
+                      IconButton(
+                        icon: Icon(
+                          Icons.send_rounded,
+                          color: Colors.purpleAccent.shade100.withOpacity(0.4),
+                          size: 30,
+                        ),
+                        onPressed: () async {
+                          int statusCode = await messageService.addMessage(
+                              context: context,
+                              text: _messageTextController.text,
+                              from: userProvider.id.toString(),
+                              to: widget.senderId.toString());
+      
+                          _messageTextController.clear();
+                          if (context.mounted) {
+                            if (statusCode == 201) {
+                              notificationService.addNotification(
+                                  context: context,
+                                  notification: NotificationModel(
+                                      notification: 'sent you',
+                                      notificationType:
+                                          NotificationType.MESSAGE.name,
+                                      userId: widget.senderId,
+                                      username: userProvider.username));
+                            }
                           }
-                        }
-                      },
-                    ),
-                  ],
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

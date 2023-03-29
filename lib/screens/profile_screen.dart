@@ -297,7 +297,10 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                               null) {
                                                             return child;
                                                           }
-                                                          return const CustomLoader();
+                                                          return const Padding(
+                                                            padding: EdgeInsets.all(15.0),
+                                                            child: CustomLoader(),
+                                                          );
                                                         },
                                                         errorBuilder: (context,
                                                             error, stackTrace) {

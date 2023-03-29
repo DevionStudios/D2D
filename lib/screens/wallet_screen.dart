@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
 import 'package:flutter/services.dart';
+import 'package:foxxi/constants.dart';
 import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/utils.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
@@ -72,14 +73,13 @@ class _WalletWebState extends State<WalletWeb>
 
     await Web3AuthFlutter.init(Web3AuthOptions(
         clientId:
-            'BEEIC0Lz9CJDCy3FzjMgzZ6HduXn76CiG3qUxh_Xzqqa8XRIOPMOW_8Eck76GG8_Fpr8cq86C39eSCcwc7__APk',
+            web3authApi,
         network: Network.testnet,
         redirectUrl: redirectUrl));
   }
 
   @override
   Widget build(BuildContext context) {
-    final userProvider = prov.Provider.of<UserProvider>(context).user;
     final walletAddressProvider =
         prov.Provider.of<WalletAddressProvider>(context, listen: true);
     return Scaffold(

@@ -139,7 +139,9 @@ class _FeedCardState extends State<FeedCard> {
                         ),
                         Text(
                           tempDate.toString().replaceFirst(' ', '\n'),
-                          style: TextStyle(color: Colors.grey[300]),
+                          style: TextStyle(                          color: isDark
+                              ? Colors.grey.shade400
+                              : Colors.grey.shade600,),
                         ),
                         true
                             ? IconButton(
