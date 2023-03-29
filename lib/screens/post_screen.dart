@@ -10,6 +10,7 @@ import 'package:foxxi/widgets/comment_card.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
+import 'package:intl/intl.dart';
 
 import '../models/comments.dart';
 import '../models/feed_post_model.dart';
@@ -98,7 +99,10 @@ class _PostCardState extends State<PostCard> {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: true).user;
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
     if (post != null) {
+      DateTime datetime = DateTime.parse(post!.createdAt);
+      final tempDate = DateFormat.yMd().add_jm().format(datetime);
       return Scaffold(
         backgroundColor: isDark ? Colors.grey.shade900 : Colors.grey.shade100,
         body: RefreshIndicator(
@@ -209,6 +213,12 @@ class _PostCardState extends State<PostCard> {
                                           ),
                                         ),
                                       ),
+                                    ),
+                                    Text(
+                                      tempDate
+                                          .toString()
+                                          .replaceFirst(' ', '\n'),
+                                      style: TextStyle(color: Colors.grey[300]),
                                     ),
                                     true
                                         ? IconButton(

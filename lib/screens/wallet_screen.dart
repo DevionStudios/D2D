@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
 import 'package:flutter/services.dart';
 import 'package:foxxi/providers/user_provider.dart';
+import 'package:foxxi/utils.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:local_auth/local_auth.dart';
 
@@ -263,7 +264,7 @@ class _WalletWebState extends State<WalletWeb>
                     if (isAuth == false) {
                       try {
                         final bool didAuthenticate = await auth.authenticate(
-                            localizedReason: 'Please authenticate',
+                            localizedReason: 'Please authenticate to see Private Key',
                             options: const AuthenticationOptions(
                                 useErrorDialogs: false));
                         isAuth = didAuthenticate;
@@ -279,9 +280,19 @@ class _WalletWebState extends State<WalletWeb>
                         }
                       } on PlatformException catch (e) {
                         if (e.code == auth_error.notAvailable) {
-                        } else if (e.code == auth_error.notEnrolled) {
-                        } else {
-                          // ...
+                          showSnackBar(context, 'Enroll Passcode to View ');
+                        }
+                        if (e.code == auth_error.passcodeNotSet) {
+                          showSnackBar(context, 'Enroll passcode in Security');
+                        }
+                        if (e.code == auth_error.notEnrolled) {
+                          showSnackBar(context, 'Enroll Biometric Security');
+                        }
+                        if(e.code == auth_error.permanentlyLockedOut){
+                          showSnackBar(context, 'You are locked out of this device');
+                        }
+                        if(e.code==auth_error.otherOperatingSystem){
+                          showSnackBar(context, 'Unsupported OS');
                         }
                       }
                     } else if (animationController.status ==

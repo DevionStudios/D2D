@@ -5,7 +5,7 @@ import 'package:foxxi/services/notification_service.dart';
 import 'package:foxxi/widgets/add_comment.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
-
+import 'package:intl/intl.dart';
 import 'package:foxxi/components/postlikebar.dart';
 import 'package:foxxi/models/feed_post_model.dart';
 import 'package:foxxi/providers/theme_provider.dart';
@@ -65,6 +65,9 @@ class _FeedCardState extends State<FeedCard> {
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
 
     final userProvider = Provider.of<UserProvider>(context, listen: true);
+
+    DateTime datetime = DateTime.parse(widget.post.createdAt);
+    final tempDate = DateFormat.yMd().add_jm().format(datetime);
 
     return GestureDetector(
       onTap: () {
@@ -129,10 +132,14 @@ class _FeedCardState extends State<FeedCard> {
                                 Text(
                                   '@${widget.post.author.username.toString()}',
                                   style: const TextStyle(color: Colors.grey),
-                                )
+                                ),
                               ],
                             ),
                           ),
+                        ),
+                        Text(
+                          tempDate.toString().replaceFirst(' ', '\n'),
+                          style: TextStyle(color: Colors.grey[300]),
                         ),
                         true
                             ? IconButton(

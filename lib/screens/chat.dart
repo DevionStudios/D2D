@@ -102,7 +102,7 @@ class ChatScreenState extends State<ChatScreen> {
                         children: [
                           Text(
                             associatedUserList![i].name.toString(),
-                            style: const TextStyle(fontFamily: 'InstagramSans'),
+                            style:  TextStyle(fontFamily: 'InstagramSans',color: isDark?Colors.grey.shade600:Colors.black),
                           ),
                           // Text(
                           //   releChatData[i].message.toString(),

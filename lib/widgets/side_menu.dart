@@ -143,6 +143,7 @@ class _SideMenuState extends State<SideMenu> {
                       child: const Icon(
                         Icons.logout_rounded,
                         size: 30,
+                        color: Colors.white,
                       ),
                     ),
                     InkWell(
@@ -152,6 +153,7 @@ class _SideMenuState extends State<SideMenu> {
                       child: Text(
                         'Log Out',
                         style: TextStyle(
+                            fontFamily: 'InstagramSans',
                             color: isDark ? Colors.white : Colors.black,
                             fontSize: 18),
                       ),

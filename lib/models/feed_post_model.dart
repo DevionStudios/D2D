@@ -11,6 +11,8 @@ class FeedPostModel {
   final List<String>? hashtags;
   final List<dynamic>? likes;
   final List<dynamic>? comments;
+  String createdAt;
+  String updatedAt;
 
   final int reposts;
   final Media? media;
@@ -26,6 +28,8 @@ class FeedPostModel {
     this.hashtags,
     this.likes,
     this.comments,
+    required this.createdAt,
+    required this.updatedAt,
     required this.reposts,
     this.media,
     this.gifLink,
@@ -42,6 +46,8 @@ class FeedPostModel {
       'hashtags': hashtags,
       'likes': likes,
       'comments': comments,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
       'reposts': reposts,
       'media': media?.toMap(),
       'gifLink': gifLink,
@@ -56,16 +62,16 @@ class FeedPostModel {
       id: map['id'] ?? '',
       caption: map['caption'] ?? '',
       author: User.fromMap(map['author']),
-      hashtags:
-          map['hashtags'] == null ? [] : List<String>.from(map['hashtags']),
-      likes: map['likes'] == null ? [] : List<dynamic>.from(map['likes']),
-      comments:
-          map['comments'] == null ? [] : List<dynamic>.from(map['comments']),
+      hashtags: List<String>.from(map['hashtags']),
+      likes: List<dynamic>.from(map['likes']),
+      comments: List<dynamic>.from(map['comments']),
+      createdAt: map['createdAt'] ?? '',
+      updatedAt: map['updatedAt'] ?? '',
       reposts: map['reposts']?.toInt() ?? 0,
       media: map['media'] != null ? Media.fromMap(map['media']) : null,
-      gifLink: map['gifLink'] ?? '',
+      gifLink: map['gifLink'],
       twitterId: map['twitterId'] ?? '',
-      reports: map['reports'] == null ? [] : List<String>.from(map['reports']),
+      reports: List<String>.from(map['reports']),
       originalPostId: map['originalPostId'] ?? '',
     );
   }
