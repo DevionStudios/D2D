@@ -116,12 +116,15 @@ class _FollowerScreenState extends State<FollowerScreen> {
                   subtitle: Text('@${user?.followers![index]['username']}'),
                 ),
               ),
-              FollowButton(
+              userProvider.username==user!.followers![index]['username']?Container():FollowButton(
                   isFollowed: isFollowed[index],
                   backgroundColor: Colors.white,
                   borderColor: Colors.white,
                   textColor: Colors.black,
                   function: () {
+                    setState(() {
+                      
+                    });
                     userService
                         .followUser(
                             context: context,

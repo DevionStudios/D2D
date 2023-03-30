@@ -12,6 +12,7 @@ import 'package:foxxi/services/auth_service.dart';
 import 'package:foxxi/utils/rive_utils.dart';
 
 import '../components/side_menu_tile.dart';
+import '../utils.dart';
 import 'light_dark_switch.dart';
 
 class SideMenu extends StatefulWidget {
@@ -55,12 +56,40 @@ class _SideMenuState extends State<SideMenu> {
           child: Column(
             children: [
               ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: Colors.lightBlueAccent.shade100,
-                  child: const Icon(
-                    CupertinoIcons.person,
-                    color: Colors.white,
-                  ),
+                leading: Stack(
+                  children: [
+                    Container(
+                      width: 70,
+                      height: 70,
+                      clipBehavior: Clip.antiAlias,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                      ),
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: Image.network(
+                          userProvider.image.toString(),
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            }
+                            return const Padding(
+                              padding: EdgeInsets.all(15.0),
+                              child: CustomLoader(),
+                            );
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Center(
+                                child: Icon(
+                              Icons.image,
+                              size: 100,
+                            ));
+                          },
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 title: Text(
                   userProvider.name.toString(),
@@ -83,6 +112,22 @@ class _SideMenuState extends State<SideMenu> {
                   fontSize: 20,
                   fontFamily: 'InstagramSans',
                   fontWeight: FontWeight.bold,
+                ),
+              ),
+              ListTile(
+                leading: DayNightSwitch(
+                  value: Provider.of<ThemeProvider>(context).isDarkMode,
+                  // moonImage: AssetImage('assets/moon.png'),
+                  // sunImage: AssetImage('assets/sun.png'),
+                  sunColor: Colors.yellow,
+                  moonColor: Colors.grey,
+                  dayColor: Colors.yellowAccent.shade100,
+                  nightColor: Colors.blue.shade900,
+                  onChanged: (value) {
+                    final provider =
+                        Provider.of<ThemeProvider>(context, listen: false);
+                    provider.toggleTheme(value);
+                  },
                 ),
               ),
               ...sidebarMenus
@@ -117,36 +162,18 @@ class _SideMenuState extends State<SideMenu> {
                         },
                       ))
                   .toList(),
-              DayNightSwitch(
-                value: Provider.of<ThemeProvider>(context).isDarkMode,
-                // moonImage: AssetImage('assets/moon.png'),
-                // sunImage: AssetImage('assets/sun.png'),
-                sunColor: Colors.yellow,
-                moonColor: Colors.grey,
-                dayColor: Colors.yellowAccent.shade100,
-                nightColor: Colors.blue.shade900,
-                onChanged: (value) {
-                  final provider =
-                      Provider.of<ThemeProvider>(context, listen: false);
-                  provider.toggleTheme(value);
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.width,
-                              right: MediaQuery.of(context).size.width) /
-                          15,
-                      child: const Icon(
-                        Icons.logout_rounded,
-                        size: 30,
-                        color: Colors.white,
-                      ),
-                    ),
-                    InkWell(
+                            ListTile(leading: SizedBox(
+                              height: 36,
+                              width: 36,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left:8.0),
+                                child: const Icon(
+                                                      Icons.logout_rounded,
+                                                      size: 30,
+                                                      color: Colors.white,
+                                                    ),
+                              ),
+                            ),title: InkWell(
                       onTap: () {
                         authService.signOut(context: context);
                       },
@@ -157,10 +184,10 @@ class _SideMenuState extends State<SideMenu> {
                             color: isDark ? Colors.white : Colors.black,
                             fontSize: 18),
                       ),
-                    )
-                  ],
-                ),
-              )
+                    ),),
+
+              
+             
             ],
           ),
         ),
