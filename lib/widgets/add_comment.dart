@@ -1,6 +1,7 @@
 import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
+import 'package:foxxi/utils.dart';
 import 'package:provider/provider.dart';
 
 import 'package:foxxi/constants.dart';
@@ -78,58 +79,62 @@ class AddCommentWidget extends StatelessWidget {
                           textStyle: const TextStyle(fontSize: 20),
                         ),
                         onPressed: () async {
-                          if (isUpdateComment == false &&
-                              isPostUpdate == false) {
-                            dev.log('Add Comment Started');
-                            int statusCode = await commentService.addComment(
-                                context: context,
-                                postId: postId!,
-                                caption: _commentTextController.text);
+                          if (_commentTextController.text.isNotEmpty) {
+                            if (isUpdateComment == false &&
+                                isPostUpdate == false) {
+                              dev.log('Add Comment Started');
+                              int statusCode = await commentService.addComment(
+                                  context: context,
+                                  postId: postId!,
+                                  caption: _commentTextController.text);
 
-                            if (userProvider.id != postUserId) {
-                              if (context.mounted) {
-                                if (statusCode == 201) {
-                                  notificationService.addNotification(
-                                      context: context,
-                                      notification: NotificationModel(
-                                          notification: 'commented on your',
-                                          notificationType:
-                                              NotificationType.POST_REPLY.name,
-                                          userId: postUserId.toString(),
-                                          username: userProvider.username,
-                                          postId: postId));
+                              if (userProvider.id != postUserId) {
+                                if (context.mounted) {
+                                  if (statusCode == 201) {
+                                    notificationService.addNotification(
+                                        context: context,
+                                        notification: NotificationModel(
+                                            notification: 'commented on your',
+                                            notificationType: NotificationType
+                                                .POST_REPLY.name,
+                                            userId: postUserId.toString(),
+                                            username: userProvider.username,
+                                            postId: postId));
+                                  }
                                 }
                               }
                             }
-                          }
-                          if (isUpdateComment == true &&
-                              isPostUpdate == false) {
-                            dev.log('Update Comment Started');
-                            if (context.mounted) {
-                              commentService
-                                  .updateComment(
-                                      context: context,
-                                      id: commentId!,
-                                      caption: _commentTextController.text)
-                                  .then((value) {
-                                if (value == 201) {}
-                              });
+                            if (isUpdateComment == true &&
+                                isPostUpdate == false) {
+                              dev.log('Update Comment Started');
+                              if (context.mounted) {
+                                commentService
+                                    .updateComment(
+                                        context: context,
+                                        id: commentId!,
+                                        caption: _commentTextController.text)
+                                    .then((value) {
+                                  if (value == 201) {}
+                                });
+                              }
                             }
-                          }
-                          if (isPostUpdate == true &&
-                              isUpdateComment == false) {
-                            dev.log('Update Post Started');
-                            if (context.mounted) {
-                              postService.updatePost(
-                                  context: context,
-                                  id: postId!,
-                                  caption: _commentTextController.text,
-                                  hashtags: hashtags!);
+                            if (isPostUpdate == true &&
+                                isUpdateComment == false) {
+                              dev.log('Update Post Started');
+                              if (context.mounted) {
+                                postService.updatePost(
+                                    context: context,
+                                    id: postId!,
+                                    caption: _commentTextController.text,
+                                    hashtags: hashtags!);
+                              }
                             }
-                          }
-                          _commentTextController.clear();
-                          if (context.mounted) {
-                            Navigator.pop(context);
+                            _commentTextController.clear();
+                            if (context.mounted) {
+                              Navigator.pop(context);
+                            }
+                          } else {
+                            showSnackBar(context, "Field can't be empty");
                           }
                         },
                         child: Text(isUpdateComment

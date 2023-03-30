@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:foxxi/services/story_service.dart';
+import 'package:foxxi/utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 
@@ -151,11 +152,15 @@ class _AddStoryState extends State<AddStory> {
                               textStyle: const TextStyle(fontSize: 20),
                             ),
                             onPressed: () {
-                              storyService.createStories(
-                                  context: context,
-                                  caption: _captionController.text,
-                                  imageFilePath: image!.path);
-                              Navigator.pop(context);
+                              if (_captionController.text.isNotEmpty) {
+                                storyService.createStories(
+                                    context: context,
+                                    caption: _captionController.text,
+                                    imageFilePath: image!.path);
+                                Navigator.pop(context);
+                              } else {
+                                showSnackBar(context, "Field can't be empty");
+                              }
                             },
                             child: const Text('Upload'),
                           ),
@@ -260,11 +265,15 @@ class _AddStoryState extends State<AddStory> {
                               textStyle: const TextStyle(fontSize: 20),
                             ),
                             onPressed: () {
-                              storyService.createStories(
-                                  context: context,
-                                  caption: _captionController.text,
-                                  videoFilePath: pickedFile!.path);
-                              Navigator.pop(context);
+                              if (_captionController.text.isNotEmpty) {
+                                storyService.createStories(
+                                    context: context,
+                                    caption: _captionController.text,
+                                    videoFilePath: pickedFile!.path);
+                                Navigator.pop(context);
+                              } else {
+                                showSnackBar(context, "Field can't be empty");
+                              }
                             },
                             child: const Text('Upload'),
                           ),

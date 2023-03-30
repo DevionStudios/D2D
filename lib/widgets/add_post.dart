@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:foxxi/utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 
@@ -171,12 +172,18 @@ class _AddPostState extends State<AddPost> {
                                       textStyle: const TextStyle(fontSize: 20),
                                     ),
                                     onPressed: () {
-                                      postService.createPost(
-                                          context: context,
-                                          caption: _captionTextEditingController
-                                              .text,
-                                          imageFilePath: image!.path);
-
+                                      if (_captionTextEditingController
+                                          .text.isNotEmpty) {
+                                        postService.createPost(
+                                            context: context,
+                                            caption:
+                                                _captionTextEditingController
+                                                    .text,
+                                            imageFilePath: image!.path);
+                                      } else {
+                                        showSnackBar(
+                                            context, "Field can't be empty");
+                                      }
                                       Navigator.pop(context);
                                     },
                                     child: const Text('Upload'),
@@ -284,11 +291,16 @@ class _AddPostState extends State<AddPost> {
                               textStyle: const TextStyle(fontSize: 20),
                             ),
                             onPressed: () {
-                              postService.createPost(
-                                  context: context,
-                                  caption: _captionTextEditingController.text,
-                                  videoFilePath: pickedFile!.path);
-                              Navigator.pop(context);
+                              if (_captionTextEditingController
+                                  .text.isNotEmpty) {
+                                postService.createPost(
+                                    context: context,
+                                    caption: _captionTextEditingController.text,
+                                    videoFilePath: pickedFile!.path);
+                                Navigator.pop(context);
+                              } else {
+                                showSnackBar(context, "Field can't be empty");
+                              }
                             },
                             child: const Text('Upload'),
                           ),
