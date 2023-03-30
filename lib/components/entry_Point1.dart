@@ -46,7 +46,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     userService.getCurrentUserData(context: context, id: id);
     postService.getAllPost(context: context);
     // postService.getTrendingPosts(context: context);
-    messageService.getAssociatedUsers(context: context);
+    // messageService.getAssociatedUsers(context: context);
   }
 
   void getUserId() {

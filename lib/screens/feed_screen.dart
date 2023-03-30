@@ -44,6 +44,7 @@ class _FeedScreenState extends State<FeedScreen> {
   void fetchData() {
     notificationService.getNotification(context: context)?.then((value) {
       notificationList = value;
+      dev.log(notificationList.toString());
     });
   }
 
@@ -127,35 +128,36 @@ class _FeedScreenState extends State<FeedScreen> {
                                       },
                                       icon: const Icon(Icons.search_outlined)),
                                 ),
-                                SizedBox(
-                                  child: IconButton(
-                                    icon: badges.Badge(
-                                      badgeStyle: const badges.BadgeStyle(),
-                                      badgeAnimation:
-                                          const badges.BadgeAnimation.fade(),
-                                      badgeContent: notificationList?.length !=
-                                              null
-                                          ? notificationList!.isEmpty
-                                              ? null
-                                              : Text(notificationList!.length
-                                                  .toString())
-                                          : null,
-                                      child: Icon(
-                                        Icons.notifications_none,
-                                        color: isDark
-                                            ? Colors.grey.shade100
-                                            : Colors.grey.shade900,
-                                        size: 30,
-                                      ),
+                                IconButton(
+                                  icon: badges.Badge(
+                                    showBadge: notificationList?.length == null
+                                        ? true
+                                        : false,
+                                    badgeStyle: const badges.BadgeStyle(),
+                                    badgeAnimation:
+                                        const badges.BadgeAnimation.fade(),
+                                    badgeContent:
+                                        notificationList?.length == null
+                                            ? null
+                                            : notificationList!.isEmpty
+                                                ? null
+                                                : Text(notificationList!.length
+                                                    .toString()),
+                                    child: Icon(
+                                      Icons.notifications_none,
+                                      color: isDark
+                                          ? Colors.grey.shade100
+                                          : Colors.grey.shade900,
+                                      size: 30,
                                     ),
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const NotificationScreen()));
-                                    },
                                   ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const NotificationScreen()));
+                                  },
                                 ),
                                 SizedBox(
                                   child: IconButton(
