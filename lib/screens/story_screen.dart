@@ -144,7 +144,7 @@ class _StoryScreenState extends State<StoryScreen> {
                     ),
                     widget.stories[index].media!.mediatype != 'video'
                         ? Container(
-                            height: MediaQuery.of(context).size.height - 200,
+                            height: MediaQuery.of(context).size.height/2,
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
                               borderRadius:
@@ -161,7 +161,7 @@ class _StoryScreenState extends State<StoryScreen> {
                             ),
                           )
                         : Container(
-                            height: 400,
+                            height: MediaQuery.of(context).size.height/2,
                             width: MediaQuery.of(context).size.width - 20,
                             decoration: const BoxDecoration(
                               borderRadius:
@@ -176,12 +176,12 @@ class _StoryScreenState extends State<StoryScreen> {
                                         decoration: const BoxDecoration(
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(30))),
-                                        height: 330,
+                            height: MediaQuery.of(context).size.height/2,
                                         width: 400,
                                         child: VideoPlayer(_controller!))
                                     : Container(),
                                 Positioned(
-                                  top: 270,
+                                  bottom: 10,
                                   left: 10,
                                   child: FloatingActionButton(
                                     onPressed: () {

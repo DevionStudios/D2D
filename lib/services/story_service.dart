@@ -33,10 +33,11 @@ class StoryService {
         request.files.add(
           await http.MultipartFile.fromPath('media', imageFilePath),
         );
-        if (videoFilePath != null) {
+       
+        }
+         if (videoFilePath != null) {
           request.files
               .add(await http.MultipartFile.fromPath('media', videoFilePath));
-        }
       }
       final res = await request.send();
       if (res.statusCode == 201) {

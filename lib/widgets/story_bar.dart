@@ -390,6 +390,7 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                                           listOfStories[index]![0].author.image,
                                           width: 50,
                                           height: 50,
+                                          fit: BoxFit.cover,
                                         ),
                                       ),
                                     ),

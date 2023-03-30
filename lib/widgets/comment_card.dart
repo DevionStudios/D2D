@@ -58,7 +58,7 @@ class CommentCard extends StatelessWidget {
                         Text(comment!.author.name.toString(),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: isDark ? Colors.black38 : Colors.black87,
+                              color: isDark ? Colors.white : Colors.black87,
                             )),
                         Padding(
                           padding: const EdgeInsets.only(top: 4),

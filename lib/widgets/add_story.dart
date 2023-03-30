@@ -30,7 +30,7 @@ class _AddStoryState extends State<AddStory> {
   _pickVideo() async {
     // ignore: deprecated_member_use
     pickedFile = await picker.pickVideo(source: ImageSource.gallery);
-    if (_videoPlayerController != null) {
+    if (pickedFile?.path != null) {
       _video = File(pickedFile!.path);
       _videoPlayerController = VideoPlayerController.file(_video!)
         ..initialize().then((_) {
@@ -56,238 +56,234 @@ class _AddStoryState extends State<AddStory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+            appBar: AppBar(
+        elevation: 0,
+      ),
       resizeToAvoidBottomInset: false,
       body: (widget.isImage == true)
-          ? Padding(
-              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'Add Story',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('Caption'),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                      controller: _captionController,
-                      decoration: const InputDecoration(
-                        // labelText: 'Caption',
-                        border: OutlineInputBorder(),
-                        hintText: 'Include body for your post.',
-                      ),
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('Media'),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      onTap: () async {
-                        image = await imagePicker.pickImage(
-                            source: ImageSource.gallery);
-                        if (image != null) {
-                          setState(() {
-                            _image = File(image!.path);
-                          });
-                        }
-                      },
-                      child: Container(
-                        // padding: EdgeInsets.only(left: 8),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Colors.grey.shade500,
-                                style: BorderStyle.solid,
-                                width: 3)),
-                        width: double.infinity,
-                        height: MediaQuery.of(context).size.height * 0.4,
-                        child: _image != null
-                            ? Image.file(
-                                _image,
-                                fit: BoxFit.cover,
-                              )
-                            : Icon(
-                                Icons.file_upload_rounded,
-                                color: Colors.grey[800],
-                                size: 50,
-                              ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Stack(children: <Widget>[
-                          Positioned.fill(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Colors.lightBlue.shade100.withOpacity(0.4),
-                                    Colors.purpleAccent.shade100
-                                        .withOpacity(0.4),
-                                  ],
-                                  stops: const [0, 1],
-                                  begin: const AlignmentDirectional(1, 0),
-                                  end: const AlignmentDirectional(-1, 0),
-                                  // color: Colors.purpleAccent.shade100.withOpacity(
-                                  // 0.3,
-                                ),
-                              ),
-                            ),
-                          ),
-                          TextButton(
-                            style: TextButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              padding: const EdgeInsets.all(16.0),
-                              textStyle: const TextStyle(fontSize: 20),
-                            ),
-                            onPressed: () {
-                              if (_captionController.text.isNotEmpty) {
-                                storyService.createStories(
-                                    context: context,
-                                    caption: _captionController.text,
-                                    imageFilePath: image!.path);
-                                Navigator.pop(context);
-                              } else {
-                                showSnackBar(context, "Field can't be empty");
-                              }
-                            },
-                            child: const Text('Upload'),
-                          ),
-                        ]),
-                      ],
-                    ),
-                  )
-                ],
+          ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  'Add Story',
+                  style: TextStyle(fontSize: 20),
+                ),
               ),
-            )
-          : Padding(
-              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'Add Story',
-                      style: TextStyle(fontSize: 20),
-                    ),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text('Caption'),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: _captionController,
+                  decoration: const InputDecoration(
+                    // labelText: 'Caption',
+                    border: OutlineInputBorder(),
+                    hintText: 'Include body for your post.',
                   ),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('Caption'),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text('Media'),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: () async {
+                    image = await imagePicker.pickImage(
+                        source: ImageSource.gallery);
+                    if (image != null) {
+                      setState(() {
+                        _image = File(image!.path);
+                      });
+                    }
+                  },
+                  child: Container(
+                    // padding: EdgeInsets.only(left: 8),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Colors.grey.shade500,
+                            style: BorderStyle.solid,
+                            width: 3)),
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    child: _image != null
+                        ? Image.file(
+                            _image,
+                            fit: BoxFit.cover,
+                          )
+                        : Icon(
+                            Icons.file_upload_rounded,
+                            color: Colors.grey[800],
+                            size: 50,
+                          ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                      controller: _captionController,
-                      decoration: const InputDecoration(
-                        // labelText: 'Caption',
-                        border: OutlineInputBorder(),
-                        hintText: 'Include body for your post.',
-                      ),
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('Media'),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        _pickVideo();
-                      },
-                      child: Container(
-                          // padding: EdgeInsets.only(left: 8),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Stack(children: <Widget>[
+                      Positioned.fill(
+                        child: Container(
                           decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Colors.grey.shade500,
-                                  style: BorderStyle.solid,
-                                  width: 3)),
-                          width: double.infinity,
-                          height: MediaQuery.of(context).size.height * 0.4,
-                          child: _video != null
-                              ? _videoPlayerController!.value.isInitialized
-                                  ? AspectRatio(
-                                      aspectRatio: _videoPlayerController!
-                                          .value.aspectRatio,
-                                      child:
-                                          VideoPlayer(_videoPlayerController!),
-                                    )
-                                  : Container()
-                              : Icon(
-                                  Icons.file_upload_rounded,
-                                  color: Colors.grey[800],
-                                  size: 50,
-                                )),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Stack(children: <Widget>[
-                          Positioned.fill(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Colors.lightBlue.shade100.withOpacity(0.4),
-                                    Colors.purpleAccent.shade100
-                                        .withOpacity(0.4),
-                                  ],
-                                  stops: const [0, 1],
-                                  begin: const AlignmentDirectional(1, 0),
-                                  end: const AlignmentDirectional(-1, 0),
-                                  // color: Colors.purpleAccent.shade100.withOpacity(
-                                  // 0.3,
-                                ),
-                              ),
+                            borderRadius: BorderRadius.circular(15),
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.lightBlue.shade100.withOpacity(0.4),
+                                Colors.purpleAccent.shade100
+                                    .withOpacity(0.4),
+                              ],
+                              stops: const [0, 1],
+                              begin: const AlignmentDirectional(1, 0),
+                              end: const AlignmentDirectional(-1, 0),
+                              // color: Colors.purpleAccent.shade100.withOpacity(
+                              // 0.3,
                             ),
                           ),
-                          TextButton(
-                            style: TextButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              padding: const EdgeInsets.all(16.0),
-                              textStyle: const TextStyle(fontSize: 20),
-                            ),
-                            onPressed: () {
-                              if (_captionController.text.isNotEmpty) {
-                                storyService.createStories(
-                                    context: context,
-                                    caption: _captionController.text,
-                                    videoFilePath: pickedFile!.path);
-                                showSnackBar(context, '');
-                                Navigator.pop(context);
-                              } else {
-                                showSnackBar(context, "Field can't be empty");
-                              }
-                            },
-                            child: const Text('Upload'),
-                          ),
-                        ]),
-                      ],
-                    ),
-                  )
-                ],
+                        ),
+                      ),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.all(16.0),
+                          textStyle: const TextStyle(fontSize: 20),
+                        ),
+                        onPressed: () {
+                          if (_captionController.text.isNotEmpty) {
+                            storyService.createStories(
+                                context: context,
+                                caption: _captionController.text,
+                                imageFilePath: image!.path);
+                            Navigator.pop(context);
+                          } else {
+                            showSnackBar(context, "Field can't be empty");
+                          }
+                        },
+                        child: const Text('Upload'),
+                      ),
+                    ]),
+                  ],
+                ),
+              )
+            ],
+          )
+          : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  'Add Story',
+                  style: TextStyle(fontSize: 20),
+                ),
               ),
-            ),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text('Caption'),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: _captionController,
+                  decoration: const InputDecoration(
+                    // labelText: 'Caption',
+                    border: OutlineInputBorder(),
+                    hintText: 'Include body for your post.',
+                  ),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text('Media'),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: () {
+                    _pickVideo();
+                  },
+                  child: Container(
+                      // padding: EdgeInsets.only(left: 8),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Colors.grey.shade500,
+                              style: BorderStyle.solid,
+                              width: 3)),
+                      width: double.infinity,
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      child: _video != null
+                          ? _videoPlayerController!.value.isInitialized
+                              ? AspectRatio(
+                                  aspectRatio: _videoPlayerController!
+                                      .value.aspectRatio,
+                                  child:
+                                      VideoPlayer(_videoPlayerController!),
+                                )
+                              : Container()
+                          : Icon(
+                              Icons.file_upload_rounded,
+                              color: Colors.grey[800],
+                              size: 50,
+                            )),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Stack(children: <Widget>[
+                      Positioned.fill(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.lightBlue.shade100.withOpacity(0.4),
+                                Colors.purpleAccent.shade100
+                                    .withOpacity(0.4),
+                              ],
+                              stops: const [0, 1],
+                              begin: const AlignmentDirectional(1, 0),
+                              end: const AlignmentDirectional(-1, 0),
+                              // color: Colors.purpleAccent.shade100.withOpacity(
+                              // 0.3,
+                            ),
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.all(16.0),
+                          textStyle: const TextStyle(fontSize: 20),
+                        ),
+                        onPressed: () {
+                          if (_captionController.text.isNotEmpty) {
+                            storyService.createStories(
+                                context: context,
+                                caption: _captionController.text,
+                                videoFilePath: pickedFile!.path);
+                            Navigator.pop(context);
+                          } else {
+                            showSnackBar(context, "Field can't be empty");
+                          }
+                        },
+                        child: const Text('Upload'),
+                      ),
+                    ]),
+                  ],
+                ),
+              )
+            ],
+          ),
     );
   }
 }

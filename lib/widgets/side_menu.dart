@@ -81,7 +81,7 @@ class _SideMenuState extends State<SideMenu> {
                           errorBuilder: (context, error, stackTrace) {
                             return const Center(
                                 child: Icon(
-                              Icons.image,
+                              Icons.person_2_rounded,
                               size: 100,
                             ));
                           },
@@ -114,21 +114,23 @@ class _SideMenuState extends State<SideMenu> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              ListTile(
-                leading: DayNightSwitch(
-                  value: Provider.of<ThemeProvider>(context).isDarkMode,
-                  // moonImage: AssetImage('assets/moon.png'),
-                  // sunImage: AssetImage('assets/sun.png'),
-                  sunColor: Colors.yellow,
-                  moonColor: Colors.grey,
-                  dayColor: Colors.yellowAccent.shade100,
-                  nightColor: Colors.blue.shade900,
-                  onChanged: (value) {
-                    final provider =
-                        Provider.of<ThemeProvider>(context, listen: false);
-                    provider.toggleTheme(value);
-                  },
-                ),
+              Padding(
+                padding: const EdgeInsets.only(top:30),
+                child:  DayNightSwitch(
+                    value: Provider.of<ThemeProvider>(context).isDarkMode,
+                    // moonImage: AssetImage('assets/moon.png'),
+                    // sunImage: AssetImage('assets/sun.png'),
+                    sunColor: Colors.yellow,
+                    moonColor: Colors.grey,
+                    dayColor: Colors.yellowAccent.shade100,
+                    nightColor: Colors.blue.shade900,
+                    onChanged: (value) {
+                      final provider =
+                          Provider.of<ThemeProvider>(context, listen: false);
+                      provider.toggleTheme(value);
+                    },
+                  ),
+                
               ),
               ...sidebarMenus
                   .map((menu) => SideMenuTile(
