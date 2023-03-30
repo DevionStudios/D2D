@@ -1,6 +1,8 @@
 import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
+import 'package:foxxi/constants.dart';
+import 'package:foxxi/models/notification.dart';
 import 'package:foxxi/screens/profile_screen.dart';
 import 'package:foxxi/services/user_service.dart';
 import 'package:foxxi/utils.dart';
@@ -116,36 +118,46 @@ class _FollowerScreenState extends State<FollowerScreen> {
                   subtitle: Text('@${user?.followers![index]['username']}'),
                 ),
               ),
-              userProvider.username==user!.followers![index]['username']?Container():FollowButton(
-                  isFollowed: isFollowed[index],
-                  backgroundColor: Colors.white,
-                  borderColor: Colors.white,
-                  textColor: Colors.black,
-                  function: () {
-                    setState(() {
-                      
-                    });
-                    userService
-                        .followUser(
-                            context: context,
-                            username: user!.followers![index]['username'])
-                        .then((value) {
-                      if (value == 201) {
-                        setState(() {
-                          isFollowed[index] = true;
-                        });
-                      }
+              userProvider.username == user!.followers![index]['username']
+                  ? Container()
+                  : FollowButton(
+                      isFollowed: isFollowed[index],
+                      backgroundColor: Colors.white,
+                      borderColor: Colors.white,
+                      textColor: Colors.black,
+                      function: () {
+                        setState(() {});
+                        userService
+                            .followUser(
+                                context: context,
+                                username: user!.followers![index]['username'])
+                            .then((value) {
+                          if (value == 201) {
+                            setState(() {
+                              isFollowed[index] = true;
+                            });
 
-                      if (value == 200) {
-                        setState(() {
-                          isFollowed[index] = false;
-                        });
+                            dev.log(NotificationType.USER_FOLLOW.name);
+                            notificationService.addNotification(
+                                context: context,
+                                notification: NotificationModel(
+                                    notification: 'followed you',
+                                    notificationType:
+                                        NotificationType.USER_FOLLOW.name,
+                                    userId: userProvider.id,
+                                    username: user!.username));
+                          }
 
-                        userService.getCurrentUserData(
-                            context: context, id: userProvider.id);
-                      }
-                    });
-                  }),
+                          if (value == 200) {
+                            setState(() {
+                              isFollowed[index] = false;
+                            });
+
+                            userService.getCurrentUserData(
+                                context: context, id: userProvider.id);
+                          }
+                        });
+                      }),
             ],
           ),
         ),

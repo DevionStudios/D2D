@@ -377,7 +377,7 @@ class PostService {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
       dev.log(foxxijwt, name: "Reading JWT");
-      http.Response res = await http.put(Uri.parse('$url/posts/report'),
+      http.Response res = await http.put(Uri.parse('$url/api/posts/report'),
           body: jsonEncode({'postId': id}),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
@@ -423,7 +423,7 @@ class PostService {
             response: res,
             context: context,
             onSuccess: () {
-              showSnackBar(context, 'Post Updated Succesfully');
+              showSnackBar(context, 'Post Updated ');
             });
       }
     } catch (e) {

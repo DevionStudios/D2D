@@ -3,6 +3,7 @@ import 'package:foxxi/constants.dart';
 import 'package:foxxi/models/notification.dart';
 import 'package:foxxi/providers/theme_provider.dart';
 import 'package:foxxi/routing_constants.dart';
+import 'package:foxxi/screens/chat.dart';
 import 'package:foxxi/screens/chat_screen.dart';
 import 'package:foxxi/screens/post_screen.dart';
 import 'package:foxxi/screens/profile_screen.dart';
@@ -29,7 +30,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   void setNotificationList() {
-    _notificationList = notificationService.getNotification(context: context);
+    setState(() {
+      _notificationList = notificationService.getNotification(context: context);
+    });
   }
 
   String getStringfromNotificationType(String notificationType) {
@@ -57,7 +60,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
         actions: [
           IconButton(
               onPressed: () {
-                notificationService.deleteNotification(context: context);
+                notificationService
+                    .deleteNotification(context: context)
+                    .then((value) {
+                  if (value == 201) {
+                    setNotificationList();
+                  }
+                });
               },
               icon: const Icon(Icons.delete_rounded))
         ],
@@ -72,8 +81,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
               itemBuilder: (context, index) => GestureDetector(
                 onTap: () {
                   if (notificationData[index].notificationType == 'MESSAGE') {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const Chat()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => OneOneChatScreen(
+                                  senderUsername:
+                                      notificationData[index].username,
+                                  senderId: notificationData[index].userId,
+                                )));
                   }
 
                   if (notificationData[index].notificationType ==

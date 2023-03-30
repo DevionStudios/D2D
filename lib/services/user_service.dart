@@ -84,19 +84,7 @@ class UserService {
             response: res,
             context: context,
             onSuccess: () {
-              final userProvider =
-                  Provider.of<UserProvider>(context, listen: false).user;
               statusCode = res.statusCode;
-              if (res.statusCode == 201) {
-                dev.log(NotificationType.USER_FOLLOW.name);
-                notificationService.addNotification(
-                    context: context,
-                    notification: NotificationModel(
-                        notification: 'followed you',
-                        notificationType: NotificationType.USER_FOLLOW.name,
-                        userId: userProvider.id,
-                        username: userProvider.username));
-              }
             });
       }
     } catch (e) {
@@ -186,15 +174,15 @@ class UserService {
         request.fields['username'] = username;
       }
       if (name != null) {
-        request.fields['username'] = name;
+        request.fields['name'] = name;
       }
       if (bio != null) {
         dev.log('Bio Update', name: 'Profile Update: Request');
 
-        request.fields['username'] = bio;
+        request.fields['bio'] = bio;
       }
       if (walletAddress != null) {
-        request.fields['username'] = walletAddress;
+        request.fields['walletAddress'] = walletAddress;
       }
 
       if (imagePath != null) {
@@ -282,6 +270,35 @@ class UserService {
     } catch (e) {
       dev.log(e.toString(), name: 'Update Password Error');
       showSnackBar(context, e.toString());
+    }
+  }
+
+  void reportUser({
+    required String id,
+    required BuildContext context,
+  }) async {
+    try {
+      var jwt = await _storage.read(key: 'cookies');
+      final foxxijwt = 'foxxi_jwt=$jwt;';
+      dev.log(foxxijwt, name: "Reading JWT");
+      http.Response res = await http.put(Uri.parse('$url/api/users/report'),
+          body: jsonEncode({'postId': id}),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'cookies': foxxijwt
+          });
+
+      if (context.mounted) {
+        httpErrorHandle(
+            response: res,
+            context: context,
+            onSuccess: () {
+              dev.log('User $id Reported');
+              showSnackBar(context, 'User Reported');
+            });
+      }
+    } catch (e) {
+      dev.log(e.toString(), name: 'User Service : Report User Error');
     }
   }
 

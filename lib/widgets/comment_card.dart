@@ -58,9 +58,7 @@ class CommentCard extends StatelessWidget {
                         Text(comment!.author.name.toString(),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: isDark
-                                  ? Colors.grey.shade400
-                                  : Colors.grey.shade300,
+                              color: isDark ? Colors.black38 : Colors.black87,
                             )),
                         Padding(
                           padding: const EdgeInsets.only(top: 4),
@@ -69,9 +67,8 @@ class CommentCard extends StatelessWidget {
                             //   snap.data()['datePublished'].toDate(),
                             '@${comment!.author.username.toString()}',
                             style: TextStyle(
-                              color: isDark
-                                  ? Colors.grey.shade500
-                                  : Colors.grey.shade400,
+                              color:
+                                  isDark ? Colors.grey.shade500 : Colors.grey,
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
                             ),

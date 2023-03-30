@@ -43,7 +43,10 @@ class _FeedScreenState extends State<FeedScreen> {
 
   void fetchData() {
     notificationService.getNotification(context: context)?.then((value) {
-      notificationList = value;
+      setState(() {
+        notificationList = value;
+      });
+      dev.log('Noitfication Data ==---');
       dev.log(notificationList.toString());
     });
   }
@@ -130,19 +133,16 @@ class _FeedScreenState extends State<FeedScreen> {
                                 ),
                                 IconButton(
                                   icon: badges.Badge(
-                                    showBadge: notificationList?.length == null
-                                        ? true
-                                        : false,
+                                    showBadge:
+                                        notificationList == null ? false : true,
                                     badgeStyle: const badges.BadgeStyle(),
                                     badgeAnimation:
                                         const badges.BadgeAnimation.fade(),
                                     badgeContent:
                                         notificationList?.length == null
                                             ? null
-                                            : notificationList!.isEmpty
-                                                ? null
-                                                : Text(notificationList!.length
-                                                    .toString()),
+                                            : Text(notificationList!.length
+                                                .toString()),
                                     child: Icon(
                                       Icons.notifications_none,
                                       color: isDark

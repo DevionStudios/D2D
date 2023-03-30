@@ -162,32 +162,32 @@ class _SideMenuState extends State<SideMenu> {
                         },
                       ))
                   .toList(),
-                            ListTile(leading: SizedBox(
-                              height: 36,
-                              width: 36,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left:8.0),
-                                child: const Icon(
-                                                      Icons.logout_rounded,
-                                                      size: 30,
-                                                      color: Colors.white,
-                                                    ),
-                              ),
-                            ),title: InkWell(
-                      onTap: () {
-                        authService.signOut(context: context);
-                      },
-                      child: Text(
-                        'Log Out',
-                        style: TextStyle(
-                            fontFamily: 'InstagramSans',
-                            color: isDark ? Colors.white : Colors.black,
-                            fontSize: 18),
+              InkWell(
+                onTap: () {
+                  authService.signOut(context: context);
+                },
+                child: ListTile(
+                  leading: const SizedBox(
+                    height: 36,
+                    width: 36,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 8.0),
+                      child: Icon(
+                        Icons.logout_rounded,
+                        size: 30,
+                        color: Colors.white,
                       ),
-                    ),),
-
-              
-             
+                    ),
+                  ),
+                  title: Text(
+                    'Log Out',
+                    style: TextStyle(
+                        fontFamily: 'InstagramSans',
+                        color: isDark ? Colors.white : Colors.black,
+                        fontSize: 18),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

@@ -31,13 +31,15 @@ class SideMenuTile extends StatelessWidget {
             width: selectedMenu == menu ? 288 : 0,
             height: 56,
             left: 0,
-            child: Container(
-              decoration: isDark
-                  ? BoxDecoration(color: Colors.grey.shade900)
-                  : BoxDecoration(
-                      color: Colors.purpleAccent.shade100.withOpacity(0.7),
-                    ),
-            ),
+            child: Container(),
+            // child: Container(
+            //   decoration: isDark
+            //       ?
+            //       : BoxDecoration(
+            //           color: Colors.purpleAccent.shade100.withOpacity(0.7),
+
+            //         ),
+            // ),
           ),
           ListTile(
             onTap: press,

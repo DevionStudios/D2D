@@ -39,9 +39,10 @@ class NotificationService {
     }
   }
 
-  void deleteNotification({
+  Future<int> deleteNotification({
     required BuildContext context,
   }) async {
+    int statusCode = 0;
     try {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
@@ -57,6 +58,7 @@ class NotificationService {
             response: res,
             context: context,
             onSuccess: () {
+              statusCode = res.statusCode;
               dev.log('Notification Deleted!');
             });
       }
@@ -64,6 +66,7 @@ class NotificationService {
       dev.log(e.toString(),
           name: 'NotificationService - Delete NotificationError');
     }
+    return statusCode;
   }
 
   Future<List<NotificationModel>>? getNotification({
@@ -86,7 +89,7 @@ class NotificationService {
             context: context,
             onSuccess: () {
               final data = jsonDecode(res.body)['data'];
-              dev.log(data.toString(), name: 'NotificationData');
+              dev.log(jsonEncode(data), name: 'NotificationData');
 
               for (var notification in data) {
                 notificationList

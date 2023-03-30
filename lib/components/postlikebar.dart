@@ -3,6 +3,8 @@ import 'dart:ui';
 
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
+import 'package:foxxi/constants.dart';
+import 'package:foxxi/models/notification.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
@@ -134,17 +136,30 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
                             .likePost(
                                 context: context, id: widget.post.id.toString())
                             .then((value) {
-                          setState(() {
-                            if (isLiked) {
+                          if (isLiked) {
+                            setState(() {
                               isLiked = false;
                               likes = likes! - 1;
-                            } else {
+                            });
+                            notificationService.addNotification(
+                                context: context,
+                                notification: NotificationModel(
+                                    notification: ' liked your',
+                                    notificationType:
+                                        NotificationType.POST_LIKE.name,
+                                    userId: widget.post.author.id,
+                                    username: userProvider.username));
+                          } else {
+                            setState(() {
                               isLiked = true;
+
                               if (likes == 0) {
                                 likes = 1;
+                              } else {
+                                likes = likes! + 1;
                               }
-                            }
-                          });
+                            });
+                          }
                         });
                       } else {
                         showSnackBar(context, 'You Cannot like your own post');
@@ -248,7 +263,9 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
                                 ],
                               ),
                               AddCommentWidget(
+                                postUsername: widget.post.author.username,
                                 postId: widget.post.id,
+                                postUserId: widget.post.author.id,
                               ),
                             ],
                           ),
@@ -268,15 +285,11 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => OneOneChatScreen(
-                                      senderId: widget.post.author.id,
-                                      senderName:
-                                          widget.post.author.name.toString(),
-                                      senderUsername:
-                                          widget.post.author.id.toString(),
-                                      senderImage:
-                                          widget.post.author.image.toString()),
-                                ));
+                                    builder: (context) => OneOneChatScreen(
+                                          senderId: widget.post.author.id,
+                                          senderUsername:
+                                              widget.post.author.username,
+                                        )));
                           })
                       : const SizedBox(),
                   widget.post.author.id != userProvider.id

@@ -1,7 +1,6 @@
 import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
-import 'package:foxxi/utils.dart';
 import 'package:provider/provider.dart';
 
 import 'package:foxxi/constants.dart';
@@ -10,10 +9,12 @@ import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/services/comment_service.dart';
 import 'package:foxxi/services/notification_service.dart';
 import 'package:foxxi/services/post_service.dart';
+import 'package:foxxi/utils.dart';
 
 class AddCommentWidget extends StatelessWidget {
   bool isUpdateComment;
   bool isPostUpdate;
+  final String? postUsername;
   final List<String>? hashtags;
   final String? commentId;
   final String? postUserId;
@@ -22,6 +23,7 @@ class AddCommentWidget extends StatelessWidget {
     Key? key,
     this.isUpdateComment = false,
     this.isPostUpdate = false,
+    this.postUsername,
     this.hashtags,
     this.commentId,
     this.postUserId,
@@ -97,7 +99,7 @@ class AddCommentWidget extends StatelessWidget {
                                             notification: 'commented on your',
                                             notificationType: NotificationType
                                                 .POST_REPLY.name,
-                                            userId: postUserId.toString(),
+                                            userId: postUserId!,
                                             username: userProvider.username,
                                             postId: postId));
                                   }

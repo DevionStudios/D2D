@@ -29,8 +29,8 @@ class _AddStoryState extends State<AddStory> {
 // This funcion will helps you to pick a Video File
   _pickVideo() async {
     // ignore: deprecated_member_use
+    pickedFile = await picker.pickVideo(source: ImageSource.gallery);
     if (_videoPlayerController != null) {
-      pickedFile = await picker.pickVideo(source: ImageSource.gallery);
       _video = File(pickedFile!.path);
       _videoPlayerController = VideoPlayerController.file(_video!)
         ..initialize().then((_) {
@@ -44,7 +44,6 @@ class _AddStoryState extends State<AddStory> {
   @override
   void initState() {
     imagePicker = ImagePicker();
-
     super.initState();
   }
 
@@ -57,6 +56,7 @@ class _AddStoryState extends State<AddStory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: (widget.isImage == true)
           ? Padding(
               padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
@@ -74,10 +74,11 @@ class _AddStoryState extends State<AddStory> {
                     padding: EdgeInsets.all(8.0),
                     child: Text('Caption'),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: TextField(
-                      decoration: InputDecoration(
+                      controller: _captionController,
+                      decoration: const InputDecoration(
                         // labelText: 'Caption',
                         border: OutlineInputBorder(),
                         hintText: 'Include body for your post.',
@@ -94,9 +95,11 @@ class _AddStoryState extends State<AddStory> {
                       onTap: () async {
                         image = await imagePicker.pickImage(
                             source: ImageSource.gallery);
-                        setState(() {
-                          _image = File(image!.path);
-                        });
+                        if (image != null) {
+                          setState(() {
+                            _image = File(image!.path);
+                          });
+                        }
                       },
                       child: Container(
                         // padding: EdgeInsets.only(left: 8),
@@ -270,6 +273,7 @@ class _AddStoryState extends State<AddStory> {
                                     context: context,
                                     caption: _captionController.text,
                                     videoFilePath: pickedFile!.path);
+                                showSnackBar(context, '');
                                 Navigator.pop(context);
                               } else {
                                 showSnackBar(context, "Field can't be empty");

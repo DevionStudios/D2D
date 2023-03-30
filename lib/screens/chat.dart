@@ -1,5 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:foxxi/services/notification_service.dart';
+import 'package:foxxi/services/user_service.dart';
 import 'package:provider/provider.dart';
 
 import 'package:foxxi/constants.dart';
@@ -39,7 +41,9 @@ class ChatScreenState extends State<ChatScreen> {
     {
       associatedUserList =
           await messageService.getAssociatedUsers(context: context);
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     }
   }
 
@@ -66,8 +70,6 @@ class ChatScreenState extends State<ChatScreen> {
             transitionDuration: const Duration(milliseconds: 600),
             openBuilder: (context, _) => OneOneChatScreen(
               senderId: associatedUserList![i].id.toString(),
-              senderName: associatedUserList![i].name.toString(),
-              senderImage: associatedUserList![i].image.toString(),
               senderUsername: associatedUserList![i].username.toString(),
               key: key,
             ),
@@ -102,7 +104,11 @@ class ChatScreenState extends State<ChatScreen> {
                         children: [
                           Text(
                             associatedUserList![i].name.toString(),
-                            style:  TextStyle(fontFamily: 'InstagramSans',color: isDark?Colors.grey.shade600:Colors.black),
+                            style: TextStyle(
+                                fontFamily: 'InstagramSans',
+                                color: isDark
+                                    ? Colors.grey.shade600
+                                    : Colors.black),
                           ),
                           // Text(
                           //   releChatData[i].message.toString(),
@@ -126,16 +132,14 @@ class ChatScreenState extends State<ChatScreen> {
 class OneOneChatScreen extends StatefulWidget {
   static const String routeName = oneOnOneChatScreenRoute;
 
-  final String senderName;
   final String senderUsername;
-  final String senderImage;
+
   final String senderId;
-  const OneOneChatScreen(
-      {super.key,
-      required this.senderId,
-      required this.senderName,
-      required this.senderUsername,
-      required this.senderImage});
+  const OneOneChatScreen({
+    super.key,
+    required this.senderId,
+    required this.senderUsername,
+  });
 
   @override
   State<OneOneChatScreen> createState() => _OneOneChatScreenState();
@@ -144,7 +148,24 @@ class OneOneChatScreen extends StatefulWidget {
 class _OneOneChatScreenState extends State<OneOneChatScreen> {
   get key => null;
   MessageService messageService = MessageService();
+  UserService userService = UserService();
+  User? user;
   final TextEditingController _messageTextController = TextEditingController();
+  NotificationService notificationService = NotificationService();
+
+  void getUserData() async {
+    user = await userService.getCurrentUserDatawithUsername(
+        context: context, username: widget.senderUsername);
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  @override
+  void initState() {
+    getUserData();
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -200,9 +221,10 @@ class _OneOneChatScreenState extends State<OneOneChatScreen> {
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Text(
-                                  widget.senderName.toString(),
+                                  user != null ? user!.name : '___',
                                   style: TextStyle(
-                                      color: isDark ? Colors.grey : Colors.black,
+                                      color:
+                                          isDark ? Colors.grey : Colors.black,
                                       fontSize: 15,
                                       fontFamily: 'Unbounded',
                                       fontWeight: FontWeight.bold),
@@ -226,16 +248,19 @@ class _OneOneChatScreenState extends State<OneOneChatScreen> {
                               child: Container(
                             // padding: EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                                border: Border.all(color: Colors.white, width: 2),
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(20))),
+                                border:
+                                    Border.all(color: Colors.white, width: 2),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(20))),
                             child: CircleAvatar(
                               radius: 20,
-                              backgroundImage:
-                                  NetworkImage(widget.senderImage.toString()),
+                              backgroundImage: NetworkImage(
+                                  user != null ? user!.image.toString() : ''),
+                              onBackgroundImageError: (exception, stackTrace) =>
+                                  Icons.person,
                             ),
                           )
-      
+
                               // width: MediaQuery.of(context).size.width * 0.1,
                               ),
                         ),
@@ -247,7 +272,7 @@ class _OneOneChatScreenState extends State<OneOneChatScreen> {
                         ),
                         decoration: BoxDecoration(
                             color: isDark ? Colors.grey.shade900 : Colors.white,
-                            borderRadius: BorderRadius.only(
+                            borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(30),
                                 topRight: Radius.circular(30))),
                         child: ChatStreamBuilder(
@@ -297,7 +322,7 @@ class _OneOneChatScreenState extends State<OneOneChatScreen> {
                               text: _messageTextController.text,
                               from: userProvider.id.toString(),
                               to: widget.senderId.toString());
-      
+
                           _messageTextController.clear();
                           if (context.mounted) {
                             if (statusCode == 201) {

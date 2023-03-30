@@ -1,9 +1,12 @@
 import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:foxxi/constants.dart';
+import 'package:foxxi/models/notification.dart';
 import 'package:foxxi/providers/theme_provider.dart';
 import 'package:foxxi/routing_constants.dart';
 import 'package:foxxi/screens/follower_following_screen.dart';
+import 'package:foxxi/services/notification_service.dart';
 import 'package:foxxi/services/user_service.dart';
 import 'package:foxxi/utils.dart';
 import 'package:foxxi/widgets/follow_button.dart';
@@ -44,6 +47,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
   List<FeedPostModel>? awaitedUserpost;
   final postService = PostService();
   final userService = UserService();
+  final notificationService = NotificationService();
   User? user;
   bool? isMeCheck;
 
@@ -639,10 +643,10 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                             7),
                                                     child: ElevatedButton(
                                                       child: isFollowed
-                                                          ? Text('Unfollow')
-                                                          : Text('Follow'),
-                                                      
-                                                      
+                                                          ? const Text(
+                                                              'Unfollow')
+                                                          : const Text(
+                                                              'Follow'),
                                                       onPressed: () {
                                                         userService
                                                             .followUser(
@@ -656,6 +660,28 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                               isFollowed =
                                                                   !isFollowed;
                                                             });
+
+                                                            if (value == 201) {
+                                                              dev.log(
+                                                                  NotificationType
+                                                                      .USER_FOLLOW
+                                                                      .name);
+                                                              notificationService.addNotification(
+                                                                  context:
+                                                                      context,
+                                                                  notification: NotificationModel(
+                                                                      notification:
+                                                                          'followed you',
+                                                                      notificationType: NotificationType
+                                                                          .USER_FOLLOW
+                                                                          .name,
+                                                                      userId:
+                                                                          user!
+                                                                              .id,
+                                                                      username:
+                                                                          userProvider
+                                                                              .username));
+                                                            }
                                                           }
                                                           userService
                                                               .getCurrentUserData(
