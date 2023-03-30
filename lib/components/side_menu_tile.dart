@@ -35,21 +35,7 @@ class SideMenuTile extends StatelessWidget {
               decoration: isDark
                   ? BoxDecoration(color: Colors.grey.shade900)
                   : BoxDecoration(
-                      border: Border.all(
-                        width: 5,
-                        color: Colors.purpleAccent.shade100.withOpacity(0.7),
-                      ),
-                      borderRadius: const BorderRadius.all(Radius.circular(30)),
-                      // bottomRight: Radius.circular(30)),
-                      gradient: gradient.LinearGradient(
-                        colors: [
-                          Colors.lightBlue.shade100.withOpacity(0.4),
-                          Colors.purpleAccent.shade100.withOpacity(0.4),
-                        ],
-                        stops: const [0, 1],
-                        begin: const AlignmentDirectional(1, 0),
-                        end: const AlignmentDirectional(-1, 0),
-                      ),
+                      color: Colors.purpleAccent.shade100.withOpacity(0.7),
                     ),
             ),
           ),

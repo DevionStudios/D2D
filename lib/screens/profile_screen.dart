@@ -45,6 +45,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
   final postService = PostService();
   final userService = UserService();
   User? user;
+  bool? isMeCheck;
 
   int statusCodeForFollow = 0;
   bool isFollowed = false;
@@ -138,8 +139,10 @@ class _ProfileWidgetState extends State<ProfileWidget>
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
 
     final userProvider = Provider.of<UserProvider>(context, listen: true).user;
+    isMeCheck = userProvider.username == widget.username ? true : false;
+
     return Scaffold(
-      extendBody: true,
+      extendBody: false,
       resizeToAvoidBottomInset: false,
       backgroundColor: isDark
           ? Colors.grey.shade900
@@ -298,8 +301,11 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                             return child;
                                                           }
                                                           return const Padding(
-                                                            padding: EdgeInsets.all(15.0),
-                                                            child: CustomLoader(),
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    15.0),
+                                                            child:
+                                                                CustomLoader(),
                                                           );
                                                         },
                                                         errorBuilder: (context,
@@ -622,7 +628,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                 ),
                                               ],
                                             ),
-                                            widget.isMe
+                                            isMeCheck!
                                                 ? const SizedBox()
                                                 : Padding(
                                                     padding: EdgeInsets.only(
@@ -631,12 +637,13 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                 .size
                                                                 .width /
                                                             7),
-                                                    child: FollowButton(
-                                                      backgroundColor:
-                                                          Colors.white,
-                                                      borderColor: Colors.white,
-                                                      textColor: Colors.black,
-                                                      function: () {
+                                                    child: ElevatedButton(
+                                                      child: isFollowed
+                                                          ? Text('Unfollow')
+                                                          : Text('Follow'),
+                                                      
+                                                      
+                                                      onPressed: () {
                                                         userService
                                                             .followUser(
                                                                 context:
@@ -644,8 +651,12 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                 username: user!
                                                                     .username)
                                                             .then((value) {
-                                                          setState(() {});
-
+                                                          if (mounted) {
+                                                            setState(() {
+                                                              isFollowed =
+                                                                  !isFollowed;
+                                                            });
+                                                          }
                                                           userService
                                                               .getCurrentUserData(
                                                                   context:
@@ -654,9 +665,34 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                       .id);
                                                         });
                                                       },
-                                                      isFollowed: isFollowed,
+                                                    )
+                                                    // child: FollowButton(
+                                                    //   backgroundColor:
+                                                    //       Colors.white,
+                                                    //   borderColor: Colors.white,
+                                                    //   textColor: Colors.black,
+                                                    //   function: () {
+                                                    //     userService
+                                                    //         .followUser(
+                                                    //             context:
+                                                    //                 context,
+                                                    //             username: user!
+                                                    //                 .username)
+                                                    //         .then((value) {
+                                                    //       if (mounted) {
+                                                    //         setState(() {});
+                                                    //       }
+                                                    //       userService
+                                                    //           .getCurrentUserData(
+                                                    //               context:
+                                                    //                   context,
+                                                    //               id: userProvider
+                                                    //                   .id);
+                                                    //     });
+                                                    //   },
+                                                    //   isFollowed: isFollowed,
+                                                    // ),
                                                     ),
-                                                  ),
                                           ],
                                         ),
                                         Padding(
