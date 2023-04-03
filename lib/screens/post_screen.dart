@@ -381,7 +381,7 @@ class _PostCardState extends State<PostCard> {
                                           fit: BoxFit.cover,
                                         ),
                                       ),
-                                      child: PostLikeCommentBar(post: post!))
+                                      child: PostLikeCommentBar(post: post!,isImage: true,isVideo: false,))
                                   : isVideo
                                       ? Container(
                                           height: 400,
@@ -441,7 +441,7 @@ class _PostCardState extends State<PostCard> {
                                                   ),
                                                 ],
                                               ),
-                                              PostLikeCommentBar(post: post!),
+                                              PostLikeCommentBar(post: post!,isVideo: true,isImage:false),
                                             ],
                                           ),
                                         )

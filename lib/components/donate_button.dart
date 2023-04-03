@@ -6,14 +6,41 @@ import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/providers/wallet_address.dart';
 import 'package:foxxi/screens/wallet_screen.dart';
 import 'package:foxxi/utils.dart';
+import 'package:provider/provider.dart' as prov;
+
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer' as dev;
 
-class DonateButton extends StatelessWidget {
+class DonateButton extends StatefulWidget {
   final FeedPostModel post;
   DonateButton({super.key, required this.post});
+
+  @override
+  State<DonateButton> createState() => _DonateButtonState();
+}
+
+class _DonateButtonState extends State<DonateButton> {
+  String? privateKey;
+  @override
+  void initState() {
+    super.initState();
+    readPrivateKey();
+  }
+
+  String? readPrivateKey() {
+    prov.Provider.of<WalletAddressProvider>(context, listen: false)
+        .readPrivateKey()
+        ?.then((value) {
+      setState(() {
+        privateKey = value;
+      });
+    });
+    return privateKey;
+  }
+
   final TextEditingController _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final isDark = Provider.of<ThemeProvider>(context, listen: true).isDarkMode;
@@ -58,8 +85,8 @@ class DonateButton extends StatelessWidget {
                             padding: const EdgeInsets.all(8),
                             child: CircleAvatar(
                               radius: 16,
-                              backgroundImage:
-                                  NetworkImage(post.author.image.toString()),
+                              backgroundImage: NetworkImage(
+                                  widget.post.author.image.toString()),
                             ),
                           ),
                           Column(
@@ -70,7 +97,7 @@ class DonateButton extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 8),
                                     child: Text(
-                                      post.author.name.toString(),
+                                      widget.post.author.name.toString(),
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: isDark
@@ -82,7 +109,7 @@ class DonateButton extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 4.0),
                                     child: Text(
-                                      '@${post.author.username.toString()}',
+                                      '@${widget.post.author.username.toString()}',
                                       style: TextStyle(
                                         fontFamily: 'InstagramSans',
                                         color: isDark
@@ -162,35 +189,45 @@ class DonateButton extends StatelessWidget {
                                             double.parse(_controller.text);
                                         dev.log(amount.toString());
                                         dev.log('---');
+                                        // dev.log(walletAddressProvider
+                                        //         .walletAddress!);
 
                                         if (walletAddressProvider
-                                            .readPrivateKey()
-                                            .toString()
-                                            .isEmpty) {
+                                                .walletAddress ==
+                                            null) {
                                           showSnackBar(context,
                                               'Connect your Wallet to Donate !!!');
                                           Navigator.pop(context);
-                                        } else if (post.author.walletAddress ==
+                                        } else if (widget
+                                                .post.author.walletAddress ==
                                             'undefined') {
                                           showSnackBar(context,
-                                              'Ask ${post.author.name} to set their Receiving Wallet Address !!!');
+                                              'Ask ${widget.post.author.name} to set their Receiving Wallet Address !!!');
                                           Navigator.pop(context);
                                         } else {
-                                          DonateController()
-                                              .donate(
-                                                  walletAddressProvider
-                                                      .readPrivateKey()
-                                                      .toString(),
-                                                  walletAddressProvider
-                                                      .walletAddress!,
-                                                  post.author.walletAddress,
-                                                  amount)
-                                              .then((String result) {
-                                            showSnackBar(context,
-                                                'Transaction added to Pending Transaction List!! ');
+                                          readPrivateKey();
+                                          if (privateKey != null) {
+                                            try {
+                                              DonateController()
+                                                  .donate(
+                                                      privateKey!,
+                                                      walletAddressProvider
+                                                          .walletAddress!,
+                                                      widget.post.author
+                                                          .walletAddress,
+                                                      amount)
+                                                  .then((String result) {
+                                                showSnackBar(context,
+                                                    'Transaction added to Pending Transaction List !! ');
 
-                                            Navigator.pop(context);
-                                          });
+                                                Navigator.pop(context);
+                                              });
+                                            } catch (e) {
+                                              showSnackBar(context,
+                                                  'Unexpected error occured !! ');
+                                              Navigator.pop(context);
+                                            }
+                                          }
                                         }
                                       }
                                     },

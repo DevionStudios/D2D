@@ -35,6 +35,7 @@ class DonateController extends ChangeNotifier {
       return IOWebSocketChannel.connect(_wsurl).cast<String>();
     });
     await getAbi();
+    dev.log(credentials);
     final Credentials _credentials = EthPrivateKey.fromHex(credentials);
     // await getCreadentials();
 

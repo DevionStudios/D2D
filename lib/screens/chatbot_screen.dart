@@ -60,7 +60,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
     } else {
       final request = ChatCompleteText(messages: [
         Map.of({"role": "user", "content": message.text})
-      ], maxToken: 200, model: kChatGptTurbo0301Model);
+      ], maxToken: 200, model: kChatGptTurboModel);
 
       final response = await OpenAI.instance.onChatCompletion(request: request);
 
@@ -71,14 +71,15 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
   void insertNewData(String response, {bool isImage = false}) {
     ChatMessage botMessage = ChatMessage(
       text: response,
-      sender: "ChatBot",
+      sender: "Foxxi AI",
       isImage: isImage,
     );
-
+if(mounted){
     setState(() {
       _isTyping = false;
       _messages.insert(0, botMessage);
     });
+  }
   }
 
   Widget _buildTextComposer() {

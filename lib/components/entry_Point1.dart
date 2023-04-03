@@ -79,12 +79,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
     final List<Widget> bottomBarPages = [
       const FeedScreen(),
-      const SizedBox.shrink(),
-      const ChatBotScreen(),
-      ProfileWidget(
+            ProfileWidget(
         username: userProvider.username,
         isMe: true,
       ),
+      const SizedBox.shrink(),
+      const ChatBotScreen(),
+
       NewsScreen(),
     ];
     return Scaffold(
@@ -107,7 +108,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               bottomBarItems: [
                 const BottomBarItem(
                   inActiveItem: Icon(
-                    Icons.home_rounded,
+                    Icons.home_outlined,
                     color: Colors.blueGrey,
                   ),
                   activeItem: Icon(
@@ -115,8 +116,22 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     color: Colors.blueAccent,
                   ),
                 ),
+                
+                const BottomBarItem(
+                  inActiveItem: Icon(
+                    Icons.account_circle_outlined,
+                    color: Colors.blueGrey,
+                  ),
+                  activeItem: Icon(
+                    Icons.account_circle,
+                    color: Colors.blueAccent,
+                  ),
+                  itemLabel: 'Page 1',
+                ),
                 BottomBarItem(
                   inActiveItem: IconButton(
+
+                    
                     padding: const EdgeInsets.all(0),
                     onPressed: () {
                       showMaterialModalBottomSheet(
@@ -255,7 +270,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 ),
                 const BottomBarItem(
                   inActiveItem: Icon(
-                    Icons.connect_without_contact_rounded,
+                    Icons.connect_without_contact_outlined,
                     color: Colors.blueGrey,
                   ),
                   activeItem: Icon(
@@ -267,18 +282,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
                 const BottomBarItem(
                   inActiveItem: Icon(
-                    Icons.account_circle_outlined,
-                    color: Colors.blueGrey,
-                  ),
-                  activeItem: Icon(
-                    Icons.account_circle,
-                    color: Colors.blueAccent,
-                  ),
-                  itemLabel: 'Page 1',
-                ),
-                const BottomBarItem(
-                  inActiveItem: Icon(
-                    Icons.newspaper_rounded,
+                    Icons.newspaper_outlined,
                     color: Colors.blueGrey,
                   ),
                   activeItem: Icon(

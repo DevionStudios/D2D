@@ -395,7 +395,7 @@ class _FeedCardState extends State<FeedCard> {
                               fit: BoxFit.cover,
                             ),
                           ),
-                          child: PostLikeCommentBar(post: widget.post))
+                          child: PostLikeCommentBar(post: widget.post,isImage: true,isVideo: false,))
                       : widget.isVideo
                           ? Container(
                               height: 400,
@@ -450,13 +450,13 @@ class _FeedCardState extends State<FeedCard> {
                                             ),
                                           ],
                                         ),
-                                  PostLikeCommentBar(post: widget.post),
+                                  PostLikeCommentBar(post: widget.post,isImage: false,isVideo: true,),
                                 ],
                               ),
                             )
                           : const SizedBox(),
                   widget.isImage == false && widget.isVideo == false
-                      ? PostLikeCommentBar(post: widget.post)
+                      ? PostLikeCommentBar(post: widget.post,isImage: false,isVideo: false,)
                       : const SizedBox()
                 ],
               ),
