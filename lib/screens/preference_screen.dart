@@ -15,19 +15,15 @@ class _PreferenceScreenState extends State<PreferenceScreen> {
   UserService userService = UserService();
   List<String> selectedPreferences = [];
   List<String> preferences = [
-    ' Technology',
+    'Technology',
     'Politics',
     'Sports',
     'Movies',
     'Food',
     'Travel',
     'Fashion',
-    'Sports',
     'Music',
     'Books',
-    'Food',
-    'Travel',
-    'Fashion',
     'Gaming',
     'Art',
     'Science',
@@ -42,10 +38,6 @@ class _PreferenceScreenState extends State<PreferenceScreen> {
   ];
 
   List<bool> preferencesBoolList = [
-    false,
-    false,
-    false,
-    false,
     false,
     false,
     false,
