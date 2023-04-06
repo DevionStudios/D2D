@@ -59,7 +59,7 @@ class _StoryScreenState extends State<StoryScreen> {
           width: MediaQuery.of(context).size.width,
           child: CarouselSlider.builder(
             enableAutoSlider: false,
-            unlimitedMode: true,
+            unlimitedMode: false,
             controller: _sliderController,
             slideBuilder: (index) {
               return ClipRRect(
@@ -127,7 +127,7 @@ class _StoryScreenState extends State<StoryScreen> {
                                     ),
                                   ),
                                   Text(
-                                    widget.stories[index].author.username
+                                    "@${widget.stories[index].author.username}"
                                         .toString(),
                                     style: const TextStyle(color: Colors.grey),
                                   )

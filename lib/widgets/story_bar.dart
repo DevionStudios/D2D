@@ -11,6 +11,7 @@ import 'package:foxxi/services/story_service.dart';
 
 // import '../screen/post_story.dart';
 import '../providers/theme_provider.dart';
+import '../utils.dart';
 import 'add_story.dart';
 
 class StoryBar extends StatefulWidget {
@@ -21,10 +22,7 @@ class StoryBar extends StatefulWidget {
 }
 
 class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
-  Animation? gap;
-  Animation<double>? base;
-  Animation<double>? reverse;
-  AnimationController? controller;
+
   StoryService storyService = StoryService();
   List<dynamic>? usernameList;
   List<List<Story>?> listOfStories = [];
@@ -34,15 +32,6 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     getFollowingUserStories();
-    controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 6));
-    base = CurvedAnimation(parent: controller!, curve: Curves.easeOut);
-    reverse = Tween<double>(begin: 0.0, end: -1.0).animate(base!);
-    gap = Tween<double>(begin: 3.0, end: 0.0).animate(base!)
-      ..addListener(() {
-        setState(() {});
-      });
-    controller!.forward();
   }
 
   getFollowingUserStories() {
@@ -71,7 +60,6 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
   /// Dispose
   @override
   void dispose() {
-    controller!.dispose();
     super.dispose();
   }
 
@@ -391,6 +379,31 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                                           width: 50,
                                           height: 50,
                                           fit: BoxFit.cover,
+                                           loadingBuilder: (context,
+                                                              child,
+                                                              loadingProgress) {
+                                                            if (loadingProgress ==
+                                                                null) {
+                                                              return child;
+                                                            }
+                                                            return const Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(
+                                                                          15.0),
+                                                              child:
+                                                                  CustomLoader(),
+                                                            );
+                                                          },
+                                                          errorBuilder:
+                                                              (context, error,
+                                                                  stackTrace) {
+                                                            return const Center(
+                                                                child: Icon(
+                                                              Icons.image,
+                                                              size: 100,
+                                                            ));
+                                                          },
                                         ),
                                       ),
                                     ),

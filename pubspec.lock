@@ -9,14 +9,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
-  animated_notch_bottom_bar:
-    dependency: "direct main"
-    description:
-      name: animated_notch_bottom_bar
-      sha256: "029080aa5b7daa6c05d6118c485a3560ced5976b2cde1049442c2cb74ad9757d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.6"
   animations:
     dependency: "direct main"
     description:

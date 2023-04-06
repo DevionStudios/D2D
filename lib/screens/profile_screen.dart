@@ -1,17 +1,21 @@
 import 'dart:math';
 import 'dart:ui';
+import 'package:flutter/src/painting/gradient.dart' as gradient;
 import 'package:flutter/material.dart';
 import 'package:foxxi/constants.dart';
 import 'package:foxxi/models/notification.dart';
+import 'package:foxxi/models/story.dart';
 import 'package:foxxi/providers/theme_provider.dart';
 import 'package:foxxi/routing_constants.dart';
 import 'package:foxxi/screens/follower_following_screen.dart';
+import 'package:foxxi/screens/story_screen.dart';
 import 'package:foxxi/services/notification_service.dart';
 import 'package:foxxi/services/user_service.dart';
 import 'package:foxxi/utils.dart';
 import 'package:foxxi/widgets/follow_button.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
+import 'package:foxxi/services/story_service.dart';
 
 import 'package:foxxi/models/user.dart';
 import 'package:foxxi/providers/user_provider.dart';
@@ -47,6 +51,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
   List<FeedPostModel>? awaitedUserpost;
   final postService = PostService();
   final userService = UserService();
+  final storyService = StoryService();
   final notificationService = NotificationService();
   User? user;
   bool? isMeCheck;
@@ -54,6 +59,8 @@ class _ProfileWidgetState extends State<ProfileWidget>
   int statusCodeForFollow = 0;
   bool isFollowed = false;
   String followAndUnfollow = 'Unfollow';
+  List<Story> listOfStories = [];
+  bool storyIcon = false;
 
   String? choiceChipsValue;
   final _unfocusNode = FocusNode();
@@ -65,10 +72,35 @@ class _ProfileWidgetState extends State<ProfileWidget>
     super.dispose();
   }
 
+  getFollowingUserStories() {
+    if (widget.isMe == true || isMeCheck == true) {
+      storyService
+          .getUserStory(
+              context: context, username: UserProvider().user.username)
+          ?.then((value) {
+        dev.log(value.toString(), name: 'Story Value User');
+        if (value.isNotEmpty) {
+          storyIcon = true;
+
+          for (var story in value) {
+            listOfStories.add(story);
+          }
+        }
+        dev.log(listOfStories.toString(), name: 'List of Stories : User');
+      });
+    } else {
+      dev.log(
+        'usernameList is Null',
+      );
+    }
+  }
+
   @override
   void initState() {
     getUserData();
     getUserPosts();
+    getFollowingUserStories();
+    isMeCheck = UserProvider().user.username == widget.username ? true : false;
 
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 200))
@@ -284,58 +316,206 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                Stack(
-                                                  children: [
-                                                    Container(
-                                                      width: 70,
-                                                      height: 70,
-                                                      clipBehavior:
-                                                          Clip.antiAlias,
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                      ),
-                                                      child: GestureDetector(
-                                                        onTap: () {},
-                                                        child: Image.network(
-                                                          widget.isMe
-                                                              ? userProvider
-                                                                  .image
-                                                              : user == null
-                                                                  ? ''
-                                                                  : user!.image
-                                                                      .toString(),
-                                                          loadingBuilder: (context,
-                                                              child,
-                                                              loadingProgress) {
-                                                            if (loadingProgress ==
-                                                                null) {
-                                                              return child;
-                                                            }
-                                                            return const Padding(
-                                                              padding:
-                                                                  EdgeInsets
+                                                Container(
+                                                  // padding: EdgeInsets.all(5),
+                                                  decoration: storyIcon
+                                                      ? BoxDecoration(
+                                                          borderRadius:
+                                                              const BorderRadius
                                                                       .all(
-                                                                          15.0),
-                                                              child:
-                                                                  CustomLoader(),
+                                                                  Radius
+                                                                      .circular(
+                                                                          10)),
+                                                          gradient: gradient
+                                                              .LinearGradient(
+                                                            colors: [
+                                                              Colors
+                                                                  .purpleAccent
+                                                                  .shade200
+                                                                  .withOpacity(
+                                                                      0.7),
+                                                              Colors.lightBlue
+                                                                  .shade200
+                                                                  .withOpacity(
+                                                                      0.7),
+                                                            ],
+                                                            stops: const [0, 1],
+                                                            begin:
+                                                                const AlignmentDirectional(
+                                                                    1, 0),
+                                                            end:
+                                                                const AlignmentDirectional(
+                                                                    -1, 0),
+                                                            // color: Colors.purpleAccent.shade100.withOpacity(
+                                                            // 0.3,
+                                                          ),
+                                                        )
+                                                      : BoxDecoration(),
+                                                  child: GestureDetector(
+                                                    onTap: (() {
+                                                      if (widget.isMe == true ||
+                                                          isMeCheck == true) {
+                                                        if (listOfStories
+                                                            .isNotEmpty) {
+                                                     
+                                                            Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          StoryScreen(
+                                                                            stories:
+                                                                                listOfStories,
+                                                                          )),
                                                             );
-                                                          },
-                                                          errorBuilder:
-                                                              (context, error,
-                                                                  stackTrace) {
-                                                            return const Center(
-                                                                child: Icon(
-                                                              Icons.image,
-                                                              size: 100,
-                                                            ));
-                                                          },
-                                                          fit: BoxFit.cover,
+                                                          }
+                                                        }
+                                                      
+                                                    }),
+                                                    child: Card(
+                                                      elevation: 20,
+                                                      shape:
+                                                          const CircleBorder(),
+                                                      // clipBehavior: Clip.antiAlias,
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(2),
+                                                          // decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),),
+                                                          color: Colors.white,
+                                                          child: ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            child:
+                                                                Image.network(
+                                                              widget.isMe
+                                                                  ? userProvider
+                                                                      .image
+                                                                  : user == null
+                                                                      ? ''
+                                                                      : user!
+                                                                          .image
+                                                                          .toString(),
+                                                              width: 50,
+                                                              height: 50,
+                                                              fit: BoxFit.cover,
+                                                              loadingBuilder:
+                                                                  (context,
+                                                                      child,
+                                                                      loadingProgress) {
+                                                                if (loadingProgress ==
+                                                                    null) {
+                                                                  return child;
+                                                                }
+                                                                return const Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              15.0),
+                                                                  child:
+                                                                      CustomLoader(),
+                                                                );
+                                                              },
+                                                              errorBuilder:
+                                                                  (context,
+                                                                      error,
+                                                                      stackTrace) {
+                                                                return const Center(
+                                                                    child: Icon(
+                                                                  Icons.image,
+                                                                  size: 100,
+                                                                ));
+                                                              },
+                                                            ),
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
+                                                // Stack(
+                                                //   children: [
+                                                //     Container(
+                                                //       width: 70,
+                                                //       height: 70,
+                                                //       clipBehavior:
+                                                //           Clip.antiAlias,
+                                                //       decoration:
+                                                //           const BoxDecoration(
+                                                //         shape: BoxShape.circle,
+                                                //       ),
+                                                //       child: GestureDetector(
+                                                //         onTap: () {
+                                                //           if (UserProvider()
+                                                //                   .user
+                                                //                   .following!
+                                                //                   .contains(widget
+                                                //                       .username) ||
+                                                //               isMeCheck ==
+                                                //                   true) {
+                                                //             if (listOfStories
+                                                //                 .isNotEmpty) {
+                                                //               if (context
+                                                //                   .mounted) {
+                                                //                 Navigator.push(
+                                                //                   context,
+                                                //                   MaterialPageRoute(
+                                                //                       builder:
+                                                //                           (context) =>
+                                                //                               StoryScreen(
+                                                //                                 stories: listOfStories,
+                                                //                               )),
+                                                //                 );
+                                                //               }
+                                                //             }
+                                                //           }
+                                                //           // List<Story> list =
+                                                //         },
+                                                //         child: Image.network(
+                                                //           widget.isMe
+                                                //               ? userProvider
+                                                //                   .image
+                                                //               : user == null
+                                                //                   ? ''
+                                                //                   : user!.image
+                                                //                       .toString(),
+                                                //           loadingBuilder: (context,
+                                                //               child,
+                                                //               loadingProgress) {
+                                                //             if (loadingProgress ==
+                                                //                 null) {
+                                                //               return child;
+                                                //             }
+                                                //             return const Padding(
+                                                //               padding:
+                                                //                   EdgeInsets
+                                                //                       .all(
+                                                //                           15.0),
+                                                //               child:
+                                                //                   CustomLoader(),
+                                                //             );
+                                                //           },
+                                                //           errorBuilder:
+                                                //               (context, error,
+                                                //                   stackTrace) {
+                                                //             return const Center(
+                                                //                 child: Icon(
+                                                //               Icons.image,
+                                                //               size: 100,
+                                                //             ));
+                                                //           },
+                                                //           fit: BoxFit.cover,
+                                                //         ),
+                                                //       ),
+                                                //     ),
+                                                //   ],
+                                                // ),
                                                 Expanded(
                                                   child: Row(
                                                     mainAxisSize:
@@ -641,7 +821,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                   ),
                                                 ],
                                               ),
-                                              isMeCheck!
+                                              isMeCheck == true
                                                   ? const SizedBox()
                                                   : Padding(
                                                       padding: EdgeInsets.only(
@@ -751,13 +931,15 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                             future: _userPost,
                                             builder: (context, snapshot) {
                                               if (snapshot.hasData) {
-                                              
-
                                                 return Padding(
-                                                  padding: const EdgeInsetsDirectional
-                                                      .fromSTEB(10, 10, 10, 50),
+                                                  padding:
+                                                      const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                          10, 10, 10, 50),
                                                   child: ListView.builder(
-                                                    physics:isSideBarOpen?const AlwaysScrollableScrollPhysics():const ScrollPhysics(),
+                                                    physics: isSideBarOpen
+                                                        ? const AlwaysScrollableScrollPhysics()
+                                                        : const ScrollPhysics(),
                                                     primary: false,
                                                     padding: EdgeInsets.zero,
                                                     reverse: true,
