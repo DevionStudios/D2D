@@ -6,6 +6,8 @@ import 'package:foxxi/utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 
+enum Items { gallery, camera }
+
 class AddStory extends StatefulWidget {
   // const AddPost({super.key});
   //Photo -- true Video -- false
@@ -17,6 +19,13 @@ class AddStory extends StatefulWidget {
 }
 
 class _AddStoryState extends State<AddStory> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  Items? selectedMenu;
+
   var _image;
   File? _video;
   final picker = ImagePicker();
@@ -29,14 +38,26 @@ class _AddStoryState extends State<AddStory> {
 // This funcion will helps you to pick a Video File
   _pickVideo() async {
     // ignore: deprecated_member_use
-    pickedFile = await picker.pickVideo(source: ImageSource.gallery);
-    if (pickedFile?.path != null) {
-      _video = File(pickedFile!.path);
-      _videoPlayerController = VideoPlayerController.file(_video!)
-        ..initialize().then((_) {
-          setState(() {});
-          _videoPlayerController!.play();
-        });
+    if (selectedMenu != null) {
+      pickedFile = await picker
+          .pickVideo(
+              source: (selectedMenu == Items.camera)
+                  ? ImageSource.camera
+                  : ImageSource.gallery)
+          .then((value) {
+            setState(() {
+              selectedMenu=null;
+            });
+          });
+      if (pickedFile?.path != null) {
+        selectedMenu = null;
+        _video = File(pickedFile!.path);
+        _videoPlayerController = VideoPlayerController.file(_video!)
+          ..initialize().then((_) {
+            setState(() {});
+            _videoPlayerController!.play();
+          });
+      }
     }
   }
 
@@ -56,160 +77,187 @@ class _AddStoryState extends State<AddStory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            appBar: AppBar(
+      appBar: AppBar(
         elevation: 0,
       ),
       resizeToAvoidBottomInset: false,
       body: (widget.isImage == true)
           ? Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  'Add Story',
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text('Caption'),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: _captionController,
-                  decoration: const InputDecoration(
-                    // labelText: 'Caption',
-                    border: OutlineInputBorder(),
-                    hintText: 'Include body for your post.',
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    'Add Story',
+                    style: TextStyle(fontSize: 20),
                   ),
                 ),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text('Media'),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                  onTap: () async {
-                    image = await imagePicker.pickImage(
-                        source: ImageSource.gallery);
-                    if (image != null) {
-                      setState(() {
-                        _image = File(image!.path);
-                      });
-                    }
-                  },
-                  child: Container(
-                    // padding: EdgeInsets.only(left: 8),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            color: Colors.grey.shade500,
-                            style: BorderStyle.solid,
-                            width: 3)),
-                    width: double.infinity,
-                    height: MediaQuery.of(context).size.height * 0.4,
-                    child: _image != null
-                        ? Image.file(
-                            _image,
-                            fit: BoxFit.cover,
-                          )
-                        : Icon(
-                            Icons.file_upload_rounded,
-                            color: Colors.grey[800],
-                            size: 50,
-                          ),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text('Caption'),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: _captionController,
+                    decoration: const InputDecoration(
+                      // labelText: 'Caption',
+                      border: OutlineInputBorder(),
+                      hintText: 'Include body for your post.',
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Stack(children: <Widget>[
-                      Positioned.fill(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.lightBlue.shade100.withOpacity(0.4),
-                                Colors.purpleAccent.shade100
-                                    .withOpacity(0.4),
-                              ],
-                              stops: const [0, 1],
-                              begin: const AlignmentDirectional(1, 0),
-                              end: const AlignmentDirectional(-1, 0),
-                              // color: Colors.purpleAccent.shade100.withOpacity(
-                              // 0.3,
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text('Media'),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: () async {
+                      if (selectedMenu != null) {
+                        image = await imagePicker
+                            .pickImage(
+                                source: (selectedMenu == Items.camera)
+                                    ? ImageSource.camera
+                                    : ImageSource.gallery)
+                            .then(setState(() {
+                          selectedMenu = null;
+                        }));
+
+                        if (image != null) {
+                          setState(() {
+                            _image = File(image!.path);
+                            selectedMenu = null;
+                          });
+                        }
+                      }
+                    },
+                    child: Container(
+                      // padding: EdgeInsets.only(left: 8),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Colors.grey.shade500,
+                              style: BorderStyle.solid,
+                              width: 3)),
+                      width: double.infinity,
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      child: _image != null
+                          ? Image.file(
+                              _image,
+                              fit: BoxFit.cover,
+                            )
+                          : selectedMenu == null
+                              ? PopupMenuButton<Items>(
+                                  child: Icon(Icons.upload),
+                                  initialValue: selectedMenu,
+                                  onSelected: (Items item) {
+                                    setState(() {
+                                      selectedMenu = item;
+                                    });
+                                  },
+                                  itemBuilder: (BuildContext ctx) =>
+                                      <PopupMenuEntry<Items>>[
+                                        const PopupMenuItem<Items>(
+                                          value: Items.gallery,
+                                          child: Text('Choose from Gallery'),
+                                        ),
+                                        const PopupMenuItem<Items>(
+                                          value: Items.camera,
+                                          child: Text('Choose from camera'),
+                                        ),
+                                      ])
+                              : selectedMenu == Items.camera
+                                  ? Icon(Icons.camera)
+                                  : Icon(Icons.file_copy_rounded),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Stack(children: <Widget>[
+                        Positioned.fill(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.lightBlue.shade100.withOpacity(0.4),
+                                  Colors.purpleAccent.shade100.withOpacity(0.4),
+                                ],
+                                stops: const [0, 1],
+                                begin: const AlignmentDirectional(1, 0),
+                                end: const AlignmentDirectional(-1, 0),
+                                // color: Colors.purpleAccent.shade100.withOpacity(
+                                // 0.3,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.all(16.0),
-                          textStyle: const TextStyle(fontSize: 20),
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.all(16.0),
+                            textStyle: const TextStyle(fontSize: 20),
+                          ),
+                          onPressed: () {
+                            if (_captionController.text.isNotEmpty) {
+                              storyService.createStories(
+                                  context: context,
+                                  caption: _captionController.text,
+                                  imageFilePath: image!.path);
+                              Navigator.pop(context);
+                            } else {
+                              showSnackBar(context, "Field can't be empty");
+                            }
+                          },
+                          child: const Text('Upload'),
                         ),
-                        onPressed: () {
-                          if (_captionController.text.isNotEmpty) {
-                            storyService.createStories(
-                                context: context,
-                                caption: _captionController.text,
-                                imageFilePath: image!.path);
-                            Navigator.pop(context);
-                          } else {
-                            showSnackBar(context, "Field can't be empty");
-                          }
-                        },
-                        child: const Text('Upload'),
-                      ),
-                    ]),
-                  ],
-                ),
-              )
-            ],
-          )
+                      ]),
+                    ],
+                  ),
+                )
+              ],
+            )
           : Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  'Add Story',
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text('Caption'),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: _captionController,
-                  decoration: const InputDecoration(
-                    // labelText: 'Caption',
-                    border: OutlineInputBorder(),
-                    hintText: 'Include body for your post.',
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    'Add Story',
+                    style: TextStyle(fontSize: 20),
                   ),
                 ),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text('Media'),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                  onTap: () {
-                    _pickVideo();
-                  },
-                  child: Container(
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text('Caption'),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: _captionController,
+                    decoration: const InputDecoration(
+                      // labelText: 'Caption',
+                      border: OutlineInputBorder(),
+                      hintText: 'Include body for your post.',
+                    ),
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text('Media'),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      _pickVideo();
+                    },
+                    child: Container(
                       // padding: EdgeInsets.only(left: 8),
                       decoration: BoxDecoration(
                           border: Border.all(
@@ -221,69 +269,86 @@ class _AddStoryState extends State<AddStory> {
                       child: _video != null
                           ? _videoPlayerController!.value.isInitialized
                               ? AspectRatio(
-                                  aspectRatio: _videoPlayerController!
-                                      .value.aspectRatio,
-                                  child:
-                                      VideoPlayer(_videoPlayerController!),
+                                  aspectRatio:
+                                      _videoPlayerController!.value.aspectRatio,
+                                  child: VideoPlayer(_videoPlayerController!),
                                 )
                               : Container()
-                          : Icon(
-                              Icons.file_upload_rounded,
-                              color: Colors.grey[800],
-                              size: 50,
-                            )),
+                          : selectedMenu == null
+                              ? PopupMenuButton<Items>(
+                                  child: Icon(Icons.upload),
+                                  initialValue: selectedMenu,
+                                  onSelected: (Items item) {
+                                    setState(() {
+                                      selectedMenu = item;
+                                    });
+                                  },
+                                  itemBuilder: (BuildContext ctx) =>
+                                      <PopupMenuEntry<Items>>[
+                                        const PopupMenuItem<Items>(
+                                          value: Items.gallery,
+                                          child: Text('Choose from Gallery'),
+                                        ),
+                                        const PopupMenuItem<Items>(
+                                          value: Items.camera,
+                                          child: Text('Choose from camera'),
+                                        ),
+                                      ])
+                              : selectedMenu == Items.camera
+                                  ? Icon(Icons.camera)
+                                  : Icon(Icons.file_copy_rounded),
+                    ),
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Stack(children: <Widget>[
-                      Positioned.fill(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.lightBlue.shade100.withOpacity(0.4),
-                                Colors.purpleAccent.shade100
-                                    .withOpacity(0.4),
-                              ],
-                              stops: const [0, 1],
-                              begin: const AlignmentDirectional(1, 0),
-                              end: const AlignmentDirectional(-1, 0),
-                              // color: Colors.purpleAccent.shade100.withOpacity(
-                              // 0.3,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Stack(children: <Widget>[
+                        Positioned.fill(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.lightBlue.shade100.withOpacity(0.4),
+                                  Colors.purpleAccent.shade100.withOpacity(0.4),
+                                ],
+                                stops: const [0, 1],
+                                begin: const AlignmentDirectional(1, 0),
+                                end: const AlignmentDirectional(-1, 0),
+                                // color: Colors.purpleAccent.shade100.withOpacity(
+                                // 0.3,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.all(16.0),
-                          textStyle: const TextStyle(fontSize: 20),
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.all(16.0),
+                            textStyle: const TextStyle(fontSize: 20),
+                          ),
+                          onPressed: () {
+                            if (_captionController.text.isNotEmpty) {
+                              storyService.createStories(
+                                  context: context,
+                                  caption: _captionController.text,
+                                  videoFilePath: pickedFile!.path);
+                              Navigator.pop(context);
+                            } else {
+                              showSnackBar(context, "Field can't be empty");
+                            }
+                          },
+                          child: const Text('Upload'),
                         ),
-                        onPressed: () {
-                          if (_captionController.text.isNotEmpty) {
-                            storyService.createStories(
-                                context: context,
-                                caption: _captionController.text,
-                                videoFilePath: pickedFile!.path);
-                            Navigator.pop(context);
-                          } else {
-                            showSnackBar(context, "Field can't be empty");
-                          }
-                        },
-                        child: const Text('Upload'),
-                      ),
-                    ]),
-                  ],
-                ),
-              )
-            ],
-          ),
+                      ]),
+                    ],
+                  ),
+                )
+              ],
+            ),
     );
   }
 }
