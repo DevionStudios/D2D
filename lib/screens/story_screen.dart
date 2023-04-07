@@ -4,6 +4,8 @@ import 'package:video_player/video_player.dart';
 import 'dart:developer' as dev;
 import 'package:flutter_carousel_slider/carousel_slider.dart';
 
+import '../components/pinch_to_zoom.dart';
+
 class StoryScreen extends StatefulWidget {
   List<Story> stories;
   StoryScreen({super.key, required this.stories});
@@ -51,10 +53,7 @@ class _StoryScreenState extends State<StoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView(children: <Widget>[
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SizedBox(
+        body: SingleChildScrollView(child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: CarouselSlider.builder(
@@ -72,7 +71,7 @@ class _StoryScreenState extends State<StoryScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Container(
-                          padding: const EdgeInsets.all(16),
+                          padding: const EdgeInsets.only(left:16),
                           height: 100,
                           // width: MediaQuery.of(context).size.width * 0.1,
                           child: CircleAvatar(
@@ -139,70 +138,101 @@ class _StoryScreenState extends State<StoryScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.only(left:16.0, top: 8,bottom:8),
                       child: Text(widget.stories[index].caption),
                     ),
                     widget.stories[index].media!.mediatype != 'video'
-                        ? Container(
-                            height: MediaQuery.of(context).size.height/2,
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(30)),
-                              // border: Border(
-                              //     bottom:
-                              //         BorderSide(color: Colors.black.withOpacity(1))),
-                              image: DecorationImage(
-                                image: NetworkImage(widget
-                                    .stories[index].media!.url
-                                    .toString()),
-                                fit: BoxFit.cover,
+                    ?Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                         height: MediaQuery.of(context).size.height/2,
+                                width: MediaQuery.of(context).size.width-20,
+                    
+                        child: PinchZoom(
+                                      resetDuration : Duration(milliseconds: 100),
+                                    maxScale: 3,
+                                    child: ClipRRect(
+                                        borderRadius : BorderRadius.all(Radius.circular(20)),
+
+                                        child: Image.network(
+                                              widget
+                                          .stories[index].media!.url
+                                          .toString(),fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        
+                                      ),
+                                    ),
+
+
+                    )
+                        // ? Padding(
+                        //   padding: const EdgeInsets.all(8.0),
+                        //   child: Container(
+                        //       height: MediaQuery.of(context).size.height/2,
+                        //       width: MediaQuery.of(context).size.width-20,
+                        //       decoration: BoxDecoration(
+                        //         borderRadius:
+                        //             const BorderRadius.all(Radius.circular(30)),
+                        //         // border: Border(
+                        //         //     bottom:
+                        //         //         BorderSide(color: Colors.black.withOpacity(1))),
+                        //         image: DecorationImage(
+                        //           image: NetworkImage(widget
+                        //               .stories[index].media!.url
+                        //               .toString()),
+                        //           fit: BoxFit.cover,
+                        //         ),
+                        //       ),
+                        //       child: DecoratedBox(child: , ),
+
+
+                        : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                              height: MediaQuery.of(context).size.height/2,
+                              width: MediaQuery.of(context).size.width - 20,
+                              decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30)),
+                                // border: Border(
+                                //     bottom: BorderSide(color: Colors.black.withOpacity(1))),
                               ),
-                            ),
-                          )
-                        : Container(
-                            height: MediaQuery.of(context).size.height/2,
-                            width: MediaQuery.of(context).size.width - 20,
-                            decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30)),
-                              // border: Border(
-                              //     bottom: BorderSide(color: Colors.black.withOpacity(1))),
-                            ),
-                            child: Stack(
-                              children: [
-                                _controller!.value.isInitialized
-                                    ? Container(
-                                        decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(30))),
-                            height: MediaQuery.of(context).size.height/2,
-                                        width: 400,
-                                        child: VideoPlayer(_controller!))
-                                    : Container(),
-                                Positioned(
-                                  bottom: 10,
-                                  left: 10,
-                                  child: FloatingActionButton(
-                                    onPressed: () {
-                                      setState(
-                                        () {
-                                          _controller!.value.isPlaying
-                                              ? _controller!.pause()
-                                              : _controller!.play();
-                                        },
-                                      );
-                                    },
-                                    child: Icon(
-                                      _controller!.value.isPlaying
-                                          ? Icons.pause
-                                          : Icons.play_arrow,
+                              child: Stack(
+                                children: [
+                                  _controller!.value.isInitialized
+                                      ? Container(
+                                          decoration: const BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(30))),
+                              height: MediaQuery.of(context).size.height/2,
+                                          width: 400,
+                                          child: VideoPlayer(_controller!))
+                                      : Container(),
+                                  Positioned(
+                                    bottom: 10,
+                                    left: 10,
+                                    child: FloatingActionButton(
+                                      onPressed: () {
+                                        setState(
+                                          () {
+                                            _controller!.value.isPlaying
+                                                ? _controller!.pause()
+                                                : _controller!.play();
+                                          },
+                                        );
+                                      },
+                                      child: Icon(
+                                        _controller!.value.isPlaying
+                                            ? Icons.pause
+                                            : Icons.play_arrow,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
+                        ),
                   ],
                 ),
               );
@@ -210,8 +240,6 @@ class _StoryScreenState extends State<StoryScreen> {
             slideTransform: const CubeTransform(),
             itemCount: widget.stories.length,
           ),
-        ),
-      )
-    ]));
+        )));
   }
 }

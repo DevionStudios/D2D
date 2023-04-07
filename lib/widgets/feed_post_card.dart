@@ -12,11 +12,13 @@ import 'package:foxxi/providers/theme_provider.dart';
 import 'package:foxxi/services/post_service.dart';
 import 'package:video_player/video_player.dart';
 
+import '../components/pinch_to_zoom.dart';
 import '../providers/user_provider.dart';
 import '../screens/post_screen.dart';
 import '../services/comment_service.dart';
 
 class FeedCard extends StatefulWidget {
+
   final FeedPostModel post;
   final bool isImage;
   final bool isVideo;
@@ -139,9 +141,11 @@ class _FeedCardState extends State<FeedCard> {
                         ),
                         Text(
                           tempDate.toString().replaceFirst(' ', '\n'),
-                          style: TextStyle(                          color: isDark
-                              ? Colors.grey.shade400
-                              : Colors.grey.shade600,),
+                          style: TextStyle(
+                            color: isDark
+                                ? Colors.grey.shade400
+                                : Colors.grey.shade600,
+                          ),
                         ),
                         true
                             ? IconButton(
@@ -381,21 +385,62 @@ class _FeedCardState extends State<FeedCard> {
                   ),
                   widget.isImage
                       ? Container(
-                          height: 400,
-                          width: MediaQuery.of(context).size.width - 20,
+                          height: MediaQuery.of(context).size.width,
+                          width: MediaQuery.of(context).size.width ,
                           decoration: BoxDecoration(
                             borderRadius: const BorderRadius.only(
                                 bottomLeft: Radius.circular(30),
                                 bottomRight: Radius.circular((30))),
                             // border: Border(
                             //     bottom: BorderSide(color: Colors.black.withOpacity(1))),
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                  widget.post.media!.url.toString()),
-                              fit: BoxFit.cover,
-                            ),
                           ),
-                          child: PostLikeCommentBar(post: widget.post,isImage: true,isVideo: false,))
+                          child: Stack(
+                            children: [
+                              PinchZoom(
+                                  resetDuration : Duration(milliseconds: 100),
+                                maxScale: 3,
+                                child: ClipRRect(
+                                  child: Image.network(widget.post.media!.url.toString(),fit: BoxFit.cover,),),
+                                ),
+                                // child: DecoratedBox(
+                                //   decoration: BoxDecoration(
+                                //     borderRadius: const BorderRadius.only(
+                                //         bottomLeft: Radius.circular(30),
+                                //         bottomRight: Radius.circular((30))),
+                                //     // border: Border(
+                                //     //     bottom: BorderSide(color: Colors.black.withOpacity(1))),
+                                //     image: DecorationImage(
+                                //       image: NetworkImage(
+                                //           widget.post.media!.url.toString()),
+                                //       fit: BoxFit.cover,
+                                //     ),
+                                //   ),
+                                // ),
+                              
+                              PostLikeCommentBar(
+                                post: widget.post,
+                                isImage: true,
+                                isVideo: false,
+                              )
+                            ],
+                          ),
+                        )
+                      // ? Container(
+                      //     height: 400,
+                      //     width: MediaQuery.of(context).size.width - 20,
+                      //     decoration: BoxDecoration(
+                      //       borderRadius: const BorderRadius.only(
+                      //           bottomLeft: Radius.circular(30),
+                      //           bottomRight: Radius.circular((30))),
+                      //       // border: Border(
+                      //       //     bottom: BorderSide(color: Colors.black.withOpacity(1))),
+                      //       image: DecorationImage(
+                      //         image: NetworkImage(
+                      //             widget.post.media!.url.toString()),
+                      //         fit: BoxFit.cover,
+                      //       ),
+                      //     ),
+                      //     child: PostLikeCommentBar(post: widget.post,isImage: true,isVideo: false,))
                       : widget.isVideo
                           ? Container(
                               height: 400,
@@ -450,13 +495,21 @@ class _FeedCardState extends State<FeedCard> {
                                             ),
                                           ],
                                         ),
-                                  PostLikeCommentBar(post: widget.post,isImage: false,isVideo: true,),
+                                  PostLikeCommentBar(
+                                    post: widget.post,
+                                    isImage: false,
+                                    isVideo: true,
+                                  ),
                                 ],
                               ),
                             )
                           : const SizedBox(),
                   widget.isImage == false && widget.isVideo == false
-                      ? PostLikeCommentBar(post: widget.post,isImage: false,isVideo: false,)
+                      ? PostLikeCommentBar(
+                          post: widget.post,
+                          isImage: false,
+                          isVideo: false,
+                        )
                       : const SizedBox()
                 ],
               ),
