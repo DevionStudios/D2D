@@ -42,7 +42,7 @@ class ProfileWidget extends StatefulWidget {
 
 class _ProfileWidgetState extends State<ProfileWidget>
     with SingleTickerProviderStateMixin {
-      bool? showProfileUpdate;
+  bool? showProfileUpdate;
   bool isSideBarOpen = false;
   late SMIBool isMenuOpenInput;
   late AnimationController _animationController;
@@ -353,26 +353,23 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                         )
                                                       : BoxDecoration(),
                                                   child: GestureDetector(
-
                                                     onDoubleTap: (() {
                                                       if (widget.isMe == true ||
                                                           isMeCheck == true) {
                                                         if (listOfStories
                                                             .isNotEmpty) {
-                                                     
-                                                            Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          StoryScreen(
-                                                                            stories:
-                                                                                listOfStories,
-                                                                          )),
-                                                            );
-                                                          }
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        StoryScreen(
+                                                                          stories:
+                                                                              listOfStories,
+                                                                        )),
+                                                          );
                                                         }
-                                                      
+                                                      }
                                                     }),
                                                     child: Card(
                                                       elevation: 20,
@@ -566,7 +563,12 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                         : awaitedUserpost!
                                                                             .length
                                                                             .toString(),
-                                                                    style: const TextStyle(
+                                                                    style: TextStyle(
+                                                                        color: isDark
+                                                                            ? Colors
+                                                                                .white
+                                                                            : Colors
+                                                                                .black,
                                                                         fontSize:
                                                                             15),
 
@@ -577,12 +579,17 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                     //         .of(context)
                                                                     //     .bodyText1,
                                                                   ),
-                                                                  const Text(
+                                                                  Text(
                                                                     'Posts',
                                                                     textAlign:
                                                                         TextAlign
                                                                             .center,
                                                                     style: TextStyle(
+                                                                        color: isDark
+                                                                            ? Colors
+                                                                                .white
+                                                                            : Colors
+                                                                                .black,
                                                                         fontSize:
                                                                             12),
                                                                   ),
@@ -649,18 +656,22 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                       textAlign:
                                                                           TextAlign
                                                                               .center,
-                                                                      style: const TextStyle(
-                                                                          fontSize:
-                                                                              15),
+                                                                      style: TextStyle(
+                                                                          color: isDark
+                                                                              ? Colors.white
+                                                                              : Colors.black,
+                                                                          fontSize: 15),
                                                                     ),
-                                                                    const Text(
+                                                                    Text(
                                                                       'Followers',
                                                                       textAlign:
                                                                           TextAlign
                                                                               .center,
                                                                       style: TextStyle(
-                                                                          fontSize:
-                                                                              12),
+                                                                          color: isDark
+                                                                              ? Colors.white
+                                                                              : Colors.black,
+                                                                          fontSize: 12),
                                                                     ),
                                                                   ],
                                                                 ),
@@ -726,18 +737,25 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                       textAlign:
                                                                           TextAlign
                                                                               .center,
-                                                                      style: const TextStyle(
-                                                                          fontSize:
-                                                                              15),
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            15,
+                                                                        color: isDark
+                                                                            ? Colors.white
+                                                                            : Colors.black,
+                                                                      ),
                                                                     ),
-                                                                    const Text(
+                                                                     Text(
                                                                       'Following',
                                                                       textAlign:
                                                                           TextAlign
                                                                               .center,
                                                                       style: TextStyle(
-                                                                          fontSize:
-                                                                              12),
+                                                                          color: isDark
+                                                                              ? Colors.white
+                                                                              : Colors.black,
+                                                                          fontSize: 12),
                                                                     ),
                                                                   ],
                                                                 ),
@@ -778,7 +796,11 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                   ? ''
                                                                   : user!.name
                                                                       .toString(),
-                                                                      style: TextStyle(color: isDark?Colors.white:Colors.black),
+                                                          style: TextStyle(
+                                                              color: isDark
+                                                                  ? Colors.white
+                                                                  : Colors
+                                                                      .black),
                                                         ),
                                                         const Padding(
                                                           padding:

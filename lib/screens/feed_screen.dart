@@ -85,7 +85,7 @@ class _FeedScreenState extends State<FeedScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             PopupMenuButton<String>(
-                              icon: const Icon(Icons.arrow_drop_down_outlined),
+                              icon:  Icon(Icons.arrow_drop_down_outlined,color: isDark?Colors.white:Colors.black),
                               onSelected: (selectedTab) {
                                 if (selectedTab == 'Foxxi Trends') {
                                   Navigator.pushNamed(
@@ -129,7 +129,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                   const SearchScreen(),
                                             ));
                                       },
-                                      icon: const Icon(Icons.search_outlined)),
+                                      icon: const Icon(Icons.search_outlined),color: isDark?Colors.white:Colors.black,),
                                 ),
                                 IconButton(
                                   icon: badges.Badge(
@@ -213,7 +213,11 @@ class _FeedScreenState extends State<FeedScreen> {
               ),
             );
           } else {
-            return const Center(child: CustomLoader());
+            return Scaffold(
+              backgroundColor:
+                  isDark! ? Colors.grey.shade900 : Colors.grey.shade100,
+              
+              body: Center(child: CustomLoader()));
           }
         });
   }

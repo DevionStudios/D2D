@@ -36,7 +36,7 @@ class _SideMenuState extends State<SideMenu> {
         width: 288,
         height: double.infinity,
         // color: Colors.purpleAccent.shade100.withOpacity(0.65),
-        decoration: isDark!
+        decoration: isDark
             ? BoxDecoration(color: Colors.grey.shade900)
             : BoxDecoration(
                 // borderRadius: BorderRadius.only(
