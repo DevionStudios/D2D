@@ -180,7 +180,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
     return Scaffold(
       extendBody: false,
       resizeToAvoidBottomInset: false,
-      backgroundColor: isDark
+      backgroundColor: isDark!
           ? Colors.grey.shade900
           : const Color.fromARGB(255, 206, 239, 247),
       body: Stack(
@@ -778,6 +778,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                   ? ''
                                                                   : user!.name
                                                                       .toString(),
+                                                                      style: TextStyle(color: isDark?Colors.white:Colors.black),
                                                         ),
                                                         const Padding(
                                                           padding:
@@ -788,6 +789,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                             Icons
                                                                 .verified_rounded,
                                                             size: 16,
+                                                            color: Colors.blue,
                                                           ),
                                                         ),
                                                       ],

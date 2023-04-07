@@ -29,7 +29,7 @@ class CommentCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
           border: Border.all(
-              width: 2, color: isDark ? Colors.grey : Colors.grey.shade300),
+              width: 2, color: isDark! ? Colors.grey : Colors.grey.shade300),
           borderRadius: BorderRadius.circular(20)),
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       child: Column(
@@ -58,7 +58,7 @@ class CommentCard extends StatelessWidget {
                         Text(comment!.author.name.toString(),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: isDark ? Colors.white : Colors.black87,
+                              color: isDark! ? Colors.white : Colors.black87,
                             )),
                         Padding(
                           padding: const EdgeInsets.only(top: 4),

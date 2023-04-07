@@ -36,7 +36,7 @@ class _SideMenuState extends State<SideMenu> {
         width: 288,
         height: double.infinity,
         // color: Colors.purpleAccent.shade100.withOpacity(0.65),
-        decoration: isDark
+        decoration: isDark!
             ? BoxDecoration(color: Colors.grey.shade900)
             : BoxDecoration(
                 // borderRadius: BorderRadius.only(
@@ -108,7 +108,8 @@ class _SideMenuState extends State<SideMenu> {
               ),
               Text(
                 'Browse'.toUpperCase(),
-                style: const TextStyle(
+                style:  TextStyle(
+                  color: isDark?Colors.white :Colors.black,
                   fontSize: 20,
                   fontFamily: 'InstagramSans',
                   fontWeight: FontWeight.bold,
@@ -117,7 +118,7 @@ class _SideMenuState extends State<SideMenu> {
               Padding(
                 padding: const EdgeInsets.only(top:30),
                 child:  DayNightSwitch(
-                    value: Provider.of<ThemeProvider>(context).isDarkMode,
+                    value: Provider.of<ThemeProvider>(context).isDarkMode!,
                     // moonImage: AssetImage('assets/moon.png'),
                     // sunImage: AssetImage('assets/sun.png'),
                     sunColor: Colors.yellow,

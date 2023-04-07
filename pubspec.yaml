@@ -52,6 +52,8 @@ dependencies:
   blurrycontainer: ^1.0.2
   font_awesome_flutter: ^10.3.0
   intl: ^0.18.0
+  adaptive_theme: 
+
   rive: ^0.9.1
   swipeable_card_stack: 
   dashed_circle: ^0.0.1

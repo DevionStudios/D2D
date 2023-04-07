@@ -93,7 +93,7 @@ class _NewsScreenState extends State<NewsScreen> {
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: isDark
+            colors: isDark!
                 ? [
                     Colors.lightBlue.shade100.withOpacity(0.2),
                     Colors.purpleAccent.shade100.withOpacity(0.2),

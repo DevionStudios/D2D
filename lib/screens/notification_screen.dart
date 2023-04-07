@@ -123,7 +123,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   title: Text(
                     '@${notificationData[index].username} ${notificationData[index].notification} ${getStringfromNotificationType(notificationData[index].notificationType)}',
                     style:
-                        TextStyle(color: isDark ? Colors.white : Colors.black),
+                        TextStyle(color: isDark! ? Colors.white : Colors.black),
                   ),
                 ),
               ),
@@ -133,7 +133,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             return Center(
                 child: Text(
               'No Notifications Yet!',
-              style: TextStyle(color: isDark ? Colors.white : Colors.black),
+              style: TextStyle(color: isDark! ? Colors.white : Colors.black),
             ));
           } else {
             return const Center(

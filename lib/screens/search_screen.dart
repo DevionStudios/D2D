@@ -33,7 +33,7 @@ class _SearchScreenState extends State<SearchScreen> {
     final isDark = Provider.of<ThemeProvider>(context, listen: true).isDarkMode;
     final userProvider = Provider.of<UserProvider>(context).user;
     return Scaffold(
-      backgroundColor: isDark ? Colors.grey.shade900 : Colors.grey.shade100,
+      backgroundColor: isDark! ? Colors.grey.shade900 : Colors.grey.shade100,
       body: SafeArea(
         child: Column(
           children: [

@@ -71,7 +71,7 @@ class _FeedScreenState extends State<FeedScreen> {
           if (snapshot.hasData) {
             return Scaffold(
               backgroundColor:
-                  isDark ? Colors.grey.shade900 : Colors.grey.shade100,
+                  isDark! ? Colors.grey.shade900 : Colors.grey.shade100,
               // appBar: AppBar(),
               body: RefreshIndicator(
                 onRefresh: getData,
@@ -145,7 +145,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                                 .toString()),
                                     child: Icon(
                                       Icons.notifications_none,
-                                      color: isDark
+                                      color: isDark!
                                           ? Colors.grey.shade100
                                           : Colors.grey.shade900,
                                       size: 30,

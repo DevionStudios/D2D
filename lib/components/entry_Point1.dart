@@ -104,7 +104,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       bottomNavigationBar: (bottomBarPages.length <= maxCount)
           ? AnimatedNotchBottomBar(
               pageController: _pageController,
-              color: isDark ? Colors.black : Colors.white,
+              color: isDark! ? Colors.black : Colors.white,
               notchColor: isDark ? Colors.black54 : Colors.white,
               showLabel: false,
               bottomBarItems: [

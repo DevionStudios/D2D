@@ -54,7 +54,7 @@ class ChatScreenState extends State<ChatScreen> {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
-            color: isDark ? Colors.grey.shade300 : Colors.white,
+            color: isDark! ? Colors.grey.shade300 : Colors.white,
             borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(0),
               bottomRight: Radius.circular(0),
@@ -180,7 +180,7 @@ class _OneOneChatScreenState extends State<OneOneChatScreen> {
 
     return Scaffold(
       backgroundColor:
-          isDark ? Colors.black.withOpacity(0.9) : Colors.grey.shade400,
+          isDark! ? Colors.black.withOpacity(0.9) : Colors.grey.shade400,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
@@ -271,7 +271,7 @@ class _OneOneChatScreenState extends State<OneOneChatScreen> {
                           bottom: 70,
                         ),
                         decoration: BoxDecoration(
-                            color: isDark ? Colors.grey.shade900 : Colors.white,
+                            color: isDark! ? Colors.grey.shade900 : Colors.white,
                             borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(30),
                                 topRight: Radius.circular(30))),

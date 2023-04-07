@@ -55,7 +55,7 @@ class SideMenuTile extends StatelessWidget {
             title: Text(
               menu.title,
               style: TextStyle(
-                color: isDark ? Colors.white : Colors.grey.shade800,
+                color: isDark! ? Colors.white : Colors.grey.shade800,
                 fontSize: 16,
                 fontFamily: 'InstagramSans',
               ),

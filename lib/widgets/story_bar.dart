@@ -30,6 +30,7 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
   /// Init
   @override
   void initState() {
+
     super.initState();
     getFollowingUserStories();
   }
@@ -65,8 +66,9 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+            final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
     final userProvider = Provider.of<UserProvider>(context, listen: true).user;
-    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
 
     return SizedBox(
         height: MediaQuery.of(context).size.height * 0.15,
@@ -116,7 +118,7 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                                                 child: Text(
                                                   'Add Story',
                                                   style: TextStyle(
-                                                      color: isDark
+                                                      color: isDark!
                                                           ? Colors.white
                                                           : Colors.black,
                                                       fontFamily:
@@ -300,7 +302,7 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                       child: Text(
                         'Your Story',
                         style: TextStyle(
-                            color: isDark ? Colors.white : Colors.black),
+                            color: isDark! ? Colors.white : Colors.black),
                       ),
                     )
                   ],

@@ -89,7 +89,7 @@ class _FeedCardState extends State<FeedCard> {
           child: Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
-                color: isDark ? Colors.grey.shade700 : Colors.white),
+                color: isDark! ? Colors.grey.shade700 : Colors.white),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(30),
               child: Column(
@@ -125,7 +125,9 @@ class _FeedCardState extends State<FeedCard> {
                               children: <Widget>[
                                 Text(
                                   widget.post.author.name.toString(),
-                                  style: const TextStyle(
+                                  
+                                  style:  TextStyle(
+                                    color: isDark?Colors.white:Colors.black,
                                     fontSize: 15,
                                     fontFamily: 'InstagramSans',
                                     fontWeight: FontWeight.bold,
@@ -374,7 +376,7 @@ class _FeedCardState extends State<FeedCard> {
                         widget.post.caption.toString(),
                         style: TextStyle(
                           fontFamily: 'InstagramSans',
-                          color: isDark
+                          color: isDark!
                               ? Colors.grey.shade400
                               : Colors.grey.shade600,
                           fontSize: 15,

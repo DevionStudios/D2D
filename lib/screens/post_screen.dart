@@ -104,7 +104,7 @@ class _PostCardState extends State<PostCard> {
       DateTime datetime = DateTime.parse(post!.createdAt);
       final tempDate = DateFormat.yMd().add_jm().format(datetime);
       return Scaffold(
-        backgroundColor: isDark ? Colors.grey.shade900 : Colors.grey.shade100,
+        backgroundColor: isDark! ? Colors.grey.shade900 : Colors.grey.shade100,
         body: RefreshIndicator(
           onRefresh: getPostData,
           child: Container(
@@ -505,7 +505,7 @@ class _PostCardState extends State<PostCard> {
       );
     } else {
       return Scaffold(
-        backgroundColor: isDark?Colors.grey.shade900:Colors.white,
+        backgroundColor: isDark!?Colors.grey.shade900:Colors.white,
        body: const Center(
           child: CustomLoader(),
         ),

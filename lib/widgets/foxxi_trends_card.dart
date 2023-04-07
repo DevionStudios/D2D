@@ -31,7 +31,7 @@ class FoxxiTrendCard extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
-                  color: isDark ? Colors.grey.shade700 : Colors.white),
+                  color: isDark! ? Colors.grey.shade700 : Colors.white),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(30),
                 child: Column(

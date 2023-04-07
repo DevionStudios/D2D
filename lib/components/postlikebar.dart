@@ -134,7 +134,7 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
                         size: 30,
                         color: isLiked
                             ? Colors.red
-                            :  isDark? Color.fromARGB(255, 243, 167, 255)
+                            :  isDark!? Color.fromARGB(255, 243, 167, 255)
                                 .withOpacity(0.7):widget.isImage?Color.fromARGB(255, 240, 141, 255).withOpacity(0.8):Color.fromARGB(255, 229, 110, 248).withOpacity(0.6),
                                 
                                 
@@ -184,7 +184,7 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
                           ? const Text('0')
                           : Text(widget.post.comments!.length.toString()),
                       child: Icon(Icons.comment_rounded,
-    color:  isDark? Color.fromARGB(255, 243, 167, 255)
+    color:  isDark!? Color.fromARGB(255, 243, 167, 255)
                                 .withOpacity(0.7):widget.isImage?Color.fromARGB(255, 240, 141, 255).withOpacity(0.8):Color.fromARGB(255, 229, 110, 248).withOpacity(0.6),
                           size: 30),
                     ),
@@ -287,7 +287,7 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
                       ? IconButton(
                           icon: Icon(
                             Icons.send_rounded,
-                            color: isDark? Color.fromARGB(255, 243, 167, 255)
+                            color: isDark!? Color.fromARGB(255, 243, 167, 255)
                                 .withOpacity(0.7):widget.isImage?Color.fromARGB(255, 240, 141, 255).withOpacity(0.8):Color.fromARGB(255, 229, 110, 248).withOpacity(0.6),
                             size: 30,
                           ),

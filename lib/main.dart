@@ -10,42 +10,64 @@ import 'package:foxxi/providers/wallet_address.dart';
 import 'package:foxxi/router.dart';
 import 'package:foxxi/screens/splash_screen.dart';
 
+
 void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: ((context) => WalletAddressProvider())),
       ChangeNotifierProvider(create: ((context) => UserProvider())),
       ChangeNotifierProvider(create: ((context) => PostProvider())),
-      ChangeNotifierProvider(create: ((context) => ThemeProvider())),
+      ChangeNotifierProvider(create: ((context) => ThemeProvider( ))),
       ChangeNotifierProvider(
           create: (context) => ScreenNavigationArgumentProvider()),
       ChangeNotifierProvider(create: ((context) => StoryProvider())),
     ],
-    child: const MyApp(),
+    child: MyApp(),
   ));
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+    ThemeMode? theme ;
+
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
+  void initState() {
+    
+    readThemeMode();
+
+    super.initState();
+  }
+  void setFirstTheme(){
+        Provider.of<ThemeProvider>(context, listen: false).setThemeMode = widget.theme!;
+  }
+  void readThemeMode() {
+    
+    Provider.of<ThemeProvider>(context, listen: false)
+        .readSavedThemeInstance()
+        .then((value) {
+          print('XYY');
+      setState(() {
+        widget.theme = value;
+        setFirstTheme();
+
+      });
+    });
+  }
+  @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
-      onGenerateRoute: generateRoute,
-      themeMode: themeProvider.themeMode,
       darkTheme: myThemes.darkTheme,
       theme: myThemes.lightTheme,
+    
+      onGenerateRoute: generateRoute,
+      themeMode: widget.theme,
+
       home: const SplashScreen(),
     );
   }

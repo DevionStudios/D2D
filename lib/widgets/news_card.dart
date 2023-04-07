@@ -168,7 +168,7 @@ class OneFullNewsPage extends StatelessWidget {
                     title.toString(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        backgroundColor: isDark
+                        backgroundColor: isDark!
                             ? Colors.grey.shade100.withOpacity(0.2)
                             : Colors.grey.shade200,
                         color: isDark ? Colors.white : Colors.black,
