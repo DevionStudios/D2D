@@ -42,6 +42,7 @@ class ProfileWidget extends StatefulWidget {
 
 class _ProfileWidgetState extends State<ProfileWidget>
     with SingleTickerProviderStateMixin {
+      bool? showProfileUpdate;
   bool isSideBarOpen = false;
   late SMIBool isMenuOpenInput;
   late AnimationController _animationController;
@@ -352,7 +353,8 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                         )
                                                       : BoxDecoration(),
                                                   child: GestureDetector(
-                                                    onTap: (() {
+
+                                                    onDoubleTap: (() {
                                                       if (widget.isMe == true ||
                                                           isMeCheck == true) {
                                                         if (listOfStories

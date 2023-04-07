@@ -6,6 +6,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 
 import 'package:foxxi/services/post_service.dart';
+enum Items { gallery, camera }
+
 
 class AddPost extends StatefulWidget {
   // const AddPost({super.key});
@@ -21,6 +23,8 @@ class AddPost extends StatefulWidget {
 }
 
 class _AddPostState extends State<AddPost> {
+    Items? selectedMenu;
+
   PostService postService = PostService();
   final TextEditingController _captionTextEditingController =
       TextEditingController();
@@ -35,14 +39,26 @@ class _AddPostState extends State<AddPost> {
   _pickVideo() async {
     // ignore: deprecated_member_use
 
-    pickedFile = await picker.pickVideo(source: ImageSource.gallery);
-    if (pickedFile?.path != null) {
-      _video = File(pickedFile!.path);
-      _videoPlayerController = VideoPlayerController.file(_video!)
-        ..initialize().then((_) {
-          setState(() {});
-          _videoPlayerController!.play();
-        });
+   if (selectedMenu != null) {
+      pickedFile = await picker
+          .pickVideo(
+              source: (selectedMenu == Items.camera)
+                  ? ImageSource.camera
+                  : ImageSource.gallery)
+          .then((value) {
+            setState(() {
+              selectedMenu=null;
+            });
+          });
+      if (pickedFile?.path != null) {
+        selectedMenu = null;
+        _video = File(pickedFile!.path);
+        _videoPlayerController = VideoPlayerController.file(_video!)
+          ..initialize().then((_) {
+            setState(() {});
+            _videoPlayerController!.play();
+          });
+      }
     }
   }
 
@@ -102,14 +118,23 @@ class _AddPostState extends State<AddPost> {
                 padding: const EdgeInsets.all(8.0),
                 child: GestureDetector(
                   onTap: () async {
-                    image = await imagePicker.pickImage(
-                        source: ImageSource.gallery);
+                    if (selectedMenu != null) {
+                        image = await imagePicker
+                            .pickImage(
+                                source: (selectedMenu == Items.camera)
+                                    ? ImageSource.camera
+                                    : ImageSource.gallery)
+                            .then(setState(() {
+                          selectedMenu = null;
+                        }));
 
-                    if (image?.path != null) {
-                      setState(() {
-                        _image = File(image!.path);
-                      });
-                    }
+                        if (image != null) {
+                          setState(() {
+                            _image = File(image!.path);
+                            selectedMenu = null;
+                          });
+                        }
+                      }
                   },
                   child: Container(
                     // padding: EdgeInsets.only(left: 8),
@@ -126,11 +151,29 @@ class _AddPostState extends State<AddPost> {
                             _image,
                             fit: BoxFit.cover,
                           )
-                        : Icon(
-                            Icons.file_upload_rounded,
-                            color: Colors.grey[800],
-                            size: 50,
-                          ),
+                        :selectedMenu == null
+                              ? PopupMenuButton<Items>(
+                                  child: Icon(Icons.upload),
+                                  initialValue: selectedMenu,
+                                  onSelected: (Items item) {
+                                    setState(() {
+                                      selectedMenu = item;
+                                    });
+                                  },
+                                  itemBuilder: (BuildContext ctx) =>
+                                      <PopupMenuEntry<Items>>[
+                                        const PopupMenuItem<Items>(
+                                          value: Items.gallery,
+                                          child: Text('Choose from Gallery'),
+                                        ),
+                                        const PopupMenuItem<Items>(
+                                          value: Items.camera,
+                                          child: Text('Choose from camera'),
+                                        ),
+                                      ])
+                              : selectedMenu == Items.camera
+                                  ? Icon(Icons.camera)
+                                  : Icon(Icons.file_copy_rounded),
                   ),
                 ),
               ),
@@ -251,11 +294,29 @@ class _AddPostState extends State<AddPost> {
                                       VideoPlayer(_videoPlayerController!),
                                 )
                               : Container()
-                          : Icon(
-                              Icons.file_upload_rounded,
-                              color: Colors.grey[800],
-                              size: 50,
-                            )),
+                          :selectedMenu == null
+                              ? PopupMenuButton<Items>(
+                                  child: Icon(Icons.upload),
+                                  initialValue: selectedMenu,
+                                  onSelected: (Items item) {
+                                    setState(() {
+                                      selectedMenu = item;
+                                    });
+                                  },
+                                  itemBuilder: (BuildContext ctx) =>
+                                      <PopupMenuEntry<Items>>[
+                                        const PopupMenuItem<Items>(
+                                          value: Items.gallery,
+                                          child: Text('Choose from Gallery'),
+                                        ),
+                                        const PopupMenuItem<Items>(
+                                          value: Items.camera,
+                                          child: Text('Choose from camera'),
+                                        ),
+                                      ])
+                              : selectedMenu == Items.camera
+                                  ? Icon(Icons.camera)
+                                  : Icon(Icons.file_copy_rounded),),
                 ),
               ),
               Padding(
