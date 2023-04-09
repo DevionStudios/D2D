@@ -43,12 +43,15 @@ class _AddStoryState extends State<AddStory> {
           .pickVideo(
               source: (selectedMenu == Items.camera)
                   ? ImageSource.camera
-                  : ImageSource.gallery)
-          .then((value) {
-            setState(() {
-              selectedMenu=null;
-            });
-          });
+                  : ImageSource.gallery);
+      //     .then((value) {
+      //   setState(() {
+      //     selectedMenu = null;
+      //   });
+      // });
+      setState(() {
+        selectedMenu =null;
+      });
       if (pickedFile?.path != null) {
         selectedMenu = null;
         _video = File(pickedFile!.path);
@@ -115,15 +118,16 @@ class _AddStoryState extends State<AddStory> {
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () async {
+
                       if (selectedMenu != null) {
-                        image = await imagePicker
-                            .pickImage(
-                                source: (selectedMenu == Items.camera)
-                                    ? ImageSource.camera
-                                    : ImageSource.gallery)
-                            .then(setState(() {
+                        image = await imagePicker.pickImage(
+                            source: (selectedMenu == Items.camera)
+                                ? ImageSource.camera
+                                : ImageSource.gallery);
+
+                        setState(() {
                           selectedMenu = null;
-                        }));
+                        });
 
                         if (image != null) {
                           setState(() {

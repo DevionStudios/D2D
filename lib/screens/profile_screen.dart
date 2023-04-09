@@ -180,7 +180,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
     return Scaffold(
       extendBody: false,
       resizeToAvoidBottomInset: false,
-      backgroundColor: isDark!
+      backgroundColor: isDark
           ? Colors.grey.shade900
           : const Color.fromARGB(255, 206, 239, 247),
       body: Stack(
