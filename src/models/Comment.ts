@@ -5,6 +5,8 @@ interface CommentAttrs {
   caption: string;
   author: UserDoc;
   postId: string;
+  isReply?: boolean;
+  parentId?: string;
 }
 
 interface CommentModel extends mongoose.Model<CommentDoc> {
@@ -15,6 +17,8 @@ export interface CommentDoc extends mongoose.Document {
   caption: string;
   postId: string;
   author: UserDoc;
+  isReply?: boolean;
+  parentId?: string;
 }
 
 const CommentSchema = new mongoose.Schema(
@@ -30,6 +34,14 @@ const CommentSchema = new mongoose.Schema(
     postId: {
       type: String,
     },
+    isReply: {
+      type: Boolean,
+      default: false,
+    },
+    parentId: {
+      type: String,
+      default: null,
+    }
   },
   {
     toJSON: {

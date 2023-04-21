@@ -14,7 +14,7 @@ router.post(
   currentUser,
   async (req: Request, res: Response) => {
     try {
-      const { postId, caption } = req.body;
+      const { postId, caption, isReply, parentId } = req.body;
 
       const post = await Post.findOne({
         _id: new mongoose.Types.ObjectId(postId),
