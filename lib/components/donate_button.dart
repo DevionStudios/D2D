@@ -43,7 +43,8 @@ class _DonateButtonState extends State<DonateButton> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Provider.of<ThemeProvider>(context, listen: false).isDarkMode;
+    final isDark =
+        Provider.of<ThemeProvider>(context, listen: false).isDarkMode;
     final userProvider = Provider.of<UserProvider>(context, listen: true).user;
     final walletAddressProvider =
         Provider.of<WalletAddressProvider>(context, listen: true);
@@ -72,7 +73,7 @@ class _DonateButtonState extends State<DonateButton> {
                         padding: const EdgeInsets.all(8.0),
                         child: Text('Donate',
                             style: TextStyle(
-                                color: isDark!
+                                color: isDark
                                     ? Colors.grey.shade400
                                     : Colors.black,
                                 fontFamily: 'InstagramSans',
@@ -179,7 +180,7 @@ class _DonateButtonState extends State<DonateButton> {
                                   TextButton(
                                     style: TextButton.styleFrom(
                                       foregroundColor:
-                                          isDark? Colors.black : Colors.white,
+                                          isDark ? Colors.black : Colors.white,
                                       padding: const EdgeInsets.all(16.0),
                                       textStyle: const TextStyle(fontSize: 20),
                                     ),

@@ -22,7 +22,6 @@ class StoryBar extends StatefulWidget {
 }
 
 class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
-
   StoryService storyService = StoryService();
   List<dynamic>? usernameList;
   List<List<Story>?> listOfStories = [];
@@ -30,7 +29,6 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
   /// Init
   @override
   void initState() {
-
     super.initState();
     getFollowingUserStories();
   }
@@ -56,6 +54,7 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
         'usernameList is Null',
       );
     }
+    setState(() {});
   }
 
   /// Dispose
@@ -66,7 +65,7 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-            final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
 
     final userProvider = Provider.of<UserProvider>(context, listen: true).user;
 
@@ -118,7 +117,7 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                                                 child: Text(
                                                   'Add Story',
                                                   style: TextStyle(
-                                                      color: isDark!
+                                                      color: isDark
                                                           ? Colors.white
                                                           : Colors.black,
                                                       fontFamily:
@@ -302,7 +301,7 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                       child: Text(
                         'Your Story',
                         style: TextStyle(
-                            color: isDark! ? Colors.white : Colors.black),
+                            color: isDark ? Colors.white : Colors.black),
                       ),
                     )
                   ],
@@ -381,31 +380,24 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                                           width: 50,
                                           height: 50,
                                           fit: BoxFit.cover,
-                                           loadingBuilder: (context,
-                                                              child,
-                                                              loadingProgress) {
-                                                            if (loadingProgress ==
-                                                                null) {
-                                                              return child;
-                                                            }
-                                                            return const Padding(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(
-                                                                          15.0),
-                                                              child:
-                                                                  CustomLoader(),
-                                                            );
-                                                          },
-                                                          errorBuilder:
-                                                              (context, error,
-                                                                  stackTrace) {
-                                                            return const Center(
-                                                                child: Icon(
-                                                              Icons.image,
-                                                              size: 100,
-                                                            ));
-                                                          },
+                                          loadingBuilder: (context, child,
+                                              loadingProgress) {
+                                            if (loadingProgress == null) {
+                                              return child;
+                                            }
+                                            return const Padding(
+                                              padding: EdgeInsets.all(15.0),
+                                              child: CustomLoader(),
+                                            );
+                                          },
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            return const Center(
+                                                child: Icon(
+                                              Icons.image,
+                                              size: 100,
+                                            ));
+                                          },
                                         ),
                                       ),
                                     ),

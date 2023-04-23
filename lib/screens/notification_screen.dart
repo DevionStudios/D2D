@@ -103,27 +103,42 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               postId: notificationData[index].postId.toString(),
                             ),
                           ));
+                    } else {
+                      showSnackBar(context, 'Post Doesnt Exist');
                     }
                   }
 
-                  if (notificationData[index].postId != null) {
-                    if (notificationData[index].notificationType ==
-                        NotificationType.USER_FOLLOW.name) {
+                  if (notificationData[index].notificationType ==
+                      NotificationType.MENTION.name) {
+                    if (notificationData[index].postId != null) {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ProfileWidget(
-                                isMe: false,
-                                username: notificationData[index].username),
+                            builder: (context) => PostCard(
+                              postId: notificationData[index].postId.toString(),
+                            ),
                           ));
+                    } else {
+                      showSnackBar(context, 'Post Doesnt Exist');
                     }
+                  }
+
+                  if (notificationData[index].notificationType ==
+                      NotificationType.USER_FOLLOW.name) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfileWidget(
+                              isMe: false,
+                              username: notificationData[index].username),
+                        ));
                   }
                 },
                 child: ListTile(
                   title: Text(
                     '@${notificationData[index].username} ${notificationData[index].notification} ${getStringfromNotificationType(notificationData[index].notificationType)}',
                     style:
-                        TextStyle(color: isDark! ? Colors.white : Colors.black),
+                        TextStyle(color: isDark ? Colors.white : Colors.black),
                   ),
                 ),
               ),
@@ -133,7 +148,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             return Center(
                 child: Text(
               'No Notifications Yet!',
-              style: TextStyle(color: isDark! ? Colors.white : Colors.black),
+              style: TextStyle(color: isDark ? Colors.white : Colors.black),
             ));
           } else {
             return const Center(

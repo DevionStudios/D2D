@@ -81,13 +81,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
     final List<Widget> bottomBarPages = [
       const FeedScreen(),
-            ProfileWidget(
+      ProfileWidget(
         username: userProvider.username,
         isMe: true,
       ),
       const SizedBox.shrink(),
       const ChatBotScreen(),
-
       NewsScreen(),
     ];
     return Scaffold(
@@ -104,7 +103,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       bottomNavigationBar: (bottomBarPages.length <= maxCount)
           ? AnimatedNotchBottomBar(
               pageController: _pageController,
-              color: isDark! ? Colors.black : Colors.white,
+              color: isDark ? Colors.black : Colors.white,
               notchColor: isDark ? Colors.black54 : Colors.white,
               showLabel: false,
               bottomBarItems: [
@@ -118,7 +117,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     color: Colors.blueAccent,
                   ),
                 ),
-                
+
                 const BottomBarItem(
                   inActiveItem: Icon(
                     Icons.account_circle_outlined,
@@ -132,8 +131,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 ),
                 BottomBarItem(
                   inActiveItem: IconButton(
-
-                    
                     padding: const EdgeInsets.all(0),
                     onPressed: () {
                       showMaterialModalBottomSheet(

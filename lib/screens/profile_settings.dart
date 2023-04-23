@@ -135,7 +135,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                 )
                               : Icon(
                                   Icons.file_upload_rounded,
-                                  color: isDark!
+                                  color: isDark
                                       ? Colors.grey.shade200
                                       : Colors.grey[800],
                                 ),
@@ -176,7 +176,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                 )
                               : Icon(
                                   Icons.upload_rounded,
-                                  color: isDark!
+                                  color: isDark
                                       ? Colors.grey.shade200
                                       : Colors.grey[800],
                                 ),

@@ -69,7 +69,7 @@ class NotificationService {
     return statusCode;
   }
 
-  Future<List<NotificationModel>>? getNotification({
+  Future<List<NotificationModel>> getNotification({
     required BuildContext context,
   }) async {
     List<NotificationModel> notificationList = [];

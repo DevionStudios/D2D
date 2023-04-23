@@ -32,7 +32,7 @@ class _FeedScreenState extends State<FeedScreen> {
   NotificationService notificationService = NotificationService();
   // StoryService storyService = StoryService();
   Future<List<FeedPostModel>>? _post;
-  List<dynamic>? notificationList;
+  List<dynamic> notificationList = [];
 
   @override
   void initState() {
@@ -42,12 +42,12 @@ class _FeedScreenState extends State<FeedScreen> {
   }
 
   void fetchData() {
-    notificationService.getNotification(context: context)?.then((value) {
+    notificationService.getNotification(context: context).then((value) {
       setState(() {
         notificationList = value;
       });
-      dev.log('Noitfication Data ==---');
-      dev.log(notificationList.toString());
+      // dev.log('Noitfication Data ==---');
+      // dev.log(notificationList.toString());
     });
   }
 
@@ -57,7 +57,15 @@ class _FeedScreenState extends State<FeedScreen> {
       setState(() {
         _post = postService.getAllPost(context: context);
       });
+      notificationService.getNotification(context: context).then((value) {
+        setState(() {
+          notificationList = value;
+        });
+        // dev.log('Noitfication Data ==---');
+        // dev.log(notificationList.toString());
+      });
     }
+
     return;
   }
 
@@ -71,7 +79,7 @@ class _FeedScreenState extends State<FeedScreen> {
           if (snapshot.hasData) {
             return Scaffold(
               backgroundColor:
-                  isDark! ? Colors.grey.shade900 : Colors.grey.shade100,
+                  isDark ? Colors.grey.shade900 : Colors.grey.shade100,
               // appBar: AppBar(),
               body: RefreshIndicator(
                 onRefresh: getData,
@@ -85,7 +93,8 @@ class _FeedScreenState extends State<FeedScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             PopupMenuButton<String>(
-                              icon:  Icon(Icons.arrow_drop_down_outlined,color: isDark?Colors.white:Colors.black),
+                              icon: Icon(Icons.arrow_drop_down_outlined,
+                                  color: isDark ? Colors.white : Colors.black),
                               onSelected: (selectedTab) {
                                 if (selectedTab == 'Foxxi Trends') {
                                   Navigator.pushNamed(
@@ -121,31 +130,32 @@ class _FeedScreenState extends State<FeedScreen> {
                                 Hero(
                                   tag: 'anim_search_bar',
                                   child: IconButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const SearchScreen(),
-                                            ));
-                                      },
-                                      icon: const Icon(Icons.search_outlined),color: isDark?Colors.white:Colors.black,),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const SearchScreen(),
+                                          ));
+                                    },
+                                    icon: const Icon(Icons.search_outlined),
+                                    color: isDark ? Colors.white : Colors.black,
+                                  ),
                                 ),
                                 IconButton(
                                   icon: badges.Badge(
                                     showBadge:
-                                        notificationList == null ? false : true,
+                                        notificationList.isEmpty ? false : true,
                                     badgeStyle: const badges.BadgeStyle(),
                                     badgeAnimation:
                                         const badges.BadgeAnimation.fade(),
-                                    badgeContent:
-                                        notificationList?.length == null
-                                            ? null
-                                            : Text(notificationList!.length
-                                                .toString()),
+                                    badgeContent: notificationList.isEmpty
+                                        ? null
+                                        : Text(
+                                            notificationList.length.toString()),
                                     child: Icon(
                                       Icons.notifications_none,
-                                      color: isDark!
+                                      color: isDark
                                           ? Colors.grey.shade100
                                           : Colors.grey.shade900,
                                       size: 30,
@@ -214,10 +224,9 @@ class _FeedScreenState extends State<FeedScreen> {
             );
           } else {
             return Scaffold(
-              backgroundColor:
-                  isDark! ? Colors.grey.shade900 : Colors.grey.shade100,
-              
-              body: Center(child: CustomLoader()));
+                backgroundColor:
+                    isDark ? Colors.grey.shade900 : Colors.grey.shade100,
+                body: Center(child: CustomLoader()));
           }
         });
   }

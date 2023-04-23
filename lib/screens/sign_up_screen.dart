@@ -32,6 +32,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   AuthService authService = AuthService();
   final bool _isLoading = false;
   String email = '';
+  String password = '';
+  bool numberValidation = false;
+  bool alphabetUppercaseVaidation = false;
+  bool alphabetLowercaseValidation = false;
+  bool specialCharacterValidation = false;
 
   // void navigateToPreferenceSCreen() {
   //   Navigator.push(
@@ -74,7 +79,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           height: MediaQuery.of(context).size.height,
           width: double.infinity,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Flexible(
                 flex: 2,
@@ -104,9 +109,66 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   hintText: "Enter Username",
                   textInputType: TextInputType.text),
               const SizedBox(
-                height: 24,
+                height: 15,
+              ),
+              SizedBox(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Password must contain'),
+                    Row(
+                      children: [
+                        const Text('One number'),
+                        password.contains('[0-9]')
+                            ? const Icon(
+                                Icons.verified,
+                                color: Colors.green,
+                                size: 15,
+                              )
+                            : const SizedBox(),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const Text('One alphabet in uppercase'),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const Text('One alphabet in lowercase'),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const Text('One special character'),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    )
+                  ],
+                ),
               ),
               TextFieldWidget(
+                  onChanged: (value) {
+                    setState(() {
+                      password = value;
+
+                      if (password.contains('[0-9]')) {
+                        numberValidation = true;
+                      }
+                      if (password.contains(RegExp('[!#@%^&*+=|]'))) {
+                        numberValidation = true;
+                      }
+                      if (password.contains(RegExp('[A-Z]'))) {
+                        alphabetUppercaseVaidation = true;
+                      }
+
+                      if (password.contains(RegExp('[a-z]'))) {
+                        alphabetLowercaseValidation = true;
+                      }
+                    });
+                  },
                   isPassword: true,
                   textEditingController: _passwordTextController,
                   hintText: "Enter Password",

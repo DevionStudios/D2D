@@ -10,7 +10,7 @@ class Chat extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final  isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
     final userProvider = Provider.of<UserProvider>(context).user;
     return Scaffold(
       body: Container(
@@ -19,7 +19,7 @@ class Chat extends StatelessWidget {
         height: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: isDark!
+            colors: isDark
                 ? [
                     Colors.grey.shade600,
                     Colors.grey.shade900,

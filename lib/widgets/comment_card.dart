@@ -1,6 +1,8 @@
 import 'dart:developer' as dev;
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:foxxi/screens/profile_screen.dart';
 import 'package:foxxi/widgets/add_comment.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
@@ -23,13 +25,13 @@ class CommentCard extends StatelessWidget {
     final userProvider = Provider.of<UserProvider>(context, listen: true);
     CommentService commentService = CommentService();
 
-    dev.log('${comment!.author.id} " " ${userProvider.user.id}');
+    List<String> captionElements = comment!.caption.split(' ');
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
           border: Border.all(
-              width: 2, color: isDark! ? Colors.grey : Colors.grey.shade300),
+              width: 2, color: isDark ? Colors.grey : Colors.grey.shade300),
           borderRadius: BorderRadius.circular(20)),
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       child: Column(
@@ -58,7 +60,7 @@ class CommentCard extends StatelessWidget {
                         Text(comment!.author.name.toString(),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: isDark! ? Colors.white : Colors.black87,
+                              color: isDark ? Colors.white : Colors.black87,
                             )),
                         Padding(
                           padding: const EdgeInsets.only(top: 4),
@@ -259,10 +261,36 @@ class CommentCard extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 5),
-            child: Text(comment!.caption.toString(),
-                style: TextStyle(
-                  color: isDark ? Colors.white : Colors.black,
-                )),
+            child: Text.rich(TextSpan(
+                text: null,
+                children: captionElements.map((w) {
+                  return w.startsWith('@') && w.length > 1
+                      ? TextSpan(
+                          text: ' ${w.replaceAll(':', '')}',
+                          style: const TextStyle(color: Colors.blue),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              dev.log(w.replaceAll('[@:]', ''),
+                                  name: '@ names');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ProfileWidget(
+                                      isMe: w.replaceAll(RegExp('@:'), '') ==
+                                              userProvider.user.username
+                                          ? true
+                                          : false,
+                                      username:
+                                          w.replaceAll(RegExp('[@:]'), '')),
+                                ),
+                              );
+                            },
+                        )
+                      : TextSpan(
+                          text: ' $w',
+                          style: TextStyle(
+                              color: isDark ? Colors.white : Colors.black));
+                }).toList())),
           ),
         ],
       ),

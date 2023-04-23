@@ -39,18 +39,17 @@ class _AddStoryState extends State<AddStory> {
   _pickVideo() async {
     // ignore: deprecated_member_use
     if (selectedMenu != null) {
-      pickedFile = await picker
-          .pickVideo(
-              source: (selectedMenu == Items.camera)
-                  ? ImageSource.camera
-                  : ImageSource.gallery);
+      pickedFile = await picker.pickVideo(
+          source: (selectedMenu == Items.camera)
+              ? ImageSource.camera
+              : ImageSource.gallery);
       //     .then((value) {
       //   setState(() {
       //     selectedMenu = null;
       //   });
       // });
       setState(() {
-        selectedMenu =null;
+        selectedMenu = null;
       });
       if (pickedFile?.path != null) {
         selectedMenu = null;
@@ -118,7 +117,6 @@ class _AddStoryState extends State<AddStory> {
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () async {
-
                       if (selectedMenu != null) {
                         image = await imagePicker.pickImage(
                             source: (selectedMenu == Items.camera)
@@ -153,7 +151,6 @@ class _AddStoryState extends State<AddStory> {
                             )
                           : selectedMenu == null
                               ? PopupMenuButton<Items>(
-                                  child: Icon(Icons.upload),
                                   initialValue: selectedMenu,
                                   onSelected: (Items item) {
                                     setState(() {
@@ -170,10 +167,11 @@ class _AddStoryState extends State<AddStory> {
                                           value: Items.camera,
                                           child: Text('Choose from camera'),
                                         ),
-                                      ])
+                                      ],
+                                  child: const Icon(Icons.upload))
                               : selectedMenu == Items.camera
-                                  ? Icon(Icons.camera)
-                                  : Icon(Icons.file_copy_rounded),
+                                  ? const Icon(Icons.camera)
+                                  : const Icon(Icons.file_copy_rounded),
                     ),
                   ),
                 ),
@@ -280,7 +278,6 @@ class _AddStoryState extends State<AddStory> {
                               : Container()
                           : selectedMenu == null
                               ? PopupMenuButton<Items>(
-                                  child: Icon(Icons.upload),
                                   initialValue: selectedMenu,
                                   onSelected: (Items item) {
                                     setState(() {
@@ -297,10 +294,11 @@ class _AddStoryState extends State<AddStory> {
                                           value: Items.camera,
                                           child: Text('Choose from camera'),
                                         ),
-                                      ])
+                                      ],
+                                  child: const Icon(Icons.upload))
                               : selectedMenu == Items.camera
-                                  ? Icon(Icons.camera)
-                                  : Icon(Icons.file_copy_rounded),
+                                  ? const Icon(Icons.camera)
+                                  : const Icon(Icons.file_copy_rounded),
                     ),
                   ),
                 ),

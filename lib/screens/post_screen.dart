@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:foxxi/components/postlikebar.dart';
 import 'package:foxxi/providers/user_provider.dart';
@@ -11,6 +12,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:intl/intl.dart';
+import 'dart:developer' as dev;
 
 import '../models/comments.dart';
 import '../models/feed_post_model.dart';
@@ -99,12 +101,14 @@ class _PostCardState extends State<PostCard> {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: true).user;
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
-
     if (post != null) {
       DateTime datetime = DateTime.parse(post!.createdAt);
       final tempDate = DateFormat.yMd().add_jm().format(datetime);
+
+      List<String> captionElements = post!.caption.split(' ');
+
       return Scaffold(
-        backgroundColor: isDark! ? Colors.grey.shade900 : Colors.grey.shade100,
+        backgroundColor: isDark ? Colors.grey.shade900 : Colors.grey.shade100,
         body: RefreshIndicator(
           onRefresh: getPostData,
           child: Container(
@@ -237,7 +241,26 @@ class _PostCardState extends State<PostCard> {
                                                                 vertical: 16),
                                                         shrinkWrap: true,
                                                         children: [
-                                                          'Update Post',
+                                                          post!.author.id ==
+                                                                  userProvider
+                                                                      .id
+                                                              ? 'Delete Post'
+                                                              : null,
+                                                          post!.author.id ==
+                                                                  userProvider
+                                                                      .id
+                                                              ? null
+                                                              : 'Repost Post',
+                                                          post!.author.id ==
+                                                                  userProvider
+                                                                      .id
+                                                              ? null
+                                                              : 'Report Post',
+                                                          post!.author.id ==
+                                                                  userProvider
+                                                                      .id
+                                                              ? 'Update Post'
+                                                              : null,
                                                         ]
                                                             .map(
                                                               (e) => InkWell(
@@ -249,94 +272,118 @@ class _PostCardState extends State<PostCard> {
                                                                             12,
                                                                         horizontal:
                                                                             16),
-                                                                    child:
-                                                                        Text(e),
+                                                                    child: null,
                                                                   ),
                                                                   onTap: () {
                                                                     Navigator.pop(
                                                                         dialogContext);
-                                                                    showMaterialModalBottomSheet<
-                                                                        void>(
-                                                                      shape: const RoundedRectangleBorder(
-                                                                          borderRadius:
-                                                                              BorderRadius.vertical(top: Radius.circular(25))),
-                                                                      context:
-                                                                          context,
-                                                                      builder:
-                                                                          (context) =>
+
+                                                                    if (e ==
+                                                                        'Report Post') {
+                                                                      postService.reportPost(
+                                                                          id: post!
+                                                                              .id,
+                                                                          context:
+                                                                              context);
+                                                                    }
+
+                                                                    if (e ==
+                                                                        'Repost Post') {
+                                                                      postService.repostPost(
+                                                                          context:
+                                                                              context,
+                                                                          id: post!
+                                                                              .id);
+                                                                    }
+
+                                                                    if (e ==
+                                                                        'Update Post') {
+                                                                      Navigator.pop(
+                                                                          dialogContext);
+                                                                      showMaterialModalBottomSheet<
+                                                                          void>(
+                                                                        shape: const RoundedRectangleBorder(
+                                                                            borderRadius:
+                                                                                BorderRadius.vertical(top: Radius.circular(25))),
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (context) =>
+                                                                                Padding(
+                                                                          padding:
+                                                                              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                                          child:
+                                                                              Column(
+                                                                            mainAxisSize:
+                                                                                MainAxisSize.min,
+                                                                            children: [
                                                                               Padding(
-                                                                        padding:
-                                                                            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                                                                        child:
-                                                                            Column(
-                                                                          mainAxisSize:
-                                                                              MainAxisSize.min,
-                                                                          children: [
-                                                                            Padding(
-                                                                              padding: const EdgeInsets.all(8.0),
-                                                                              child: Text('Update Comment', style: TextStyle(color: isDark ? Colors.grey.shade400 : Colors.black, fontFamily: 'InstagramSans', fontSize: 25, fontWeight: FontWeight.bold)),
-                                                                            ),
-                                                                            Row(
-                                                                              children: [
-                                                                                Padding(
-                                                                                  padding: const EdgeInsets.all(8),
-                                                                                  child: CircleAvatar(
-                                                                                    radius: 16,
-                                                                                    backgroundImage: NetworkImage(post!.author.image.toString()),
-                                                                                  ),
-                                                                                ),
-                                                                                Column(
-                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                  children: [
-                                                                                    Row(
-                                                                                      children: [
-                                                                                        Padding(
-                                                                                          padding: const EdgeInsets.only(left: 8),
-                                                                                          child: Text(
-                                                                                            post!.author.name.toString(),
-                                                                                            style: TextStyle(
-                                                                                              color: isDark ? Colors.grey.shade200 : Colors.black,
-                                                                                            ),
-                                                                                          ),
-                                                                                        ),
-                                                                                        Padding(
-                                                                                          padding: const EdgeInsets.only(left: 4.0),
-                                                                                          child: Text(
-                                                                                            '@${post!.author.username}',
-                                                                                            style: TextStyle(
-                                                                                              color: isDark ? Colors.grey.shade600 : Colors.black,
-                                                                                            ),
-                                                                                          ),
-                                                                                        )
-                                                                                      ],
+                                                                                padding: const EdgeInsets.all(8.0),
+                                                                                child: Text('Update Post', style: TextStyle(color: isDark ? Colors.grey.shade400 : Colors.black, fontFamily: 'InstagramSans', fontSize: 25, fontWeight: FontWeight.bold)),
+                                                                              ),
+                                                                              Row(
+                                                                                children: [
+                                                                                  Padding(
+                                                                                    padding: const EdgeInsets.all(8),
+                                                                                    child: CircleAvatar(
+                                                                                      radius: 16,
+                                                                                      backgroundImage: NetworkImage(post!.author.image.toString()),
                                                                                     ),
-                                                                                    const Padding(
-                                                                                      padding: EdgeInsets.only(
-                                                                                        left: 8,
+                                                                                  ),
+                                                                                  Column(
+                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                    children: [
+                                                                                      Row(
+                                                                                        children: [
+                                                                                          Padding(
+                                                                                            padding: const EdgeInsets.only(left: 8),
+                                                                                            child: Text(
+                                                                                              post!.author.name.toString(),
+                                                                                              style: TextStyle(
+                                                                                                color: isDark ? Colors.grey.shade200 : Colors.black,
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                          Padding(
+                                                                                            padding: const EdgeInsets.only(left: 4.0),
+                                                                                            child: Text(
+                                                                                              '@${post!.author.username}',
+                                                                                              style: TextStyle(
+                                                                                                color: isDark ? Colors.grey.shade600 : Colors.black,
+                                                                                              ),
+                                                                                            ),
+                                                                                          )
+                                                                                        ],
                                                                                       ),
-                                                                                    )
-                                                                                  ],
-                                                                                )
-                                                                              ],
-                                                                            ),
-                                                                            Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.start,
-                                                                              children: const [
-                                                                                Padding(
-                                                                                  padding: EdgeInsets.only(left: 8.0),
-                                                                                  child: Text('Update Comment'),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                            AddCommentWidget(
-                                                                              isPostUpdate: true,
-                                                                              postId: widget.postId,
-                                                                              hashtags: post!.hashtags,
-                                                                            ),
-                                                                          ],
+                                                                                      const Padding(
+                                                                                        padding: EdgeInsets.only(
+                                                                                          left: 8,
+                                                                                        ),
+                                                                                      )
+                                                                                    ],
+                                                                                  )
+                                                                                ],
+                                                                              ),
+                                                                              Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                                                children: const [
+                                                                                  Padding(
+                                                                                    padding: EdgeInsets.only(left: 8.0),
+                                                                                    child: Text('Your Reply'),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                              AddCommentWidget(
+                                                                                isPostUpdate: true,
+                                                                                hashtags: post!.hashtags,
+                                                                                postUserId: post!.author.id,
+                                                                                postId: post!.id,
+                                                                              ),
+                                                                            ],
+                                                                          ),
                                                                         ),
-                                                                      ),
-                                                                    );
+                                                                      );
+                                                                    }
                                                                   }),
                                                             )
                                                             .toList()),
@@ -357,13 +404,47 @@ class _PostCardState extends State<PostCard> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  post!.caption.toString(),
-                                  style: TextStyle(
-                                      fontFamily: 'InstagramSans',
-                                      color:
-                                          isDark ? Colors.white : Colors.black),
-                                ),
+                                child: Text.rich(TextSpan(
+                                    text: null,
+                                    children: captionElements.map((w) {
+                                      return w.startsWith('@') && w.length > 1
+                                          ? TextSpan(
+                                              text: ' $w',
+                                              style: const TextStyle(
+                                                  color: Colors.blue),
+                                              recognizer: TapGestureRecognizer()
+                                                ..onTap = () {
+                                                  dev.log(
+                                                      w.replaceAll('[@:]', ''),
+                                                      name: '@ names');
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) => ProfileWidget(
+                                                          isMe: w.replaceAll(
+                                                                      RegExp(
+                                                                          '@:'),
+                                                                      '') ==
+                                                                  userProvider
+                                                                      .username
+                                                              ? true
+                                                              : false,
+                                                          username:
+                                                              w.replaceAll(
+                                                                  RegExp(
+                                                                      '[@:]'),
+                                                                  '')),
+                                                    ),
+                                                  );
+                                                },
+                                            )
+                                          : TextSpan(
+                                              text: ' $w',
+                                              style: TextStyle(
+                                                  color: isDark
+                                                      ? Colors.white
+                                                      : Colors.black));
+                                    }).toList())),
                               ),
                               isImage
                                   ? Container(
@@ -381,7 +462,11 @@ class _PostCardState extends State<PostCard> {
                                           fit: BoxFit.cover,
                                         ),
                                       ),
-                                      child: PostLikeCommentBar(post: post!,isImage: true,isVideo: false,))
+                                      child: PostLikeCommentBar(
+                                        post: post!,
+                                        isImage: true,
+                                        isVideo: false,
+                                      ))
                                   : isVideo
                                       ? Container(
                                           height: 400,
@@ -441,7 +526,10 @@ class _PostCardState extends State<PostCard> {
                                                   ),
                                                 ],
                                               ),
-                                              PostLikeCommentBar(post: post!,isVideo: true,isImage:false),
+                                              PostLikeCommentBar(
+                                                  post: post!,
+                                                  isVideo: true,
+                                                  isImage: false),
                                             ],
                                           ),
                                         )
@@ -505,8 +593,8 @@ class _PostCardState extends State<PostCard> {
       );
     } else {
       return Scaffold(
-        backgroundColor: isDark!?Colors.grey.shade900:Colors.white,
-       body: const Center(
+        backgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
+        body: const Center(
           child: CustomLoader(),
         ),
       );

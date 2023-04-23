@@ -74,12 +74,12 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
       sender: "Foxxi AI",
       isImage: isImage,
     );
-if(mounted){
-    setState(() {
-      _isTyping = false;
-      _messages.insert(0, botMessage);
-    });
-  }
+    if (mounted) {
+      setState(() {
+        _isTyping = false;
+        _messages.insert(0, botMessage);
+      });
+    }
   }
 
   Widget _buildTextComposer() {
@@ -122,7 +122,7 @@ if(mounted){
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
 
     return Scaffold(
-        backgroundColor: isDark! ? Colors.grey.shade900 : Colors.grey.shade100,
+        backgroundColor: isDark ? Colors.grey.shade900 : Colors.grey.shade100,
         body: SafeArea(
           child: Column(
             children: [

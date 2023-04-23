@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer' as dev;
 import 'package:foxxi/http_error_handle.dart';
-import 'package:foxxi/models/notification.dart';
 import 'package:foxxi/models/user.dart';
 import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/services/notification_service.dart';

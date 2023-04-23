@@ -7,6 +7,7 @@ import 'package:foxxi/models/notification.dart';
 import 'package:foxxi/models/story.dart';
 import 'package:foxxi/providers/theme_provider.dart';
 import 'package:foxxi/routing_constants.dart';
+import 'package:foxxi/screens/chat.dart';
 import 'package:foxxi/screens/follower_following_screen.dart';
 import 'package:foxxi/screens/story_screen.dart';
 import 'package:foxxi/services/notification_service.dart';
@@ -76,8 +77,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
   getFollowingUserStories() {
     if (widget.isMe == true || isMeCheck == true) {
       storyService
-          .getUserStory(
-              context: context, username: UserProvider().user.username)
+          .getUserStory(context: context, username: widget.username)
           ?.then((value) {
         dev.log(value.toString(), name: 'Story Value User');
         if (value.isNotEmpty) {
@@ -351,7 +351,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                             // 0.3,
                                                           ),
                                                         )
-                                                      : BoxDecoration(),
+                                                      : const BoxDecoration(),
                                                   child: GestureDetector(
                                                     onDoubleTap: (() {
                                                       if (widget.isMe == true ||
@@ -427,9 +427,10 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                       stackTrace) {
                                                                 return const Center(
                                                                     child: Icon(
-                                                                  Icons.image,
-                                                                  size: 100,
-                                                                ));
+                                                                        Icons
+                                                                            .image,
+                                                                        size:
+                                                                            50));
                                                               },
                                                             ),
                                                           ),
@@ -849,6 +850,26 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                               ),
                                               isMeCheck == true
                                                   ? const SizedBox()
+                                                  : ElevatedButton(
+                                                      child: const Text('Chat'),
+                                                      onPressed: () {
+                                                        if (user != null) {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                builder: (context) => OneOneChatScreen(
+                                                                    senderId:
+                                                                        user!
+                                                                            .id,
+                                                                    senderUsername:
+                                                                        user!
+                                                                            .username),
+                                                              ));
+                                                        }
+                                                      },
+                                                    ),
+                                              isMeCheck == true
+                                                  ? const SizedBox()
                                                   : Padding(
                                                       padding: EdgeInsets.only(
                                                           right: MediaQuery.of(
@@ -904,7 +925,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                         .id);
                                                           });
                                                         },
-                                                      )
+                                                      ),
                                                       // child: FollowButton(
                                                       //   backgroundColor:
                                                       //       Colors.white,
@@ -931,7 +952,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                       //   },
                                                       //   isFollowed: isFollowed,
                                                       // ),
-                                                      ),
+                                                    ),
                                             ],
                                           ),
                                           Padding(
@@ -942,7 +963,13 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                   MainAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  userProvider.bio.toString(),
+                                                  widget.isMe
+                                                      ? userProvider.bio
+                                                          .toString()
+                                                      : user == null
+                                                          ? ''
+                                                          : user!.bio
+                                                              .toString(),
                                                   style: TextStyle(
                                                       color: isDark
                                                           ? Colors.grey.shade500

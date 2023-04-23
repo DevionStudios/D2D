@@ -23,7 +23,6 @@ void httpErrorHandle({
       break;
     case 400:
       dev.log(response.statusCode.toString(), name: "Response Status Code");
-      showSnackBar(context, response.body);
 
       break;
     case 500:

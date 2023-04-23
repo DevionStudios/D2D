@@ -25,12 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordTextController = TextEditingController();
   AuthService authService = AuthService();
   UserService userService = UserService();
-  final _isLoading = false;
-
-  void clearControllers() {
-    _emailTextController.clear();
-    _passwordTextController.clear();
-  }
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -85,6 +80,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   if (_formKey.currentState!.validate()) {
                     dev.log("Form Validation Passed",
                         name: "Login Screen Form Validation");
+
+                    setState(() {
+                      _isLoading = true;
+                    });
                     String id =
                         await authService.getCurrentUserId(context: context);
                     // ignore: use_build_context_synchronously
@@ -93,13 +92,20 @@ class _LoginScreenState extends State<LoginScreen> {
                         email: _emailTextController.text,
                         password: _passwordTextController.text);
 
-                    clearControllers();
-
                     if (statusCode == 200 || statusCode == 201) {
+                      setState(() {
+                        _isLoading = false;
+                      });
+                      _emailTextController.clear();
+                      _passwordTextController.clear();
                       if (context.mounted) {
                         Navigator.pushNamed(context, BottomNavBar.routeName,
                             arguments: id);
                       }
+                    } else {
+                      setState(() {
+                        _isLoading = false;
+                      });
                     }
                   } else {
                     dev.log("Form Validation Failed",
@@ -120,8 +126,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   child: _isLoading
-                      ? const Center(
-                          child: CustomLoader(),
+                      ? Center(
+                          child: SizedBox(
+                              height: 18,
+                              width: 18,
+                              child: CircularProgressIndicator(
+                                color: Colors.blue.shade100,
+                                strokeWidth: 2,
+                              )),
                         )
                       : const Center(child: Text("Login")),
                 ),

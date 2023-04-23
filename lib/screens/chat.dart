@@ -1,5 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:foxxi/screens/profile_screen.dart';
 import 'package:foxxi/services/notification_service.dart';
 import 'package:foxxi/services/user_service.dart';
 import 'package:provider/provider.dart';
@@ -54,7 +55,7 @@ class ChatScreenState extends State<ChatScreen> {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
-            color: isDark! ? Colors.grey.shade300 : Colors.white,
+            color: isDark ? Colors.grey.shade300 : Colors.white,
             borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(0),
               bottomRight: Radius.circular(0),
@@ -180,7 +181,7 @@ class _OneOneChatScreenState extends State<OneOneChatScreen> {
 
     return Scaffold(
       backgroundColor:
-          isDark! ? Colors.black.withOpacity(0.9) : Colors.grey.shade400,
+          isDark ? Colors.black.withOpacity(0.9) : Colors.grey.shade400,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
@@ -216,28 +217,42 @@ class _OneOneChatScreenState extends State<OneOneChatScreen> {
                         Container(
                           padding: const EdgeInsets.all(16),
                           height: 100,
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Text(
-                                  user != null ? user!.name : '___',
-                                  style: TextStyle(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ProfileWidget(
+                                        isMe: widget.senderId == userProvider.id
+                                            ? true
+                                            : false,
+                                        username: widget.senderUsername),
+                                  ));
+                            },
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Text(
+                                    user != null ? user!.name : '___',
+                                    style: TextStyle(
+                                        color:
+                                            isDark ? Colors.grey : Colors.black,
+                                        fontSize: 15,
+                                        fontFamily: 'Unbounded',
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    '@${widget.senderUsername.toString()}',
+                                    style: TextStyle(
                                       color:
                                           isDark ? Colors.grey : Colors.black,
-                                      fontSize: 15,
+                                      fontSize: 10,
                                       fontFamily: 'Unbounded',
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  '@${widget.senderUsername.toString()}',
-                                  style: TextStyle(
-                                    color: isDark ? Colors.grey : Colors.black,
-                                    fontSize: 10,
-                                    fontFamily: 'Unbounded',
-                                  ),
-                                )
-                              ]),
+                                    ),
+                                  )
+                                ]),
+                          ),
                           // width: MediaQuery.of(context).size.width * 0.8),
                         ),
                         Padding(
@@ -252,12 +267,26 @@ class _OneOneChatScreenState extends State<OneOneChatScreen> {
                                     Border.all(color: Colors.white, width: 2),
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(20))),
-                            child: CircleAvatar(
-                              radius: 20,
-                              backgroundImage: NetworkImage(
-                                  user != null ? user!.image.toString() : ''),
-                              onBackgroundImageError: (exception, stackTrace) =>
-                                  Icons.person,
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ProfileWidget(
+                                          isMe:
+                                              widget.senderId == userProvider.id
+                                                  ? true
+                                                  : false,
+                                          username: widget.senderUsername),
+                                    ));
+                              },
+                              child: CircleAvatar(
+                                radius: 20,
+                                backgroundImage: NetworkImage(
+                                    user != null ? user!.image.toString() : ''),
+                                onBackgroundImageError:
+                                    (exception, stackTrace) => Icons.person,
+                              ),
                             ),
                           )
 
@@ -271,7 +300,7 @@ class _OneOneChatScreenState extends State<OneOneChatScreen> {
                           bottom: 70,
                         ),
                         decoration: BoxDecoration(
-                            color: isDark! ? Colors.grey.shade900 : Colors.white,
+                            color: isDark ? Colors.grey.shade900 : Colors.white,
                             borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(30),
                                 topRight: Radius.circular(30))),

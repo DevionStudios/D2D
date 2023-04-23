@@ -1,8 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+
+import 'package:foxxi/providers/user_provider.dart';
+import 'package:foxxi/services/notification_service.dart';
 import 'package:foxxi/utils.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
 import 'package:foxxi/services/post_service.dart';
@@ -26,6 +30,7 @@ class _AddPostState extends State<AddPost> {
   Items? selectedMenu;
 
   PostService postService = PostService();
+  NotificationService notificationService = NotificationService();
   final TextEditingController _captionTextEditingController =
       TextEditingController();
   var _image;
@@ -34,20 +39,25 @@ class _AddPostState extends State<AddPost> {
   File? _video;
   final picker = ImagePicker();
   VideoPlayerController? _videoPlayerController;
+  List<String> words = [];
+  List<String> mentionedUsers = [];
+  // List<String> searchResult = [];
+  // bool showSuggestion = false;
+  // String currentWord = '';
+  // List<String> userList = [];
 
 // This funcion will helps you to pick a Video File
   _pickVideo() async {
     // ignore: deprecated_member_use
 
     if (selectedMenu != null) {
-      pickedFile = await picker
-          .pickVideo(
-              source: (selectedMenu == Items.camera)
-                  ? ImageSource.camera
-                  : ImageSource.gallery);
-                  setState(() {
-                    selectedMenu = null;
-                  });
+      pickedFile = await picker.pickVideo(
+          source: (selectedMenu == Items.camera)
+              ? ImageSource.camera
+              : ImageSource.gallery);
+      setState(() {
+        selectedMenu = null;
+      });
 
       if (pickedFile?.path != null) {
         selectedMenu = null;
@@ -77,55 +87,72 @@ class _AddPostState extends State<AddPost> {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: true).user;
+
+    // if (userProvider.following != null) {
+    //   for (var user in userProvider.following!) {
+    //     userList.add(user['username'].toString());
+    //   }
+    // }
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
       ),
       resizeToAvoidBottomInset: false,
-      body: (widget.IsImage == true)
-          ? Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'Create Post',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Caption'),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _captionTextEditingController,
-                    decoration: const InputDecoration(
-                      // labelText: 'Caption',
-                      border: OutlineInputBorder(),
-                      hintText: 'Include body for your post.',
-                    ),
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Media'),
-                ),
-                Padding(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              'Create Post',
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text('Caption'),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              onSubmitted: (value) {
+                setState(() {
+                  words = value.split(' ');
+
+                  for (String element in words) {
+                    if (element.startsWith('@')) {
+                      mentionedUsers.add(element);
+                    }
+                  }
+                });
+              },
+              controller: _captionTextEditingController,
+              decoration: const InputDecoration(
+                // labelText: 'Caption',
+                border: OutlineInputBorder(),
+                hintText: 'Include body for your post.',
+              ),
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text('Media'),
+          ),
+          (widget.IsImage == true)
+              ? Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () async {
-                      if (selectedMenu != null && image == null) {
-                        image = await imagePicker
-                            .pickImage(
-                                source: (selectedMenu == Items.camera)
-                                    ? ImageSource.camera
-                                    : ImageSource.gallery);
-                                    setState(() {
-                                      selectedMenu =null;
-                                    });
-
+                      if (selectedMenu != null) {
+                        image = await imagePicker.pickImage(
+                            source: (selectedMenu == Items.camera)
+                                ? ImageSource.camera
+                                : ImageSource.gallery);
+                        setState(() {
+                          selectedMenu = null;
+                        });
 
                         if (image != null) {
                           setState(() {
@@ -152,7 +179,6 @@ class _AddPostState extends State<AddPost> {
                             )
                           : selectedMenu == null
                               ? PopupMenuButton<Items>(
-                                  child: Icon(Icons.upload),
                                   initialValue: selectedMenu,
                                   onSelected: (Items item) {
                                     setState(() {
@@ -169,104 +195,15 @@ class _AddPostState extends State<AddPost> {
                                           value: Items.camera,
                                           child: Text('Choose from camera'),
                                         ),
-                                      ])
+                                      ],
+                                  child: const Icon(Icons.upload))
                               : selectedMenu == Items.camera
-                                  ? Icon(Icons.camera)
-                                  : Icon(Icons.file_copy_rounded),
+                                  ? const Icon(Icons.camera)
+                                  : const Icon(Icons.file_copy_rounded),
                     ),
                   ),
-                ),
-                Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Stack(children: <Widget>[
-                                Positioned.fill(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          Colors.lightBlue.shade100
-                                              .withOpacity(0.4),
-                                          Colors.purpleAccent.shade100
-                                              .withOpacity(0.4),
-                                        ],
-                                        stops: const [0, 1],
-                                        begin: const AlignmentDirectional(1, 0),
-                                        end: const AlignmentDirectional(-1, 0),
-                                        // color: Colors.purpleAccent.shade100.withOpacity(
-                                        // 0.3,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                TextButton(
-                                  style: TextButton.styleFrom(
-                                    foregroundColor: Colors.white,
-                                    padding: const EdgeInsets.all(16.0),
-                                    textStyle: const TextStyle(fontSize: 20),
-                                  ),
-                                  onPressed: () {
-                                    if (_captionTextEditingController
-                                        .text.isNotEmpty) {
-                                      postService.createPost(
-                                          context: context,
-                                          caption: _captionTextEditingController
-                                              .text,
-                                          imageFilePath: image!.path);
-                                    } else {
-                                      showSnackBar(
-                                          context, "Field can't be empty");
-                                    }
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text('Upload'),
-                                ),
-                              ]),
-                            ],
-                          ),
-                        )
-                      ],
-                    ))
-              ],
-            )
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'Create Post',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Caption'),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _captionTextEditingController,
-                    decoration: const InputDecoration(
-                      // labelText: 'Caption',
-                      border: OutlineInputBorder(),
-                      hintText: 'Include body for your post.',
-                    ),
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Media'),
-                ),
-                Padding(
+                )
+              : Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
@@ -291,7 +228,6 @@ class _AddPostState extends State<AddPost> {
                               : Container()
                           : selectedMenu == null
                               ? PopupMenuButton<Items>(
-                                  child: Icon(Icons.upload),
                                   initialValue: selectedMenu,
                                   onSelected: (Items item) {
                                     setState(() {
@@ -308,62 +244,72 @@ class _AddPostState extends State<AddPost> {
                                           value: Items.camera,
                                           child: Text('Choose from camera'),
                                         ),
-                                      ])
+                                      ],
+                                  child: const Icon(Icons.upload))
                               : selectedMenu == Items.camera
-                                  ? Icon(Icons.camera)
-                                  : Icon(Icons.file_copy_rounded),
+                                  ? const Icon(Icons.camera)
+                                  : const Icon(Icons.file_copy_rounded),
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Stack(children: <Widget>[
-                        Positioned.fill(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.lightBlue.shade100.withOpacity(0.4),
-                                  Colors.purpleAccent.shade100.withOpacity(0.4),
-                                ],
-                                stops: const [0, 1],
-                                begin: const AlignmentDirectional(1, 0),
-                                end: const AlignmentDirectional(-1, 0),
-                                // color: Colors.purpleAccent.shade100.withOpacity(
-                                // 0.3,
-                              ),
-                            ),
-                          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Stack(children: <Widget>[
+                  Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.lightBlue.shade100.withOpacity(0.4),
+                            Colors.purpleAccent.shade100.withOpacity(0.4),
+                          ],
+                          stops: const [0, 1],
+                          begin: const AlignmentDirectional(1, 0),
+                          end: const AlignmentDirectional(-1, 0),
+                          // color: Colors.purpleAccent.shade100.withOpacity(
+                          // 0.3,
                         ),
-                        TextButton(
-                          style: TextButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.all(16.0),
-                            textStyle: const TextStyle(fontSize: 20),
-                          ),
-                          onPressed: () {
-                            if (_captionTextEditingController.text.isNotEmpty) {
-                              postService.createPost(
-                                  context: context,
-                                  caption: _captionTextEditingController.text,
-                                  videoFilePath: pickedFile!.path);
-                              Navigator.pop(context);
-                            } else {
-                              showSnackBar(context, "Field can't be empty");
-                            }
-                          },
-                          child: const Text('Upload'),
-                        ),
-                      ]),
-                    ],
+                      ),
+                    ),
                   ),
-                )
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.all(16.0),
+                      textStyle: const TextStyle(fontSize: 20),
+                    ),
+                    onPressed: () {
+                      if (_captionTextEditingController.text.isNotEmpty) {
+                        postService.createPost(
+                            context: context,
+                            caption: _captionTextEditingController.text,
+                            imageFilePath: (widget.IsImage == true)
+                                ? image?.path == null
+                                    ? null
+                                    : image!.path
+                                : null,
+                            videoFilePath: (widget.IsImage == true)
+                                ? null
+                                : pickedFile?.path == null
+                                    ? null
+                                    : pickedFile!.path);
+                      } else {
+                        showSnackBar(context, "Field can't be empty");
+                      }
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Upload'),
+                  )
+                ]),
               ],
             ),
+          )
+        ],
+      ),
     );
   }
 }

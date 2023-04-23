@@ -2,17 +2,21 @@ import 'package:flutter/material.dart';
 
 import 'package:foxxi/validator.dart';
 
+typedef MyCallback = void Function(String value);
+
 class TextFieldWidget extends StatelessWidget {
   final TextEditingController textEditingController;
+  MyCallback? onChanged;
   final bool isPassword;
   final bool isName;
   final bool isEmail;
   final bool isUsername;
   final String hintText;
   final TextInputType textInputType;
-  const TextFieldWidget(
+  TextFieldWidget(
       {Key? key,
       required this.textEditingController,
+      this.onChanged,
       this.isEmail = false,
       this.isName = false,
       this.isPassword = false,
@@ -26,6 +30,7 @@ class TextFieldWidget extends StatelessWidget {
     final inputBorder =
         OutlineInputBorder(borderSide: Divider.createBorderSide(context));
     return TextFormField(
+      onChanged: onChanged,
       validator: isPassword
           ? passwordValidator
           : isEmail

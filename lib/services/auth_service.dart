@@ -54,10 +54,16 @@ class AuthService {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PreferenceScreen(),
+                    builder: (context) => const PreferenceScreen(),
                   ));
             }
           });
+
+      if (res.statusCode != 200 || res.statusCode != 201) {
+        if (context.mounted) {
+          showSnackBar(context, res.body);
+        }
+      }
     } catch (e) {
       dev.log(e.toString(), name: "SignUpErrorCatch");
       showSnackBar(context, e.toString());
@@ -89,20 +95,28 @@ class AuthService {
         onSuccess: () async {
           // Provider.of<UserProvider>(context, listen: false).setUser(res.body);
           statusCode = res.statusCode;
-          await _storage.write(
-              key: "cookies", value: jsonDecode(res.body)['jwt'].toString());
+          _storage
+              .write(
+                  key: "cookies", value: jsonDecode(res.body)['jwt'].toString())
+              .then((value) {
+            if (context.mounted) {
+              showSnackBar(context, 'Login Successfull');
+
+              Navigator.pushNamed(
+                context,
+                BottomNavBar.routeName,
+              );
+            }
+          });
           dev.log(res.body, name: 'login JWT');
-
-          if (context.mounted) {
-            showSnackBar(context, 'Login Successfull');
-
-            Navigator.pushNamed(
-              context,
-              BottomNavBar.routeName,
-            );
-          }
         },
       );
+
+      if (res.statusCode == 400) {
+        if (context.mounted) {
+          showSnackBar(context, 'Invalid Credentials');
+        }
+      }
     } catch (e) {
       dev.log(e.toString(), name: "LoginInErrorCatch");
     }
@@ -219,7 +233,6 @@ class AuthService {
           });
     } catch (e) {
       dev.log(e.toString(), name: 'Get Current User Error');
-      showSnackBar(context, e.toString());
     }
     return id;
   }

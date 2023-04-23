@@ -1,6 +1,8 @@
 import 'dart:developer' as dev;
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:foxxi/screens/profile_screen.dart';
 import 'package:foxxi/services/notification_service.dart';
 import 'package:foxxi/widgets/add_comment.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -18,7 +20,6 @@ import '../screens/post_screen.dart';
 import '../services/comment_service.dart';
 
 class FeedCard extends StatefulWidget {
-
   final FeedPostModel post;
   final bool isImage;
   final bool isVideo;
@@ -70,6 +71,15 @@ class _FeedCardState extends State<FeedCard> {
 
     DateTime datetime = DateTime.parse(widget.post.createdAt);
     final tempDate = DateFormat.yMd().add_jm().format(datetime);
+    // RegExp userMentionPattern = RegExp(r"\B@[a-zA-Z0-9]+\b");
+    // Iterable<Match> mentionedUsernames =
+    //     userMentionPattern.allMatches(widget.post.caption.toString());
+    // List<String> usernames = [];
+
+    // for (Match match in mentionedUsernames) {
+    //   usernames.add(match.toString());
+    // }
+    List<String> captionElements = widget.post.caption.split(' ');
 
     return GestureDetector(
       onTap: () {
@@ -89,7 +99,7 @@ class _FeedCardState extends State<FeedCard> {
           child: Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
-                color: isDark! ? Colors.grey.shade700 : Colors.white),
+                color: isDark ? Colors.grey.shade700 : Colors.white),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(30),
               child: Column(
@@ -103,15 +113,29 @@ class _FeedCardState extends State<FeedCard> {
                     ).copyWith(right: 0),
                     child: Row(
                       children: <Widget>[
-                        Card(
-                          shape: const CircleBorder(),
-                          elevation: 5,
-                          child: CircleAvatar(
-                            radius: 16,
-                            backgroundImage: NetworkImage(
-                                widget.post.author.image.toString()),
-                            onBackgroundImageError: (exception, stackTrace) =>
-                                const Icon(Icons.person_outline),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ProfileWidget(
+                                      isMe: widget.post.author.id ==
+                                              userProvider.user.id
+                                          ? true
+                                          : false,
+                                      username: widget.post.author.username),
+                                ));
+                          },
+                          child: Card(
+                            shape: const CircleBorder(),
+                            elevation: 5,
+                            child: CircleAvatar(
+                              radius: 16,
+                              backgroundImage: NetworkImage(
+                                  widget.post.author.image.toString()),
+                              onBackgroundImageError: (exception, stackTrace) =>
+                                  const Icon(Icons.person_outline),
+                            ),
                           ),
                         ),
                         Expanded(
@@ -125,9 +149,7 @@ class _FeedCardState extends State<FeedCard> {
                               children: <Widget>[
                                 Text(
                                   widget.post.author.name.toString(),
-                                  
-                                  style:  TextStyle(
-                                    color: isDark?Colors.white:Colors.black,
+                                  style: const TextStyle(
                                     fontSize: 15,
                                     fontFamily: 'InstagramSans',
                                     fontWeight: FontWeight.bold,
@@ -372,25 +394,48 @@ class _FeedCardState extends State<FeedCard> {
                     padding: const EdgeInsets.all(8),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        widget.post.caption.toString(),
-                        style: TextStyle(
-                          fontFamily: 'InstagramSans',
-                          color: isDark!
-                              ? Colors.grey.shade400
-                              : Colors.grey.shade600,
-                          fontSize: 15,
-                        ),
-                        maxLines: 4,
-                      ),
+                      child: Text.rich(TextSpan(
+                          text: null,
+                          children: captionElements.map((w) {
+                            return w.startsWith('@') && w.length > 1
+                                ? TextSpan(
+                                    text: ' ${w.replaceAll(':', '')}',
+                                    style: const TextStyle(color: Colors.blue),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        dev.log(w.replaceAll('[@:]', ''),
+                                            name: '@ names');
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ProfileWidget(
+                                                isMe: w.replaceAll(
+                                                            RegExp('@:'), '') ==
+                                                        userProvider
+                                                            .user.username
+                                                    ? true
+                                                    : false,
+                                                username: w.replaceAll(
+                                                    RegExp('[@:]'), '')),
+                                          ),
+                                        );
+                                      },
+                                  )
+                                : TextSpan(
+                                    text: ' $w',
+                                    style: TextStyle(
+                                        color: isDark
+                                            ? Colors.white
+                                            : Colors.black));
+                          }).toList())),
                     ),
                   ),
                   widget.isImage
                       ? Container(
                           height: MediaQuery.of(context).size.width,
-                          width: MediaQuery.of(context).size.width ,
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.only(
+                          width: MediaQuery.of(context).size.width,
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(30),
                                 bottomRight: Radius.circular((30))),
                             // border: Border(
@@ -399,26 +444,31 @@ class _FeedCardState extends State<FeedCard> {
                           child: Stack(
                             children: [
                               PinchZoom(
-                                  resetDuration : Duration(milliseconds: 100),
+                                resetDuration:
+                                    const Duration(milliseconds: 100),
                                 maxScale: 3,
                                 child: ClipRRect(
-                                  child: Image.network(widget.post.media!.url.toString(),fit: BoxFit.cover,),),
+                                  child: Image.network(
+                                    widget.post.media!.url.toString(),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
-                                // child: DecoratedBox(
-                                //   decoration: BoxDecoration(
-                                //     borderRadius: const BorderRadius.only(
-                                //         bottomLeft: Radius.circular(30),
-                                //         bottomRight: Radius.circular((30))),
-                                //     // border: Border(
-                                //     //     bottom: BorderSide(color: Colors.black.withOpacity(1))),
-                                //     image: DecorationImage(
-                                //       image: NetworkImage(
-                                //           widget.post.media!.url.toString()),
-                                //       fit: BoxFit.cover,
-                                //     ),
-                                //   ),
-                                // ),
-                              
+                              ),
+                              // child: DecoratedBox(
+                              //   decoration: BoxDecoration(
+                              //     borderRadius: const BorderRadius.only(
+                              //         bottomLeft: Radius.circular(30),
+                              //         bottomRight: Radius.circular((30))),
+                              //     // border: Border(
+                              //     //     bottom: BorderSide(color: Colors.black.withOpacity(1))),
+                              //     image: DecorationImage(
+                              //       image: NetworkImage(
+                              //           widget.post.media!.url.toString()),
+                              //       fit: BoxFit.cover,
+                              //     ),
+                              //   ),
+                              // ),
+
                               PostLikeCommentBar(
                                 post: widget.post,
                                 isImage: true,

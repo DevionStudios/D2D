@@ -196,7 +196,7 @@ class mintNFTState extends State<mintNFT> {
                     child: CupertinoSwitch(
                       activeColor: Colors.grey.shade300,
                       thumbColor:
-                          isDark! ? Colors.grey.shade900 : Colors.grey.shade400,
+                          isDark ? Colors.grey.shade900 : Colors.grey.shade400,
                       value: widget.haveNFT,
                       onChanged: (bool value) {
                         setState(() {

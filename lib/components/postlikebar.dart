@@ -20,13 +20,12 @@ import 'package:foxxi/widgets/add_comment.dart';
 
 class PostLikeCommentBar extends StatefulWidget {
   final FeedPostModel post;
-    final bool isImage;
+  final bool isImage;
   final bool isVideo;
-  
 
   const PostLikeCommentBar({
     Key? key,
-        required this.isImage,
+    required this.isImage,
     required this.isVideo,
     required this.post,
   }) : super(key: key);
@@ -36,7 +35,6 @@ class PostLikeCommentBar extends StatefulWidget {
 }
 
 class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
-
   final PostService postService = PostService();
 
   final NotificationService notificationService = NotificationService();
@@ -44,7 +42,6 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
   int? likes;
   @override
   void initState() {
-
     super.initState();
     isPostLikedByUser();
     setLikes();
@@ -83,7 +80,6 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
 
   @override
   Widget build(BuildContext context) {
-    
     final isDark = Provider.of<ThemeProvider>(context, listen: true).isDarkMode;
     final userProvider = Provider.of<UserProvider>(context, listen: true).user;
     return Column(
@@ -134,10 +130,14 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
                         size: 30,
                         color: isLiked
                             ? Colors.red
-                            :  isDark!? Color.fromARGB(255, 243, 167, 255)
-                                .withOpacity(0.7):widget.isImage?Color.fromARGB(255, 240, 141, 255).withOpacity(0.8):Color.fromARGB(255, 229, 110, 248).withOpacity(0.6),
-                                
-                                
+                            : isDark
+                                ? const Color.fromARGB(255, 243, 167, 255)
+                                    .withOpacity(0.7)
+                                : widget.isImage
+                                    ? const Color.fromARGB(255, 240, 141, 255)
+                                        .withOpacity(0.8)
+                                    : const Color.fromARGB(255, 229, 110, 248)
+                                        .withOpacity(0.6),
                       ),
                     ),
                     onPressed: () {
@@ -184,8 +184,14 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
                           ? const Text('0')
                           : Text(widget.post.comments!.length.toString()),
                       child: Icon(Icons.comment_rounded,
-    color:  isDark!? Color.fromARGB(255, 243, 167, 255)
-                                .withOpacity(0.7):widget.isImage?Color.fromARGB(255, 240, 141, 255).withOpacity(0.8):Color.fromARGB(255, 229, 110, 248).withOpacity(0.6),
+                          color: isDark
+                              ? const Color.fromARGB(255, 243, 167, 255)
+                                  .withOpacity(0.7)
+                              : widget.isImage
+                                  ? const Color.fromARGB(255, 240, 141, 255)
+                                      .withOpacity(0.8)
+                                  : const Color.fromARGB(255, 229, 110, 248)
+                                      .withOpacity(0.6),
                           size: 30),
                     ),
                     onPressed: () {
@@ -287,8 +293,14 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
                       ? IconButton(
                           icon: Icon(
                             Icons.send_rounded,
-                            color: isDark!? Color.fromARGB(255, 243, 167, 255)
-                                .withOpacity(0.7):widget.isImage?Color.fromARGB(255, 240, 141, 255).withOpacity(0.8):Color.fromARGB(255, 229, 110, 248).withOpacity(0.6),
+                            color: isDark
+                                ? const Color.fromARGB(255, 243, 167, 255)
+                                    .withOpacity(0.7)
+                                : widget.isImage
+                                    ? const Color.fromARGB(255, 240, 141, 255)
+                                        .withOpacity(0.8)
+                                    : const Color.fromARGB(255, 229, 110, 248)
+                                        .withOpacity(0.6),
                             size: 30,
                           ),
                           onPressed: () {
