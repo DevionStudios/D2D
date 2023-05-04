@@ -27,7 +27,7 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-    ThemeMode? theme ;
+    late ThemeMode theme ;
 
 
   @override
@@ -53,6 +53,7 @@ class _MyAppState extends State<MyApp> {
         .then((value) {
           print('XYY');
       setState(() {
+        print(value.toString());
         widget.theme = value;
         setFirstTheme();
 
@@ -68,7 +69,7 @@ class _MyAppState extends State<MyApp> {
       onGenerateRoute: generateRoute,
       themeMode: widget.theme,
 
-      home: const SplashScreen(),
+      home: SplashScreen(theme:widget.theme),
     );
   }
 }

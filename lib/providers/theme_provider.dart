@@ -7,6 +7,7 @@ class ThemeProvider extends ChangeNotifier {
   
   ThemeMode? themeMode ;
   bool get isDarkMode {
+    // print(themeMode==ThemeMode.dark);
     return themeMode == ThemeMode.dark?true:false;
 
   }

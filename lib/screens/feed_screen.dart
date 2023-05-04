@@ -58,9 +58,11 @@ class _FeedScreenState extends State<FeedScreen> {
         _post = postService.getAllPost(context: context);
       });
       notificationService.getNotification(context: context).then((value) {
+        if(mounted){
         setState(() {
           notificationList = value;
         });
+        }
         // dev.log('Noitfication Data ==---');
         // dev.log(notificationList.toString());
       });
