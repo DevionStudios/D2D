@@ -44,16 +44,14 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
   void setFirstTheme(){
-        Provider.of<ThemeProvider>(context, listen: false).setThemeMode = widget.theme!;
+        Provider.of<ThemeProvider>(context, listen: false).setThemeMode = widget.theme;
   }
   void readThemeMode() {
     
     Provider.of<ThemeProvider>(context, listen: false)
         .readSavedThemeInstance()
         .then((value) {
-          print('XYY');
       setState(() {
-        print(value.toString());
         widget.theme = value;
         setFirstTheme();
 
