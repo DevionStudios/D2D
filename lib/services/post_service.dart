@@ -48,7 +48,40 @@ class PostService {
   }
 
   Future<List<Comment>> getCommentByPostId(
-      {required BuildContext context, required String id}) async {
+      {required BuildContext context,
+      required String id,
+      String? parentId,
+      bool? isReply}) async {
+    List<Comment> comments = [];
+    try {
+      http.Response res = await http.get(
+        Uri.parse('$url/api/post/$id'),
+      );
+
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () {
+            final data = jsonDecode(res.body)['comments'];
+            dev.log(jsonEncode(data), name: 'Comments List');
+
+            for (var comment in data) {
+              comments.add(Comment.fromJson(jsonEncode(comment)));
+            }
+          });
+    } catch (e) {
+      dev.log(e.toString(), name: 'Comment By Id Error');
+      showSnackBar(context, e.toString());
+    }
+    return comments;
+  }
+
+  Future<List<Comment>> getReplyComments(
+      {required BuildContext context,
+      required String id,
+      String? parentId,
+      bool? isReply}) async {
     List<Comment> comments = [];
     try {
       http.Response res = await http.get(

@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:foxxi/components/postlikebar.dart';
+import 'package:foxxi/providers/comment_provider.dart';
 import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/screens/profile_screen.dart';
 import 'package:foxxi/services/comment_service.dart';
@@ -74,11 +75,13 @@ class _PostCardState extends State<PostCard> {
   void initializeVideo() {
     _controller = VideoPlayerController.network(post!.media!.url.toString())
       ..initialize().then((_) {
-        _controller!.setLooping(true);
-
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
       });
+
+    if (_controller!.value.isInitialized) {
+      _controller!.setLooping(true);
+      setState(() {});
+    }
   }
 
   @override
@@ -92,8 +95,14 @@ class _PostCardState extends State<PostCard> {
 
   void getComments() async {
     if (post != null) {
-      _comments = postService.getCommentByPostId(
-          context: context, id: post!.id.toString());
+      _comments = postService
+          .getCommentByPostId(context: context, id: post!.id.toString())
+          .then((value) {
+        Provider.of<CommentProvider>(context, listen: false)
+            .setCommentList(value);
+
+        return value;
+      });
     }
   }
 
@@ -568,12 +577,16 @@ class _PostCardState extends State<PostCard> {
                                     child: ListView.builder(
                                       physics: const ScrollPhysics(),
                                       shrinkWrap: true,
+                                      reverse: true,
                                       itemCount: snapshot.data!.length,
                                       itemBuilder: ((context, index) {
-                                        return CommentCard(
-                                          post: post!,
-                                          comment: snapshot.data![index],
-                                        );
+                                        if (snapshot.data![index].isReply ==
+                                            false) {
+                                          return CommentCard(
+                                            post: post!,
+                                            comment: snapshot.data![index],
+                                          );
+                                        }
                                       }),
                                     ),
                                   ),

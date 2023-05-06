@@ -13,6 +13,8 @@ import 'package:foxxi/utils.dart';
 
 class AddCommentWidget extends StatelessWidget {
   bool isUpdateComment;
+  bool isAddComment;
+  bool isAddCommentReply;
   bool isPostUpdate;
   final String? postUsername;
   final List<String>? hashtags;
@@ -22,6 +24,8 @@ class AddCommentWidget extends StatelessWidget {
   AddCommentWidget({
     Key? key,
     this.isUpdateComment = false,
+    this.isAddComment = false,
+    this.isAddCommentReply = false,
     this.isPostUpdate = false,
     this.postUsername,
     this.hashtags,
@@ -82,8 +86,7 @@ class AddCommentWidget extends StatelessWidget {
                         ),
                         onPressed: () async {
                           if (_commentTextController.text.isNotEmpty) {
-                            if (isUpdateComment == false &&
-                                isPostUpdate == false) {
+                            if (isAddComment == true) {
                               dev.log('Add Comment Started');
                               int statusCode = await commentService.addComment(
                                   context: context,
@@ -104,6 +107,17 @@ class AddCommentWidget extends StatelessWidget {
                                             postId: postId));
                                   }
                                 }
+                              }
+                            }
+                            if (isAddCommentReply == true) {
+                              dev.log('Add ReplyComment Started');
+                              if (context.mounted) {
+                                commentService.addCommentReply(
+                                    isReply: true,
+                                    parentId: commentId!,
+                                    context: context,
+                                    postId: postId!,
+                                    caption: _commentTextController.text);
                               }
                             }
                             if (isUpdateComment == true &&

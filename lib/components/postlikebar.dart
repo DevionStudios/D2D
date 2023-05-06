@@ -279,6 +279,7 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
                                 ],
                               ),
                               AddCommentWidget(
+                                isAddComment: true,
                                 postUsername: widget.post.author.username,
                                 postId: widget.post.id,
                                 postUserId: widget.post.author.id,

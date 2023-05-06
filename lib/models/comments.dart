@@ -8,11 +8,15 @@ class Comment {
   final String caption;
   final User author;
   final String postId;
+  final bool isReply;
+  final String parentId;
   Comment({
     required this.id,
     required this.caption,
     required this.author,
     required this.postId,
+    required this.isReply,
+    required this.parentId,
   });
 
   Map<String, dynamic> toMap() {
@@ -21,6 +25,8 @@ class Comment {
       'caption': caption,
       'author': author.toMap(),
       'postId': postId,
+      'isReply': isReply,
+      'parentId': parentId,
     };
   }
 
@@ -30,6 +36,8 @@ class Comment {
       caption: map['caption'] ?? '',
       author: User.fromMap(map['author']),
       postId: map['postId'] ?? '',
+      isReply: map['isReply'] ?? false,
+      parentId: map['parentId'] ?? '',
     );
   }
 

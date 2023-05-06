@@ -43,6 +43,49 @@ class CommentService {
     return statusCode;
   }
 
+  Future<int> addCommentReply(
+      {required BuildContext context,
+      required String postId,
+      required String caption,
+      required bool isReply,
+      required String parentId}) async {
+    int statusCode = 0;
+    try {
+      dev.log('comment reply service called');
+      var jwt = await _storage.read(key: 'cookies');
+      final foxxijwt = 'foxxi_jwt=$jwt;';
+      dev.log(foxxijwt, name: "Reading JWT");
+      http.Response res = await http.post(Uri.parse('$url/api/comments/reply'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'cookies': foxxijwt
+          },
+          body: jsonEncode({
+            'postId': postId,
+            'caption': caption,
+            'parentId': parentId,
+            'isReply': isReply
+          }));
+
+      dev.log(res.body.toString());
+
+      if (context.mounted) {
+        httpErrorHandle(
+            context: context,
+            response: res,
+            onSuccess: () {
+              statusCode = res.statusCode;
+              dev.log('comment reply added');
+              showSnackBar(context, "Reply Added");
+            });
+      }
+    } catch (e) {
+      dev.log(e.toString(),
+          name: 'CommentService : Create Comment Reply Error');
+    }
+    return statusCode;
+  }
+
   Future<int> deleteComment(
       {required BuildContext context, required String id}) async {
     int statusCode = 0;

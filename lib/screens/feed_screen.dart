@@ -33,6 +33,7 @@ class _FeedScreenState extends State<FeedScreen> {
   // StoryService storyService = StoryService();
   Future<List<FeedPostModel>>? _post;
   List<dynamic> notificationList = [];
+  dynamic notificationLength;
 
   @override
   void initState() {
@@ -58,10 +59,10 @@ class _FeedScreenState extends State<FeedScreen> {
         _post = postService.getAllPost(context: context);
       });
       notificationService.getNotification(context: context).then((value) {
-        if(mounted){
-        setState(() {
-          notificationList = value;
-        });
+        if (mounted) {
+          setState(() {
+            notificationList = value;
+          });
         }
         // dev.log('Noitfication Data ==---');
         // dev.log(notificationList.toString());
@@ -74,6 +75,7 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+    notificationLength = notificationList.length;
 
     return FutureBuilder<List<FeedPostModel>>(
         future: _post,
@@ -153,8 +155,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                         const badges.BadgeAnimation.fade(),
                                     badgeContent: notificationList.isEmpty
                                         ? null
-                                        : Text(
-                                            notificationList.length.toString()),
+                                        : Text(notificationLength.toString()),
                                     child: Icon(
                                       Icons.notifications_none,
                                       color: isDark
@@ -164,7 +165,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                     ),
                                   ),
                                   onPressed: () {
-                                    Navigator.push(
+                                    notificationLength = Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
@@ -228,7 +229,7 @@ class _FeedScreenState extends State<FeedScreen> {
             return Scaffold(
                 backgroundColor:
                     isDark ? Colors.grey.shade900 : Colors.grey.shade100,
-                body: Center(child: CustomLoader()));
+                body: const Center(child: CustomLoader()));
           }
         });
   }

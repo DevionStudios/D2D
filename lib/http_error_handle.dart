@@ -27,7 +27,9 @@ void httpErrorHandle({
       break;
     case 500:
       dev.log(response.body.toString(), name: "Response Status Code");
-      showSnackBar(context, response.body);
+      break; 
+    case 501:
+      dev.log(response.body.toString(), name: "Response Status Code");
 
       break;
     default:
