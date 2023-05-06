@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/theme_provider.dart';
 
 class TextFieldWidget2 extends StatelessWidget {
   final TextEditingController controller;
@@ -13,6 +16,8 @@ class TextFieldWidget2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -20,7 +25,10 @@ class TextFieldWidget2 extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             headingText,
-            style: const TextStyle(fontFamily: 'InstagramSans', fontSize: 15),
+            style: TextStyle(
+                fontFamily: 'InstagramSans',
+                fontSize: 15,
+                color: isDark ? Colors.grey.shade100 : Colors.black),
           ),
         ),
         Padding(
@@ -28,7 +36,8 @@ class TextFieldWidget2 extends StatelessWidget {
           child: TextField(
             controller: controller,
             decoration: InputDecoration(
-              border: const OutlineInputBorder(),
+              // color:isDark?Colors.white:Colors.black,
+              border: OutlineInputBorder(borderSide: BorderSide()),
               hintText: hintText,
             ),
           ),

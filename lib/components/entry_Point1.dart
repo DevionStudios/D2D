@@ -134,6 +134,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     padding: const EdgeInsets.all(0),
                     onPressed: () {
                       showMaterialModalBottomSheet(
+                  backgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
+
                           shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(25))),
@@ -142,15 +144,16 @@ class _BottomNavBarState extends State<BottomNavBar> {
                                   child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const Padding(
+                                   Padding(
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 8.0, vertical: 20),
                                     child: Text(
                                       'Upload Post',
                                       style: TextStyle(
                                           fontFamily: 'InstagramSans',
-                                          fontSize: 20),
-                                    ),
+                                          fontSize: 20,                color: isDark ? Colors.grey.shade100 : Colors.black),
+),
+
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -196,12 +199,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
                                                   size: 35,
                                                 ),
                                               ),
-                                              const Text(
+                                               Text(
                                                 'Image',
                                                 style: TextStyle(
                                                     fontFamily:
-                                                        'InstagramSans'),
-                                              ),
+                                                        'InstagramSans',                color: isDark ? Colors.grey.shade100 : Colors.black),
+),
+                                              
                                             ],
                                           ),
                                         ),
@@ -243,12 +247,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
                                                   size: 35,
                                                 ),
                                               ),
-                                              const Text(
+                                               Text(
                                                 'Video',
                                                 style: TextStyle(
                                                     fontFamily:
-                                                        'InstagramSans'),
-                                              ),
+                                                        'InstagramSans',                color: isDark ? Colors.grey.shade100 : Colors.black),
+),
+                                              
                                             ],
                                           ),
                                         ),

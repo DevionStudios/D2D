@@ -31,8 +31,7 @@ class _SideMenuState extends State<SideMenu> {
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
     final userProvider = Provider.of<UserProvider>(context, listen: true).user;
 
-    return Scaffold(
-      body: Container(
+    return Container(
         width: 288,
         height: double.infinity,
         // color: Colors.purpleAccent.shade100.withOpacity(0.65),
@@ -193,7 +192,7 @@ class _SideMenuState extends State<SideMenu> {
             ],
           ),
         ),
-      ),
+      
     );
   }
 }

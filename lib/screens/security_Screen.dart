@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:foxxi/services/user_service.dart';
 import 'package:foxxi/utils.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/theme_provider.dart';
 
 class SecuritySettingScreen extends StatefulWidget {
   const SecuritySettingScreen({super.key});
@@ -29,7 +32,11 @@ class _SecuritySettingScreenState extends State<SecuritySettingScreen> {
 
   @override
   Widget build(BuildContext context) {
+        final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return Scaffold(
+        backgroundColor: isDark?Colors.grey.shade900:Colors.white,
+      
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
@@ -55,30 +62,32 @@ class _SecuritySettingScreenState extends State<SecuritySettingScreen> {
                       },
                     ),
                   )),
-              const Padding(
+               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
                   'Secuity Settings',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30,color: isDark?Colors.grey.shade100:Colors.black),
                 ),
               ),
-              const Padding(
+               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
                   'Change your password',
                   style: TextStyle(
                     fontFamily: 'InstagramSans',
                     fontSize: 18,
+                    color: isDark?Colors.grey.shade100:Colors.black
                   ),
                 ),
               ),
-              const Padding(
+               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
                   'Current Password',
                   style: TextStyle(
                     fontFamily: 'InstagramSans',
                     fontSize: 15,
+                    color: isDark?Colors.grey.shade100:Colors.black
                   ),
                 ),
               ),
@@ -91,13 +100,14 @@ class _SecuritySettingScreenState extends State<SecuritySettingScreen> {
                   ),
                 ),
               ),
-              const Padding(
+               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
                   'New Password',
                   style: TextStyle(
                     fontFamily: 'InstagramSans',
                     fontSize: 15,
+                    color: isDark?Colors.grey.shade100:Colors.black
                   ),
                 ),
               ),
@@ -110,13 +120,14 @@ class _SecuritySettingScreenState extends State<SecuritySettingScreen> {
                   ),
                 ),
               ),
-              const Padding(
+               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
                   'Confirm your password',
                   style: TextStyle(
                     fontFamily: 'InstagramSans',
                     fontSize: 15,
+                    color: isDark?Colors.grey.shade100:Colors.black
                   ),
                 ),
               ),

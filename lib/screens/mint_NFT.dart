@@ -60,6 +60,8 @@ class mintNFTState extends State<mintNFT> {
     final walletAddressProvider =
         Provider.of<WalletAddressProvider>(context, listen: true);
     return Scaffold(
+            backgroundColor: isDark?Colors.grey.shade900:Colors.white,
+
       body: Padding(
         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         child: SingleChildScrollView(
@@ -85,20 +87,21 @@ class mintNFTState extends State<mintNFT> {
                       },
                     ),
                   )),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
                   "Options",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30,color: isDark?Colors.grey.shade100:Colors.black),
                 ),
               ),
-              const Padding(
+               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
                   'Adjust these settings according to your needs',
                   style: TextStyle(
                     fontFamily: 'InstagramSans',
                     fontSize: 15,
+                    color: isDark?Colors.grey.shade100:Colors.black
                   ),
                 ),
               ),
@@ -107,7 +110,7 @@ class mintNFTState extends State<mintNFT> {
                 children: [
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children:  [
                         Padding(
                           padding: EdgeInsets.only(left: 8),
                           child: Text(
@@ -115,6 +118,7 @@ class mintNFTState extends State<mintNFT> {
                             style: TextStyle(
                               fontFamily: 'InstagramSans',
                               fontSize: 15,
+                              color: isDark?Colors.grey.shade100:Colors.black
                             ),
                           ),
                         ),
@@ -125,6 +129,7 @@ class mintNFTState extends State<mintNFT> {
                             style: TextStyle(
                               fontFamily: 'InstagramSans',
                               fontSize: 15,
+                              color: isDark?Colors.grey.shade100:Colors.black
                             ),
                           ),
                         ),
@@ -162,7 +167,7 @@ class mintNFTState extends State<mintNFT> {
                                 style: TextButton.styleFrom(
                                   foregroundColor: Colors.white,
                                   padding: const EdgeInsets.all(16.0),
-                                  textStyle: const TextStyle(fontSize: 20),
+                                  textStyle:  TextStyle(fontSize: 20,color: isDark?Colors.grey.shade100:Colors.black),
                                 ),
                                 onPressed: () {
                                   Navigator.pushNamed(
@@ -181,13 +186,14 @@ class mintNFTState extends State<mintNFT> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Padding(
+                   Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
                       "have NFT?",
                       style: TextStyle(
                         fontFamily: 'InstagramSans',
                         fontSize: 15,
+                        color: isDark?Colors.grey.shade100:Colors.black
                       ),
                     ),
                   ),
@@ -208,30 +214,32 @@ class mintNFTState extends State<mintNFT> {
                 ],
               ),
               !widget.haveNFT
-                  ? const Padding(
+                  ?  Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
                         'Upload a picture to mint a NFT and set it as your profile image',
                         style: TextStyle(
                           fontFamily: 'InstagramSans',
                           fontSize: 15,
+                          color: isDark?Colors.grey.shade100:Colors.black
                         ),
                       ),
                     )
-                  : const Padding(
+                  :  Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
                         'Set your NFT as profile image here',
                         style: TextStyle(
                           fontFamily: 'InstagramSans',
                           fontSize: 15,
+                          color: isDark?Colors.grey.shade100:Colors.black
                         ),
                       ),
                     ),
               !widget.haveNFT
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text(
@@ -239,6 +247,7 @@ class mintNFTState extends State<mintNFT> {
                             style: TextStyle(
                               fontFamily: 'InstagramSans',
                               fontSize: 15,
+                              color: isDark?Colors.grey.shade100:Colors.black
                             ),
                           ),
                         ),
@@ -246,7 +255,7 @@ class mintNFTState extends State<mintNFT> {
                     )
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children:  [
                         Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text(
@@ -254,6 +263,7 @@ class mintNFTState extends State<mintNFT> {
                             style: TextStyle(
                               fontFamily: 'InstagramSans',
                               fontSize: 15,
+                              color: isDark?Colors.grey.shade100:Colors.black
                             ),
                           ),
                         ),
@@ -342,7 +352,7 @@ class mintNFTState extends State<mintNFT> {
                             style: TextButton.styleFrom(
                               foregroundColor: Colors.white,
                               padding: const EdgeInsets.all(16.0),
-                              textStyle: const TextStyle(fontSize: 20),
+                              textStyle:  TextStyle(fontSize: 20,color: isDark?Colors.grey.shade100:Colors.black),
                             ),
                             onPressed: () {
                               readPrivateKey();

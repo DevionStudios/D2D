@@ -55,6 +55,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     final userProvider = Provider.of<UserProvider>(context, listen: true).user;
 
     return Scaffold(
+      backgroundColor: isDark?Colors.grey.shade900:Colors.white,
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.only(
@@ -82,20 +83,21 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       },
                     ),
                   )),
-              const Padding(
+               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
                   "Profile",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30,color: isDark?Colors.grey.shade100:Colors.black),
                 ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
                   "This information will be displayed publicly so be careful what you share",
                   style: TextStyle(
                     fontFamily: 'InstagramSans',
                     fontSize: 15,
+                    color:isDark?Colors.grey.shade100:Colors.black
                   ),
                 ),
               ),
@@ -104,10 +106,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 children: [
                   Column(
                     children: [
-                      const Text(
+                       Text(
                         'Image',
                         style: TextStyle(
-                            fontFamily: 'InstagramSans', fontSize: 15),
+                            fontFamily: 'InstagramSans', fontSize: 15,       color:isDark?Colors.grey.shade100:Colors.black),
                       ),
                       GestureDetector(
                         onTap: () async {
@@ -145,10 +147,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   ),
                   Column(
                     children: [
-                      const Text(
+                       Text(
                         'Cover Image',
                         style: TextStyle(
-                            fontFamily: 'InstagramSans', fontSize: 15),
+                            fontFamily: 'InstagramSans', fontSize: 15,       color:isDark?Colors.grey.shade100:Colors.black),
                       ),
                       GestureDetector(
                         onTap: () async {
@@ -188,7 +190,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               ),
               TextFieldWidget2(
                 controller: _nameTextController,
-                headingText: 'FullName',
+                headingText: 'Full Name',
                 hintText: userProvider.name,
               ),
               TextFieldWidget2(

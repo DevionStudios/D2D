@@ -33,7 +33,7 @@ class _SearchScreenState extends State<SearchScreen> {
     final isDark = Provider.of<ThemeProvider>(context, listen: true).isDarkMode;
     final userProvider = Provider.of<UserProvider>(context).user;
     return Scaffold(
-      backgroundColor: isDark ? Colors.grey.shade900 : Colors.grey.shade100,
+      backgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
       body: SafeArea(
         child: Column(
           children: [
@@ -138,9 +138,10 @@ class _SearchScreenState extends State<SearchScreen> {
                                             snapshot.data![index].image)),
                                     title: Text(
                                       snapshot.data![index].name,
+                                      style: TextStyle(color:isDark?Colors.white:Colors.grey.shade900),
                                     ),
                                     subtitle: Text(
-                                      '@${snapshot.data![index].username}',
+                                      '@${snapshot.data![index].username}',style: TextStyle(color: isDark?Colors.grey.shade500:Colors.grey.shade400),
                                     ),
                                   ),
                                 ),

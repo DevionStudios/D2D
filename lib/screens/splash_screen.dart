@@ -58,7 +58,6 @@ class _MyRiveAnimationState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
 
     return Scaffold(
       body: Container(

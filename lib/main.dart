@@ -18,8 +18,7 @@ void main() {
       ChangeNotifierProvider(create: ((context) => UserProvider())),
       ChangeNotifierProvider(create: ((context) => PostProvider())),
       ChangeNotifierProvider(create: ((context) => ThemeProvider( ))),
-      ChangeNotifierProvider(
-          create: (context) => ScreenNavigationArgumentProvider()),
+      ChangeNotifierProvider(create: (context) => ScreenNavigationArgumentProvider()),
       ChangeNotifierProvider(create: ((context) => StoryProvider())),
     ],
     child: MyApp(),
@@ -61,8 +60,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      darkTheme: myThemes.darkTheme,
-      theme: myThemes.lightTheme,
+      darkTheme: MyThemes.darkTheme,
+      theme: MyThemes.lightTheme,
     
       onGenerateRoute: generateRoute,
       themeMode: widget.theme,

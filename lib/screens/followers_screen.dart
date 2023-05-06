@@ -12,6 +12,8 @@ import 'package:provider/provider.dart';
 import 'package:foxxi/models/user.dart';
 import 'package:foxxi/providers/user_provider.dart';
 
+import '../providers/theme_provider.dart';
+
 class FollowerScreen extends StatefulWidget {
   final String username;
   final bool isMe;
@@ -89,6 +91,8 @@ class _FollowerScreenState extends State<FollowerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
     final userProvider = Provider.of<UserProvider>(context, listen: true).user;
 
     if (user?.followers != null) {
@@ -114,8 +118,8 @@ class _FollowerScreenState extends State<FollowerScreen> {
                   leading: CircleAvatar(
                       backgroundImage:
                           NetworkImage(user?.followers![index]['image'])),
-                  title: Text(user?.followers![index]['name']),
-                  subtitle: Text('@${user?.followers![index]['username']}'),
+                  title: Text(user?.followers![index]['name'],style: TextStyle(color: isDark?Colors.white:Colors.black),),
+                  subtitle: Text('@${user?.followers![index]['username']}',style: TextStyle(color: isDark?Colors.grey.shade400:Colors.grey.shade600),),
                 ),
               ),
               userProvider.username == user!.followers![index]['username']

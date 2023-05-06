@@ -7,7 +7,6 @@ class ThemeProvider extends ChangeNotifier {
   
   ThemeMode? themeMode ;
   bool get isDarkMode {
-    // print(themeMode==ThemeMode.dark);
     return themeMode == ThemeMode.dark?true:false;
 
   }
@@ -28,16 +27,12 @@ class ThemeProvider extends ChangeNotifier {
     } else {
       prefs.setString('THEME_DATA', 'light');
     }
-    print('XXX');
-    print(prefs.get("THEME_DATA"));
-        print('XXX');
+
   }
 
   Future<ThemeMode> readSavedThemeInstance() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    print('XXX');
-    print(prefs.get("THEME_DATA"));
-        print('XXX');
+
     if (prefs.getString("THEME_DATA") == 'dark') {
       return ThemeMode.dark;
     } else {
@@ -47,7 +42,7 @@ class ThemeProvider extends ChangeNotifier {
   }
 }
 
-class myThemes {
+class MyThemes {
   static final darkTheme = ThemeData(
       useMaterial3: true,
       scaffoldBackgroundColor: Colors.grey.shade900,

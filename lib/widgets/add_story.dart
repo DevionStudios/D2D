@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:foxxi/providers/theme_provider.dart';
 import 'package:foxxi/services/story_service.dart';
 import 'package:foxxi/utils.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
 enum Items { gallery, camera }
@@ -78,7 +80,11 @@ class _AddStoryState extends State<AddStory> {
 
   @override
   Widget build(BuildContext context) {
+            final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return Scaffold(
+                              backgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
+
       appBar: AppBar(
         elevation: 0,
       ),
@@ -87,16 +93,16 @@ class _AddStoryState extends State<AddStory> {
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
+                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
                     'Add Story',
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 20,color: isDark?Colors.grey.shade100:Colors.black),
                   ),
                 ),
-                const Padding(
+                  Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Text('Caption'),
+                  child: Text('Caption',style:TextStyle(color: isDark?Colors.grey.shade100:Colors.black)),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -109,9 +115,9 @@ class _AddStoryState extends State<AddStory> {
                     ),
                   ),
                 ),
-                const Padding(
+                 Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Text('Media'),
+                  child: Text('Media',style:TextStyle(color: isDark?Colors.grey.shade100:Colors.black)),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -227,16 +233,16 @@ class _AddStoryState extends State<AddStory> {
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
+                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
                     'Add Story',
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 20,color: isDark?Colors.grey.shade100:Colors.black),
                   ),
                 ),
-                const Padding(
+                 Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Text('Caption'),
+                  child: Text('Caption',style: TextStyle(color: isDark?Colors.grey.shade100:Colors.black),),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -249,9 +255,9 @@ class _AddStoryState extends State<AddStory> {
                     ),
                   ),
                 ),
-                const Padding(
+                 Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Text('Media'),
+                  child: Text('Media',style: TextStyle(color: isDark?Colors.grey.shade100:Colors.black),),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),

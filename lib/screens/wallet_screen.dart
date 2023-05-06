@@ -2,10 +2,13 @@ import 'dart:io';
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
 import 'package:flutter/services.dart';
 import 'package:foxxi/constants.dart';
+import 'package:foxxi/providers/theme_provider.dart';
 import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/utils.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:local_auth/local_auth.dart';
+import 'package:provider/provider.dart' as prov;
+
 
 import '../providers/wallet_address.dart';
 import 'dart:developer' as dev;
@@ -80,9 +83,12 @@ class _WalletWebState extends State<WalletWeb>
 
   @override
   Widget build(BuildContext context) {
+        final isDark = prov.Provider.of<ThemeProvider>(context).isDarkMode;
+
     final walletAddressProvider =
         prov.Provider.of<WalletAddressProvider>(context, listen: true);
     return Scaffold(
+      backgroundColor: isDark?Colors.grey.shade900:Colors.white,
       body: (walletAddressProvider.walletAddress == null)
           ? Padding(
               padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
@@ -108,23 +114,24 @@ class _WalletWebState extends State<WalletWeb>
                             },
                           ),
                         )),
-                    const Padding(
+                     Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
                         'Connect Wallet',
                         style: TextStyle(
                             fontFamily: 'InstagramSans',
                             fontSize: 30,
-                            fontWeight: FontWeight.bold),
+                            fontWeight: FontWeight.bold,color: isDark?Colors.grey.shade100:Colors.black),
                       ),
                     ),
-                    const Padding(
+                     Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
                         'Note - Use only one Google Account to Sign Up the Wallet',
                         style: TextStyle(
                           fontFamily: 'InstagramSans',
                           fontSize: 15,
+                          color: isDark?Colors.grey.shade100:Colors.black
                         ),
                       ),
                     ),
@@ -161,7 +168,8 @@ class _WalletWebState extends State<WalletWeb>
                                   style: TextButton.styleFrom(
                                     foregroundColor: Colors.white,
                                     padding: const EdgeInsets.all(16.0),
-                                    textStyle: const TextStyle(fontSize: 20),
+                                    textStyle:  TextStyle(fontSize: 20,color: isDark?Colors.grey.shade100:Colors.black),
+                                    
                                   ),
                                   onPressed: () async {
                                     final response =
@@ -217,21 +225,22 @@ class _WalletWebState extends State<WalletWeb>
                           },
                         ),
                       )),
-                  const Padding(
+                   Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
                       'Connect Wallet',
                       style: TextStyle(
                           fontFamily: 'InstagramSans',
                           fontSize: 30,
-                          fontWeight: FontWeight.bold),
+                          fontWeight: FontWeight.bold,color: isDark?Colors.grey.shade100:Colors.black),
                     ),
                   ),
-                  const Padding(
+                   Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
                       'You are about to see your Private Key\nMake sure you are Alone !!!',
                       style: TextStyle(
+                        color: isDark?Colors.grey.shade100:Colors.black,
                         fontFamily: 'InstagramSans',
                         fontSize: 15,
                       ),

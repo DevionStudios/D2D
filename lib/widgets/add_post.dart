@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:foxxi/providers/theme_provider.dart';
 
 import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/services/notification_service.dart';
@@ -87,6 +88,8 @@ class _AddPostState extends State<AddPost> {
 
   @override
   Widget build(BuildContext context) {
+        final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
     final userProvider = Provider.of<UserProvider>(context, listen: true).user;
 
     // if (userProvider.following != null) {
@@ -96,6 +99,8 @@ class _AddPostState extends State<AddPost> {
     // }
 
     return Scaffold(
+                        backgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
+
       appBar: AppBar(
         elevation: 0,
       ),
@@ -103,20 +108,22 @@ class _AddPostState extends State<AddPost> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(
               'Create Post',
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 20,color: isDark?Colors.grey.shade100:Colors.black),
+
             ),
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(8.0),
-            child: Text('Caption'),
+            child: Text('Caption',style:TextStyle(color: isDark?Colors.grey.shade100:Colors.black)),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
+              style: TextStyle(color: isDark?Colors.grey.shade100:Colors.black),
               onSubmitted: (value) {
                 setState(() {
                   words = value.split(' ');
@@ -136,9 +143,9 @@ class _AddPostState extends State<AddPost> {
               ),
             ),
           ),
-          const Padding(
+           Padding(
             padding: EdgeInsets.all(8.0),
-            child: Text('Media'),
+            child: Text('Media',style: TextStyle(color: isDark?Colors.grey.shade100:Colors.black),),
           ),
           (widget.IsImage == true)
               ? Padding(

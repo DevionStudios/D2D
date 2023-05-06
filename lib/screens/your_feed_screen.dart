@@ -6,6 +6,10 @@ import 'package:foxxi/utils.dart';
 import 'package:foxxi/widgets/feed_post_card.dart';
 import 'dart:developer' as dev;
 
+import 'package:provider/provider.dart';
+
+import '../providers/theme_provider.dart';
+
 class YourFeedScreen extends StatefulWidget {
   const YourFeedScreen({super.key});
   static const String routeName = yourFeedScreenRoute;
@@ -25,7 +29,11 @@ class _FoxxiTrendScreenState extends State<YourFeedScreen> {
 
   @override
   Widget build(BuildContext context) {
+        final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return Scaffold(
+                  backgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
+
       appBar: AppBar(title: const Text('Your Feed')),
       body: Column(
         children: [

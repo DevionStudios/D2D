@@ -158,7 +158,8 @@ class _FeedCardState extends State<FeedCard> {
                               children: <Widget>[
                                 Text(
                                   widget.post.author.name.toString(),
-                                  style: const TextStyle(
+                                  style:  TextStyle(
+                                    color: isDark?Colors.white:Colors.grey.shade900,
                                     fontSize: 15,
                                     fontFamily: 'InstagramSans',
                                     fontWeight: FontWeight.bold,
@@ -166,7 +167,9 @@ class _FeedCardState extends State<FeedCard> {
                                 ),
                                 Text(
                                   '@${widget.post.author.username.toString()}',
-                                  style: const TextStyle(color: Colors.grey),
+                                  style: TextStyle(color: isDark
+                                ? Colors.grey.shade400
+                                : Colors.grey.shade600,),
                                 ),
                               ],
                             ),

@@ -122,7 +122,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
 
     return Scaffold(
-        backgroundColor: isDark ? Colors.grey.shade900 : Colors.grey.shade100,
+        backgroundColor: isDark ? Colors.grey.shade700 : Colors.grey.shade100,
         body: SafeArea(
           child: Column(
             children: [

@@ -100,6 +100,8 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                               child: GestureDetector(
                                 onTap: (() {
                                   showMaterialModalBottomSheet(
+                                                      backgroundColor:isDark ? Colors.grey.shade900 : Colors.grey.shade100,
+
                                       elevation: 2,
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.vertical(
@@ -186,11 +188,12 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                                                               size: 35,
                                                             ),
                                                           ),
-                                                          const Text(
+                                                           Text(
                                                             'Image',
                                                             style: TextStyle(
                                                                 fontFamily:
-                                                                    'InstagramSans'),
+                                                                    'InstagramSans',                    color: isDark?Colors.grey.shade100:Colors.black
+),
                                                           ),
                                                         ],
                                                       ),
@@ -247,11 +250,12 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                                                               size: 35,
                                                             ),
                                                           ),
-                                                          const Text(
+                                                          Text(
                                                             'Video',
                                                             style: TextStyle(
                                                                 fontFamily:
-                                                                    'InstagramSans'),
+                                                                    'InstagramSans',                    color: isDark?Colors.grey.shade100:Colors.black
+),
                                                           ),
                                                         ],
                                                       ),

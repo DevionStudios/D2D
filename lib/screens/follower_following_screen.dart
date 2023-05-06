@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:foxxi/screens/followers_screen.dart';
 import 'package:foxxi/screens/following_screen.dart';
 import 'package:foxxi/services/user_service.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/theme_provider.dart';
 
 class FollowerFollowingScreen extends StatefulWidget {
   final String username;
@@ -22,8 +25,12 @@ class _FollowerFollowingScreenState extends State<FollowerFollowingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return Scaffold(
+      backgroundColor: isDark?Colors.grey.shade900:Colors.white,
         appBar: AppBar(
+          foregroundColor: isDark?Colors.grey.shade500:Colors.white,
           elevation: 0,
         ),
         body: Column(
@@ -34,7 +41,7 @@ class _FollowerFollowingScreenState extends State<FollowerFollowingScreen> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const [Text('Followers'), Text('Following')],
+              children:  [Text('Followers',style: TextStyle(color: isDark?Colors.white:Colors.grey.shade900),), Text('Following',style: TextStyle(color: isDark?Colors.white:Colors.grey.shade900),)],
             ),
             Expanded(
               child: PageView(

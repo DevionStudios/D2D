@@ -62,10 +62,10 @@ class Chat extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(bottom:15.0,right: 10,top: 5),
               child: ListTile(
                 trailing: CircleAvatar(
-                  radius: 30,
+                  radius: 40,
                   backgroundImage: NetworkImage(userProvider.image.toString()),
                 ),
                 leading: SingleChildScrollView(
