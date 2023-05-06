@@ -57,4 +57,4 @@ router.post(
     }
 );
 
-export { router as createCommentRouter };
+export { router as createReplyRouter };

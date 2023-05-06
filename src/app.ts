@@ -67,6 +67,7 @@ import { createNotificationforSingleUserRouter } from "./routes/admin/notify-use
 import { createOfficialPostRouter } from "./routes/admin/create-post";
 import { fetchUserByIdRouter } from "./routes/auth/fetch-user-by-id";
 import { getAllStoriesRouter } from "./routes/story/get-all-stories";
+import { createReplyRouter } from "./routes/comments/create-reply";
 
 const app = express();
 app.use(
@@ -150,6 +151,7 @@ app.use(getFollowingUserStoriesRouter);
 app.use(createNotificationForEveryoneRouter);
 app.use(createNotificationforSingleUserRouter);
 app.use(createOfficialPostRouter);
+app.use(createReplyRouter);
 
 app.all("*", async (req: any, res: any) => {
   throw new Error("Route not found!!");
