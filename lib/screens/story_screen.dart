@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:foxxi/models/story.dart';
+import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:developer' as dev;
 import 'package:flutter_carousel_slider/carousel_slider.dart';
 
 import '../components/pinch_to_zoom.dart';
+import '../providers/theme_provider.dart';
 
 class StoryScreen extends StatefulWidget {
   List<Story> stories;
@@ -52,7 +54,10 @@ class _StoryScreenState extends State<StoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+        final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return Scaffold(
+      backgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
         body: SingleChildScrollView(child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
@@ -121,7 +126,8 @@ class _StoryScreenState extends State<StoryScreen> {
                                   Text(
                                     widget.stories[index].author.name
                                         .toString(),
-                                    style: const TextStyle(
+                                    style:  TextStyle(
+                                      color:isDark ? Colors.grey.shade100 : Colors.black,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),

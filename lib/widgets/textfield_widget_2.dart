@@ -37,7 +37,7 @@ class TextFieldWidget2 extends StatelessWidget {
             controller: controller,
             decoration: InputDecoration(
               // color:isDark?Colors.white:Colors.black,
-              border: OutlineInputBorder(borderSide: BorderSide()),
+              border: const OutlineInputBorder(borderSide: BorderSide()),
               hintText: hintText,
             ),
           ),

@@ -8,7 +8,7 @@ import 'package:foxxi/utils.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart' as prov;
-
+import 'package:sticky_headers/sticky_headers/widget.dart';
 
 import '../providers/wallet_address.dart';
 import 'dart:developer' as dev;
@@ -75,131 +75,153 @@ class _WalletWebState extends State<WalletWeb>
     }
 
     await Web3AuthFlutter.init(Web3AuthOptions(
-        clientId:
-            web3authApi,
+        clientId: web3authApi,
         network: Network.testnet,
         redirectUrl: redirectUrl));
   }
 
   @override
   Widget build(BuildContext context) {
-        final isDark = prov.Provider.of<ThemeProvider>(context).isDarkMode;
+    final isDark = prov.Provider.of<ThemeProvider>(context).isDarkMode;
 
     final walletAddressProvider =
         prov.Provider.of<WalletAddressProvider>(context, listen: true);
     return Scaffold(
-      backgroundColor: isDark?Colors.grey.shade900:Colors.white,
+      backgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
       body: (walletAddressProvider.walletAddress == null)
           ? Padding(
               padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              child: StickyHeader(
+                header: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                        padding: const EdgeInsets.all(16),
-                        height: 100,
-                        // width: MediaQuery.of(context).size.width * 0.1,
-                        child: CircleAvatar(
-                          backgroundColor:
-                              Colors.purpleAccent.shade100.withOpacity(0.4),
-                          child: IconButton(
-                            // iconSize: 20,
-                            icon: const Icon(
-                              Icons.arrow_back_ios_new_rounded,
-                              color: Colors.white,
-                              // size: 15,
-                            ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
+                      padding: const EdgeInsets.only(left: 16),
+                      height: 100,
+                      // width: MediaQuery.of(context).size.width * 0.1,
+                      child: CircleAvatar(
+                        backgroundColor:
+                            Colors.purpleAccent.shade100.withOpacity(0.4),
+                        child: IconButton(
+                          // iconSize: 20,
+                          icon: const Icon(
+                            Icons.arrow_back_ios_new_rounded,
+                            color: Colors.white,
+                            // size: 15,
                           ),
-                        )),
-                     Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        'Connect Wallet',
-                        style: TextStyle(
-                            fontFamily: 'InstagramSans',
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,color: isDark?Colors.grey.shade100:Colors.black),
-                      ),
-                    ),
-                     Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        'Note - Use only one Google Account to Sign Up the Wallet',
-                        style: TextStyle(
-                          fontFamily: 'InstagramSans',
-                          fontSize: 15,
-                          color: isDark?Colors.grey.shade100:Colors.black
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
                         ),
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  ],
+                ),
+                content: SingleChildScrollView(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Stack(children: <Widget>[
-                                Positioned.fill(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          Colors.lightBlue.shade100
-                                              .withOpacity(0.4),
-                                          Colors.purpleAccent.shade100
-                                              .withOpacity(0.4),
-                                        ],
-                                        stops: const [0, 1],
-                                        begin: const AlignmentDirectional(1, 0),
-                                        end: const AlignmentDirectional(-1, 0),
-                                        // color: Colors.purpleAccent.shade100.withOpacity(
-                                        // 0.3,
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'Connect Wallet',
+                            style: TextStyle(
+                                fontFamily: 'InstagramSans',
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                                color: isDark
+                                    ? Colors.grey.shade100
+                                    : Colors.black),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'Note - Use only one Google Account to Sign Up the Wallet',
+                            style: TextStyle(
+                                fontFamily: 'InstagramSans',
+                                fontSize: 15,
+                                color: isDark
+                                    ? Colors.grey.shade100
+                                    : Colors.black),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Stack(children: <Widget>[
+                                    Positioned.fill(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Colors.lightBlue.shade100
+                                                  .withOpacity(0.4),
+                                              Colors.purpleAccent.shade100
+                                                  .withOpacity(0.4),
+                                            ],
+                                            stops: const [0, 1],
+                                            begin: const AlignmentDirectional(
+                                                1, 0),
+                                            end: const AlignmentDirectional(
+                                                -1, 0),
+                                            // color: Colors.purpleAccent.shade100.withOpacity(
+                                            // 0.3,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                                TextButton(
-                                  style: TextButton.styleFrom(
-                                    foregroundColor: Colors.white,
-                                    padding: const EdgeInsets.all(16.0),
-                                    textStyle:  TextStyle(fontSize: 20,color: isDark?Colors.grey.shade100:Colors.black),
-                                    
-                                  ),
-                                  onPressed: () async {
-                                    final response =
-                                        await Web3AuthFlutter.login(LoginParams(
-                                            loginProvider: Provider.google));
+                                    TextButton(
+                                      style: TextButton.styleFrom(
+                                        foregroundColor: Colors.white,
+                                        padding: const EdgeInsets.all(16.0),
+                                        textStyle: TextStyle(
+                                            fontSize: 20,
+                                            color: isDark
+                                                ? Colors.grey.shade100
+                                                : Colors.black),
+                                      ),
+                                      onPressed: () async {
+                                        final response =
+                                            await Web3AuthFlutter.login(
+                                                LoginParams(
+                                                    loginProvider:
+                                                        Provider.google));
 
-                                    Credentials _credentials =
-                                        EthPrivateKey.fromHex(
-                                            response.privKey!);
-                                    walletAddressProvider.setPrivateKey(
-                                      privateKey: response.privKey.toString(),
-                                    );
-                                    walletAddressProvider.setAddress(
-                                        _credentials.address.toString());
-                                    dev.log(_credentials.address.toString(),
-                                        name: 'Wallet Address');
+                                        Credentials _credentials =
+                                            EthPrivateKey.fromHex(
+                                                response.privKey!);
+                                        walletAddressProvider.setPrivateKey(
+                                          privateKey:
+                                              response.privKey.toString(),
+                                        );
+                                        walletAddressProvider.setAddress(
+                                            _credentials.address.toString());
+                                        dev.log(_credentials.address.toString(),
+                                            name: 'Wallet Address');
 
-                                    setState(() {
-                                      readPrivateKey();
-                                    });
-                                  },
-                                  child: const Text('Connect'),
-                                ),
-                              ]),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ]),
+                                        setState(() {
+                                          readPrivateKey();
+                                        });
+                                      },
+                                      child: const Text('Connect'),
+                                    ),
+                                  ]),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ]),
+                ),
+              ),
             )
           : Padding(
               padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
@@ -225,22 +247,23 @@ class _WalletWebState extends State<WalletWeb>
                           },
                         ),
                       )),
-                   Padding(
+                  Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
                       'Connect Wallet',
                       style: TextStyle(
                           fontFamily: 'InstagramSans',
                           fontSize: 30,
-                          fontWeight: FontWeight.bold,color: isDark?Colors.grey.shade100:Colors.black),
+                          fontWeight: FontWeight.bold,
+                          color: isDark ? Colors.grey.shade100 : Colors.black),
                     ),
                   ),
-                   Padding(
+                  Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
                       'You are about to see your Private Key\nMake sure you are Alone !!!',
                       style: TextStyle(
-                        color: isDark?Colors.grey.shade100:Colors.black,
+                        color: isDark ? Colors.grey.shade100 : Colors.black,
                         fontFamily: 'InstagramSans',
                         fontSize: 15,
                       ),
@@ -273,7 +296,8 @@ class _WalletWebState extends State<WalletWeb>
                     if (isAuth == false) {
                       try {
                         final bool didAuthenticate = await auth.authenticate(
-                            localizedReason: 'Please authenticate to see Private Key',
+                            localizedReason:
+                                'Please authenticate to see Private Key',
                             options: const AuthenticationOptions(
                                 useErrorDialogs: false));
                         isAuth = didAuthenticate;
@@ -297,10 +321,11 @@ class _WalletWebState extends State<WalletWeb>
                         if (e.code == auth_error.notEnrolled) {
                           showSnackBar(context, 'Enroll Biometric Security');
                         }
-                        if(e.code == auth_error.permanentlyLockedOut){
-                          showSnackBar(context, 'You are locked out of this device');
+                        if (e.code == auth_error.permanentlyLockedOut) {
+                          showSnackBar(
+                              context, 'You are locked out of this device');
                         }
-                        if(e.code==auth_error.otherOperatingSystem){
+                        if (e.code == auth_error.otherOperatingSystem) {
                           showSnackBar(context, 'Unsupported OS');
                         }
                       }

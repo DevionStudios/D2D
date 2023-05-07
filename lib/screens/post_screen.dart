@@ -109,6 +109,29 @@ class _PostCardState extends State<PostCard> {
       List<String> captionElements = post!.caption.split(' ');
 
       return Scaffold(
+        appBar: AppBar(leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CircleAvatar(
+            
+            backgroundColor:
+                Colors.purpleAccent.shade100.withOpacity(0.4),
+            child: IconButton(
+              // iconSize: 20,
+              icon: const Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: Colors.white,
+                // size: 15,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+
+          ),
+
+        ),
+        backgroundColor: isDark?Colors.black:Colors.white,
+        ),
         backgroundColor: isDark ? Colors.grey.shade900 : Colors.grey.shade100,
         body: RefreshIndicator(
           onRefresh: getPostData,
@@ -121,25 +144,7 @@ class _PostCardState extends State<PostCard> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Container(
-                          padding: const EdgeInsets.all(16),
-                          height: 100,
-                          // width: MediaQuery.of(context).size.width * 0.1,
-                          child: CircleAvatar(
-                            backgroundColor:
-                                Colors.purpleAccent.shade100.withOpacity(0.4),
-                            child: IconButton(
-                              // iconSize: 20,
-                              icon: const Icon(
-                                Icons.arrow_back_ios_new_rounded,
-                                color: Colors.white,
-                                // size: 15,
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                          )),
+                      
                     ],
                   ),
                   Container(

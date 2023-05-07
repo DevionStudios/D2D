@@ -9,6 +9,7 @@ import 'package:foxxi/services/user_service.dart';
 import 'package:foxxi/utils.dart';
 // import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:sticky_headers/sticky_headers/widget.dart';
 import '../components/ipfsService.dart' as ipfs_service;
 import '../providers/theme_provider.dart';
 import '../providers/wallet_address.dart';
@@ -62,31 +63,36 @@ class mintNFTState extends State<mintNFT> {
     return Scaffold(
             backgroundColor: isDark?Colors.grey.shade900:Colors.white,
 
-      body: Padding(
-        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-        child: SingleChildScrollView(
+      body: StickyHeader(
+        header: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(left: 16),
+                      height: 100,
+                      // width: MediaQuery.of(context).size.width * 0.1,
+                      child: CircleAvatar(
+                        backgroundColor:
+                            Colors.purpleAccent.shade100.withOpacity(0.4),
+                        child: IconButton(
+                          // iconSize: 20,
+                          icon: const Icon(
+                            Icons.arrow_back_ios_new_rounded,
+                            color: Colors.white,
+                            // size: 15,
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ) ,
+        content: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                  padding: const EdgeInsets.all(16),
-                  height: 100,
-                  // width: MediaQuery.of(context).size.width * 0.1,
-                  child: CircleAvatar(
-                    backgroundColor:
-                        Colors.purpleAccent.shade100.withOpacity(0.4),
-                    child: IconButton(
-                      // iconSize: 20,
-                      icon: const Icon(
-                        Icons.arrow_back_ios_new_rounded,
-                        color: Colors.white,
-                        // size: 15,
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  )),
               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
@@ -402,7 +408,7 @@ class mintNFTState extends State<mintNFT> {
                               } else {
                                 String text = _controller.text;
                                 text = 'https://ipfs.io/ipfs/$text';
-
+      
                                 userService.updateProfileImage(
                                     context: context, image: text);
                               }

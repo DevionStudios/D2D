@@ -17,25 +17,48 @@ class AirDropScreen extends StatelessWidget {
   final UserService userService = UserService();
   @override
   Widget build(BuildContext context) {
-                final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
 
     return Scaffold(
-                                    backgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
+      backgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
+      appBar: AppBar(leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CircleAvatar(
+            
+            backgroundColor:
+                Colors.purpleAccent.shade100.withOpacity(0.4),
+            child: IconButton(
+              // iconSize: 20,
+              icon: const Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: Colors.white,
+                // size: 15,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
 
-      appBar: AppBar(
-        elevation: 0,
-      ),
+          ),
+
+        ),
+        backgroundColor: isDark?Colors.black:Colors.white,),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             'AirDrop',
-            style: TextStyle(fontSize: 50,color: isDark?Colors.grey.shade100:Colors.black),
+            style: TextStyle(
+                fontSize: 50,
+                color: isDark ? Colors.grey.shade100 : Colors.black),
           ),
-           Padding(
+          Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(
-                'Send us your Email Address, Wallet Address and a Optional Message to receive your free tokens',style: TextStyle(color: isDark?Colors.grey.shade100:Colors.black),),
+              'Send us your Email Address, Wallet Address and a Optional Message to receive your free tokens',
+              style: TextStyle(
+                  color: isDark ? Colors.grey.shade100 : Colors.black),
+            ),
           ),
           TextFieldWidget2(
             controller: _emailTextController,
