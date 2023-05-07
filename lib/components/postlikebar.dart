@@ -3,13 +3,13 @@ import 'dart:ui';
 
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
-import 'package:foxxi/constants.dart';
-import 'package:foxxi/models/notification.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
 import 'package:foxxi/components/donate_button.dart';
+import 'package:foxxi/constants.dart';
 import 'package:foxxi/models/feed_post_model.dart';
+import 'package:foxxi/models/notification.dart';
 import 'package:foxxi/providers/theme_provider.dart';
 import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/screens/chat.dart';
@@ -19,15 +19,17 @@ import 'package:foxxi/utils.dart';
 import 'package:foxxi/widgets/add_comment.dart';
 
 class PostLikeCommentBar extends StatefulWidget {
+  VoidCallback? notifyComments;
   final FeedPostModel post;
   final bool isImage;
   final bool isVideo;
 
-  const PostLikeCommentBar({
+  PostLikeCommentBar({
     Key? key,
+    this.notifyComments,
+    required this.post,
     required this.isImage,
     required this.isVideo,
-    required this.post,
   }) : super(key: key);
 
   @override
@@ -279,6 +281,7 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
                                 ],
                               ),
                               AddCommentWidget(
+                                notifyComments: widget.notifyComments,
                                 isAddComment: true,
                                 postUsername: widget.post.author.username,
                                 postId: widget.post.id,

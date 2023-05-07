@@ -33,19 +33,33 @@ class _FeedScreenState extends State<FeedScreen> {
   // StoryService storyService = StoryService();
   Future<List<FeedPostModel>>? _post;
   List<dynamic> notificationList = [];
-  dynamic notificationLength;
+  int notificationLength = 0;
 
   @override
   void initState() {
     getData();
-    fetchData();
+    fetchNotificationData();
     super.initState();
   }
 
-  void fetchData() {
+  Future<void> _navigateAndDisplayNotification(BuildContext context) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const NotificationScreen()),
+    );
+
+    if (!mounted) return;
+    dev.log(result.toString());
+    setState(() {
+      notificationLength = result;
+    });
+  }
+
+  void fetchNotificationData() {
     notificationService.getNotification(context: context).then((value) {
       setState(() {
         notificationList = value;
+        notificationLength = notificationList.length;
       });
       // dev.log('Noitfication Data ==---');
       // dev.log(notificationList.toString());
@@ -75,7 +89,6 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
-    notificationLength = notificationList.length;
 
     return FutureBuilder<List<FeedPostModel>>(
         future: _post,
@@ -148,12 +161,15 @@ class _FeedScreenState extends State<FeedScreen> {
                                 ),
                                 IconButton(
                                   icon: badges.Badge(
-                                    showBadge:
-                                        notificationList.isEmpty ? false : true,
+                                    showBadge: notificationList.isEmpty ||
+                                            notificationLength == 0
+                                        ? false
+                                        : true,
                                     badgeStyle: const badges.BadgeStyle(),
                                     badgeAnimation:
                                         const badges.BadgeAnimation.fade(),
-                                    badgeContent: notificationList.isEmpty
+                                    badgeContent: notificationList.isEmpty ||
+                                            notificationLength == 0
                                         ? null
                                         : Text(notificationLength.toString()),
                                     child: Icon(
@@ -165,11 +181,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                     ),
                                   ),
                                   onPressed: () {
-                                    notificationLength = Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const NotificationScreen()));
+                                    _navigateAndDisplayNotification(context);
                                   },
                                 ),
                                 SizedBox(

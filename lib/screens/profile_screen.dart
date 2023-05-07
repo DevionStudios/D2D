@@ -79,7 +79,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
       storyService
           .getUserStory(context: context, username: widget.username)
           ?.then((value) {
-        dev.log(value.toString(), name: 'Story Value User');
+        // dev.log(value.toString(), name: 'Story Value User');
         if (value.isNotEmpty) {
           storyIcon = true;
 
@@ -87,7 +87,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
             listOfStories.add(story);
           }
         }
-        dev.log(listOfStories.toString(), name: 'List of Stories : User');
+        // dev.log(listOfStories.toString(), name: 'List of Stories : User');
       });
     } else {
       dev.log(
@@ -163,7 +163,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
       }
     }
 
-    dev.log(isFollowed.toString(), name: 'Is User Followed By You ');
+    // dev.log(isFollowed.toString(), name: 'Is User Followed By You ');
   }
 // Future<void> refresh (){
 //   getUserPosts();
@@ -747,7 +747,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                             : Colors.black,
                                                                       ),
                                                                     ),
-                                                                     Text(
+                                                                    Text(
                                                                       'Following',
                                                                       textAlign:
                                                                           TextAlign

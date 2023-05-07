@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:foxxi/http_error_handle.dart';
+import 'package:foxxi/models/comments.dart';
 import 'package:foxxi/services/notification_service.dart';
 import 'package:foxxi/utils.dart';
 import 'package:http/http.dart' as http;
@@ -13,6 +14,36 @@ const _storage = FlutterSecureStorage();
 NotificationService notificationService = NotificationService();
 
 class CommentService {
+  Future<List<Comment>> getCommentByPostId(
+      {required BuildContext context,
+      required String id,
+      String? parentId,
+      bool? isReply}) async {
+    List<Comment> comments = [];
+    try {
+      http.Response res = await http.get(
+        Uri.parse('$url/api/post/$id'),
+      );
+
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () {
+            final data = jsonDecode(res.body)['comments'];
+            dev.log(jsonEncode(data), name: 'Comments List');
+
+            for (var comment in data) {
+              comments.add(Comment.fromJson(jsonEncode(comment)));
+            }
+          });
+    } catch (e) {
+      dev.log(e.toString(), name: 'Comment By Id Error');
+      showSnackBar(context, e.toString());
+    }
+    return comments;
+  }
+
   Future<int> addComment(
       {required BuildContext context,
       required String postId,
@@ -67,7 +98,7 @@ class CommentService {
             'isReply': isReply
           }));
 
-      dev.log(res.body.toString());
+      dev.log(res.statusCode.toString());
 
       if (context.mounted) {
         httpErrorHandle(

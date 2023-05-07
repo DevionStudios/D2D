@@ -12,6 +12,8 @@ import 'package:foxxi/services/post_service.dart';
 import 'package:foxxi/utils.dart';
 
 class AddCommentWidget extends StatelessWidget {
+  VoidCallback? notifyPost;
+  VoidCallback? notifyComments;
   bool isUpdateComment;
   bool isAddComment;
   bool isAddCommentReply;
@@ -23,6 +25,8 @@ class AddCommentWidget extends StatelessWidget {
   final String? postId;
   AddCommentWidget({
     Key? key,
+    this.notifyPost,
+    this.notifyComments,
     this.isUpdateComment = false,
     this.isAddComment = false,
     this.isAddCommentReply = false,
@@ -96,6 +100,9 @@ class AddCommentWidget extends StatelessWidget {
                               if (userProvider.id != postUserId) {
                                 if (context.mounted) {
                                   if (statusCode == 201) {
+                                    if (notifyComments != null) {
+                                      notifyComments!();
+                                    }
                                     notificationService.addNotification(
                                         context: context,
                                         notification: NotificationModel(
@@ -112,12 +119,16 @@ class AddCommentWidget extends StatelessWidget {
                             if (isAddCommentReply == true) {
                               dev.log('Add ReplyComment Started');
                               if (context.mounted) {
-                                commentService.addCommentReply(
-                                    isReply: true,
-                                    parentId: commentId!,
-                                    context: context,
-                                    postId: postId!,
-                                    caption: _commentTextController.text);
+                                commentService
+                                    .addCommentReply(
+                                        isReply: true,
+                                        parentId: commentId!,
+                                        context: context,
+                                        postId: postId!,
+                                        caption: _commentTextController.text)
+                                    .then((value) {
+                                  notifyComments!();
+                                });
                               }
                             }
                             if (isUpdateComment == true &&
@@ -130,7 +141,7 @@ class AddCommentWidget extends StatelessWidget {
                                         id: commentId!,
                                         caption: _commentTextController.text)
                                     .then((value) {
-                                  if (value == 201) {}
+                                  notifyComments!();
                                 });
                               }
                             }
@@ -138,11 +149,17 @@ class AddCommentWidget extends StatelessWidget {
                                 isUpdateComment == false) {
                               dev.log('Update Post Started');
                               if (context.mounted) {
-                                postService.updatePost(
-                                    context: context,
-                                    id: postId!,
-                                    caption: _commentTextController.text,
-                                    hashtags: hashtags!);
+                                postService
+                                    .updatePost(
+                                        context: context,
+                                        id: postId!,
+                                        caption: _commentTextController.text,
+                                        hashtags: hashtags!)
+                                    .then((value) {
+                                  if (notifyPost != null) {
+                                    notifyPost!();
+                                  }
+                                });
                               }
                             }
                             _commentTextController.clear();

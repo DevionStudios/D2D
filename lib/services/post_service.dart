@@ -47,36 +47,6 @@ class PostService {
     return list;
   }
 
-  Future<List<Comment>> getCommentByPostId(
-      {required BuildContext context,
-      required String id,
-      String? parentId,
-      bool? isReply}) async {
-    List<Comment> comments = [];
-    try {
-      http.Response res = await http.get(
-        Uri.parse('$url/api/post/$id'),
-      );
-
-      // ignore: use_build_context_synchronously
-      httpErrorHandle(
-          response: res,
-          context: context,
-          onSuccess: () {
-            final data = jsonDecode(res.body)['comments'];
-            dev.log(jsonEncode(data), name: 'Comments List');
-
-            for (var comment in data) {
-              comments.add(Comment.fromJson(jsonEncode(comment)));
-            }
-          });
-    } catch (e) {
-      dev.log(e.toString(), name: 'Comment By Id Error');
-      showSnackBar(context, e.toString());
-    }
-    return comments;
-  }
-
   Future<List<Comment>> getReplyComments(
       {required BuildContext context,
       required String id,
@@ -431,12 +401,13 @@ class PostService {
     }
   }
 
-  void updatePost({
+  Future<int> updatePost({
     required BuildContext context,
     required String id,
     required String caption,
     required List<String> hashtags,
   }) async {
+    int statusCode = 0;
     try {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
@@ -456,12 +427,14 @@ class PostService {
             response: res,
             context: context,
             onSuccess: () {
+              statusCode = res.statusCode;
               showSnackBar(context, 'Post Updated ');
             });
       }
     } catch (e) {
       dev.log(e.toString(), name: 'Post Service : Update Post Error');
     }
+    return statusCode;
   }
 
   Future<int> likePost({

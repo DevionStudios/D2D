@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:foxxi/components/postlikebar.dart';
-import 'package:foxxi/providers/comment_provider.dart';
 import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/screens/profile_screen.dart';
 import 'package:foxxi/services/comment_service.dart';
@@ -43,6 +42,7 @@ class _PostCardState extends State<PostCard> {
   final TextEditingController _commentTextController = TextEditingController();
   VideoPlayerController? _controller;
   late Future<List<Comment>> _comments;
+
   @override
   void initState() {
     getPostData();
@@ -63,10 +63,6 @@ class _PostCardState extends State<PostCard> {
           initializeVideo();
         }
         getComments();
-      }
-
-      if (mounted) {
-        setState(() {});
       }
     });
     return;
@@ -95,14 +91,8 @@ class _PostCardState extends State<PostCard> {
 
   void getComments() async {
     if (post != null) {
-      _comments = postService
-          .getCommentByPostId(context: context, id: post!.id.toString())
-          .then((value) {
-        Provider.of<CommentProvider>(context, listen: false)
-            .setCommentList(value);
-
-        return value;
-      });
+      _comments = commentService.getCommentByPostId(
+          context: context, id: post!.id.toString());
     }
   }
 
@@ -233,181 +223,188 @@ class _PostCardState extends State<PostCard> {
                                           .replaceFirst(' ', '\n'),
                                       style: TextStyle(color: Colors.grey[300]),
                                     ),
-                                    true
-                                        ? IconButton(
-                                            onPressed: () {
-                                              BuildContext dialogContext;
-                                              showDialog(
-                                                useRootNavigator: false,
-                                                context: context,
-                                                builder: (context) {
-                                                  dialogContext = context;
-                                                  return Dialog(
-                                                    child: ListView(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                vertical: 16),
-                                                        shrinkWrap: true,
-                                                        children: [
-                                                          post!.author.id ==
-                                                                  userProvider
-                                                                      .id
-                                                              ? 'Delete Post'
-                                                              : null,
-                                                          post!.author.id ==
-                                                                  userProvider
-                                                                      .id
-                                                              ? null
-                                                              : 'Repost Post',
-                                                          post!.author.id ==
-                                                                  userProvider
-                                                                      .id
-                                                              ? null
-                                                              : 'Report Post',
-                                                          post!.author.id ==
-                                                                  userProvider
-                                                                      .id
-                                                              ? 'Update Post'
-                                                              : null,
-                                                        ]
-                                                            .map(
-                                                              (e) => InkWell(
-                                                                  child:
-                                                                      Container(
-                                                                    padding: const EdgeInsets
-                                                                            .symmetric(
-                                                                        vertical:
-                                                                            12,
-                                                                        horizontal:
-                                                                            16),
-                                                                    child: null,
-                                                                  ),
-                                                                  onTap: () {
-                                                                    Navigator.pop(
-                                                                        dialogContext);
+                                    IconButton(
+                                      onPressed: () {
+                                        BuildContext dialogContext;
+                                        showDialog(
+                                          useRootNavigator: false,
+                                          context: context,
+                                          builder: (context) {
+                                            dialogContext = context;
+                                            return Dialog(
+                                              child: ListView(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 16),
+                                                  shrinkWrap: true,
+                                                  children: [
+                                                    post!.author.id ==
+                                                            userProvider.id
+                                                        ? 'Delete Post'
+                                                        : null,
+                                                    post!.author.id !=
+                                                            userProvider.id
+                                                        ? null
+                                                        : 'Repost Post',
+                                                    post!.author.id ==
+                                                            userProvider.id
+                                                        ? null
+                                                        : 'Report Post',
+                                                    post!.author.id ==
+                                                            userProvider.id
+                                                        ? 'Update Post'
+                                                        : null,
+                                                  ]
+                                                      .map(
+                                                        (e) => InkWell(
+                                                            child: Container(
+                                                              padding: const EdgeInsets
+                                                                      .symmetric(
+                                                                  vertical: 12,
+                                                                  horizontal:
+                                                                      16),
+                                                              child: null,
+                                                            ),
+                                                            onTap: () {
+                                                              Navigator.pop(
+                                                                  dialogContext);
 
-                                                                    if (e ==
-                                                                        'Report Post') {
-                                                                      postService.reportPost(
-                                                                          id: post!
-                                                                              .id,
-                                                                          context:
-                                                                              context);
-                                                                    }
+                                                              if (e ==
+                                                                  'Report Post') {
+                                                                postService
+                                                                    .reportPost(
+                                                                        id: post!
+                                                                            .id,
+                                                                        context:
+                                                                            context);
+                                                              }
 
-                                                                    if (e ==
-                                                                        'Repost Post') {
-                                                                      postService.repostPost(
-                                                                          context:
-                                                                              context,
-                                                                          id: post!
-                                                                              .id);
-                                                                    }
-
-                                                                    if (e ==
-                                                                        'Update Post') {
-                                                                      Navigator.pop(
-                                                                          dialogContext);
-                                                                      showMaterialModalBottomSheet<
-                                                                          void>(
-                                                                        shape: const RoundedRectangleBorder(
-                                                                            borderRadius:
-                                                                                BorderRadius.vertical(top: Radius.circular(25))),
+                                                              if (e ==
+                                                                  'Repost Post') {
+                                                                postService
+                                                                    .repostPost(
                                                                         context:
                                                                             context,
-                                                                        builder:
-                                                                            (context) =>
-                                                                                Padding(
+                                                                        id: post!
+                                                                            .id);
+                                                              }
+
+                                                              if (e ==
+                                                                  'Update Post') {
+                                                                Navigator.pop(
+                                                                    dialogContext);
+                                                                showMaterialModalBottomSheet<
+                                                                    void>(
+                                                                  shape: const RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.vertical(
+                                                                              top: Radius.circular(25))),
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (context) =>
+                                                                          Padding(
+                                                                    padding: EdgeInsets.only(
+                                                                        bottom: MediaQuery.of(context)
+                                                                            .viewInsets
+                                                                            .bottom),
+                                                                    child:
+                                                                        Column(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .min,
+                                                                      children: [
+                                                                        Padding(
                                                                           padding:
-                                                                              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                                                                          child:
-                                                                              Column(
-                                                                            mainAxisSize:
-                                                                                MainAxisSize.min,
-                                                                            children: [
-                                                                              Padding(
-                                                                                padding: const EdgeInsets.all(8.0),
-                                                                                child: Text('Update Post', style: TextStyle(color: isDark ? Colors.grey.shade400 : Colors.black, fontFamily: 'InstagramSans', fontSize: 25, fontWeight: FontWeight.bold)),
-                                                                              ),
-                                                                              Row(
-                                                                                children: [
-                                                                                  Padding(
-                                                                                    padding: const EdgeInsets.all(8),
-                                                                                    child: CircleAvatar(
-                                                                                      radius: 16,
-                                                                                      backgroundImage: NetworkImage(post!.author.image.toString()),
-                                                                                    ),
-                                                                                  ),
-                                                                                  Column(
-                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                    children: [
-                                                                                      Row(
-                                                                                        children: [
-                                                                                          Padding(
-                                                                                            padding: const EdgeInsets.only(left: 8),
-                                                                                            child: Text(
-                                                                                              post!.author.name.toString(),
-                                                                                              style: TextStyle(
-                                                                                                color: isDark ? Colors.grey.shade200 : Colors.black,
-                                                                                              ),
-                                                                                            ),
-                                                                                          ),
-                                                                                          Padding(
-                                                                                            padding: const EdgeInsets.only(left: 4.0),
-                                                                                            child: Text(
-                                                                                              '@${post!.author.username}',
-                                                                                              style: TextStyle(
-                                                                                                color: isDark ? Colors.grey.shade600 : Colors.black,
-                                                                                              ),
-                                                                                            ),
-                                                                                          )
-                                                                                        ],
-                                                                                      ),
-                                                                                      const Padding(
-                                                                                        padding: EdgeInsets.only(
-                                                                                          left: 8,
-                                                                                        ),
-                                                                                      )
-                                                                                    ],
-                                                                                  )
-                                                                                ],
-                                                                              ),
-                                                                              Row(
-                                                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                                                children: const [
-                                                                                  Padding(
-                                                                                    padding: EdgeInsets.only(left: 8.0),
-                                                                                    child: Text('Your Reply'),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                              AddCommentWidget(
-                                                                                isPostUpdate: true,
-                                                                                hashtags: post!.hashtags,
-                                                                                postUserId: post!.author.id,
-                                                                                postId: post!.id,
-                                                                              ),
-                                                                            ],
-                                                                          ),
+                                                                              const EdgeInsets.all(8.0),
+                                                                          child: Text(
+                                                                              'Update Post',
+                                                                              style: TextStyle(color: isDark ? Colors.grey.shade400 : Colors.black, fontFamily: 'InstagramSans', fontSize: 25, fontWeight: FontWeight.bold)),
                                                                         ),
-                                                                      );
-                                                                    }
-                                                                  }),
-                                                            )
-                                                            .toList()),
-                                                  );
-                                                },
-                                              );
-                                            },
-                                            icon: Icon(
-                                              Icons.more_vert,
-                                              color: isDark
-                                                  ? Colors.white
-                                                  : Colors.black,
-                                            ),
-                                          )
-                                        : Container(),
+                                                                        Row(
+                                                                          children: [
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.all(8),
+                                                                              child: CircleAvatar(
+                                                                                radius: 16,
+                                                                                backgroundImage: NetworkImage(post!.author.image.toString()),
+                                                                              ),
+                                                                            ),
+                                                                            Column(
+                                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                                              children: [
+                                                                                Row(
+                                                                                  children: [
+                                                                                    Padding(
+                                                                                      padding: const EdgeInsets.only(left: 8),
+                                                                                      child: Text(
+                                                                                        post!.author.name.toString(),
+                                                                                        style: TextStyle(
+                                                                                          color: isDark ? Colors.grey.shade200 : Colors.black,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                    Padding(
+                                                                                      padding: const EdgeInsets.only(left: 4.0),
+                                                                                      child: Text(
+                                                                                        '@${post!.author.username}',
+                                                                                        style: TextStyle(
+                                                                                          color: isDark ? Colors.grey.shade600 : Colors.black,
+                                                                                        ),
+                                                                                      ),
+                                                                                    )
+                                                                                  ],
+                                                                                ),
+                                                                                const Padding(
+                                                                                  padding: EdgeInsets.only(
+                                                                                    left: 8,
+                                                                                  ),
+                                                                                )
+                                                                              ],
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                        Row(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.start,
+                                                                          children: const [
+                                                                            Padding(
+                                                                              padding: EdgeInsets.only(left: 8.0),
+                                                                              child: Text('Your Reply'),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        AddCommentWidget(
+                                                                          notifyPost:
+                                                                              getPostData,
+                                                                          isPostUpdate:
+                                                                              true,
+                                                                          hashtags:
+                                                                              post!.hashtags,
+                                                                          postUserId: post!
+                                                                              .author
+                                                                              .id,
+                                                                          postId:
+                                                                              post!.id,
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              }
+                                                            }),
+                                                      )
+                                                      .toList()),
+                                            );
+                                          },
+                                        );
+                                      },
+                                      icon: Icon(
+                                        Icons.more_vert,
+                                        color: isDark
+                                            ? Colors.white
+                                            : Colors.black,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -472,6 +469,7 @@ class _PostCardState extends State<PostCard> {
                                         ),
                                       ),
                                       child: PostLikeCommentBar(
+                                        notifyComments: getComments,
                                         post: post!,
                                         isImage: true,
                                         isVideo: false,
@@ -584,6 +582,8 @@ class _PostCardState extends State<PostCard> {
                                             false) {
                                           return CommentCard(
                                             post: post!,
+                                            notifyPost: getPostData,
+                                            notifyComment: getComments,
                                             comment: snapshot.data![index],
                                           );
                                         }
