@@ -51,7 +51,9 @@ class _PostCardState extends State<PostCard> {
 
   Future<void> getPostData() async {
     postService.getPostById(context: context, id: widget.postId).then((value) {
-      post = value;
+      setState(() {
+        post = value;
+      });
 
       if (post != null) {
         if (post!.media?.mediatype == 'image') {
