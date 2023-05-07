@@ -43,7 +43,7 @@ class _SecuritySettingScreenState extends State<SecuritySettingScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      padding: const EdgeInsets.only(left: 16),
+                      padding: const EdgeInsets.only(left: 16,top :16),
                       height: 100,
                       // width: MediaQuery.of(context).size.width * 0.1,
                       child: CircleAvatar(
