@@ -42,9 +42,7 @@ class _MyAppState extends State<MyApp> {
 
     super.initState();
   }
-  void setFirstTheme(){
-        Provider.of<ThemeProvider>(context, listen: false).setThemeMode = widget.theme;
-  }
+
   void readThemeMode() {
     
     Provider.of<ThemeProvider>(context, listen: false)
@@ -52,19 +50,23 @@ class _MyAppState extends State<MyApp> {
         .then((value) {
       setState(() {
         widget.theme = value;
-        setFirstTheme();
+        Provider.of<ThemeProvider>(context, listen: false).setThemeMode = widget.theme;
+
 
       });
     });
   }
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return MaterialApp(
       darkTheme: MyThemes.darkTheme,
       theme: MyThemes.lightTheme,
+
     
       onGenerateRoute: generateRoute,
-      themeMode: widget.theme,
+      themeMode: themeProvider.themeMode,
 
       home: SplashScreen(theme:widget.theme),
     );

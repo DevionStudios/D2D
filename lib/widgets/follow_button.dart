@@ -36,7 +36,7 @@ class FollowButton extends StatelessWidget {
             alignment: Alignment.center,
             height: 27,
             child: Text(
-              isFollowed! ? 'UnFollow' : 'Follow',
+              isFollowed! ? 'Unfollow' : 'Follow',
               style: TextStyle(
                 color: textColor,
                 fontWeight: FontWeight.bold,

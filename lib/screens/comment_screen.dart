@@ -63,13 +63,33 @@ class _CommentScreenState extends State<CommentScreen> {
     List<String> captionElements = widget.comment.caption.split(' ');
 
     return Scaffold(
+      appBar: AppBar(leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CircleAvatar(
+            
+            backgroundColor:
+                Colors.purpleAccent.shade100.withOpacity(0.4),
+            child: IconButton(
+              // iconSize: 20,
+              icon: const Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: Colors.white,
+                // size: 15,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+
+          ),
+
+        ),
+        backgroundColor: isDark?Colors.black:Colors.white,),
         body: SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 20,
-          ),
+
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -175,89 +195,89 @@ class _CommentScreenState extends State<CommentScreen> {
                         BorderRadius.vertical(top: Radius.circular(25))),
                 context: context,
                 builder: (context) => Padding(
-                  padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).viewInsets.bottom),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('Comment Reply',
-                            style: TextStyle(
-                                color: isDark
-                                    ? Colors.grey.shade400
-                                    : Colors.black,
-                                fontFamily: 'InstagramSans',
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold)),
-                      ),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: CircleAvatar(
-                              radius: 16,
-                              backgroundImage: NetworkImage(
-                                  widget.post.author.image.toString()),
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8),
-                                    child: Text(
-                                      widget.post.author.name.toString(),
-                                      style: TextStyle(
-                                        color: isDark
-                                            ? Colors.grey.shade200
-                                            : Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 4.0),
-                                    child: Text(
-                                      '@${widget.post.author.username}',
-                                      style: TextStyle(
-                                        color: isDark
-                                            ? Colors.grey.shade600
-                                            : Colors.black,
-                                      ),
-                                    ),
-                                  )
-                                ],
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('Comment Reply',
+                              style: TextStyle(
+                                  color: isDark
+                                      ? Colors.grey.shade400
+                                      : Colors.black,
+                                  fontFamily: 'InstagramSans',
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: CircleAvatar(
+                                radius: 16,
+                                backgroundImage: NetworkImage(
+                                    widget.post.author.image.toString()),
                               ),
-                              const Padding(
-                                padding: EdgeInsets.only(
-                                  left: 8,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8),
+                                      child: Text(
+                                        widget.post.author.name.toString(),
+                                        style: TextStyle(
+                                          color: isDark
+                                              ? Colors.grey.shade200
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 4.0),
+                                      child: Text(
+                                        '@${widget.post.author.username}',
+                                        style: TextStyle(
+                                          color: isDark
+                                              ? Colors.grey.shade600
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: const [
-                          Padding(
-                            padding: EdgeInsets.only(left: 8.0),
-                            child: Text('Your Reply'),
-                          ),
-                        ],
-                      ),
-                      AddCommentWidget(
-                        notifyComments: getReplies,
-                        isAddCommentReply: true,
-                        postId: widget.post.id,
-                        commentId: widget.comment.id,
-                      ),
-                    ],
+                                const Padding(
+                                  padding: EdgeInsets.only(
+                                    left: 8,
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: const [
+                            Padding(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Text('Your Reply'),
+                            ),
+                          ],
+                        ),
+                        AddCommentWidget(
+                          notifyComments: getReplies,
+                          isAddCommentReply: true,
+                          postId: widget.post.id,
+                          commentId: widget.comment.id,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              );
+                );
             },
             child: const Padding(
               padding: EdgeInsets.all(10.0),
