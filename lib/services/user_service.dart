@@ -152,7 +152,7 @@ class UserService {
     }
   }
 
-  void updateProfile(
+  Future<int> updateProfile(
       {required BuildContext context,
       String? imagePath,
       String? coverImagePath,
@@ -160,6 +160,7 @@ class UserService {
       String? name,
       String? bio,
       String? walletAddress}) async {
+    int statusCode = 0;
     try {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
@@ -197,11 +198,9 @@ class UserService {
       final res = await request.send();
 
       dev.log(res.toString(), name: 'Profile Update');
-      if (res.statusCode == 201) {
+      if (res.statusCode == 200) {
+        statusCode = res.statusCode;
         dev.log('Profile Updated ', name: 'Profile Status');
-        if (context.mounted) {
-          showSnackBar(context, 'Profile Updated');
-        }
       }
       if (res.statusCode == 500) {
         dev.log('Profile Update Error', name: 'Profile Update Error');
@@ -209,6 +208,7 @@ class UserService {
     } catch (e) {
       dev.log(e.toString(), name: 'UserService: Update Profile  Error');
     }
+    return statusCode;
   }
 
   Future<int> addPreferences(
@@ -241,11 +241,12 @@ class UserService {
     return stattusCode;
   }
 
-  void updatePassword({
+  Future<int> updatePassword({
     required BuildContext context,
     required String oldPassword,
     required String newPassword,
   }) async {
+    int statusCode = 0;
     try {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
@@ -264,12 +265,14 @@ class UserService {
             context: context,
             onSuccess: () {
               showSnackBar(context, 'Password Updated ');
+              statusCode = 0;
             });
       }
     } catch (e) {
       dev.log(e.toString(), name: 'Update Password Error');
       showSnackBar(context, e.toString());
     }
+    return statusCode;
   }
 
   void reportUser({

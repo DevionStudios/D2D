@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:foxxi/utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -58,41 +59,39 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     return Scaffold(
       backgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
       body: StickyHeader(
-        header:Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(left: 16,top :16),
-                      height: 100,
-                      // width: MediaQuery.of(context).size.width * 0.1,
-                      child: CircleAvatar(
-                        backgroundColor:
-                            Colors.purpleAccent.shade100.withOpacity(0.4),
-                        child: IconButton(
-                          // iconSize: 20,
-                          icon: const Icon(
-                            Icons.arrow_back_ios_new_rounded,
-                            color: Colors.white,
-                            // size: 15,
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ) ,
+        header: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.only(left: 16, top: 16),
+              height: 100,
+              // width: MediaQuery.of(context).size.width * 0.1,
+              child: CircleAvatar(
+                backgroundColor: Colors.purpleAccent.shade100.withOpacity(0.4),
+                child: IconButton(
+                  // iconSize: 20,
+                  icon: const Icon(
+                    Icons.arrow_back_ios_new_rounded,
+                    color: Colors.white,
+                    // size: 15,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
         content: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.only(
-                // top: MediaQuery.of(context).padding.top,
-                bottom: MediaQuery.of(context).padding.bottom+100,
+              // top: MediaQuery.of(context).padding.top,
+              bottom: MediaQuery.of(context).padding.bottom + 100,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
@@ -186,8 +185,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                     color: Colors.grey.shade500,
                                     style: BorderStyle.solid,
                                     width: 3)),
-                            width: (2 * (MediaQuery.of(context).size.width) / 3) -
-                                20,
+                            width:
+                                (2 * (MediaQuery.of(context).size.width) / 3) -
+                                    20,
                             height: 100,
                             child: _imageCover != null
                                 ? Image.file(
@@ -213,7 +213,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 ),
                 TextFieldWidget2(
                   controller: _usernameTextController,
-                  headingText: 'Username on Twitter (Cannot be changed once set)',
+                  headingText:
+                      'Username on Twitter (Cannot be changed once set)',
                   hintText: userProvider.twitterUsername.isEmpty
                       ? 'You cannot change this later'
                       : userProvider.twitterUsername,
@@ -243,7 +244,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                   borderRadius: BorderRadius.circular(15),
                                   gradient: LinearGradient(
                                     colors: [
-                                      Colors.lightBlue.shade100.withOpacity(0.4),
+                                      Colors.lightBlue.shade100
+                                          .withOpacity(0.4),
                                       Colors.purpleAccent.shade100
                                           .withOpacity(0.4),
                                     ],
@@ -263,18 +265,29 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                 textStyle: const TextStyle(fontSize: 20),
                               ),
                               onPressed: () {
-                                userService.updateProfile(
-                                    context: context,
-                                    bio: _bioTextController.text,
-                                    coverImagePath: coverImage?.path == null
-                                        ? null
-                                        : coverImage!.path,
-                                    imagePath:
-                                        image?.path == null ? null : image!.path,
-                                    name: _nameTextController.text,
-                                    username: _usernameTextController.text,
-                                    walletAddress:
-                                        _walletAddressTextController.text);
+                                userService
+                                    .updateProfile(
+                                        context: context,
+                                        bio: _bioTextController.text,
+                                        coverImagePath: coverImage?.path == null
+                                            ? null
+                                            : coverImage!.path,
+                                        imagePath: image?.path == null
+                                            ? null
+                                            : image!.path,
+                                        name: _nameTextController.text,
+                                        username: _usernameTextController.text,
+                                        walletAddress:
+                                            _walletAddressTextController.text)
+                                    .then((value) {
+                                  if (value == 200) {
+                                    _bioTextController.clear();
+                                    _nameTextController.clear();
+                                    _usernameTextController.clear();
+                                    _walletAddressTextController.clear();
+                                    showSnackBar(context, 'Profile Updated');
+                                  }
+                                });
                               },
                               child: const Text('Update'),
                             ),
