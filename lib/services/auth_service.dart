@@ -181,10 +181,11 @@ class AuthService {
     return isVerified;
   }
 
-  void resetPassword(
+  Future<int> resetPassword(
       {required BuildContext context,
       required String email,
       required String password}) async {
+    int statusCode = 0;
     try {
       http.Response res = await http.put(
           Uri.parse('$url/api/users/resetpassword'),
@@ -198,14 +199,14 @@ class AuthService {
           response: res,
           context: context,
           onSuccess: () async {
+            statusCode = res.statusCode;
             showSnackBar(context, 'Password Reset Successfull ');
-            await _storage.write(
-                key: 'cookies', value: jsonDecode(res.body)['jwt'].toString());
           });
     } catch (e) {
       dev.log(e.toString(), name: "Reset Password Error Log");
       showSnackBar(context, e.toString());
     }
+    return statusCode;
   }
 
   Future<String> getCurrentUserId({

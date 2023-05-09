@@ -1,6 +1,7 @@
 import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
+import 'package:foxxi/screens/login_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'package:foxxi/routing_constants.dart';
@@ -78,10 +79,16 @@ class _ForgotPasswordResetScreenState extends State<ForgotPasswordResetScreen> {
                   if (_formKey.currentState!.validate()) {
                     dev.log("Reset Password Form Validation Passed ",
                         name: "Form Validation -frontend");
-                    authService.resetPassword(
-                        context: context,
-                        email: email,
-                        password: _passwordTextController.text);
+                    authService
+                        .resetPassword(
+                            context: context,
+                            email: email,
+                            password: _passwordTextController.text)
+                        .then((value) {
+                      if (value == 200 || value == 204 || value == 201) {
+                        Navigator.pushNamed(context, LoginScreen.routeName);
+                      }
+                    });
                     // Navigator.pushNamed(context, LoginScreen.routeName);
                   } else {
                     dev.log("Reset Password Form Validation Failed",
