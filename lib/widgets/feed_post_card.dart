@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:foxxi/screens/profile_screen.dart';
 import 'package:foxxi/services/notification_service.dart';
+import 'package:foxxi/utils.dart';
 import 'package:foxxi/widgets/add_comment.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +37,9 @@ class FeedCard extends StatefulWidget {
 
 class _FeedCardState extends State<FeedCard> {
   final commentService = CommentService();
-  VideoPlayerController? _controller;
+  late VideoPlayerController _controller;
+  late Future<void> _initializeVideoPlayerFuture;
+
   NotificationService notificationService = NotificationService();
   PostService postService = PostService();
 
@@ -44,8 +47,8 @@ class _FeedCardState extends State<FeedCard> {
   void initState() {
     if (widget.isVideo) {
       _controller =
-          VideoPlayerController.network(widget.post.media!.url.toString())
-            ..initialize().then((_) {});
+          VideoPlayerController.network(widget.post.media!.url.toString());
+      _initializeVideoPlayerFuture = _controller.initialize();
 
       _controller!.addListener(() {
         if (_controller!.value.hasError) {
@@ -65,9 +68,7 @@ class _FeedCardState extends State<FeedCard> {
 
   @override
   void dispose() {
-    if (_controller != null) {
-      _controller!.dispose();
-    }
+    _controller.dispose();
     super.dispose();
   }
 
@@ -158,8 +159,10 @@ class _FeedCardState extends State<FeedCard> {
                               children: <Widget>[
                                 Text(
                                   widget.post.author.name.toString(),
-                                  style:  TextStyle(
-                                    color: isDark?Colors.white:Colors.grey.shade900,
+                                  style: TextStyle(
+                                    color: isDark
+                                        ? Colors.white
+                                        : Colors.grey.shade900,
                                     fontSize: 15,
                                     fontFamily: 'InstagramSans',
                                     fontWeight: FontWeight.bold,
@@ -167,9 +170,11 @@ class _FeedCardState extends State<FeedCard> {
                                 ),
                                 Text(
                                   '@${widget.post.author.username.toString()}',
-                                  style: TextStyle(color: isDark
-                                ? Colors.grey.shade400
-                                : Colors.grey.shade600,),
+                                  style: TextStyle(
+                                    color: isDark
+                                        ? Colors.grey.shade400
+                                        : Colors.grey.shade600,
+                                  ),
                                 ),
                               ],
                             ),
@@ -507,7 +512,7 @@ class _FeedCardState extends State<FeedCard> {
                       //     child: PostLikeCommentBar(post: widget.post,isImage: true,isVideo: false,))
                       : widget.isVideo
                           ? Container(
-                              height: 400,
+                              height: 370,
                               width: MediaQuery.of(context).size.width - 20,
                               decoration: const BoxDecoration(
                                 borderRadius:
@@ -515,56 +520,55 @@ class _FeedCardState extends State<FeedCard> {
                                 // border: Border(
                                 //     bottom: BorderSide(color: Colors.black.withOpacity(1))),
                               ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  _controller?.value == null
-                                      ? const SizedBox()
-                                      : Stack(
-                                          children: [
-                                            _controller!.value.isInitialized
-                                                ? Container(
-                                                    decoration: const BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    30))),
-                                                    height: 330,
-                                                    width: 400,
-                                                    child: VideoPlayer(
-                                                        _controller!))
-                                                : Container(),
-                                            Positioned(
-                                              top: 270,
-                                              left: 10,
-                                              child: FloatingActionButton(
-                                                heroTag: widget.post.id,
-                                                onPressed: () {
-                                                  setState(
-                                                    () {
-                                                      _controller!
-                                                              .value.isPlaying
-                                                          ? _controller!.pause()
-                                                          : _controller!.play();
-                                                    },
-                                                  );
-                                                },
-                                                child: Icon(
-                                                  _controller!.value.isPlaying
-                                                      ? Icons.pause
-                                                      : Icons.play_arrow,
-                                                ),
-                                              ),
+                              child: FutureBuilder(
+                                future: _initializeVideoPlayerFuture,
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    return Stack(
+                                      
+                                      children: [
+                                        Container(
+                                            decoration: const BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(30))),
+                                            height: 370,
+                                            width: 400,
+                                            child: VideoPlayer(_controller)),
+                                        Positioned(
+                                          top: 250,
+                                          left: 10,
+                                          child: FloatingActionButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                if (_controller
+                                                    .value.isPlaying) {
+                                                  _controller.pause();
+                                                } else {
+                                                  _controller.play();
+                                                }
+                                              });
+                                            },
+                                            child: Icon(
+                                              _controller.value.isPlaying
+                                                  ? Icons.pause
+                                                  : Icons.play_arrow,
                                             ),
-                                          ],
+                                          ),
                                         ),
-                                  PostLikeCommentBar(
-                                    post: widget.post,
-                                    isImage: false,
-                                    isVideo: true,
-                                  ),
-                                ],
+                                        PostLikeCommentBar(
+                                          post: widget.post,
+                                          isImage: false,
+                                          isVideo: true,
+                                        ),
+                                      ],
+                                    );
+                                  } else {
+                                    return const Center(
+                                      child: CustomLoader(),
+                                    );
+                                  }
+                                },
                               ),
                             )
                           : const SizedBox(),
