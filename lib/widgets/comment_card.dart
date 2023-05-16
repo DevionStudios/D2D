@@ -374,7 +374,7 @@ class _CommentCardState extends State<CommentCard> {
                                 child: CircleAvatar(
                                   radius: 16,
                                   backgroundImage: NetworkImage(
-                                      widget.post!.author.image.toString()),
+                                      widget.comment!.author.image.toString()),
                                 ),
                               ),
                               Column(
@@ -385,7 +385,8 @@ class _CommentCardState extends State<CommentCard> {
                                       Padding(
                                         padding: const EdgeInsets.only(left: 8),
                                         child: Text(
-                                          widget.post!.author.name.toString(),
+                                          widget.comment!.author.name
+                                              .toString(),
                                           style: TextStyle(
                                             color: isDark
                                                 ? Colors.grey.shade200
@@ -397,7 +398,7 @@ class _CommentCardState extends State<CommentCard> {
                                         padding:
                                             const EdgeInsets.only(left: 4.0),
                                         child: Text(
-                                          '@${widget.post!.author.username}',
+                                          '@${widget.comment!.author.username}',
                                           style: TextStyle(
                                             color: isDark
                                                 ? Colors.grey.shade600
