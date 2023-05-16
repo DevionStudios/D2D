@@ -50,17 +50,17 @@ class _FeedCardState extends State<FeedCard> {
           VideoPlayerController.network(widget.post.media!.url.toString());
       _initializeVideoPlayerFuture = _controller.initialize();
 
-      _controller!.addListener(() {
-        if (_controller!.value.hasError) {
-          dev.log(_controller!.value.errorDescription.toString(),
+      _controller.addListener(() {
+        if (_controller.value.hasError) {
+          dev.log(_controller.value.errorDescription.toString(),
               name: 'Video Player Error');
           dev.log(widget.post.media!.url.toString(), name: 'Video Link');
         }
-        if (_controller!.value.isInitialized) {
-          _controller!.setLooping(true);
+        if (_controller.value.isInitialized) {
+          _controller.setLooping(true);
           setState(() {});
         }
-        if (_controller!.value.isBuffering) {}
+        if (_controller.value.isBuffering) {}
       });
     }
     super.initState();
@@ -526,7 +526,6 @@ class _FeedCardState extends State<FeedCard> {
                                   if (snapshot.connectionState ==
                                       ConnectionState.done) {
                                     return Stack(
-                                      
                                       children: [
                                         Container(
                                             decoration: const BoxDecoration(
@@ -539,6 +538,7 @@ class _FeedCardState extends State<FeedCard> {
                                           top: 250,
                                           left: 10,
                                           child: FloatingActionButton(
+                                            heroTag: widget.post.id,
                                             onPressed: () {
                                               setState(() {
                                                 if (_controller

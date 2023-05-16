@@ -42,7 +42,7 @@ class _PostCardState extends State<PostCard> {
   final TextEditingController _commentTextController = TextEditingController();
   VideoPlayerController? _controller;
   late Future<List<Comment>> _comments;
-
+  List<Comment> filteredCommentList = [];
   @override
   void initState() {
     getPostData();
@@ -109,28 +109,25 @@ class _PostCardState extends State<PostCard> {
       List<String> captionElements = post!.caption.split(' ');
 
       return Scaffold(
-        appBar: AppBar(leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: CircleAvatar(
-            
-            backgroundColor:
-                Colors.purpleAccent.shade100.withOpacity(0.4),
-            child: IconButton(
-              // iconSize: 20,
-              icon: const Icon(
-                Icons.arrow_back_ios_new_rounded,
-                color: Colors.white,
-                // size: 15,
+        appBar: AppBar(
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CircleAvatar(
+              backgroundColor: Colors.purpleAccent.shade100.withOpacity(0.4),
+              child: IconButton(
+                // iconSize: 20,
+                icon: const Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  color: Colors.white,
+                  // size: 15,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
             ),
-
           ),
-
-        ),
-        backgroundColor: isDark?Colors.black:Colors.white,
+          backgroundColor: isDark ? Colors.black : Colors.white,
         ),
         backgroundColor: isDark ? Colors.grey.shade900 : Colors.grey.shade100,
         body: RefreshIndicator(
@@ -143,9 +140,7 @@ class _PostCardState extends State<PostCard> {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      
-                    ],
+                    children: const [],
                   ),
                   Container(
                     padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
@@ -573,6 +568,11 @@ class _PostCardState extends State<PostCard> {
                             future: _comments,
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
+                                filteredCommentList = snapshot.data!
+                                    .where(
+                                      (element) => element.isReply == false,
+                                    )
+                                    .toList();
                                 return Padding(
                                   padding: EdgeInsets.only(
                                       top: MediaQuery.of(context).padding.top),
@@ -583,17 +583,22 @@ class _PostCardState extends State<PostCard> {
                                       physics: const ScrollPhysics(),
                                       shrinkWrap: true,
                                       reverse: true,
-                                      itemCount: snapshot.data!.length,
+                                      itemCount: filteredCommentList.length,
                                       itemBuilder: ((context, index) {
-                                        if (snapshot.data![index].isReply ==
-                                            false) {
-                                          return CommentCard(
-                                            post: post!,
-                                            notifyPost: getPostData,
-                                            notifyComment: getComments,
-                                            comment: snapshot.data![index],
-                                          );
-                                        }
+                                        // dev.log(snapshot.data![index].isReply
+                                        //         .toString() +
+                                        //     " " +
+                                        //     snapshot.data![index].id +
+                                        //     " " +
+                                        //     snapshot.data![index].parentId
+                                        //         .toString());
+
+                                        return CommentCard(
+                                          post: post!,
+                                          notifyPost: getPostData,
+                                          notifyComment: getComments,
+                                          comment: filteredCommentList[index],
+                                        );
                                       }),
                                     ),
                                   ),

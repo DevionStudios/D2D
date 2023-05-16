@@ -36,7 +36,7 @@ class Comment {
       caption: map['caption'] ?? '',
       author: User.fromMap(map['author']),
       postId: map['postId'] ?? '',
-      isReply: map['isReply'] ?? false,
+      isReply: map['isReply'],
       parentId: map['parentId'] ?? '',
     );
   }

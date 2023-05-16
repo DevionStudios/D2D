@@ -7,7 +7,7 @@ import 'package:foxxi/providers/theme_provider.dart';
 
 void showSnackBar(BuildContext context, String text) {
   // dev.log(text, name: "Response Body");
-  final isDark = Provider.of<ThemeProvider>(context, listen: true).isDarkMode;
+  final isDark = Provider.of<ThemeProvider>(context, listen: false).isDarkMode;
 
   Fluttertoast.showToast(
       msg: text, backgroundColor: isDark ? Colors.black : Colors.white);
