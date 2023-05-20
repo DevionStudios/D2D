@@ -60,14 +60,12 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
   // }
 
   void isPostLikedByUser() {
-    dev.log('isPostLiked ran');
     if (widget.post.likes != null) {
       if (widget.post.likes!.contains(
           Provider.of<UserProvider>(context, listen: false).user.id)) {
         setState(() {
           isLiked = true;
         });
-        dev.log(isLiked.toString(), name: 'IsPostLiked');
       } else {
         setState(() {
           isLiked = false;

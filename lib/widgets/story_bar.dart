@@ -44,7 +44,9 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
             ?.then((value) {
           dev.log(value.toString(), name: 'Story Value');
           if (value.isNotEmpty) {
-            listOfStories.add(value);
+            setState(() {
+              listOfStories.add(value);
+            });
           }
           dev.log(listOfStories.toString(), name: 'List of Stories');
         });
@@ -54,7 +56,6 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
         'usernameList is Null',
       );
     }
-    setState(() {});
   }
 
   /// Dispose
@@ -100,8 +101,9 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                               child: GestureDetector(
                                 onTap: (() {
                                   showMaterialModalBottomSheet(
-                                                      backgroundColor:isDark ? Colors.grey.shade900 : Colors.grey.shade100,
-
+                                      backgroundColor: isDark
+                                          ? Colors.grey.shade900
+                                          : Colors.grey.shade100,
                                       elevation: 2,
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.vertical(
@@ -188,12 +190,17 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                                                               size: 35,
                                                             ),
                                                           ),
-                                                           Text(
+                                                          Text(
                                                             'Image',
                                                             style: TextStyle(
                                                                 fontFamily:
-                                                                    'InstagramSans',                    color: isDark?Colors.grey.shade100:Colors.black
-),
+                                                                    'InstagramSans',
+                                                                color: isDark
+                                                                    ? Colors
+                                                                        .grey
+                                                                        .shade100
+                                                                    : Colors
+                                                                        .black),
                                                           ),
                                                         ],
                                                       ),
@@ -254,8 +261,13 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                                                             'Video',
                                                             style: TextStyle(
                                                                 fontFamily:
-                                                                    'InstagramSans',                    color: isDark?Colors.grey.shade100:Colors.black
-),
+                                                                    'InstagramSans',
+                                                                color: isDark
+                                                                    ? Colors
+                                                                        .grey
+                                                                        .shade100
+                                                                    : Colors
+                                                                        .black),
                                                           ),
                                                         ],
                                                       ),
