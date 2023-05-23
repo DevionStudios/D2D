@@ -230,6 +230,9 @@ class _DonateButtonState extends State<DonateButton> {
                                             }
                                           }
                                         }
+                                      } else if (_controller.text.isEmpty) {
+                                        showSnackBar(
+                                            context, 'Field Cannot be Empty');
                                       }
                                     },
                                     child: const Text('Donate'),
@@ -242,10 +245,14 @@ class _DonateButtonState extends State<DonateButton> {
                       ),
                       TextButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const WalletWeb()));
+                            if (walletAddressProvider.walletAddress != null) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const WalletWeb()));
+                            } else {
+                              showSnackBar(context, 'Connect your Wallet');
+                            }
                           },
                           child: const Text('Donate Screen'))
                     ],
