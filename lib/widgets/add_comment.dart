@@ -1,6 +1,7 @@
 import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
+import 'package:foxxi/components/custom_textfield.dart';
 import 'package:provider/provider.dart';
 
 import 'package:foxxi/constants.dart';
@@ -37,24 +38,20 @@ class AddCommentWidget extends StatelessWidget {
     this.postUserId,
     required this.postId,
   }) : super(key: key);
-  final TextEditingController _commentTextController = TextEditingController();
   final CommentService commentService = CommentService();
   PostService postService = PostService();
   NotificationService notificationService = NotificationService();
+
   @override
   Widget build(BuildContext context) {
+    CustomTextField customTextField =
+        CustomTextField(hintext: isUpdateComment ? '' : 'An Interesting Reply');
     final userProvider = Provider.of<UserProvider>(context, listen: false).user;
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Column(
         children: [
-          TextField(
-            controller: _commentTextController,
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              hintText: isUpdateComment ? '' : 'An Interesting Reply',
-            ),
-          ),
+          customTextField,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -89,13 +86,13 @@ class AddCommentWidget extends StatelessWidget {
                           textStyle: const TextStyle(fontSize: 20),
                         ),
                         onPressed: () async {
-                          if (_commentTextController.text.isNotEmpty) {
+                          if (customTextField.caption.isNotEmpty) {
                             if (isAddComment == true) {
                               dev.log('Add Comment Started');
                               int statusCode = await commentService.addComment(
                                   context: context,
                                   postId: postId!,
-                                  caption: _commentTextController.text);
+                                  caption: customTextField.caption);
 
                               if (userProvider.id != postUserId) {
                                 if (context.mounted) {
@@ -103,15 +100,17 @@ class AddCommentWidget extends StatelessWidget {
                                     if (notifyComments != null) {
                                       notifyComments!();
                                     }
-                                    notificationService.addNotification(
-                                        context: context,
-                                        notification: NotificationModel(
-                                            notification: 'commented on your',
-                                            notificationType: NotificationType
-                                                .POST_REPLY.name,
-                                            userId: postUserId!,
-                                            username: userProvider.username,
-                                            postId: postId));
+                                    {
+                                      notificationService.addNotification(
+                                          context: context,
+                                          notification: NotificationModel(
+                                              notification: 'commented on your',
+                                              notificationType: NotificationType
+                                                  .POST_REPLY.name,
+                                              userId: postUserId!,
+                                              username: userProvider.username,
+                                              postId: postId));
+                                    }
                                   }
                                 }
                               }
@@ -125,7 +124,7 @@ class AddCommentWidget extends StatelessWidget {
                                         parentId: commentId!,
                                         context: context,
                                         postId: postId!,
-                                        caption: _commentTextController.text)
+                                        caption: customTextField.caption)
                                     .then((value) {
                                   notifyComments!();
                                 });
@@ -139,7 +138,7 @@ class AddCommentWidget extends StatelessWidget {
                                     .updateComment(
                                         context: context,
                                         id: commentId!,
-                                        caption: _commentTextController.text)
+                                        caption: customTextField.caption)
                                     .then((value) {
                                   notifyComments!();
                                 });
@@ -153,7 +152,7 @@ class AddCommentWidget extends StatelessWidget {
                                     .updatePost(
                                         context: context,
                                         id: postId!,
-                                        caption: _commentTextController.text,
+                                        caption: customTextField.caption,
                                         hashtags: hashtags!)
                                     .then((value) {
                                   if (notifyPost != null) {
@@ -162,7 +161,6 @@ class AddCommentWidget extends StatelessWidget {
                                 });
                               }
                             }
-                            _commentTextController.clear();
                             if (context.mounted) {
                               Navigator.pop(context);
                             }

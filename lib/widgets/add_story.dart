@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:foxxi/components/custom_textfield.dart';
 import 'package:foxxi/providers/theme_provider.dart';
 import 'package:foxxi/services/story_service.dart';
 import 'package:foxxi/utils.dart';
@@ -21,11 +22,8 @@ class AddStory extends StatefulWidget {
 }
 
 class _AddStoryState extends State<AddStory> {
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
+  final CustomTextField _customTextField =
+      CustomTextField(hintext: 'Include body for your story');
   Items? selectedMenu;
 
   var _image;
@@ -35,7 +33,6 @@ class _AddStoryState extends State<AddStory> {
   VideoPlayerController? _videoPlayerController;
   StoryService storyService = StoryService();
   XFile? image;
-  final TextEditingController _captionController = TextEditingController();
 
 // This funcion will helps you to pick a Video File
   _pickVideo() async {
@@ -73,18 +70,11 @@ class _AddStoryState extends State<AddStory> {
   }
 
   @override
-  void dispose() {
-    _captionController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-            final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
 
     return Scaffold(
-                              backgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
-
+      backgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
       appBar: AppBar(
         elevation: 0,
       ),
@@ -93,31 +83,27 @@ class _AddStoryState extends State<AddStory> {
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
                     'Add Story',
-                    style: TextStyle(fontSize: 20,color: isDark?Colors.grey.shade100:Colors.black),
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: isDark ? Colors.grey.shade100 : Colors.black),
                   ),
-                ),
-                  Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Caption',style:TextStyle(color: isDark?Colors.grey.shade100:Colors.black)),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _captionController,
-                    decoration: const InputDecoration(
-                      // labelText: 'Caption',
-                      border: OutlineInputBorder(),
-                      hintText: 'Include body for your post.',
-                    ),
-                  ),
+                  child: Text('Caption',
+                      style: TextStyle(
+                          color: isDark ? Colors.grey.shade100 : Colors.black)),
                 ),
-                 Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Media',style:TextStyle(color: isDark?Colors.grey.shade100:Colors.black)),
+                _customTextField,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('Media',
+                      style: TextStyle(
+                          color: isDark ? Colors.grey.shade100 : Colors.black)),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -212,10 +198,10 @@ class _AddStoryState extends State<AddStory> {
                             textStyle: const TextStyle(fontSize: 20),
                           ),
                           onPressed: () {
-                            if (_captionController.text.isNotEmpty) {
+                            if (_customTextField.caption.isNotEmpty) {
                               storyService.createStories(
                                   context: context,
-                                  caption: _captionController.text,
+                                  caption: _customTextField.caption,
                                   imageFilePath: image!.path);
                               Navigator.pop(context);
                             } else {
@@ -233,31 +219,31 @@ class _AddStoryState extends State<AddStory> {
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
                     'Add Story',
-                    style: TextStyle(fontSize: 20,color: isDark?Colors.grey.shade100:Colors.black),
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: isDark ? Colors.grey.shade100 : Colors.black),
                   ),
-                ),
-                 Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Caption',style: TextStyle(color: isDark?Colors.grey.shade100:Colors.black),),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _captionController,
-                    decoration: const InputDecoration(
-                      // labelText: 'Caption',
-                      border: OutlineInputBorder(),
-                      hintText: 'Include body for your post.',
-                    ),
+                  child: Text(
+                    'Caption',
+                    style: TextStyle(
+                        color: isDark ? Colors.grey.shade100 : Colors.black),
                   ),
                 ),
-                 Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Media',style: TextStyle(color: isDark?Colors.grey.shade100:Colors.black),),
+                _customTextField,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Media',
+                    style: TextStyle(
+                        color: isDark ? Colors.grey.shade100 : Colors.black),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -339,10 +325,10 @@ class _AddStoryState extends State<AddStory> {
                             textStyle: const TextStyle(fontSize: 20),
                           ),
                           onPressed: () {
-                            if (_captionController.text.isNotEmpty) {
+                            if (_customTextField.caption.isNotEmpty) {
                               storyService.createStories(
                                   context: context,
-                                  caption: _captionController.text,
+                                  caption: _customTextField.caption,
                                   videoFilePath: pickedFile!.path);
                               Navigator.pop(context);
                             } else {

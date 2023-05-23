@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:foxxi/components/custom_textfield.dart';
 import 'package:foxxi/providers/theme_provider.dart';
 
 import 'package:foxxi/providers/user_provider.dart';
@@ -32,8 +33,11 @@ class _AddPostState extends State<AddPost> {
 
   PostService postService = PostService();
   NotificationService notificationService = NotificationService();
-  final TextEditingController _captionTextEditingController =
-      TextEditingController();
+
+  final CustomTextField _customTextField = CustomTextField(
+    hintext: 'Include body for your post',
+  );
+  String caption = '';
   var _image;
   XFile? image;
   XFile? pickedFile;
@@ -81,14 +85,8 @@ class _AddPostState extends State<AddPost> {
   }
 
   @override
-  void dispose() {
-    _captionTextEditingController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-        final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
 
     final userProvider = Provider.of<UserProvider>(context, listen: true).user;
 
@@ -99,8 +97,7 @@ class _AddPostState extends State<AddPost> {
     // }
 
     return Scaffold(
-                        backgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
-
+      backgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
       appBar: AppBar(
         elevation: 0,
       ),
@@ -109,43 +106,28 @@ class _AddPostState extends State<AddPost> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Text(
               'Create Post',
-              style: TextStyle(fontSize: 20,color: isDark?Colors.grey.shade100:Colors.black),
-
+              style: TextStyle(
+                  fontSize: 20,
+                  color: isDark ? Colors.grey.shade100 : Colors.black),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text('Caption',style:TextStyle(color: isDark?Colors.grey.shade100:Colors.black)),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              style: TextStyle(color: isDark?Colors.grey.shade100:Colors.black),
-              onSubmitted: (value) {
-                setState(() {
-                  words = value.split(' ');
-
-                  for (String element in words) {
-                    if (element.startsWith('@')) {
-                      mentionedUsers.add(element);
-                    }
-                  }
-                });
-              },
-              controller: _captionTextEditingController,
-              decoration: const InputDecoration(
-                // labelText: 'Caption',
-                border: OutlineInputBorder(),
-                hintText: 'Include body for your post.',
-              ),
-            ),
+            child: Text('Caption',
+                style: TextStyle(
+                    color: isDark ? Colors.grey.shade100 : Colors.black)),
           ),
-           Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text('Media',style: TextStyle(color: isDark?Colors.grey.shade100:Colors.black),),
+          _customTextField,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Media',
+              style: TextStyle(
+                  color: isDark ? Colors.grey.shade100 : Colors.black),
+            ),
           ),
           (widget.IsImage == true)
               ? Padding(
@@ -290,10 +272,10 @@ class _AddPostState extends State<AddPost> {
                       textStyle: const TextStyle(fontSize: 20),
                     ),
                     onPressed: () {
-                      if (_captionTextEditingController.text.isNotEmpty) {
+                      if (_customTextField.caption.isNotEmpty) {
                         postService.createPost(
                             context: context,
-                            caption: _captionTextEditingController.text,
+                            caption: _customTextField.caption,
                             imageFilePath: (widget.IsImage == true)
                                 ? image?.path == null
                                     ? null
