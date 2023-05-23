@@ -286,7 +286,7 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
                                 postId: widget.post.id,
                                 postUserId: widget.post.author.id,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 100,
                               )
                             ],

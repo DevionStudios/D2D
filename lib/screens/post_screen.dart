@@ -127,7 +127,7 @@ class _PostCardState extends State<PostCard> {
               ),
             ),
           ),
-          backgroundColor: isDark ? Colors.black : Colors.white,
+          backgroundColor: isDark ? Colors.grey.shade900 : Colors.grey.shade100,
         ),
         backgroundColor: isDark ? Colors.grey.shade900 : Colors.grey.shade100,
         body: RefreshIndicator(
@@ -267,9 +267,6 @@ class _PostCardState extends State<PostCard> {
                                                               child: null,
                                                             ),
                                                             onTap: () {
-                                                              Navigator.pop(
-                                                                  dialogContext);
-
                                                               if (e ==
                                                                   'Report Post') {
                                                                 postService
@@ -393,6 +390,8 @@ class _PostCardState extends State<PostCard> {
                                                                   ),
                                                                 );
                                                               }
+                                                              Navigator.pop(
+                                                                  dialogContext);
                                                             }),
                                                       )
                                                       .toList()),

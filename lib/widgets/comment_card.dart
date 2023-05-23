@@ -345,7 +345,8 @@ class _CommentCardState extends State<CommentCard> {
               ),
               GestureDetector(
                 onTap: () {
-                  showMaterialModalBottomSheet<void>(
+                  showModalBottomSheet<void>(
+                    isScrollControlled: true,
                     shape: const RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(25))),
@@ -432,6 +433,9 @@ class _CommentCardState extends State<CommentCard> {
                             postId: widget.post!.id,
                             commentId: widget.comment!.id,
                           ),
+                          const SizedBox(
+                            height: 100,
+                          )
                         ],
                       ),
                     ),
