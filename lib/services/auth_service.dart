@@ -3,9 +3,9 @@ import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:foxxi/env.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:foxxi/constants.dart';
 import 'package:foxxi/http_error_handle.dart';
 import 'package:foxxi/screens/login_screen.dart';
 import 'package:foxxi/screens/preference_screen.dart';

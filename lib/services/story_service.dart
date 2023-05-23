@@ -4,7 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:foxxi/models/user.dart';
 import 'package:foxxi/utils.dart';
 import 'package:http/http.dart' as http;
-import 'package:foxxi/constants.dart';
+import 'package:foxxi/env.dart';
 import 'dart:convert';
 import 'package:foxxi/http_error_handle.dart';
 
@@ -33,11 +33,10 @@ class StoryService {
         request.files.add(
           await http.MultipartFile.fromPath('media', imageFilePath),
         );
-       
-        }
-         if (videoFilePath != null) {
-          request.files
-              .add(await http.MultipartFile.fromPath('media', videoFilePath));
+      }
+      if (videoFilePath != null) {
+        request.files
+            .add(await http.MultipartFile.fromPath('media', videoFilePath));
       }
       final res = await request.send();
       if (res.statusCode == 201) {

@@ -8,7 +8,7 @@ import 'package:foxxi/utils.dart';
 import 'package:http/http.dart' as http;
 import 'dart:developer' as dev;
 
-import '../constants.dart';
+import 'package:foxxi/env.dart';
 
 const _storage = FlutterSecureStorage();
 NotificationService notificationService = NotificationService();

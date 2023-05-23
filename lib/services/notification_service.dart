@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:foxxi/constants.dart';
+import 'package:foxxi/env.dart';
 import 'package:foxxi/http_error_handle.dart';
 import 'package:foxxi/models/notification.dart';
 import 'package:http/http.dart' as http;

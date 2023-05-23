@@ -1,5 +1,5 @@
 // import 'dart:js_util';
-import 'package:foxxi/constants.dart';
+import 'package:foxxi/env.dart';
 import 'package:foxxi/providers/theme_provider.dart';
 import 'package:foxxi/utils.dart';
 import 'package:http/http.dart' as http;
@@ -149,8 +149,8 @@ class _NewsScreenState extends State<NewsScreen> {
               return Text('${snapshot.error}');
             }
             return Center(
-                  child: CustomLoader(),
-                );
+              child: CustomLoader(),
+            );
           }),
         ),
       ),
