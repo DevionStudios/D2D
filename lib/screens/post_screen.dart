@@ -454,6 +454,14 @@ class _PostCardState extends State<PostCard> {
                                                       : Colors.black));
                                     }).toList())),
                               ),
+                              isImage == false && isVideo == false
+                                  ? PostLikeCommentBar(
+                                      notifyComments: getComments,
+                                      post: post!,
+                                      isImage: true,
+                                      isVideo: false,
+                                    )
+                                  : const SizedBox(),
                               isImage
                                   ? Container(
                                       height: 400,
