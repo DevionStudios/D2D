@@ -195,7 +195,8 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
                           size: 30),
                     ),
                     onPressed: () {
-                      showMaterialModalBottomSheet<void>(
+                      showModalBottomSheet<void>(
+                        isScrollControlled: true,
                         shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
                                 top: Radius.circular(25))),
@@ -285,6 +286,9 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
                                 postId: widget.post.id,
                                 postUserId: widget.post.author.id,
                               ),
+                              SizedBox(
+                                height: 100,
+                              )
                             ],
                           ),
                         ),

@@ -106,36 +106,48 @@ class _CustomTextFieldState extends State<CustomTextField> {
       optionsViewBuilder: (BuildContext context, void Function(User) onSelected,
           Iterable<User> options) {
         return Material(
-            child: SizedBox(
-                height: 200,
-                child: SingleChildScrollView(
-                    child: Column(
-                  children: options.map((opt) {
-                    return InkWell(
-                      onTap: () {
-                        onSelected(opt);
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: SizedBox(
+                    height: 200,
+                    child: ListView.builder(
+                      itemCount: options.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            onSelected(options.elementAt(index));
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.only(right: 60),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                    options.elementAt(index).image),
+                              ),
+                              title: Text(
+                                options.elementAt(index).name,
+                                style: TextStyle(
+                                    color:
+                                        isDark ? Colors.white : Colors.black),
+                              ),
+                              subtitle: Text(
+                                options.elementAt(index).username,
+                                style: TextStyle(
+                                    color:
+                                        isDark ? Colors.white : Colors.black),
+                              ),
+                            ),
+                          ),
+                        );
                       },
-                      child: Container(
-                        padding: const EdgeInsets.only(right: 60),
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage: NetworkImage(opt.image),
-                          ),
-                          title: Text(
-                            opt.name,
-                            style: TextStyle(
-                                color: isDark ? Colors.white : Colors.black),
-                          ),
-                          subtitle: Text(
-                            opt.username,
-                            style: TextStyle(
-                                color: isDark ? Colors.white : Colors.black),
-                          ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ))));
+                    )),
+              ),
+            ],
+          ),
+        );
       },
     );
   }
