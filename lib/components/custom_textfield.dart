@@ -24,7 +24,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
   String currentWord = '';
   List<User> searchedUsers = [];
   List<String> words = [];
-  String caption = '';
   bool usernameSelected = false;
   List<Map<String, dynamic>> followerFollowingList = [];
   List<User> get users =>
@@ -82,8 +81,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           padding: const EdgeInsets.all(12.0),
           child: TextField(
             onChanged: (value) {
-              caption = value;
-              dev.log(caption, name: 'CAP');
+              widget.caption = value;
               words = value.split(' ');
               currentWord = words.last;
               dev.log(words.toString(), name: 'Words');

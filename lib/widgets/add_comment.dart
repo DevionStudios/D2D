@@ -41,11 +41,10 @@ class AddCommentWidget extends StatelessWidget {
   final CommentService commentService = CommentService();
   PostService postService = PostService();
   NotificationService notificationService = NotificationService();
-
+  CustomTextField customTextField =
+      CustomTextField(hintext: 'An Interesting Reply');
   @override
   Widget build(BuildContext context) {
-    CustomTextField customTextField =
-        CustomTextField(hintext: isUpdateComment ? '' : 'An Interesting Reply');
     final userProvider = Provider.of<UserProvider>(context, listen: false).user;
     return Padding(
       padding: const EdgeInsets.all(8),
