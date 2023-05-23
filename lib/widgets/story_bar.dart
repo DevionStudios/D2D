@@ -33,7 +33,7 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
     getFollowingUserStories();
   }
 
-  getFollowingUserStories() {
+  void getFollowingUserStories() {
     usernameList =
         Provider.of<UserProvider>(context, listen: false).user.following;
     if (usernameList != null) {
@@ -80,7 +80,7 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
           children: [
             Container(
               // decoration: BoxDecoration(border: Border.all()),
-              padding: const EdgeInsets.all(7),
+              padding: const EdgeInsets.only(left: 7),
               alignment: Alignment.center,
               child: SingleChildScrollView(
                 child: Column(
@@ -336,7 +336,7 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                   itemBuilder: (context, index) {
                     return Container(
                       // decoration: BoxDecoration(border: Border.all()),
-                      padding: const EdgeInsets.all(7),
+                      padding: const EdgeInsets.all(3),
                       alignment: Alignment.center,
                       child: SingleChildScrollView(
                         child: Column(

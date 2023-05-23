@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:foxxi/widgets/add_comment.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
-import 'dart:developer' as dev;
 import 'package:foxxi/models/comments.dart';
 import 'package:foxxi/models/feed_post_model.dart';
 import 'package:foxxi/providers/theme_provider.dart';

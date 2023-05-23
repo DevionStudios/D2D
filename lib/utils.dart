@@ -38,3 +38,5 @@ class CustomLoader extends StatelessWidget {
         rightDotColor: Colors.purpleAccent.shade100);
   }
 }
+
+

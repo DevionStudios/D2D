@@ -33,71 +33,69 @@ class _SecuritySettingScreenState extends State<SecuritySettingScreen> {
 
   @override
   Widget build(BuildContext context) {
-        final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
 
     return Scaffold(
-        backgroundColor: isDark?Colors.grey.shade900:Colors.white,
-      
+      backgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
       body: StickyHeader(
         header: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(left: 16,top :16),
-                      height: 100,
-                      // width: MediaQuery.of(context).size.width * 0.1,
-                      child: CircleAvatar(
-                        backgroundColor:
-                            Colors.purpleAccent.shade100.withOpacity(0.4),
-                        child: IconButton(
-                          // iconSize: 20,
-                          icon: const Icon(
-                            Icons.arrow_back_ios_new_rounded,
-                            color: Colors.white,
-                            // size: 15,
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ) ,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.only(left: 16, top: 16),
+              height: 100,
+              // width: MediaQuery.of(context).size.width * 0.1,
+              child: CircleAvatar(
+                backgroundColor: Colors.purpleAccent.shade100.withOpacity(0.4),
+                child: IconButton(
+                  // iconSize: 20,
+                  icon: const Icon(
+                    Icons.arrow_back_ios_new_rounded,
+                    color: Colors.white,
+                    // size: 15,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
         content: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-      
-                 Padding(
+                Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
                     'Secuity Settings',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30,color: isDark?Colors.grey.shade100:Colors.black),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                        color: isDark ? Colors.grey.shade100 : Colors.black),
                   ),
                 ),
-                 Padding(
+                Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
                     'Change your password',
                     style: TextStyle(
-                      fontFamily: 'InstagramSans',
-                      fontSize: 18,
-                      color: isDark?Colors.grey.shade100:Colors.black
-                    ),
+                        fontFamily: 'InstagramSans',
+                        fontSize: 18,
+                        color: isDark ? Colors.grey.shade100 : Colors.black),
                   ),
                 ),
-                 Padding(
+                Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
                     'Current Password',
                     style: TextStyle(
-                      fontFamily: 'InstagramSans',
-                      fontSize: 15,
-                      color: isDark?Colors.grey.shade100:Colors.black
-                    ),
+                        fontFamily: 'InstagramSans',
+                        fontSize: 15,
+                        color: isDark ? Colors.grey.shade100 : Colors.black),
                   ),
                 ),
                 Padding(
@@ -109,15 +107,14 @@ class _SecuritySettingScreenState extends State<SecuritySettingScreen> {
                     ),
                   ),
                 ),
-                 Padding(
+                Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
                     'New Password',
                     style: TextStyle(
-                      fontFamily: 'InstagramSans',
-                      fontSize: 15,
-                      color: isDark?Colors.grey.shade100:Colors.black
-                    ),
+                        fontFamily: 'InstagramSans',
+                        fontSize: 15,
+                        color: isDark ? Colors.grey.shade100 : Colors.black),
                   ),
                 ),
                 Padding(
@@ -129,15 +126,14 @@ class _SecuritySettingScreenState extends State<SecuritySettingScreen> {
                     ),
                   ),
                 ),
-                 Padding(
+                Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
                     'Confirm your password',
                     style: TextStyle(
-                      fontFamily: 'InstagramSans',
-                      fontSize: 15,
-                      color: isDark?Colors.grey.shade100:Colors.black
-                    ),
+                        fontFamily: 'InstagramSans',
+                        fontSize: 15,
+                        color: isDark ? Colors.grey.shade100 : Colors.black),
                   ),
                 ),
                 Padding(
@@ -164,7 +160,8 @@ class _SecuritySettingScreenState extends State<SecuritySettingScreen> {
                                   borderRadius: BorderRadius.circular(15),
                                   gradient: LinearGradient(
                                     colors: [
-                                      Colors.lightBlue.shade100.withOpacity(0.4),
+                                      Colors.lightBlue.shade100
+                                          .withOpacity(0.4),
                                       Colors.purpleAccent.shade100
                                           .withOpacity(0.4),
                                     ],
@@ -186,15 +183,26 @@ class _SecuritySettingScreenState extends State<SecuritySettingScreen> {
                               onPressed: () {
                                 if (_newPasswordTextController.text ==
                                     _confirmNewPasswordTextController.text) {
-                                  userService.updatePassword(
-                                      context: context,
-                                      oldPassword:
-                                          _oldPasswordTextController.text,
-                                      newPassword:
-                                          _confirmNewPasswordTextController.text);
+                                  userService
+                                      .updatePassword(
+                                          context: context,
+                                          oldPassword:
+                                              _oldPasswordTextController.text,
+                                          newPassword:
+                                              _confirmNewPasswordTextController
+                                                  .text)
+                                      .then((value) {
+                                    if (value == 200 ||
+                                        value == 201 ||
+                                        value == 204) {
+                                      _newPasswordTextController.clear();
+                                      _confirmNewPasswordTextController.clear();
+                                      _oldPasswordTextController.clear();
+                                    }
+                                  });
                                 } else {
                                   _newPasswordTextController.clear();
-                                  _confirmNewPasswordTextController.clear();
+
                                   showSnackBar(
                                       context, 'New Password Do not match');
                                 }
