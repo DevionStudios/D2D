@@ -120,7 +120,7 @@ class _WalletWebState extends State<WalletWeb>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Text(
                           'Connect Wallet',
                           style: TextStyle(
@@ -132,7 +132,7 @@ class _WalletWebState extends State<WalletWeb>
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Text(
                           'Note - Use only one Google Account to Sign Up the Wallet',
                           style: TextStyle(
@@ -241,7 +241,7 @@ class _WalletWebState extends State<WalletWeb>
                         ),
                       )),
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
                       'Connect Wallet',
                       style: TextStyle(
@@ -252,7 +252,7 @@ class _WalletWebState extends State<WalletWeb>
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
                       'You are about to see your Private Key\nMake sure you are Alone !!!',
                       style: TextStyle(
@@ -332,7 +332,7 @@ class _WalletWebState extends State<WalletWeb>
                   },
                   child: const Icon(Icons.warning)),
             )
-          : null,
+          : const SizedBox(),
     );
     // Your page
   }
