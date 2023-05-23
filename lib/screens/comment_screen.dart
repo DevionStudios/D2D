@@ -62,12 +62,11 @@ class _CommentScreenState extends State<CommentScreen> {
     List<String> captionElements = widget.comment.caption.split(' ');
 
     return Scaffold(
-      appBar: AppBar(leading: Padding(
+      appBar: AppBar(
+        leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: CircleAvatar(
-            
-            backgroundColor:
-                Colors.purpleAccent.shade100.withOpacity(0.4),
+            backgroundColor: Colors.purpleAccent.shade100.withOpacity(0.4),
             child: IconButton(
               // iconSize: 20,
               icon: const Icon(
@@ -79,121 +78,121 @@ class _CommentScreenState extends State<CommentScreen> {
                 Navigator.pop(context);
               },
             ),
-
           ),
-
         ),
-        backgroundColor: isDark?Colors.black:Colors.white,),
-        body: SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ProfileWidget(
-                              isMe: widget.comment.id == userProvider.user.id
-                                  ? true
-                                  : false,
-                              username: widget.comment.author.username),
-                        ));
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CircleAvatar(
-                        backgroundImage: NetworkImage(
-                          widget.comment.author.image.toString(),
+        backgroundColor: isDark ? Colors.black : Colors.white,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfileWidget(
+                                isMe: widget.comment.id == userProvider.user.id
+                                    ? true
+                                    : false,
+                                username: widget.comment.author.username),
+                          ));
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CircleAvatar(
+                          backgroundImage: NetworkImage(
+                            widget.comment.author.image.toString(),
+                          ),
+                          radius: 18,
                         ),
-                        radius: 18,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(widget.comment.author.name.toString(),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: isDark ? Colors.white : Colors.black87,
-                                )),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 4),
-                              child: Text(
-                                // DateFormat.yMMMd().format(
-                                //   snap.data()['datePublished'].toDate(),
-                                '@${widget.comment.author.username.toString()}',
-                                style: TextStyle(
-                                  color: isDark
-                                      ? Colors.grey.shade500
-                                      : Colors.grey,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(widget.comment.author.name.toString(),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        isDark ? Colors.white : Colors.black87,
+                                  )),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4),
+                                child: Text(
+                                  // DateFormat.yMMMd().format(
+                                  //   snap.data()['datePublished'].toDate(),
+                                  '@${widget.comment.author.username.toString()}',
+                                  style: TextStyle(
+                                    color: isDark
+                                        ? Colors.grey.shade500
+                                        : Colors.grey,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
-                              ),
-                            )
-                          ],
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5, right: 5, left: 5),
-            child: Text.rich(TextSpan(
-                text: null,
-                children: captionElements.map((w) {
-                  return w.startsWith('@') && w.length > 1
-                      ? TextSpan(
-                          text: ' ${w.replaceAll(':', '')}',
-                          style:
-                              const TextStyle(color: Colors.blue, fontSize: 20),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ProfileWidget(
-                                      isMe: w.replaceAll(RegExp('@:'), '') ==
-                                              userProvider.user.username
-                                          ? true
-                                          : false,
-                                      username:
-                                          w.replaceAll(RegExp('[@:]'), '')),
-                                ),
-                              );
-                            },
-                        )
-                      : TextSpan(
-                          text: ' $w',
-                          style: TextStyle(
-                              color: isDark ? Colors.white : Colors.black,
-                              fontSize: 20));
-                }).toList())),
-          ),
-          GestureDetector(
-            onTap: () {
-              showMaterialModalBottomSheet<void>(
-                shape: const RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(25))),
-                context: context,
-                builder: (context) => Padding(
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5, right: 5, left: 5),
+              child: Text.rich(TextSpan(
+                  text: null,
+                  children: captionElements.map((w) {
+                    return w.startsWith('@') && w.length > 1
+                        ? TextSpan(
+                            text: ' ${w.replaceAll(':', '')}',
+                            style: const TextStyle(
+                                color: Colors.blue, fontSize: 20),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ProfileWidget(
+                                        isMe: w.replaceAll(RegExp('@:'), '') ==
+                                                userProvider.user.username
+                                            ? true
+                                            : false,
+                                        username:
+                                            w.replaceAll(RegExp('[@:]'), '')),
+                                  ),
+                                );
+                              },
+                          )
+                        : TextSpan(
+                            text: ' $w',
+                            style: TextStyle(
+                                color: isDark ? Colors.white : Colors.black,
+                                fontSize: 20));
+                  }).toList())),
+            ),
+            GestureDetector(
+              onTap: () {
+                showModalBottomSheet<void>(
+                  isScrollControlled: true,
+                  shape: const RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(25))),
+                  context: context,
+                  builder: (context) => Padding(
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).viewInsets.bottom),
                     child: Column(
@@ -273,50 +272,54 @@ class _CommentScreenState extends State<CommentScreen> {
                           postId: widget.post.id,
                           commentId: widget.comment.id,
                         ),
+                        const SizedBox(
+                          height: 100,
+                        ),
                       ],
                     ),
                   ),
                 );
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Text(
-                'Reply',
-                style: TextStyle(color: Colors.grey, fontSize: 12),
+              },
+              child: const Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text(
+                  'Reply',
+                  style: TextStyle(color: Colors.grey, fontSize: 12),
+                ),
               ),
             ),
-          ),
-          Divider(
-            thickness: 5,
-            indent: MediaQuery.of(context).size.width / 20,
-            endIndent: MediaQuery.of(context).size.width / 20,
-          ),
-          replies.isNotEmpty
-              ? const SizedBox()
-              : const Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Text(
-                      'No Replies ',
-                      style: TextStyle(color: Colors.grey, fontSize: 20),
+            Divider(
+              thickness: 5,
+              indent: MediaQuery.of(context).size.width / 20,
+              endIndent: MediaQuery.of(context).size.width / 20,
+            ),
+            replies.isNotEmpty
+                ? const SizedBox()
+                : const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Text(
+                        'No Replies ',
+                        style: TextStyle(color: Colors.grey, fontSize: 20),
+                      ),
                     ),
                   ),
-                ),
-          ListView.builder(
-            physics: const ScrollPhysics(),
-            reverse: true,
-            shrinkWrap: true,
-            itemCount: replies.length,
-            itemBuilder: (context, index) {
-              return CommentCard(
-                notifyComment: getReplies,
-                comment: replies[index],
-                post: widget.post,
-              );
-            },
-          )
-        ],
+            ListView.builder(
+              physics: const ScrollPhysics(),
+              reverse: true,
+              shrinkWrap: true,
+              itemCount: replies.length,
+              itemBuilder: (context, index) {
+                return CommentCard(
+                  notifyComment: getReplies,
+                  comment: replies[index],
+                  post: widget.post,
+                );
+              },
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 }
