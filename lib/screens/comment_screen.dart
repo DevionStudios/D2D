@@ -1,5 +1,5 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:foxxi/components/custom_text.dart';
 import 'package:foxxi/widgets/add_comment.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
@@ -58,8 +58,6 @@ class _CommentScreenState extends State<CommentScreen> {
     final isDark = Provider.of<ThemeProvider>(context, listen: true).isDarkMode;
 
     final userProvider = Provider.of<UserProvider>(context, listen: true);
-
-    List<String> captionElements = widget.comment.caption.split(' ');
 
     return Scaffold(
       appBar: AppBar(
@@ -151,39 +149,7 @@ class _CommentScreenState extends State<CommentScreen> {
             const SizedBox(
               height: 10,
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 5, right: 5, left: 5),
-              child: Text.rich(TextSpan(
-                  text: null,
-                  children: captionElements.map((w) {
-                    return w.startsWith('@') && w.length > 1
-                        ? TextSpan(
-                            text: ' ${w.replaceAll(':', '')}',
-                            style: const TextStyle(
-                                color: Colors.blue, fontSize: 20),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ProfileWidget(
-                                        isMe: w.replaceAll(RegExp('@:'), '') ==
-                                                userProvider.user.username
-                                            ? true
-                                            : false,
-                                        username:
-                                            w.replaceAll(RegExp('[@:]'), '')),
-                                  ),
-                                );
-                              },
-                          )
-                        : TextSpan(
-                            text: ' $w',
-                            style: TextStyle(
-                                color: isDark ? Colors.white : Colors.black,
-                                fontSize: 20));
-                  }).toList())),
-            ),
+            CustomText(caption: widget.comment.caption),
             GestureDetector(
               onTap: () {
                 showModalBottomSheet<void>(

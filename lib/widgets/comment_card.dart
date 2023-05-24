@@ -1,15 +1,13 @@
 import 'dart:developer' as dev;
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:foxxi/components/custom_text.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
 import 'package:foxxi/models/comments.dart';
 import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/screens/comment_screen.dart';
-import 'package:foxxi/screens/post_screen.dart';
-import 'package:foxxi/screens/profile_screen.dart';
 import 'package:foxxi/services/comment_service.dart';
 import 'package:foxxi/widgets/add_comment.dart';
 
@@ -39,8 +37,6 @@ class _CommentCardState extends State<CommentCard> {
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
     final userProvider = Provider.of<UserProvider>(context, listen: true);
     CommentService commentService = CommentService();
-
-    List<String> captionElements = widget.comment!.caption.split(' ');
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
@@ -309,40 +305,7 @@ class _CommentCardState extends State<CommentCard> {
                   )
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 5),
-                child: Text.rich(TextSpan(
-                    text: null,
-                    children: captionElements.map((w) {
-                      return w.startsWith('@') && w.length > 1
-                          ? TextSpan(
-                              text: ' ${w.replaceAll(':', '')}',
-                              style: const TextStyle(color: Colors.blue),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  dev.log(w.replaceAll('[@:]', ''),
-                                      name: '@ names');
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ProfileWidget(
-                                          isMe:
-                                              w.replaceAll(RegExp('@:'), '') ==
-                                                      userProvider.user.username
-                                                  ? true
-                                                  : false,
-                                          username:
-                                              w.replaceAll(RegExp('[@:]'), '')),
-                                    ),
-                                  );
-                                },
-                            )
-                          : TextSpan(
-                              text: ' $w',
-                              style: TextStyle(
-                                  color: isDark ? Colors.white : Colors.black));
-                    }).toList())),
-              ),
+              CustomText(caption: widget.comment!.caption),
               GestureDetector(
                 onTap: () {
                   showModalBottomSheet<void>(

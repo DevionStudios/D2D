@@ -2,6 +2,7 @@ import 'dart:developer' as dev;
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:foxxi/components/custom_text.dart';
 import 'package:foxxi/screens/profile_screen.dart';
 import 'package:foxxi/services/notification_service.dart';
 import 'package:foxxi/utils.dart';
@@ -13,6 +14,7 @@ import 'package:foxxi/components/postlikebar.dart';
 import 'package:foxxi/models/feed_post_model.dart';
 import 'package:foxxi/providers/theme_provider.dart';
 import 'package:foxxi/services/post_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
 import '../components/pinch_to_zoom.dart';
@@ -81,15 +83,6 @@ class _FeedCardState extends State<FeedCard> {
 
     DateTime datetime = DateTime.parse(widget.post.createdAt);
     final tempDate = DateFormat.yMd().add_jm().format(datetime);
-    // RegExp userMentionPattern = RegExp(r"\B@[a-zA-Z0-9]+\b");
-    // Iterable<Match> mentionedUsernames =
-    //     userMentionPattern.allMatches(widget.post.caption.toString());
-    // List<String> usernames = [];
-
-    // for (Match match in mentionedUsernames) {
-    //   usernames.add(match.toString());
-    // }
-    List<String> captionElements = widget.post.caption.split(' ');
 
     return GestureDetector(
       onTap: () {
@@ -411,40 +404,7 @@ class _FeedCardState extends State<FeedCard> {
                     padding: const EdgeInsets.all(8),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text.rich(TextSpan(
-                          text: null,
-                          children: captionElements.map((w) {
-                            return w.startsWith('@') && w.length > 1
-                                ? TextSpan(
-                                    text: ' ${w.replaceAll(':', '')}',
-                                    style: const TextStyle(color: Colors.blue),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () {
-                                        dev.log(w.replaceAll('[@:]', ''),
-                                            name: '@ names');
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => ProfileWidget(
-                                                isMe: w.replaceAll(
-                                                            RegExp('@:'), '') ==
-                                                        userProvider
-                                                            .user.username
-                                                    ? true
-                                                    : false,
-                                                username: w.replaceAll(
-                                                    RegExp('[@:]'), '')),
-                                          ),
-                                        );
-                                      },
-                                  )
-                                : TextSpan(
-                                    text: ' $w',
-                                    style: TextStyle(
-                                        color: isDark
-                                            ? Colors.white
-                                            : Colors.black));
-                          }).toList())),
+                      child: CustomText(caption: widget.post.caption),
                     ),
                   ),
                   widget.isImage

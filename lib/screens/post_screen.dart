@@ -1,5 +1,5 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:foxxi/components/custom_text.dart';
 import 'package:foxxi/components/postlikebar.dart';
 import 'package:foxxi/providers/user_provider.dart';
 import 'package:foxxi/screens/profile_screen.dart';
@@ -12,7 +12,6 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:intl/intl.dart';
-import 'dart:developer' as dev;
 
 import '../models/comments.dart';
 import '../models/feed_post_model.dart';
@@ -105,8 +104,6 @@ class _PostCardState extends State<PostCard> {
     if (post != null) {
       DateTime datetime = DateTime.parse(post!.createdAt);
       final tempDate = DateFormat.yMd().add_jm().format(datetime);
-
-      List<String> captionElements = post!.caption.split(' ');
 
       return Scaffold(
         appBar: AppBar(
@@ -411,47 +408,7 @@ class _PostCardState extends State<PostCard> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text.rich(TextSpan(
-                                    text: null,
-                                    children: captionElements.map((w) {
-                                      return w.startsWith('@') && w.length > 1
-                                          ? TextSpan(
-                                              text: ' $w',
-                                              style: const TextStyle(
-                                                  color: Colors.blue),
-                                              recognizer: TapGestureRecognizer()
-                                                ..onTap = () {
-                                                  dev.log(
-                                                      w.replaceAll('[@:]', ''),
-                                                      name: '@ names');
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) => ProfileWidget(
-                                                          isMe: w.replaceAll(
-                                                                      RegExp(
-                                                                          '@:'),
-                                                                      '') ==
-                                                                  userProvider
-                                                                      .username
-                                                              ? true
-                                                              : false,
-                                                          username:
-                                                              w.replaceAll(
-                                                                  RegExp(
-                                                                      '[@:]'),
-                                                                  '')),
-                                                    ),
-                                                  );
-                                                },
-                                            )
-                                          : TextSpan(
-                                              text: ' $w',
-                                              style: TextStyle(
-                                                  color: isDark
-                                                      ? Colors.white
-                                                      : Colors.black));
-                                    }).toList())),
+                                child: CustomText(caption: post!.caption),
                               ),
                               isImage == false && isVideo == false
                                   ? PostLikeCommentBar(
