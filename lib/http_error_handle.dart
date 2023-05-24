@@ -26,14 +26,15 @@ void httpErrorHandle({
 
       break;
     case 500:
-      dev.log(response.body.toString(), name: "Response Status Code");
-      break; 
+      dev.log(response.statusCode.toString(), name: "Response Status Code ");
+      break;
     case 501:
-      dev.log(response.body.toString(), name: "Response Status Code");
+      dev.log(response.statusCode.toString(), name: "Response Status Code ");
 
       break;
     default:
-      dev.log(response.statusCode.toString(), name: "Response Status Code");
+      dev.log(response.statusCode.toString(),
+          name: "Default Response Status Code");
       showSnackBar(context, 'Something went wrong');
   }
 }

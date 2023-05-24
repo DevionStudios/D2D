@@ -15,7 +15,7 @@ class TweetMigrationScreen extends StatelessWidget {
       backgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
       body: StickyHeader(
         header: Container(
-          height: 100,
+            height: 100,
             padding: const EdgeInsets.only(left: 16, top: 16),
             // width: MediaQuery.of(context).size.width * 0.1,
             child: CircleAvatar(
@@ -37,7 +37,7 @@ class TweetMigrationScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Text(
                   "Tweets Migration",
                   style: TextStyle(
@@ -47,9 +47,9 @@ class TweetMigrationScreen extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  'You can import your 100 most recent tweets here.',
+                  "You can import your 100 most recent tweets here. \n Set your twitter username in profile setting before importing tweets",
                   style: TextStyle(
                       fontFamily: 'InstagramSans',
                       fontSize: 15,

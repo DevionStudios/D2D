@@ -93,7 +93,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Profile",
                     style: TextStyle(
@@ -103,7 +103,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "This information will be displayed publicly so be careful what you share",
                     style: TextStyle(
