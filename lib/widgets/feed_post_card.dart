@@ -232,26 +232,41 @@ class _FeedCardState extends State<FeedCard> {
                                                           name:
                                                               'FeedPostCard  button');
                                                       if (e == 'Delete Post') {
-                                                        postService.deletePost(
-                                                            context: context,
-                                                            id: widget.post.id
-                                                                .toString());
-                                                        Navigator.pop(
-                                                            dialogContext);
+                                                        postService
+                                                            .deletePost(
+                                                                context:
+                                                                    context,
+                                                                id: widget
+                                                                    .post.id
+                                                                    .toString())
+                                                            .then((value) {
+                                                          Navigator.pop(
+                                                              context);
+                                                        });
                                                       }
                                                       if (e == 'Repost Post') {
-                                                        postService.repostPost(
-                                                            id: widget.post.id,
-                                                            context: context);
-                                                        Navigator.pop(
-                                                            dialogContext);
+                                                        postService
+                                                            .repostPost(
+                                                                id: widget
+                                                                    .post.id,
+                                                                context:
+                                                                    context)
+                                                            .then((value) {
+                                                          Navigator.pop(
+                                                              dialogContext);
+                                                        });
                                                       }
                                                       if (e == 'Report Post') {
-                                                        postService.reportPost(
-                                                            id: widget.post.id,
-                                                            context: context);
-                                                        Navigator.pop(
-                                                            dialogContext);
+                                                        postService
+                                                            .reportPost(
+                                                                id: widget
+                                                                    .post.id,
+                                                                context:
+                                                                    context)
+                                                            .then((value) {
+                                                          Navigator.pop(
+                                                              dialogContext);
+                                                        });
                                                       }
 
                                                       if (e == 'Update Post') {

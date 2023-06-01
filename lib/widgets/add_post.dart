@@ -272,24 +272,26 @@ class _AddPostState extends State<AddPost> {
                       textStyle: const TextStyle(fontSize: 20),
                     ),
                     onPressed: () {
-                      if (_customTextField.caption.isNotEmpty) {
-                        postService.createPost(
-                            context: context,
-                            caption: _customTextField.caption,
-                            imageFilePath: (widget.IsImage == true)
-                                ? image?.path == null
-                                    ? null
-                                    : image!.path
-                                : null,
-                            videoFilePath: (widget.IsImage == true)
-                                ? null
-                                : pickedFile?.path == null
-                                    ? null
-                                    : pickedFile!.path);
-                      } else {
-                        showSnackBar(context, "Field can't be empty");
-                      }
-                      Navigator.pop(context);
+                      postService
+                          .createPost(
+                              context: context,
+                              caption: _customTextField.caption,
+                              imageFilePath: (widget.IsImage == true)
+                                  ? image?.path == null
+                                      ? null
+                                      : image!.path
+                                  : null,
+                              videoFilePath: (widget.IsImage == true)
+                                  ? null
+                                  : pickedFile?.path == null
+                                      ? null
+                                      : pickedFile!.path)
+                          .then((value) {
+                        if (value == 200 || value == 201 || value == 204) {
+                          showSnackBar(context, 'Post Uploaded');
+                          Navigator.pop(context);
+                        }
+                      });
                     },
                     child: const Text('Upload'),
                   )

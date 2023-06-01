@@ -3,6 +3,7 @@ import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:foxxi/providers/user_provider.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:foxxi/env.dart';
@@ -12,6 +13,7 @@ import 'package:foxxi/models/feed_post_model.dart';
 import 'package:foxxi/models/foxxi_trends_post_model.dart';
 import 'package:foxxi/services/notification_service.dart';
 import 'package:foxxi/utils.dart';
+import 'package:provider/provider.dart';
 
 const _storage = FlutterSecureStorage();
 final NotificationService notificationService = NotificationService();
@@ -342,10 +344,11 @@ class PostService {
     return statusCode;
   }
 
-  void deletePost({
+  Future<int> deletePost({
     required BuildContext context,
     required String id,
   }) async {
+    int statusCode = 0;
     try {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
@@ -362,6 +365,7 @@ class PostService {
             response: res,
             context: context,
             onSuccess: () {
+              statusCode = res.statusCode;
               dev.log('Post Deleted id:$id', name: 'Post Service: Delete Post');
 
               showSnackBar(context, 'Post Deleted');
@@ -370,12 +374,14 @@ class PostService {
     } catch (e) {
       dev.log(e.toString(), name: 'Post Service : Delete Post Error');
     }
+    return statusCode;
   }
 
-  void reportPost({
+  Future<int> reportPost({
     required String id,
     required BuildContext context,
   }) async {
+    int statusCode = 0;
     try {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
@@ -392,6 +398,7 @@ class PostService {
             response: res,
             context: context,
             onSuccess: () {
+              statusCode = res.statusCode;
               dev.log('Post $id Reported');
               showSnackBar(context, 'Post Reported');
             });
@@ -399,6 +406,7 @@ class PostService {
     } catch (e) {
       dev.log(e.toString(), name: 'Post Service : Report Post Error');
     }
+    return statusCode;
   }
 
   Future<int> updatePost({
@@ -469,10 +477,11 @@ class PostService {
     return statusCode;
   }
 
-  void repostPost({
+  Future<int> repostPost({
     required BuildContext context,
     required String id,
   }) async {
+    int statusCode = 0;
     try {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
@@ -489,12 +498,14 @@ class PostService {
             context: context,
             response: res,
             onSuccess: () {
+              statusCode = res.statusCode;
               dev.log('Post Repost id:$id', name: 'Post Service: Repost Post');
             });
       }
     } catch (e) {
       dev.log(e.toString(), name: 'Post Service : Repost Post Error');
     }
+    return statusCode;
   }
 
   void importUserTweets({required BuildContext context}) async {
@@ -502,12 +513,11 @@ class PostService {
       var jwt = await _storage.read(key: 'cookies');
       final foxxijwt = 'foxxi_jwt=$jwt;';
       dev.log(foxxijwt, name: "Reading JWT");
-      http.Response res = await http.post(Uri.parse('$url/api/tweets'),
-          body: {},
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            'cookies': foxxijwt
-          });
+      http.Response res = await http
+          .post(Uri.parse('$url/api/tweets'), headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'cookies': foxxijwt,
+      });
       if (context.mounted) {
         httpErrorHandle(
             context: context,

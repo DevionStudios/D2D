@@ -85,6 +85,8 @@ class AddCommentWidget extends StatelessWidget {
                           textStyle: const TextStyle(fontSize: 20),
                         ),
                         onPressed: () async {
+                          dev.log(customTextField.caption,
+                              name: 'custom Textfield text');
                           if (customTextField.caption.isNotEmpty) {
                             if (isAddComment == true) {
                               dev.log('Add Comment Started');

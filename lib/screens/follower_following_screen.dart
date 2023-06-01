@@ -29,28 +29,26 @@ class _FollowerFollowingScreenState extends State<FollowerFollowingScreen> {
 
     return Scaffold(
         backgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
-        appBar: AppBar(leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: CircleAvatar(
-            
-            backgroundColor:
-                Colors.purpleAccent.shade100.withOpacity(0.4),
-            child: IconButton(
-              // iconSize: 20,
-              icon: const Icon(
-                Icons.arrow_back_ios_new_rounded,
-                color: Colors.white,
-                // size: 15,
+        appBar: AppBar(
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CircleAvatar(
+              backgroundColor: Colors.purpleAccent.shade100.withOpacity(0.4),
+              child: IconButton(
+                // iconSize: 20,
+                icon: const Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  color: Colors.white,
+                  // size: 15,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
             ),
-
           ),
-
+          backgroundColor: isDark ? Colors.black : Colors.white,
         ),
-        backgroundColor: isDark?Colors.black:Colors.white,),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
