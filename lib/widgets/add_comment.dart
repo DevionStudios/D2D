@@ -99,6 +99,7 @@ class AddCommentWidget extends StatelessWidget {
                                 if (context.mounted) {
                                   if (statusCode == 201) {
                                     if (notifyComments != null) {
+                                      dev.log('refreshed');
                                       notifyComments!();
                                     }
                                     {

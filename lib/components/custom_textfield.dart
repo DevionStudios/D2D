@@ -81,7 +81,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           padding: const EdgeInsets.all(12.0),
           child: TextField(
             onChanged: (value) {
-              widget.caption = value;
+              widget.caption = textEditingController.text;
               words = value.split(' ');
               currentWord = words.last;
               dev.log(words.toString(), name: 'Words');

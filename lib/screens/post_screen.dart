@@ -500,6 +500,7 @@ class _PostCardState extends State<PostCard> {
                                                 ],
                                               ),
                                               PostLikeCommentBar(
+                                                  notifyComments: getComments,
                                                   post: post!,
                                                   isVideo: true,
                                                   isImage: false),
