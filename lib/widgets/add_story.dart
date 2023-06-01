@@ -198,15 +198,11 @@ class _AddStoryState extends State<AddStory> {
                             textStyle: const TextStyle(fontSize: 20),
                           ),
                           onPressed: () {
-                            if (_customTextField.caption.isNotEmpty) {
-                              storyService.createStories(
-                                  context: context,
-                                  caption: _customTextField.caption,
-                                  imageFilePath: image!.path);
-                              Navigator.pop(context);
-                            } else {
-                              showSnackBar(context, "Field can't be empty");
-                            }
+                            storyService.createStories(
+                                context: context,
+                                caption: _customTextField.caption,
+                                imageFilePath: image!.path);
+                            Navigator.pop(context);
                           },
                           child: const Text('Upload'),
                         ),

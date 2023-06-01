@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:foxxi/services/auth_service.dart';
 import 'package:foxxi/utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -286,6 +287,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                     _usernameTextController.clear();
                                     _walletAddressTextController.clear();
                                     showSnackBar(context, 'Profile Updated');
+                                    userService.getCurrentUserData(
+                                        context: context, id: userProvider.id);
                                   }
                                 });
                               },
