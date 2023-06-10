@@ -109,36 +109,50 @@ class _FeedScreenState extends State<FeedScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            PopupMenuButton<String>(
-                              icon: Icon(Icons.arrow_drop_down_outlined,
-                                  color: isDark ? Colors.white : Colors.black),
-                              onSelected: (selectedTab) {
-                                if (selectedTab == 'Foxxi Trends') {
-                                  Navigator.pushNamed(
-                                      context, FoxxiTrendScreen.routeName);
-                                }
-                                if (selectedTab == 'Trending') {
-                                  Navigator.pushNamed(
-                                      context, TrendingScreen.routeName);
-                                }
+                            Row(
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 8.0),
+                                  child: Image(
+                                      height: 30,
+                                      image: AssetImage(
+                                          'lib/assets/foxxiLogoText.png')),
+                                ),
+                                PopupMenuButton<String>(
+                                  padding: const EdgeInsets.all(0),
+                                  elevation: 100,
+                                  child: Icon(Icons.arrow_drop_down_outlined,
+                                      color:
+                                          isDark ? Colors.white : Colors.black),
+                                  onSelected: (selectedTab) {
+                                    if (selectedTab == 'Foxxi Trends') {
+                                      Navigator.pushNamed(
+                                          context, FoxxiTrendScreen.routeName);
+                                    }
+                                    if (selectedTab == 'Trending') {
+                                      Navigator.pushNamed(
+                                          context, TrendingScreen.routeName);
+                                    }
 
-                                if (selectedTab == 'Your Feed') {
-                                  Navigator.pushNamed(
-                                      context, YourFeedScreen.routeName);
-                                }
-                              },
-                              itemBuilder: (context) {
-                                return Items.items
-                                    .map((choice) => PopupMenuItem(
-                                          value: choice,
-                                          child: Row(
-                                            children: [
-                                              Text(choice),
-                                            ],
-                                          ),
-                                        ))
-                                    .toList();
-                              },
+                                    if (selectedTab == 'Your Feed') {
+                                      Navigator.pushNamed(
+                                          context, YourFeedScreen.routeName);
+                                    }
+                                  },
+                                  itemBuilder: (context) {
+                                    return Items.items
+                                        .map((choice) => PopupMenuItem(
+                                              value: choice,
+                                              child: Row(
+                                                children: [
+                                                  Text(choice),
+                                                ],
+                                              ),
+                                            ))
+                                        .toList();
+                                  },
+                                ),
+                              ],
                             ),
                             Row(
                               mainAxisSize: MainAxisSize.max,
