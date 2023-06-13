@@ -78,8 +78,13 @@ export function FeedLayout({ currentUser }) {
       id: "/account/settings",
     },
     {
-      name: "Connect Wallet",
+      name: "Connect Ethereum Wallet",
       id: "connectwallet",
+      component: <Redirect pageName={"/account/settings"} />,
+    },
+    {
+      name: "Connect Hiro Wallet",
+      id: "connecthirowallet",
       component: <Redirect pageName={"/account/settings"} />,
     },
   ]);

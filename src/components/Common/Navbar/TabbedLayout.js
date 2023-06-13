@@ -7,7 +7,8 @@ import { ConnectButton, WalletModal } from "@web3uikit/web3";
 import { HiOutlineMenu } from "react-icons/hi";
 import { useMoralis } from "react-moralis";
 import { BiWallet } from "react-icons/bi";
-
+import { useConnect } from "@stacks/connect-react";
+import ConnectHiroWallet from "src/components/Wallet/ConnectHiroWallet";
 export function TabbedLayout({ navigation, currentUser }) {
   const router = useRouter();
 
@@ -17,7 +18,6 @@ export function TabbedLayout({ navigation, currentUser }) {
   const [walletAccount, setWalletAccount] = useState(false);
   const { account, deactivateWeb3, isWeb3Enabled, enableWeb3 } = useMoralis();
   const [deviceType, setDeviceType] = useState("");
-
   useEffect(() => {
     let hasTouchScreen = false;
     if ("maxTouchPoints" in navigator) {
@@ -77,7 +77,11 @@ export function TabbedLayout({ navigation, currentUser }) {
             : 4
         }
         onChange={(idx) => {
-          if (navigation[idx].id == "connectwallet") return;
+          if (
+            navigation[idx].id == "connectwallet" ||
+            navigation[idx].id == "connecthirowallet"
+          )
+            return;
           handleChange(idx);
         }}
         vertical
@@ -91,7 +95,7 @@ export function TabbedLayout({ navigation, currentUser }) {
               {navigation && navigation.length > 0 && (
                 <Tab.List className="space-y-2">
                   {navigation.map((item, index) => {
-                    if (item.name == "Connect Wallet") {
+                    if (item.name == "Connect Ethereum Wallet") {
                       return (
                         <div
                           key={index + 10}
@@ -127,11 +131,34 @@ export function TabbedLayout({ navigation, currentUser }) {
                                       account.toString().length - 4,
                                       account.toString().length
                                     )
-                                : "Connect Wallet"}
+                                : "Connect Eth Wallet"}
                             </btn>
                             {openModal && (
                               <WalletModal setIsOpened={setOpenModal} />
                             )}
+                          </span>
+                        </div>
+                      );
+                    }
+                    if (item.name == "Connect Hiro Wallet") {
+                      return (
+                        <div
+                          key={index + 10}
+                          className={clsx(
+                            account
+                              ? " text-blue-600  dark:text-blue-500"
+                              : "hover:text-blue-300 dark:hover:text-blue-400",
+                            "group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full "
+                          )}
+                        >
+                          <span className="truncate flex items-center linksText">
+                            <BiWallet
+                              className={clsx(
+                                " group-hover:text-black dark:group-hover:text-white text-blue-500",
+                                "flex-shrink-0 mr-3 h-6 w-6"
+                              )}
+                            />
+                            <ConnectHiroWallet />
                           </span>
                         </div>
                       );

@@ -5,15 +5,13 @@ import { useTheme, ThemeProvider } from "next-themes";
 import { Toaster } from "react-hot-toast";
 import { MoralisProvider } from "react-moralis";
 import { NotificationProvider } from "@web3uikit/core";
-
+import { Connect, UserSession, AppConfig } from "@stacks/connect-react";
 import "../styles.css";
 import { NProgress } from "src/components/ui/NProgress";
 import { toastOptions } from "src/utils/toastOptions";
-
 function MyApp({ Component, pageProps, currentUser }) {
   const getLayout = Component.getLayout ?? ((page) => page);
   const { setTheme, theme } = useTheme();
-
   useEffect(() => {
     setTheme("light");
     if (currentUser.annonymous) {
