@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 const ConnectDpalWallet = () => {
   const [doge, setDoge] = useState(null);
-  const [userAddress, setUserAddress] = useState(null);
+  const [userAddress, setUserAddress] = useState("Connect Dpal");
 
   useEffect(() => {
     async function loadDoge() {
