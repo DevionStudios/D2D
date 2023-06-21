@@ -8,9 +8,10 @@ const ConnectDpalWallet = () => {
     async function loadDoge() {
       if (typeof window !== undefined && window?.DogeApi) {
         setDoge(window?.DogeApi);
-        setUserAddress((await window?.DogeApi?.userAddress()).userAddress);
-      }
 
+        if (window?.DogeApi && (window?.DogeApi?.isEnabled())) 
+          setUserAddress((await window?.DogeApi?.userAddress()).userAddress);
+      }
     } 
     loadDoge();
   }, [doge]);
