@@ -26,7 +26,7 @@ const ConnectDpalWallet = () => {
   
   async function connect() {
     if(typeof window !== undefined && window?.DogeApi) {
-      const { status } = await doge.enable();
+      const { status } = await window?.DogeApi?.enable();
       if ( status === 'success') {
         setUserAddress((await window?.DogeApi?.userAddress()).userAddress);
       }
@@ -34,7 +34,7 @@ const ConnectDpalWallet = () => {
   }
 
   // check isEnabled
-  if (typeof window !== undefined && doge && (doge.isEnabled())) {
+  if (typeof window !== undefined && window?.DogeApi && (window?.DogeApi?.isEnabled())) {
     return (
       <button className="Connect" onClick={disconnect}>
         {userAddress}
