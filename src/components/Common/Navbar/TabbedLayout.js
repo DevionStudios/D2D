@@ -9,6 +9,7 @@ import { useMoralis } from "react-moralis";
 import { BiWallet } from "react-icons/bi";
 import { useConnect } from "@stacks/connect-react";
 import ConnectHiroWallet from "src/components/Wallet/ConnectHiroWallet";
+import ConnectDpalWallet from "src/components/Wallet/ConnectDpalWallet";
 export function TabbedLayout({ navigation, currentUser }) {
   const router = useRouter();
 
@@ -79,7 +80,8 @@ export function TabbedLayout({ navigation, currentUser }) {
         onChange={(idx) => {
           if (
             navigation[idx].id == "connectwallet" ||
-            navigation[idx].id == "connecthirowallet"
+            navigation[idx].id == "connecthirowallet" ||
+            navigation[idx].id == "connectdpalwallet"
           )
             return;
           handleChange(idx);
@@ -159,6 +161,30 @@ export function TabbedLayout({ navigation, currentUser }) {
                               )}
                             />
                             <ConnectHiroWallet />
+                          </span>
+                        </div>
+                      );
+                    }
+                    if (item.name == "Connect Dpal Wallet") {
+                      return (
+                        <div
+                          key={index + 10}
+                          className={clsx(
+                            account
+                              ? " text-blue-600  dark:text-blue-500"
+                              : "hover:text-blue-300 dark:hover:text-blue-400",
+                            "group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full "
+                          )}
+                        >
+                          <span className="truncate flex items-center linksText">
+                            <BiWallet
+                              className={clsx(
+                                " group-hover:text-black dark:group-hover:text-white text-blue-500",
+                                "flex-shrink-0 mr-3 h-6 w-6"
+                              )}
+                            />
+                            {/* {"Connect Dpal"} */}
+                            <ConnectDpalWallet />
                           </span>
                         </div>
                       );

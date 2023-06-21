@@ -87,6 +87,11 @@ export function FeedLayout({ currentUser }) {
       id: "connecthirowallet",
       component: <Redirect pageName={"/account/settings"} />,
     },
+    {
+      name: "Connect Dpal Wallet",
+      id: "connectdpalwallet",
+      component: <Redirect pageName={"/account/settings"} />,
+    },
   ]);
   let user = currentUser;
   let loading = false;
