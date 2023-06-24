@@ -12,7 +12,7 @@ const ButtonSize = {
 // look into brand colors
 const ButtonVariants = {
   solid:
-    "text-white border-brand-700 bg-brand-500 hover:bg-brand-500 hover:border-brand-800 focus:ring focus:ring-blue-300 focus:ring-opacity-50 active:bg-brand-500 active:border-brand-700",
+    "text-white border-brand-700 bg-brand-500 hover:bg-brand-500 bg-gradient-to-r from-orange-600 to-orange-300 hover:border-brand-800 focus:ring focus:ring-brand-300 focus:ring-opacity-50 active:bg-brand-500 active:border-brand-700",
   secondary:
     "border-pink-200 bg-pink-200 text-pink-700 hover:text-pink-700 hover:bg-pink-300 hover:border-pink-300 focus:ring focus:ring-pink-500 focus:ring-opacity-50 active:bg-pink-200 active:border-pink-200",
   white:
@@ -20,7 +20,7 @@ const ButtonVariants = {
   dark: "border border-gray-300 dark:border-gray-800 dark:text-gray-100 bg-white shadow-sm dark:bg-gray-800 hover:bg-gray-50 hover:dark:bg-gray-800 focus:outline-none focus:ring focus:ring-gray-500 active:bg-gray-200 active:dark:bg-gray-800",
   danger:
     "text-white bg-red-700 hover:bg-red-800 border border-red-800 focus:outline-none",
-  orange: "",
+  orange: "text-white bg-orange-800 hover:bg-orange-900 bg-gradient-to-r from-orange-700 to-orange-400 focus:outline-none",
 };
 
 export function Button({

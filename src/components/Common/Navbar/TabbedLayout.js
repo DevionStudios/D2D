@@ -10,6 +10,7 @@ import { BiWallet } from "react-icons/bi";
 import { useConnect } from "@stacks/connect-react";
 import ConnectHiroWallet from "src/components/Wallet/ConnectHiroWallet";
 import ConnectDpalWallet from "src/components/Wallet/ConnectDpalWallet";
+import ConnectUnisatWallet from "src/components/Wallet/ConnectUnisatWallet";
 export function TabbedLayout({ navigation, currentUser }) {
   const router = useRouter();
 
@@ -81,7 +82,8 @@ export function TabbedLayout({ navigation, currentUser }) {
           if (
             navigation[idx].id == "connectwallet" ||
             navigation[idx].id == "connecthirowallet" ||
-            navigation[idx].id == "connectdpalwallet"
+            navigation[idx].id == "connectdpalwallet" || 
+            navigation[idx].id == "connectunisatwallet"
           )
             return;
           handleChange(idx);
@@ -103,15 +105,15 @@ export function TabbedLayout({ navigation, currentUser }) {
                           key={index + 10}
                           className={clsx(
                             account
-                              ? " text-blue-600  dark:text-blue-500"
-                              : "hover:text-blue-300 dark:hover:text-blue-400",
+                              ? " text-brand-600  dark:text-brand-500"
+                              : "hover:text-brand-300 dark:hover:text-brand-400",
                             "group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full "
                           )}
                         >
                           <span className="truncate flex items-center linksText">
                             <BiWallet
                               className={clsx(
-                                " group-hover:text-black dark:group-hover:text-white text-blue-500",
+                                " group-hover:text-black dark:group-hover:text-white text-brand-500",
                                 "flex-shrink-0 mr-3 h-6 w-6"
                               )}
                             />
@@ -148,15 +150,15 @@ export function TabbedLayout({ navigation, currentUser }) {
                           key={index + 10}
                           className={clsx(
                             account
-                              ? " text-blue-600  dark:text-blue-500"
-                              : "hover:text-blue-300 dark:hover:text-blue-400",
+                              ? " text-brand-600  dark:text-brand-500"
+                              : "hover:text-brand-300 dark:hover:text-brand-400",
                             "group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full "
                           )}
                         >
                           <span className="truncate flex items-center linksText">
                             <BiWallet
                               className={clsx(
-                                " group-hover:text-black dark:group-hover:text-white text-blue-500",
+                                " group-hover:text-black dark:group-hover:text-white text-brand-500",
                                 "flex-shrink-0 mr-3 h-6 w-6"
                               )}
                             />
@@ -171,20 +173,44 @@ export function TabbedLayout({ navigation, currentUser }) {
                           key={index + 10}
                           className={clsx(
                             account
-                              ? " text-blue-600  dark:text-blue-500"
-                              : "hover:text-blue-300 dark:hover:text-blue-400",
+                              ? " text-brand-600  dark:text-brand-500"
+                              : "hover:text-brand-300 dark:hover:text-brand-400",
                             "group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full "
                           )}
                         >
                           <span className="truncate flex items-center linksText">
                             <BiWallet
                               className={clsx(
-                                " group-hover:text-black dark:group-hover:text-white text-blue-500",
+                                " group-hover:text-black dark:group-hover:text-white text-brand-500",
                                 "flex-shrink-0 mr-3 h-6 w-6"
                               )}
                             />
                             {/* {"Connect Dpal"} */}
                             <ConnectDpalWallet />
+                          </span>
+                        </div>
+                      );
+                    }
+                    if (item.name == "Connect Unisat Wallet") {
+                      return (
+                        <div
+                          key={index + 10}
+                          className={clsx(
+                            account
+                              ? " text-brand-600  dark:text-brand-500"
+                              : "hover:text-brand-300 dark:hover:text-brand-400",
+                            "group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full "
+                          )}
+                        >
+                          <span className="truncate flex items-center linksText">
+                            <BiWallet
+                              className={clsx(
+                                " group-hover:text-black dark:group-hover:text-white text-brand-500",
+                                "flex-shrink-0 mr-3 h-6 w-6"
+                              )}
+                            />
+                            <ConnectUnisatWallet />
+                            {/* {"Connect Unisat"} */}
                           </span>
                         </div>
                       );
@@ -204,8 +230,8 @@ export function TabbedLayout({ navigation, currentUser }) {
                         className={({ selected }) =>
                           clsx(
                             selected
-                              ? " text-blue-600  dark:text-blue-500"
-                              : "text-gray-500 hover:text-blue-300 dark:hover:text-blue-400",
+                              ? " text-brand-600  dark:text-brand-500"
+                              : "text-gray-500 hover:text-brand-300 dark:hover:text-brand-400",
                             "group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full "
                           )
                         }
@@ -215,8 +241,8 @@ export function TabbedLayout({ navigation, currentUser }) {
                             <Icon
                               className={clsx(
                                 selected
-                                  ? "text-blue-700"
-                                  : " group-hover:text-black dark:group-hover:text-white text-blue-500",
+                                  ? "text-brand-700"
+                                  : " group-hover:text-black dark:group-hover:text-white text-brand-500",
                                 "flex-shrink-0 mr-3 h-6 w-6"
                               )}
                             />
@@ -288,7 +314,7 @@ export function TabbedLayout({ navigation, currentUser }) {
                                 <Icon
                                   className={
                                     selected
-                                      ? "inline-block pb-1 text-blue-800 h-9 w-9"
+                                      ? "inline-block pb-1 text-brand-800 h-9 w-9"
                                       : "inline-block pb-1 dark:text-white text-gray-800 h-9 w-9"
                                   }
                                 />

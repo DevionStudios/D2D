@@ -92,6 +92,11 @@ export function FeedLayout({ currentUser }) {
       id: "connectdpalwallet",
       component: <Redirect pageName={"/account/settings"} />,
     },
+    {
+      name: "Connect Unisat Wallet",
+      id: "connectunisatwallet",
+      component: <Redirect pageName={"/account/settings"} />,
+    },
   ]);
   let user = currentUser;
   let loading = false;

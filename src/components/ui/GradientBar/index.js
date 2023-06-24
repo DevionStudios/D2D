@@ -4,6 +4,7 @@ const colors = {
   blue: "from-indigo-500 to-teal-200 bg-teal-200",
   pink: "from-purple-400 to-pink-400 bg-pink-400",
   indigo: "from-indigo-500 to-teal-500",
+  orange: "from-orange-600 to-orange-300",
 };
 
 const sizes = {
@@ -12,7 +13,7 @@ const sizes = {
   lg: "h-2",
 };
 
-export function GradientBar({ color = "blue", size = "md", className }) {
+export function GradientBar({ color = "orange", size = "md", className }) {
   return (
     <div
       className={clsx(

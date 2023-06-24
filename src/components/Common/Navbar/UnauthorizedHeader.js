@@ -9,6 +9,7 @@ import { ThemeToggle } from "src/components/ThemeSwitcher";
 import { Button } from "src/components/ui/Button";
 import { Heading } from "src/components/ui/Heading";
 import Logo from "../../../assets/Foxxi Logo.png";
+import FoxxiText from "../../../assets/Foxxi-Text.png";
 import { GradientBar } from "src/components/ui/GradientBar";
 
 export function UnauthorizedHeader({ deviceType }) {
@@ -17,7 +18,7 @@ export function UnauthorizedHeader({ deviceType }) {
     <div className="mb-[-90px]">
       <header>
         <GradientBar
-          color="indigo"
+          color="orange"
           size="md"
           className="fixed max-w-full top-0 z-10"
         />
@@ -26,10 +27,7 @@ export function UnauthorizedHeader({ deviceType }) {
             <div className="flex justify-start lg:w-0 lg:flex-1">
               <Link href="/feed" passHref={true}>
                 <div className="flex items-center space-x-4">
-                  <Image src={Logo} alt="Foxxi Logo" width={67} height={67} />
-                  <Heading size="h4" className="foxxiLogoText">
-                    Foxxi
-                  </Heading>
+                  <Image src={FoxxiText} alt="Foxxi Logo" width={100} height={25} />
                 </div>
               </Link>
             </div>
@@ -42,7 +40,7 @@ export function UnauthorizedHeader({ deviceType }) {
 
             <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
               <div className="mx-8">{<ThemeToggle />}</div>
-              <Button href="/auth/signin" size="lg">
+              <Button href="/auth/signin" size="lg" >
                 Sign in
               </Button>
               <Button size="lg" href="/auth/signup" className="ml-8">

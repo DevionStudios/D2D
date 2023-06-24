@@ -132,8 +132,8 @@ input:-webkit-autofill:active {
 
   ::-webkit-scrollbar-thumb {
     border-radius: 5px;
-    background-color: theme("colors.blue.500");
-    border: 2px solid theme("colors.blue.500");
+    background-color: theme("colors.brand.400");
+    border: 2px solid theme("colors.brand.500");
   }
 
   ::-webkit-scrollbar-track {
