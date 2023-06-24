@@ -47,7 +47,7 @@ const ConnectUnisatWallet = () => {
   if (unisat && (userAddress !== "Connect Unisat")) {
     return (
       <button className="Connect" onClick={disconnect}>
-        {userAddress}
+        {userAddress || "Disconnect Unisat"}
       </button>
     );
   }

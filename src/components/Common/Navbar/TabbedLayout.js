@@ -61,7 +61,7 @@ export function TabbedLayout({ navigation, currentUser }) {
     enableWeb3();
     if (account) setWalletAccount(account);
     else setWalletAccount(account);
-    console.log("account", account);
+    // console.log("account", account);
     console.log(isWeb3Enabled);
   }, []);
   return deviceType !== "Mobile" ? (
