@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 const ConnectDpalWallet = () => {
   const [doge, setDoge] = useState(null);
-  const [userAddress, setUserAddress] = useState("Connect Dpal");
+  const [userAddress, setUserAddress] = useState(null);
 
   useEffect(() => {
     async function loadDoge() {
@@ -34,10 +34,10 @@ const ConnectDpalWallet = () => {
   }
 
   // check isEnabled
-  if (doge && (doge.isEnabled())) {
+  if (doge && (doge.isEnabled()) && userAddress) {
     return (
       <button className="Connect" onClick={disconnect}>
-        {userAddress}
+        {userAddress || "Disconnect Dpal" }
       </button>
     );
   }

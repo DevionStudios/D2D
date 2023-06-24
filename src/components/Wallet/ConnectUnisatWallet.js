@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 
 const ConnectUnisatWallet = () => {
   const [unisat, setUnisat] = useState(null);
-  const [userAddress, setUserAddress] = useState("Connect Unisat");
+  const [userAddress, setUserAddress] = useState(null);
 
   useEffect(() => {
     async function loadUnisat() {
@@ -44,7 +44,7 @@ const ConnectUnisatWallet = () => {
   }
 
   // check isEnabled
-  if (unisat && (userAddress !== "Connect Unisat")) {
+  if (unisat && userAddress) {
     return (
       <button className="Connect" onClick={disconnect}>
         {userAddress || "Disconnect Unisat"}
