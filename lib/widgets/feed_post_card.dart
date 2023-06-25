@@ -241,7 +241,7 @@ class _FeedCardState extends State<FeedCard> {
                                                                     .toString())
                                                             .then((value) {
                                                           Navigator.pop(
-                                                              context);
+                                                              dialogContext);
                                                         });
                                                       }
                                                       if (e == 'Repost Post') {

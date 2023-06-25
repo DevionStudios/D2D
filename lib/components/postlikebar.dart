@@ -103,10 +103,14 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
                     bottomRight: Radius.circular(30)),
                 gradient: LinearGradient(
                   colors: [
-                    Colors.lightBlue.shade100.withOpacity(0.4),
-                    Colors.purpleAccent.shade100.withOpacity(0.4),
+                    widget.isImage || widget.isVideo
+                        ? const Color(0xffec9f05).withOpacity(0.4)
+                        : const Color(0xffec9f05).withOpacity(0.4),
+                    widget.isImage || widget.isVideo
+                        ? const Color(0xffff4e00).withOpacity(0.4)
+                        : const Color(0xffff4e00).withOpacity(0.4),
                   ],
-                  stops: const [0, 1],
+                  stops: const [0, 4],
                   begin: const AlignmentDirectional(1, 0),
                   end: const AlignmentDirectional(-1, 0),
                   // color: Colors.purpleAccent.shade100.withOpacity(
@@ -120,8 +124,8 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
                   IconButton(
                     icon: badges.Badge(
                       badgeAnimation: const badges.BadgeAnimation.size(),
-                      badgeStyle: const badges.BadgeStyle(
-                          badgeColor: Color.fromARGB(255, 244, 179, 254)),
+                      badgeStyle: badges.BadgeStyle(
+                          badgeColor: const Color(0xffec9f05)),
                       badgeContent: widget.post.likes?.length == null
                           ? const Text('0')
                           : Text(likes.toString()),
@@ -131,13 +135,10 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
                         color: isLiked
                             ? Colors.red
                             : isDark
-                                ? const Color.fromARGB(255, 243, 167, 255)
-                                    .withOpacity(0.7)
+                                ? const Color(0xffff4e00).withOpacity(0.7)
                                 : widget.isImage
-                                    ? const Color.fromARGB(255, 240, 141, 255)
-                                        .withOpacity(0.8)
-                                    : const Color.fromARGB(255, 229, 110, 248)
-                                        .withOpacity(0.6),
+                                    ? const Color(0xffec9f05).withOpacity(0.8)
+                                    : const Color(0xffec9f05).withOpacity(0.8),
                       ),
                     ),
                     onPressed: () {
@@ -179,19 +180,16 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
                   IconButton(
                     icon: badges.Badge(
                       badgeStyle: const badges.BadgeStyle(
-                          badgeColor: Color.fromARGB(255, 244, 179, 254)),
+                          badgeColor: const Color(0xffec9f05)),
                       badgeContent: widget.post.comments?.length == null
                           ? const Text('0')
                           : Text(widget.post.comments!.length.toString()),
                       child: Icon(Icons.comment_rounded,
                           color: isDark
-                              ? const Color.fromARGB(255, 243, 167, 255)
-                                  .withOpacity(0.7)
+                              ? const Color(0xffff4e00).withOpacity(0.7)
                               : widget.isImage
-                                  ? const Color.fromARGB(255, 240, 141, 255)
-                                      .withOpacity(0.8)
-                                  : const Color.fromARGB(255, 229, 110, 248)
-                                      .withOpacity(0.6),
+                                  ? const Color(0xffec9f05).withOpacity(0.8)
+                                  : const Color(0xffec9f05).withOpacity(0.8),
                           size: 30),
                     ),
                     onPressed: () {
@@ -300,13 +298,10 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
                           icon: Icon(
                             Icons.send_rounded,
                             color: isDark
-                                ? const Color.fromARGB(255, 243, 167, 255)
-                                    .withOpacity(0.7)
+                                ? const Color(0xffff4e00).withOpacity(0.7)
                                 : widget.isImage
-                                    ? const Color.fromARGB(255, 240, 141, 255)
-                                        .withOpacity(0.8)
-                                    : const Color.fromARGB(255, 229, 110, 248)
-                                        .withOpacity(0.6),
+                                    ? const Color(0xffec9f05).withOpacity(0.8)
+                                    : const Color(0xffec9f05).withOpacity(0.8),
                             size: 30,
                           ),
                           onPressed: () {
