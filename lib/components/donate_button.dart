@@ -55,7 +55,7 @@ class _DonateButtonState extends State<DonateButton> {
             iconSize: 40,
             icon: const Icon(
               Icons.attach_money_rounded,
-              color: Color.fromARGB(255, 226, 127, 245),
+              color: Color(0xffec9f05),
             ),
             onPressed: () {
               showMaterialModalBottomSheet<void>(
