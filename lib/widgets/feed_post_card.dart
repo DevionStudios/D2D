@@ -191,6 +191,8 @@ class _FeedCardState extends State<FeedCard> {
                                     builder: (context) {
                                       dialogContext = context;
                                       return Dialog(
+                                        backgroundColor: const Color.fromARGB(
+                                            255, 238, 189, 91),
                                         child: ListView(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 16),

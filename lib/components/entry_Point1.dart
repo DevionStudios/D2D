@@ -134,8 +134,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     padding: const EdgeInsets.all(0),
                     onPressed: () {
                       showMaterialModalBottomSheet(
-                  backgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
-
+                          backgroundColor:
+                              isDark ? Colors.grey.shade900 : Colors.white,
                           shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(25))),
@@ -144,16 +144,18 @@ class _BottomNavBarState extends State<BottomNavBar> {
                                   child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                   Padding(
-                                    padding: EdgeInsets.symmetric(
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
                                         horizontal: 8.0, vertical: 20),
                                     child: Text(
                                       'Upload Post',
                                       style: TextStyle(
                                           fontFamily: 'InstagramSans',
-                                          fontSize: 20,                color: isDark ? Colors.grey.shade100 : Colors.black),
-),
-
+                                          fontSize: 20,
+                                          color: isDark
+                                              ? Colors.grey.shade100
+                                              : Colors.black),
+                                    ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -171,9 +173,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
                                                       Radius.circular(30)),
                                               border: Border.all(
                                                   width: 5,
-                                                  color: Colors
-                                                      .purpleAccent.shade100
-                                                      .withOpacity(0.5))),
+                                                  color: const Color(0xffff4e00)
+                                                      .withOpacity(0.4))),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             mainAxisAlignment:
@@ -199,13 +200,14 @@ class _BottomNavBarState extends State<BottomNavBar> {
                                                   size: 35,
                                                 ),
                                               ),
-                                               Text(
+                                              Text(
                                                 'Image',
                                                 style: TextStyle(
-                                                    fontFamily:
-                                                        'InstagramSans',                color: isDark ? Colors.grey.shade100 : Colors.black),
-),
-                                              
+                                                    fontFamily: 'InstagramSans',
+                                                    color: isDark
+                                                        ? Colors.grey.shade100
+                                                        : Colors.black),
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -218,9 +220,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
                                                       Radius.circular(30)),
                                               border: Border.all(
                                                   width: 5,
-                                                  color: Colors
-                                                      .purpleAccent.shade100
-                                                      .withOpacity(0.5))),
+                                                  color: const Color(0xffff4e00)
+                                                      .withOpacity(0.4))),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             mainAxisAlignment:
@@ -247,13 +248,14 @@ class _BottomNavBarState extends State<BottomNavBar> {
                                                   size: 35,
                                                 ),
                                               ),
-                                               Text(
+                                              Text(
                                                 'Video',
                                                 style: TextStyle(
-                                                    fontFamily:
-                                                        'InstagramSans',                color: isDark ? Colors.grey.shade100 : Colors.black),
-),
-                                              
+                                                    fontFamily: 'InstagramSans',
+                                                    color: isDark
+                                                        ? Colors.grey.shade100
+                                                        : Colors.black),
+                                              ),
                                             ],
                                           ),
                                         ),

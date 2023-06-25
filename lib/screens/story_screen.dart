@@ -54,11 +54,12 @@ class _StoryScreenState extends State<StoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-        final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
 
     return Scaffold(
-      backgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
-        body: SingleChildScrollView(child: SizedBox(
+        backgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
+        body: SingleChildScrollView(
+            child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: CarouselSlider.builder(
@@ -76,12 +77,12 @@ class _StoryScreenState extends State<StoryScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Container(
-                          padding: const EdgeInsets.only(left:16),
+                          padding: const EdgeInsets.only(left: 16),
                           height: 100,
                           // width: MediaQuery.of(context).size.width * 0.1,
                           child: CircleAvatar(
                             backgroundColor:
-                                Colors.purpleAccent.shade100.withOpacity(0.4),
+                                const Color(0xffec9f05).withOpacity(0.4),
                             child: IconButton(
                               // iconSize: 20,
                               icon: const Icon(
@@ -126,8 +127,10 @@ class _StoryScreenState extends State<StoryScreen> {
                                   Text(
                                     widget.stories[index].author.name
                                         .toString(),
-                                    style:  TextStyle(
-                                      color:isDark ? Colors.grey.shade100 : Colors.black,
+                                    style: TextStyle(
+                                      color: isDark
+                                          ? Colors.grey.shade100
+                                          : Colors.black,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -144,34 +147,31 @@ class _StoryScreenState extends State<StoryScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left:16.0, top: 8,bottom:8),
+                      padding:
+                          const EdgeInsets.only(left: 16.0, top: 8, bottom: 8),
                       child: Text(widget.stories[index].caption),
                     ),
                     widget.stories[index].media!.mediatype != 'video'
-                    ?Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                         height: MediaQuery.of(context).size.height/2,
-                                width: MediaQuery.of(context).size.width-20,
-                    
-                        child: PinchZoom(
-                                      resetDuration : Duration(milliseconds: 100),
-                                    maxScale: 3,
-                                    child: ClipRRect(
-                                        borderRadius : BorderRadius.all(Radius.circular(20)),
-
-                                        child: Image.network(
-                                              widget
-                                          .stories[index].media!.url
-                                          .toString(),fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                        
-                                      ),
-                                    ),
-
-
-                    )
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              height: MediaQuery.of(context).size.height / 2,
+                              width: MediaQuery.of(context).size.width - 20,
+                              child: PinchZoom(
+                                resetDuration:
+                                    const Duration(milliseconds: 100),
+                                maxScale: 3,
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(20)),
+                                  child: Image.network(
+                                    widget.stories[index].media!.url.toString(),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
                         // ? Padding(
                         //   padding: const EdgeInsets.all(8.0),
                         //   child: Container(
@@ -192,11 +192,10 @@ class _StoryScreenState extends State<StoryScreen> {
                         //       ),
                         //       child: DecoratedBox(child: , ),
 
-
                         : Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                              height: MediaQuery.of(context).size.height/2,
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              height: MediaQuery.of(context).size.height / 2,
                               width: MediaQuery.of(context).size.width - 20,
                               decoration: const BoxDecoration(
                                 borderRadius:
@@ -211,7 +210,10 @@ class _StoryScreenState extends State<StoryScreen> {
                                           decoration: const BoxDecoration(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(30))),
-                              height: MediaQuery.of(context).size.height/2,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              2,
                                           width: 400,
                                           child: VideoPlayer(_controller!))
                                       : Container(),
@@ -238,7 +240,7 @@ class _StoryScreenState extends State<StoryScreen> {
                                 ],
                               ),
                             ),
-                        ),
+                          ),
                   ],
                 ),
               );

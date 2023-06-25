@@ -25,8 +25,8 @@ class Chat extends StatelessWidget {
                     Colors.grey.shade900,
                   ]
                 : [
-                    Colors.lightBlue.shade100.withOpacity(0.4),
-                    Colors.purpleAccent.shade100.withOpacity(0.4),
+                    const Color(0xffff4e00).withOpacity(0.4),
+                    const Color(0xffec9f05).withOpacity(0.4),
                   ],
             stops: const [0, 1],
             begin: const AlignmentDirectional(1, 0),
@@ -45,8 +45,7 @@ class Chat extends StatelessWidget {
                     height: 100,
                     // width: MediaQuery.of(context).size.width * 0.1,
                     child: CircleAvatar(
-                      backgroundColor:
-                          Colors.purpleAccent.shade100.withOpacity(0.4),
+                      backgroundColor: const Color(0xffff4e00).withOpacity(0.4),
                       child: IconButton(
                         // iconSize: 20,
                         icon: const Icon(
@@ -62,7 +61,7 @@ class Chat extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom:15.0,right: 10,top: 5),
+              padding: const EdgeInsets.only(bottom: 15.0, right: 10, top: 5),
               child: ListTile(
                 trailing: CircleAvatar(
                   radius: 40,

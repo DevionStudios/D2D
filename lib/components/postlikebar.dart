@@ -124,8 +124,8 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
                   IconButton(
                     icon: badges.Badge(
                       badgeAnimation: const badges.BadgeAnimation.size(),
-                      badgeStyle: badges.BadgeStyle(
-                          badgeColor: const Color(0xffec9f05)),
+                      badgeStyle: const badges.BadgeStyle(
+                          badgeColor: Color(0xffec9f05)),
                       badgeContent: widget.post.likes?.length == null
                           ? const Text('0')
                           : Text(likes.toString()),
@@ -180,7 +180,7 @@ class _PostLikeCommentBarState extends State<PostLikeCommentBar> {
                   IconButton(
                     icon: badges.Badge(
                       badgeStyle: const badges.BadgeStyle(
-                          badgeColor: const Color(0xffec9f05)),
+                          badgeColor: Color(0xffec9f05)),
                       badgeContent: widget.post.comments?.length == null
                           ? const Text('0')
                           : Text(widget.post.comments!.length.toString()),

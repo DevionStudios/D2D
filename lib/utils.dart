@@ -34,9 +34,7 @@ class CustomLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     return LoadingAnimationWidget.twistingDots(
         size: 30,
-        leftDotColor: Colors.lightBlue.shade100,
-        rightDotColor: Colors.purpleAccent.shade100);
+        leftDotColor: const Color(0xffff4e00),
+        rightDotColor: const Color(0xffec9f05));
   }
 }
-
-

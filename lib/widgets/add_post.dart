@@ -253,8 +253,8 @@ class _AddPostState extends State<AddPost> {
                         borderRadius: BorderRadius.circular(15),
                         gradient: LinearGradient(
                           colors: [
-                            Colors.lightBlue.shade100.withOpacity(0.4),
-                            Colors.purpleAccent.shade100.withOpacity(0.4),
+                            const Color(0xffec9f05).withOpacity(0.4),
+                            const Color(0xffff4e00).withOpacity(0.4),
                           ],
                           stops: const [0, 1],
                           begin: const AlignmentDirectional(1, 0),

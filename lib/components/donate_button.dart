@@ -161,9 +161,9 @@ class _DonateButtonState extends State<DonateButton> {
                                         borderRadius: BorderRadius.circular(15),
                                         gradient: LinearGradient(
                                           colors: [
-                                            Colors.lightBlue.shade100
+                                            const Color(0xffff4e00)
                                                 .withOpacity(0.4),
-                                            Colors.purpleAccent.shade100
+                                            const Color(0xffec9f05)
                                                 .withOpacity(0.4),
                                           ],
                                           stops: const [0, 1],
@@ -244,17 +244,23 @@ class _DonateButtonState extends State<DonateButton> {
                         ],
                       ),
                       TextButton(
-                          onPressed: () {
-                            if (walletAddressProvider.walletAddress != null) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const WalletWeb()));
-                            } else {
-                              showSnackBar(context, 'Connect your Wallet');
-                            }
-                          },
-                          child: const Text('Donate Screen'))
+                        onPressed: () {
+                          if (walletAddressProvider.walletAddress != null) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const WalletWeb()));
+                          } else {
+                            showSnackBar(context, 'Connect your Wallet');
+                          }
+                        },
+                        child: const Text(
+                          'Donate Screen',
+                          style: TextStyle(
+                            color: Color(0xffff4e00),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

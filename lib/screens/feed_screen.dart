@@ -119,6 +119,8 @@ class _FeedScreenState extends State<FeedScreen> {
                                           'lib/assets/foxxiLogoText.png')),
                                 ),
                                 PopupMenuButton<String>(
+                                  color:
+                                      const Color(0xffec9f05).withOpacity(0.7),
                                   padding: const EdgeInsets.all(0),
                                   elevation: 100,
                                   child: Icon(Icons.arrow_drop_down_outlined,
@@ -179,7 +181,9 @@ class _FeedScreenState extends State<FeedScreen> {
                                             notificationLength == 0
                                         ? false
                                         : true,
-                                    badgeStyle: const badges.BadgeStyle(),
+                                    badgeStyle: badges.BadgeStyle(
+                                        badgeColor: const Color(0xffff4e00)
+                                            .withOpacity(0.8)),
                                     badgeAnimation:
                                         const badges.BadgeAnimation.fade(),
                                     badgeContent: notificationList.isEmpty ||

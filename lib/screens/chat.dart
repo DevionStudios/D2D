@@ -200,13 +200,13 @@ class _OneOneChatScreenState extends State<OneOneChatScreen> {
                             height: 100,
                             // width: MediaQuery.of(context).size.width * 0.1,
                             child: CircleAvatar(
-                              backgroundColor:
-                                  Colors.purpleAccent.shade100.withOpacity(0.4),
+                              backgroundColor: Colors.white.withOpacity(0.4),
                               child: IconButton(
                                 // iconSize: 20,
-                                icon: const Icon(
+                                icon: Icon(
                                   Icons.arrow_back_ios_new,
-                                  color: Colors.grey,
+                                  color:
+                                      const Color(0xffff4e00).withOpacity(0.7),
                                   // size: 15,
                                 ),
                                 onPressed: () {
@@ -342,7 +342,7 @@ class _OneOneChatScreenState extends State<OneOneChatScreen> {
                       IconButton(
                         icon: Icon(
                           Icons.send_rounded,
-                          color: Colors.purpleAccent.shade100.withOpacity(0.4),
+                          color: const Color(0xffff4e00).withOpacity(0.7),
                           size: 30,
                         ),
                         onPressed: () async {

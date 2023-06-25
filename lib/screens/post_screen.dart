@@ -110,12 +110,13 @@ class _PostCardState extends State<PostCard> {
           leading: Padding(
             padding: const EdgeInsets.all(8.0),
             child: CircleAvatar(
-              backgroundColor: Colors.purpleAccent.shade100.withOpacity(0.4),
+              backgroundColor:
+                  isDark ? Colors.grey.shade900 : Colors.grey.shade100,
               child: IconButton(
                 // iconSize: 20,
                 icon: const Icon(
                   Icons.arrow_back_ios_new_rounded,
-                  color: Colors.white,
+                  color: Color(0xffff4e00),
                   // size: 15,
                 ),
                 onPressed: () {
@@ -231,6 +232,9 @@ class _PostCardState extends State<PostCard> {
                                           builder: (context) {
                                             dialogContext = context;
                                             return Dialog(
+                                              backgroundColor:
+                                                  const Color.fromARGB(
+                                                      255, 238, 189, 91),
                                               child: ListView(
                                                   padding: const EdgeInsets
                                                       .symmetric(vertical: 16),

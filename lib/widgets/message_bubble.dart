@@ -34,9 +34,8 @@ class MessageBubble extends StatelessWidget {
               clipper: ChatBubbleClipper5(
                   type:
                       isMe ? BubbleType.sendBubble : BubbleType.receiverBubble),
-              backGroundColor: !isMe
-                  ? Colors.lightBlue.shade300.withOpacity(0.5)
-                  : Colors.purpleAccent.shade100.withOpacity(0.5),
+              backGroundColor:
+                  !isMe ? const Color(0xffec9f05) : const Color(0xffff4e00),
               alignment: isMe ? Alignment.topRight : Alignment.topLeft,
               margin: const EdgeInsets.only(top: 5),
               child: Linkify(

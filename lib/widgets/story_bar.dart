@@ -154,12 +154,12 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                                                                       .circular(
                                                                           30)),
                                                           border: Border.all(
-                                                              width: 5,
-                                                              color: Colors
-                                                                  .purpleAccent
-                                                                  .shade100
-                                                                  .withOpacity(
-                                                                      0.5))),
+                                                            width: 5,
+                                                            color: const Color(
+                                                                    0xffff4e00)
+                                                                .withOpacity(
+                                                                    0.4),
+                                                          )),
                                                       child: Column(
                                                         mainAxisSize:
                                                             MainAxisSize.min,
@@ -220,12 +220,12 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                                                                       .circular(
                                                                           30)),
                                                           border: Border.all(
-                                                              width: 5,
-                                                              color: Colors
-                                                                  .purpleAccent
-                                                                  .shade100
-                                                                  .withOpacity(
-                                                                      0.5))),
+                                                            width: 5,
+                                                            color: const Color(
+                                                                    0xffff4e00)
+                                                                .withOpacity(
+                                                                    0.4),
+                                                          )),
                                                       child: Column(
                                                         mainAxisSize:
                                                             MainAxisSize.min,
@@ -349,9 +349,8 @@ class _StoryBarState extends State<StoryBar> with TickerProviderStateMixin {
                                     const BorderRadius.all(Radius.circular(10)),
                                 gradient: LinearGradient(
                                   colors: [
-                                    Colors.purpleAccent.shade200
-                                        .withOpacity(0.7),
-                                    Colors.lightBlue.shade200.withOpacity(0.7),
+                                    const Color(0xffff4e00).withOpacity(0.4),
+                                    const Color(0xffec9f05).withOpacity(0.4),
                                   ],
                                   stops: const [0, 1],
                                   begin: const AlignmentDirectional(1, 0),
