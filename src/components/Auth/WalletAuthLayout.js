@@ -21,13 +21,13 @@ export function WalletAuthLayout({ title, subtitle, children, setAccount }) {
         <p className="mt-3 text-gray-500">{subtitle}</p>
         <div className="inline-flex items-center mb-1 space-x-3 my-3">
           <ConnectButton />
-          {title === "Sign Up" && (
+          {
             <>
               <ConnectWallet isFromSignUp={true} />
               <ConnectDpalWallet isFromSignUp={true} />
               <ConnectUnisatWallet isFromSignUp={true} />
             </>
-          )}
+          }
         </div>
       </div>
       <Card
