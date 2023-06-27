@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createCommentRouter = void 0;
+exports.createReplyRouter = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const common_1 = require("@devion/common");
 const express_1 = __importDefault(require("express"));
@@ -21,8 +21,8 @@ const Comment_1 = require("../../models/Comment");
 const User_1 = require("../../models/User");
 const currentuser_1 = require("../../middlewares/currentuser");
 const router = express_1.default.Router();
-exports.createCommentRouter = router;
-router.post("/api/comments/create", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.createReplyRouter = router;
+router.post("/api/comments/reply", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { postId, caption, isReply, parentId } = req.body;
         const post = yield Post_1.Post.findOne({
@@ -41,6 +41,8 @@ router.post("/api/comments/create", currentuser_1.currentUser, (req, res) => __a
             caption: caption,
             author: existingUser,
             postId: post.id,
+            isReply: isReply,
+            parentId: parentId,
         });
         if (!post.comments) {
             post.comments = [];

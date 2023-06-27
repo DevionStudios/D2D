@@ -23,7 +23,8 @@ router.post(
   validateRequest,
   async (req: Request, res: Response) => {
     try {
-      const { email, password, username, name, accountWallet } = req.body;
+      const { email, password, username, name, accountWallet, walletType } =
+        req.body;
 
       // check if email is provided
       let existingUser: any;
@@ -59,7 +60,7 @@ router.post(
           email: email,
         });
         console.log(deleteVerification);
-      } else user = User.build({ username, name, accountWallet });
+      } else user = User.build({ username, name, accountWallet, walletType });
       await user.save();
 
       // Generate JWT

@@ -3,24 +3,28 @@ import axios from "axios";
 
 const router = express.Router();
 
-router.get("/api/token/stamp/:address", async (req: Request, res: Response) => {
-  try {
-    const { address } = req.params;
+router.get(
+  "/api/token/teststamp/:bitcoinWalletAddress",
+  async (req: Request, res: Response) => {
+    try {
+      const { bitcoinWalletAddress } = req.params;
 
-    // get all the ordinals from https://stampchain.io/api/src20
-    const response = await axios.get(`https://stampchain.io/api/src20`);
-    const ordinals = response.data;
+      // get all the ordinals from https://stampchain.io/api/src20
+      const response = await axios.get(`https://stampchain.io/api/src20`);
+      const stamps = response.data;
 
-    // filter the ordinals.items to only include the ones that have the address in the creator field
-    const userOrdinals = ordinals.items.filter(
-      (ordinal: { creator: string }) => ordinal.creator === address
-    );
+      // filter the ordinals.items to only include the ones that have the bitcoinWalletAddress in the creator field
+      const userStamps = stamps.items.filter(
+        (ordinal: { creator: string }) =>
+          ordinal.creator === bitcoinWalletAddress
+      );
 
-    res.status(200).send(userOrdinals);
-  } catch (error) {
-    console.log(error);
-    res.status(400).send({ message: error });
+      res.status(200).send(userStamps);
+    } catch (error) {
+      console.log(error);
+      res.status(400).send({ message: error });
+    }
   }
-});
+);
 
 export { router as getUserStampsRouter };

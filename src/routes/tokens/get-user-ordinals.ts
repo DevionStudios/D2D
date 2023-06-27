@@ -4,14 +4,14 @@ import axios from "axios";
 const router = express.Router();
 
 router.get(
-  "/api/token/ordinal/:address",
+  "/api/token/testordinal/:bitcoinWallet",
   async (req: Request, res: Response) => {
     try {
-      const { address } = req.params;
+      const { bitcoinWallet } = req.params;
 
-      // get all the ordinals from https://api.hiro.so/ordinals/v1/inscriptions?address=<address>
+      // get all the ordinals from https://api.hiro.so/ordinals/v1/inscriptions?address=<bitcoinWallet>
       const response = await axios.get(
-        `https://api.hiro.so/ordinals/v1/inscriptions?address=${address}`
+        `https://api.hiro.so/ordinals/v1/inscriptions?address=${bitcoinWallet}`
       );
 
       res.status(200).send(response.data);

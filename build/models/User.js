@@ -93,6 +93,9 @@ const userSchema = new mongoose_1.default.Schema({
         default: "",
         required: false,
     },
+    walletType: {
+        type: String,
+    },
     reports: {
         type: [
             {

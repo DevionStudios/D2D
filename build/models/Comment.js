@@ -17,6 +17,14 @@ const CommentSchema = new mongoose_1.default.Schema({
     postId: {
         type: String,
     },
+    isReply: {
+        type: Boolean,
+        default: false,
+    },
+    parentId: {
+        type: String,
+        default: null,
+    }
 }, {
     toJSON: {
         transform(doc, ret) {

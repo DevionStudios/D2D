@@ -9,6 +9,7 @@ interface UserAttrs {
   username: string;
   name: string;
   walletAddress?: string;
+  walletType?: string;
   image?: string;
   coverImage?: string;
   bio?: string;
@@ -47,6 +48,7 @@ export interface UserDoc extends mongoose.Document {
   hasClaimed?: boolean;
   twitterUsername?: string;
   accountWallet?: string;
+  walletType?: string;
   reports?: string[];
   isBanned?: boolean;
   preferences?: string[];
@@ -131,6 +133,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
       required: false,
+    },
+    walletType: {
+      type: String,
     },
     reports: {
       type: [

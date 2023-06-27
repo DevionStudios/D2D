@@ -70,6 +70,12 @@ import { getAllStoriesRouter } from "./routes/story/get-all-stories";
 import { createReplyRouter } from "./routes/comments/create-reply";
 import { getUserOrdinalsRouter } from "./routes/tokens/get-user-ordinals";
 import { getUserStampsRouter } from "./routes/tokens/get-user-stamps";
+import { importUserOrdinalsRouter } from "./routes/tokens/import-user-ordinals";
+import { importUserStampsRouter } from "./routes/tokens/import-user-stamps";
+import { getUserOrdinalsFromDBRouter } from "./routes/tokens/get-user-ordinals-from-db";
+import { getUserStampsFromDBRouter } from "./routes/tokens/get-user-stamps-from-db";
+import { likeOrdinalRouter } from "./routes/tokens/like-ordinal";
+import { likeStampRouter } from "./routes/tokens/like-stamp";
 
 const app = express();
 app.use(
@@ -156,6 +162,12 @@ app.use(createOfficialPostRouter);
 app.use(createReplyRouter);
 app.use(getUserOrdinalsRouter);
 app.use(getUserStampsRouter);
+app.use(importUserOrdinalsRouter);
+app.use(importUserStampsRouter);
+app.use(getUserOrdinalsFromDBRouter);
+app.use(getUserStampsFromDBRouter);
+app.use(likeOrdinalRouter);
+app.use(likeStampRouter);
 
 app.all("*", async (req: any, res: any) => {
   throw new Error("Route not found!!");

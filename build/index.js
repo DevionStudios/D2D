@@ -46,7 +46,7 @@ const start = () => __awaiter(void 0, void 0, void 0, function* () {
         });
         const io = socket(server, {
             cors: {
-                origin: "http://localhost:3000",
+                origin: "https://foxxi-frontend.vercel.app",
                 credentials: true,
             },
         });

@@ -112,6 +112,7 @@ router.post("/api/posts/create", currentuser_1.currentUser, multer_filefilter_co
         }
         res.status(201).send({
             message: "Post created successfully",
+            post: post
         });
     }
     catch (err) {
