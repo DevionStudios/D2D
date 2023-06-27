@@ -79,10 +79,18 @@ export default function AirdropPage({ currentUser }) {
         router.push("/auth/walletsignin");
         return;
       }
+
+      let wallet = undefined;
       if (
-        account &&
+        window.localStorage.getItem("walletAddress") !== undefined ||
+        window.localStorage.getItem("walletAddress") !== null
+      )
+        wallet = window.localStorage.getItem("walletAddress");
+
+      if (
+        wallet &&
         currentUser.accountWallet &&
-        account !== currentUser.accountWallet
+        wallet !== currentUser.accountWallet
       ) {
         toast.error("Detected Sign In With Different Wallet!");
         sendSignInRequest();

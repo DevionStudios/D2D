@@ -31,12 +31,23 @@ export function WalletSignUp() {
     }
 
     try {
+      let walletAddress;
+      if (
+        localStorage.getItem("walletType") == "metamask" ||
+        localStorage.getItem("walletType") == undefined ||
+        localStorage.getItem("walletType") == null
+      ) {
+        walletAddress = accountWallet;
+        localStorage.setItem("walletAddress", accountWallet);
+      } else walletAddress = localStorage.getItem("walletAddress");
+      console.log(walletAddress);
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/signup`,
         {
-          accountWallet: accountWallet,
+          accountWallet: walletAddress,
           name: values.name,
           username: values.username,
+          walletType: localStorage.getItem("walletType"),
         },
         { withCredentials: true }
       );
@@ -44,6 +55,7 @@ export function WalletSignUp() {
         const jwtToken = "foxxi_jwt=" + res.data.jwt;
         document.cookie = jwtToken + ";path=/";
         toast.success("Account Created Successfully");
+        localStorage.removeItem("walletType");
         router.push("/onboarding");
       } else {
         toast.error("Error Occured! Check If Wallet is already registered!");
@@ -53,11 +65,21 @@ export function WalletSignUp() {
     }
   };
   useEffect(() => {
-    setAccountWallet(account);
+    if (
+      localStorage.getItem("walletType") == "metamask" ||
+      localStorage.getItem("walletType") == undefined ||
+      localStorage.getItem("walletType") == null
+    )
+      setAccountWallet(account);
+    else setAccountWallet(localStorage.getItem("walletAddress"));
   }, [account]);
   return (
     <>
-      <WalletAuthLayout title="Sign Up." subtitle="Sign up and join the Foxxi!">
+      <WalletAuthLayout
+        title="Sign Up"
+        subtitle="Sign up and join the Foxxi!"
+        setAccount={setAccountWallet}
+      >
         {accountWallet ? (
           <Form
             form={form}

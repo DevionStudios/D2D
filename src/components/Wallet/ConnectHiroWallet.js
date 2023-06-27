@@ -24,17 +24,21 @@ function disconnect() {
   userSession.signUserOut(window.location.href);
 }
 
-const ConnectWallet = () => {
+const ConnectWallet = ({ isFromSignUp }) => {
   const [mounted, setMounted] = useState(false);
   const [walletAddress, setWalletAddress] = useState(null);
 
-  useEffect(() =>{ 
-    setMounted(true)
+  useEffect(() => {
+    setMounted(true);
 
-    if ( userSession.isUserSignedIn()) {
+    if (userSession.isUserSignedIn()) {
       setWalletAddress(userSession.loadUserData().profile.stxAddress.testnet);
+      if (isFromSignUp) localStorage.setItem("walletType", "bitcoin");
+      localStorage.setItem(
+        "walletAddress",
+        userSession.loadUserData().profile.stxAddress.testnet
+      );
     }
-
   }, [walletAddress]);
 
   if (mounted && userSession.isUserSignedIn()) {

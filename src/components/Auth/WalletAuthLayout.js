@@ -6,7 +6,11 @@ import { GradientBar } from "../ui/GradientBar";
 import Logo from "../../assets/Foxxi Logo.png";
 import Image from "next/image";
 import { ConnectButton } from "@web3uikit/web3";
-export function WalletAuthLayout({ title, subtitle, children }) {
+import ConnectWallet from "../Wallet/ConnectHiroWallet";
+import ConnectDpalWallet from "../Wallet/ConnectDpalWallet";
+import ConnectUnisatWallet from "../Wallet/ConnectUnisatWallet";
+
+export function WalletAuthLayout({ title, subtitle, children, setAccount }) {
   return (
     <main className="flex flex-col justify-center mx-auto w-full max-w-xl min-h-screen py-10">
       <div className="mb-8 text-center">
@@ -17,6 +21,13 @@ export function WalletAuthLayout({ title, subtitle, children }) {
         <p className="mt-3 text-gray-500">{subtitle}</p>
         <div className="inline-flex items-center mb-1 space-x-3 my-3">
           <ConnectButton />
+          {title === "Sign Up" && (
+            <>
+              <ConnectWallet isFromSignUp={true} />
+              <ConnectDpalWallet isFromSignUp={true} />
+              <ConnectUnisatWallet isFromSignUp={true} />
+            </>
+          )}
         </div>
       </div>
       <Card
