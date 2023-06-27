@@ -68,6 +68,8 @@ import { createOfficialPostRouter } from "./routes/admin/create-post";
 import { fetchUserByIdRouter } from "./routes/auth/fetch-user-by-id";
 import { getAllStoriesRouter } from "./routes/story/get-all-stories";
 import { createReplyRouter } from "./routes/comments/create-reply";
+import { getUserOrdinalsRouter } from "./routes/tokens/get-user-ordinals";
+import { getUserStampsRouter } from "./routes/tokens/get-user-stamps";
 
 const app = express();
 app.use(
@@ -152,6 +154,8 @@ app.use(createNotificationForEveryoneRouter);
 app.use(createNotificationforSingleUserRouter);
 app.use(createOfficialPostRouter);
 app.use(createReplyRouter);
+app.use(getUserOrdinalsRouter);
+app.use(getUserStampsRouter);
 
 app.all("*", async (req: any, res: any) => {
   throw new Error("Route not found!!");
