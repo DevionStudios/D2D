@@ -14,6 +14,7 @@ import { useMoralis } from "react-moralis";
 import { toast } from "react-hot-toast";
 import { Step2 } from "src/components/Onboarding/Step2";
 import { Step3 } from "src/components/Onboarding/Step3";
+import FoxxiText from "../assets/Foxxi-Text.png";
 const onboardingTabs = [
   {
     label: "Welcome",
@@ -156,7 +157,7 @@ export default function Onboarding({ currentUser }) {
       <div className="fixed top-0 w-full z-50 bg-white dark:bg-gray-900">
         <div className="py-2 flex justify-center items-center">
           <Link href="/">
-            <Image src={Logo} width={100} height={100} alt="Logo" />{" "}
+            <Image src={FoxxiText} width={100} height={25} alt="Logo" />{" "}
           </Link>
           <Heading size="h5">Foxxi</Heading>
         </div>

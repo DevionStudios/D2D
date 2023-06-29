@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { AppConfig, showConnect, UserSession } from "@stacks/connect";
 import { set } from "nprogress";
+import { setWalletCookie } from "../../utils/getCookie";
 
 const appConfig = new AppConfig(["store_write", "publish_data"]);
 
@@ -10,7 +11,7 @@ function authenticate() {
   showConnect({
     appDetails: {
       name: "Foxxi",
-      icon: "/src/assets/Foxxi Logo.png",
+      icon: "/src/assets/Foxxi-Text.png",
     },
     onFinish: () => {
       window.location.reload();
@@ -28,13 +29,13 @@ const ConnectWallet = () => {
   const [mounted, setMounted] = useState(false);
   const [walletAddress, setWalletAddress] = useState(null);
 
-  useEffect(() =>{ 
-    setMounted(true)
+  useEffect(() => {
+    setMounted(true);
 
-    if ( userSession.isUserSignedIn()) {
+    if (userSession.isUserSignedIn()) {
       setWalletAddress(userSession.loadUserData().profile.stxAddress.testnet);
+      setWalletCookie(document, { hiroWallet: userSession.loadUserData().profile.stxAddress.testnet});
     }
-
   }, [walletAddress]);
 
   if (mounted && userSession.isUserSignedIn()) {

@@ -4,6 +4,7 @@ import { Heading } from "src/components/ui/Heading";
 import { Footer } from "../Common/Footer";
 import { GradientBar } from "../ui/GradientBar";
 import Logo from "../../assets/Foxxi Logo.png";
+
 import Image from "next/image";
 export function AuthLayout({ title, subtitle, children }) {
   return (

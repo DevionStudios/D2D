@@ -11,6 +11,7 @@ import { SEO } from "../SEO";
 import { IndeterminateProgress } from "../ui/Progress";
 import axios, { HttpStatusCode } from "axios";
 import Logo from "../../assets/Foxxi Logo.png";
+import FoxxiText from "../../assets/Foxxi-Text.png";
 
 export function News({ currentUser }) {
   const [data, setData] = useState({});

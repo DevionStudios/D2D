@@ -13,14 +13,18 @@ import { UserPosts } from "./UserPosts";
 import { useEffect, useState } from "react";
 import { Menu, MenuItem } from "../ui/Dropdown";
 import axios from "axios";
-import { toast } from "react-hot-toast";
+import toast from "react-hot-toast";
 import Link from "next/link";
-
+import { WalletTypes } from "src/constants/constants";
+import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 export function Profile({ user, isMe, username, currentUser }) {
   const isMobile = useMediaQuery(MEDIA_QUERIES.SMALL);
   const [userPosts, setUserPosts] = useState(undefined);
   const [hasStories, sethasStories] = useState(false);
-
+  const auth = useSelector((state) => state.auth);
+  const router = useRouter();
+  console.log(auth);
   const fetchUserPost = async function () {
     try {
       const { data } = await axios.get(
@@ -68,6 +72,7 @@ export function Profile({ user, isMe, username, currentUser }) {
       toast.error(error?.response?.data?.message || "Failed to report user");
     }
   };
+  console.log(user);
 
   useEffect(() => {
     fetchUserPost();
@@ -136,12 +141,46 @@ export function Profile({ user, isMe, username, currentUser }) {
                     ) : null}
                   </div>
                   {isMe ? (
-                    <Button
-                      href={`/account/settings`}
-                      size={isMobile ? "base" : "lg"}
-                    >
-                      Edit Profile
-                    </Button>
+                    <div className="flex flex-row-reverse gap-2">
+                      <div>
+                        <Button
+                          href={`/account/settings`}
+                          size={isMobile ? "base" : "lg"}
+                        >
+                          Edit Profile
+                        </Button>
+                      </div>
+                      <div>
+                        <Button
+                          // href={`/account/gallery`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            let cookies = document.cookie;
+                            // check if foxxi_user_wallet cookie exists
+                            let cookie = cookies
+                              .split("foxxi_user_wallet=")?.[1]
+                              ?.split(";")?.[0];
+                            console.log(cookie);
+                            if (cookie) {
+                              cookie = JSON.parse(cookie);
+                              if (cookie?.hiroWallet) {
+                                console.log("hemlo");
+                                router.push(
+                                  `/account/gallery/${cookie.hiroWallet}`
+                                );
+                              }
+                            } else {
+                              toast.error(
+                                "You need to connect your hiro wallet first"
+                              );
+                            }
+                          }}
+                          size={isMobile ? "base" : "lg"}
+                        >
+                          Web3 Gallery
+                        </Button>
+                      </div>
+                    </div>
                   ) : !currentUser.annonymous ? (
                     <>
                       <FollowButton

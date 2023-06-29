@@ -18,6 +18,7 @@ import { MobileMenu } from "./MobileMenu";
 import Spinner from "src/components/ui/Spinner";
 import { UnauthorizedHeader } from "./UnauthorizedHeader";
 import Logo from "../../../assets/Foxxi Logo.png";
+import FoxxiText from "../../../assets/Foxxi-Text.png";
 import { useRouter } from "next/router";
 import { HiOutlineBell } from "react-icons/hi";
 import { NotificationOverlay } from "src/components/ui/Notifications/NotificationOverlay";
@@ -112,10 +113,15 @@ export function Navbar({ currentUser }) {
                     style={{ position: "relative", right: "20%" }}
                   >
                     <Link href={`/feed`}>
-                      <Image src={Logo} alt="Foxxi" width={67} height={67} />
+                      <Image
+                        src={FoxxiText}
+                        alt="Foxxi"
+                        width={100}
+                        height={25}
+                      />
                     </Link>
                     <h1 className="foxxiLogoText">
-                      {deviceType !== "Mobile" && "Foxxi"}
+                      {deviceType !== "Mobile" && ""}
                     </h1>
                   </div>
                 </div>

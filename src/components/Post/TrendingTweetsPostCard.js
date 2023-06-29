@@ -6,7 +6,7 @@ import { TwitterTrendingInterweave } from "../TwitterTrendingInterweave";
 import NextImage from "next/image";
 import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
 import Logo from "../../assets/Foxxi Logo.png";
-
+import FoxxiText from "../../assets/Foxxi-Text.png";
 export function TrendingTweetsPostCard(props) {
   if (!props.post || !props.post.author) {
     return <ErrorFallback message="Failed to load" />;
@@ -23,10 +23,10 @@ export function TrendingTweetsPostCard(props) {
             <div className="flex space-x-3">
               <div className="flex-shrink-0">
                 <NextImage
-                  src={Logo}
+                  src={FoxxiText}
                   className="bg-gray-100 dark:bg-gray-900 rounded-full object-cover"
-                  width={50}
-                  height={50}
+                  width={100}
+                  height={25}
                 />
               </div>
               <div className="min-w-0 flex-1">

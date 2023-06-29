@@ -7,8 +7,12 @@ import { MoralisProvider } from "react-moralis";
 import { NotificationProvider } from "@web3uikit/core";
 import { Connect, UserSession, AppConfig } from "@stacks/connect-react";
 import "../styles.css";
+import { useCustomDispatch } from "../redux/useCustomDispatch";
 import { NProgress } from "src/components/ui/NProgress";
 import { toastOptions } from "src/utils/toastOptions";
+import { store } from "../redux/store";
+import { Provider } from "react-redux";
+import { getCookieParser } from "next/dist/server/api-utils";
 function MyApp({ Component, pageProps, currentUser }) {
   const getLayout = Component.getLayout ?? ((page) => page);
   const { setTheme, theme } = useTheme();
@@ -25,20 +29,24 @@ function MyApp({ Component, pageProps, currentUser }) {
   }, []);
   return (
     <>
-      <ThemeProvider
-        defaultTheme={theme}
-        storageKey="preferred-theme"
-        attribute="class"
-      >
-        <DefaultSeo defaultTitle="Foxxi" titleTemplate="%s | Foxxi" />
-        <NProgress />
-        <Toaster position="top-right" toastOptions={toastOptions} />
-        <MoralisProvider initializeOnMount={false}>
-          <NotificationProvider>
-            {getLayout(<Component {...pageProps} currentUser={currentUser} />)}
-          </NotificationProvider>
-        </MoralisProvider>
-      </ThemeProvider>
+      <Provider store={store}>
+        <ThemeProvider
+          defaultTheme={theme}
+          storageKey="preferred-theme"
+          attribute="class"
+        >
+          <DefaultSeo defaultTitle="Foxxi" titleTemplate="%s | Foxxi" />
+          <NProgress />
+          <Toaster position="top-right" toastOptions={toastOptions} />
+          <MoralisProvider initializeOnMount={false}>
+            <NotificationProvider>
+              {getLayout(
+                <Component {...pageProps} currentUser={currentUser} />
+              )}
+            </NotificationProvider>
+          </MoralisProvider>
+        </ThemeProvider>
+      </Provider>
     </>
   );
 }
