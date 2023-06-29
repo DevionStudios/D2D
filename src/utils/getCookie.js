@@ -25,6 +25,10 @@ export const setWalletCookie = (
   { activeWallet, hiroWallet, dogeWallet, wallectConnectWallet, unisatWallet }
 ) => {
   let cookies = document.cookie;
+  // "foxxi_jwt="
+  // take the foxxi_jwt cookie as it is without using split
+  let jwt = cookies.split("foxxi_jwt=")?.[1]?.split(";")?.[0];
+  jwt = jwt ? `foxxi_jwt=${jwt};` : "";
   // check if foxxi_user_wallet cookie exists
   let cookie = cookies.split("foxxi_user_wallet=")?.[1]?.split(";")?.[0];
   if (cookie) {
@@ -37,7 +41,8 @@ export const setWalletCookie = (
       wallectConnectWallet:
         cookie?.wallectConnectWallet || wallectConnectWallet,
     };
-    document.cookie = `foxxi_user_wallet=${JSON.stringify(cookie)};path=/`;
+    document.cookie =
+      jwt + `foxxi_user_wallet=${JSON.stringify(cookie)};path=/`;
   } else {
     cookie = {
       activeWallet,
@@ -46,6 +51,7 @@ export const setWalletCookie = (
       unisatWallet,
       hiroWallet,
     };
-    document.cookie = `foxxi_user_wallet=${JSON.stringify(cookie)};path=/`;
+    document.cookie =
+      jwt + `foxxi_user_wallet=${JSON.stringify(cookie)};path=/`;
   }
 };
