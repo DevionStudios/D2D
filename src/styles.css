@@ -30,7 +30,11 @@ input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 999px theme("colors.gray.800") inset !important;
   background-clip: content-box !important;
 }
-
+.gradient-text {
+  background: linear-gradient(to right, #ba7706, #e8e1cf);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 .text-muted {
   @apply text-gray-500;
 }

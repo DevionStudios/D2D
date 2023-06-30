@@ -12,7 +12,7 @@ import Logo from "../../../assets/Foxxi Logo.png";
 import FoxxiText from "../../../assets/Foxxi-Text.png";
 import { GradientBar } from "src/components/ui/GradientBar";
 
-export function UnauthorizedHeader({ deviceType }) {
+export function UnauthorizedHeader({ deviceType, CustomLogo }) {
   const router = useRouter();
   return (
     <div className="mb-[-90px]">
@@ -23,11 +23,20 @@ export function UnauthorizedHeader({ deviceType }) {
           className="fixed max-w-full top-0 z-10"
         />
         <Popover className="relative">
-          <div className="flex justify-between items-center max-w-7xl mx-auto py-4 px-4 lg:px-0 md:justify-start md:space-x-10 ">
+          <div
+            className={
+              "flex justify-between items-center max-w-7xl mx-auto py-4 px-4 lg:px-0 md:justify-start md:space-x-10 "
+            }
+          >
             <div className="flex justify-start lg:w-0 lg:flex-1">
               <Link href="/feed" passHref={true}>
                 <div className="flex items-center space-x-4">
-                  <Image src={FoxxiText} alt="Foxxi Logo" width={100} height={25} />
+                  <Image
+                    src={CustomLogo || FoxxiText}
+                    alt="Foxxi Logo"
+                    width={CustomLogo ? 125 : 100}
+                    height={CustomLogo ? 150 : 25}
+                  />
                 </div>
               </Link>
             </div>
@@ -40,10 +49,20 @@ export function UnauthorizedHeader({ deviceType }) {
 
             <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
               <div className="mx-8">{<ThemeToggle />}</div>
-              <Button href="/auth/signin" size="lg" >
+              <Button
+                href="/auth/signin"
+                size="lg"
+                className="w-24"
+                rounded={"full"}
+              >
                 Sign in
               </Button>
-              <Button size="lg" href="/auth/signup" className="ml-8">
+              <Button
+                size="lg"
+                href="/auth/signup"
+                className="ml-8 w-24"
+                rounded={"full"}
+              >
                 Sign up
               </Button>
             </div>
@@ -72,11 +91,13 @@ export function UnauthorizedHeader({ deviceType }) {
                         style={{ position: "relative", right: "20%" }}
                       ></div>
                       <Link href={`/feed`} passHref>
-                        <Image src={Logo} alt="Foxxi" width={67} height={67} />
+                        <Image
+                          src={FoxxiText}
+                          alt="Foxxi"
+                          width={100}
+                          height={30}
+                        />
                       </Link>
-                      <Heading size="h4" className="foxxiLogoText">
-                        Foxxi
-                      </Heading>
                       <ThemeToggle />
                     </div>
                     <div className="-mr-2">
@@ -89,7 +110,13 @@ export function UnauthorizedHeader({ deviceType }) {
                 </div>
                 <div className="py-6 px-5">
                   <div>
-                    <Button size="lg" href="/auth/signup" fullWidth>
+                    <Button
+                      className="rounded-full"
+                      size="lg"
+                      href="/auth/signup"
+                      fullWidth
+                      rounded={"full"}
+                    >
                       Sign up
                     </Button>
                     <p className="mt-6 text-center text-base font-medium text-gray-500">
@@ -97,6 +124,7 @@ export function UnauthorizedHeader({ deviceType }) {
                       <Link
                         href="/auth/signin"
                         className="text-gray-900 no-underline"
+                        rounded={"full"}
                       >
                         Sign in
                       </Link>

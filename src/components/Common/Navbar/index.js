@@ -23,7 +23,7 @@ import { useRouter } from "next/router";
 import { HiOutlineBell } from "react-icons/hi";
 import { NotificationOverlay } from "src/components/ui/Notifications/NotificationOverlay";
 
-export function Navbar({ currentUser }) {
+export function Navbar({ currentUser, CustomLogo }) {
   const router = useRouter();
   const [createPostModalOpen, setCreatePostModalOpen] = useState(false);
   const [createStoryModalOpen, setCreateStoryModalOpen] = useState(false);
@@ -61,7 +61,7 @@ export function Navbar({ currentUser }) {
   if (currentUser?.annonymous === true) {
     return (
       <>
-        <UnauthorizedHeader deviceType={deviceType} />
+        <UnauthorizedHeader deviceType={deviceType} CustomLogo={CustomLogo} />
       </>
     );
   }

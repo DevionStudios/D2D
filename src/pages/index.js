@@ -5,6 +5,7 @@ import { Hero } from "src/components/Hero";
 import { Navbar } from "src/components/Common/Navbar";
 
 import { useDispatch } from "react-redux";
+import CustomLogo from "../assets/Foxxi-Final.png";
 import {
   setWalletConnectWallet,
   setActiveWallet,
@@ -24,15 +25,15 @@ export default function Home({ currentUser, req }) {
   return (
     <>
       <SEO
-        title="Foxxi | Capture and share the world's moments"
+        title="World's First Social Media App Built For Ordinals and Stamps"
         description="Foxxi is a social media platform created for you. See what your friends are up to."
         image="/assets/homepage.png"
         cardType="summary_large_image"
         path="/"
       />
       <div className="min-h-screen overflow-hidden bg-white dark:bg-black ">
-        <Navbar currentUser={currentUser} />
-        <Hero />
+        <Navbar currentUser={currentUser} CustomLogo={CustomLogo} />
+        <Hero currentUser={currentUser} />
       </div>
     </>
   );
