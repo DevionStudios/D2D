@@ -24,6 +24,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 
 export function FeedPostCard(props) {
+  const [imageModal, setImageModal] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [post, setPost] = useState(props.post);
@@ -251,19 +252,29 @@ export function FeedPostCard(props) {
               </div>
             )}
 
-            {props.post.image && (
-              <div className="mx-auto w-11/12 rounded-lg overflow-hidden ">
-                <div className="aspect-w-1 aspect-h-1">
-                  <NextImage
-                    src={props.post.image}
-                    layout="fill"
-                    objectFit="cover"
-                    placeholder="empty"
-                    alt={`image posted by ${props.post.author.name} on D2D.`}
-                  />
+{props.post.media.url && (
+                <div className="aspect-w-1 aspect-h-1 ">
+                  {props.post.media &&
+                  props.post.media.url &&
+                  props.post.media.mediatype === "video" ? (
+                    <video placeholder="empty" className="!w-full" controls>
+                      <source src={props.post.media.url} type="video/mp4" />
+                      <source src={props.post.media.url} type="video/mkv" />
+                      <source src={props.post.media.url} type="video/m4v" />
+                      <source src={props.post.media.url} type="video/webm" />
+                    </video>
+                  ) : (
+                    <NextImage
+                      onClick={() => setImageModal(true)}
+                      src={props.post.media?.url || props.post.media}
+                      layout="fill"
+                      objectFit="cover"
+                      placeholder="empty"
+                      className="!w-full"
+                    />
+                  )}
                 </div>
-              </div>
-            )}
+              )}
           </Link>
           {/* Post Actions */}
           <div className="py-2 px-6 bg-gray-200 dark:bg-gray-900/70 flex border-t border-gray-200 dark:border-gray-700 justify-between space-x-8">
