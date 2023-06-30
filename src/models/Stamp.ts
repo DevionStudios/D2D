@@ -11,7 +11,7 @@ interface StampAttrs {
   txIndex: number;
   tick: string;
   stamp: string;
-    : string;
+  p: string;
   owner: UserDoc;
   likes?: UserDoc[];
 }
