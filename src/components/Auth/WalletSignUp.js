@@ -71,6 +71,7 @@ export function WalletSignUp() {
           accountWallet: currentUsedWallet,
           name: values.name,
           username: values.username,
+          walletType: walletType,
         },
         { withCredentials: true }
       );
@@ -88,9 +89,26 @@ export function WalletSignUp() {
         toast.success("Account Created Successfully");
         router.push("/onboarding");
       } else {
+        // delete all cookie
+        // clear all cookies
+        document.cookie.split(";").forEach(function (c) {
+          document.cookie = c
+            .replace(/^ +/, "")
+            .replace(
+              /=.*/,
+              "=;expires=" + new Date().toUTCString() + ";path=/"
+            );
+        });
         toast.error("Error Occured! Check If Wallet is already registered!");
       }
     } catch (error) {
+      // delete all cookie
+      // clear all cookies
+      document.cookie.split(";").forEach(function (c) {
+        document.cookie = c
+          .replace(/^ +/, "")
+          .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+      });
       toast.error("Error Occured! Check If Wallet is already registered!");
     }
   };

@@ -13,7 +13,7 @@ const Signin = () => {
           .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
       });
     }
-  });
+  }, []);
   return (
     <>
       <WalletSignIn />
