@@ -118,28 +118,27 @@ export function WalletSignUp() {
         title="Sign Up."
         subtitle="Sign up and join the Foxxi! Note: The last wallet that you sign in to will be used as primary sign up wallet"
       >
-        {walletType ? (
-          <Form
-            form={form}
-            onSubmit={async (values) => {
-              await processSignUp(values);
-            }}
-          >
-            <Input
-              label="Full Name"
-              type="text"
-              placeholder="Your Full Name"
-              {...form.register("name")}
-            />
-            <Input
-              label="Username"
-              type="text"
-              placeholder="Your Username (min 3)"
-              {...form.register("username")}
-            />
-            <FormSubmitButton size="lg">Wallet Sign Up</FormSubmitButton>
-          </Form>
-        ) : null}
+        <Form
+          form={form}
+          onSubmit={async (values) => {
+            await processSignUp(values);
+          }}
+        >
+          <Input
+            label="Full Name"
+            type="text"
+            placeholder="Your Full Name"
+            {...form.register("name")}
+          />
+          <Input
+            label="Username"
+            type="text"
+            placeholder="Your Username (min 3)"
+            {...form.register("username")}
+          />
+          <FormSubmitButton size="lg">Wallet Sign Up</FormSubmitButton>
+        </Form>
+
         <div>
           <Card rounded="lg" className="mt-4">
             <Card.Body>

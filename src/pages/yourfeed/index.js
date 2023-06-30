@@ -65,10 +65,26 @@ export default function FeedPage({ currentUser }) {
         router.push("/auth/walletsignin");
         return;
       }
+      let cookies = document?.cookie;
+      // check if foxxi_user_wallet cookie exists
+      let walletCookie = cookies
+        ?.split("foxxi_user_wallet=")?.[1]
+        ?.split(";")?.[0];
+      if (walletCookie) {
+        walletCookie = JSON.parse(walletCookie);
+      }
       if (
-        account &&
+        walletCookie?.activeWallet &&
         currentUser.accountWallet &&
-        account !== currentUser.accountWallet
+        walletCookie?.activeWallet !== currentUser.accountWallet
+      ) {
+        toast.error("Detected Sign In With Different Wallet!");
+        sendSignInRequest();
+      }
+      if (
+        walletCookie?.activeWallet &&
+        currentUser.accountWallet &&
+        walletCookie?.walletType != currentUser?.walletType
       ) {
         toast.error("Detected Sign In With Different Wallet!");
         sendSignInRequest();

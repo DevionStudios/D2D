@@ -25,7 +25,7 @@ function disconnect() {
   userSession.signUserOut(window.location.href);
 }
 
-const ConnectHiroWallet = () => {
+const ConnectHiroWallet = ({ text }) => {
   const [mounted, setMounted] = useState(false);
   const [walletAddress, setWalletAddress] = useState(null);
 
@@ -45,7 +45,7 @@ const ConnectHiroWallet = () => {
     // setWalletAddress(userSession.loadUserData().profile.stxAddress.testnet);
 
     return (
-      <button className="Connect" onClick={disconnect}>
+      <button className={text || ""} onClick={disconnect}>
         {walletAddress?.toString()?.slice(0, 5) || "Disconnect Hiro"}
         {walletAddress && "..."}
       </button>
@@ -53,7 +53,7 @@ const ConnectHiroWallet = () => {
   }
 
   return (
-    <button className="Connect" onClick={authenticate}>
+    <button className={text || ""} onClick={authenticate}>
       Connect Hiro
     </button>
   );

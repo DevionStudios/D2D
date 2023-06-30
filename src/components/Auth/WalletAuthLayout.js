@@ -37,14 +37,14 @@ export function WalletAuthLayout({ title, subtitle, children }) {
             }}
           >
             <div
-              className="bg-red-600 p-2"
+              className="bg-gradient-to-r from-orange-500 to-orange-300 p-2"
               style={{
                 width: "9.6rem",
                 height: "2.6rem",
                 borderRadius: "1rem",
               }}
             >
-              <ConnectHiroWallet />
+              <ConnectHiroWallet text="text-blue" />
             </div>
           </div>
           <div
@@ -54,14 +54,14 @@ export function WalletAuthLayout({ title, subtitle, children }) {
             }}
           >
             <div
-              className="bg-red-600 p-2"
+              className="bg-gradient-to-r from-orange-500 to-orange-300 p-2"
               style={{
                 width: "9.6rem",
                 height: "2.6rem",
                 borderRadius: "1rem",
               }}
             >
-              <ConnectDpalWallet />
+              <ConnectDpalWallet text={"text-blue"} />
             </div>
           </div>
           <div
@@ -71,14 +71,14 @@ export function WalletAuthLayout({ title, subtitle, children }) {
             }}
           >
             <div
-              className="bg-red-600 p-2"
+              className="bg-gradient-to-r from-orange-500 to-orange-300 p-2"
               style={{
                 width: "9.6rem",
                 height: "2.6rem",
                 borderRadius: "1rem",
               }}
             >
-              <ConnectUnisatWallet />
+              <ConnectUnisatWallet text={"text-blue"} />
             </div>
           </div>
         </div>

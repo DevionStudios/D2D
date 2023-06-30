@@ -2,7 +2,7 @@ import { set } from "nprogress";
 import React, { useState, useEffect } from "react";
 import { setWalletCookie } from "../../utils/getCookie";
 
-const ConnectUnisatWallet = () => {
+const ConnectUnisatWallet = ({ text }) => {
   const [unisat, setUnisat] = useState(null);
   const [userAddress, setUserAddress] = useState(null);
 
@@ -53,14 +53,14 @@ const ConnectUnisatWallet = () => {
   // check isEnabled
   if (unisat && userAddress) {
     return (
-      <button className="Connect" onClick={disconnect}>
+      <button className={text || ""} onClick={disconnect}>
         {userAddress || "Disconnect Unisat"}
       </button>
     );
   }
 
   return (
-    <button className="Connect" onClick={connect}>
+    <button className={text || ""} onClick={connect}>
       Connect Unisat
     </button>
   );
