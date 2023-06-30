@@ -6,7 +6,10 @@ import { GradientBar } from "../ui/GradientBar";
 import Logo from "../../assets/Foxxi Logo.png";
 import Image from "next/image";
 import { ConnectButton } from "@web3uikit/web3";
-export function WalletAuthLayout({ title, subtitle, children }) {
+import ConnectHiroWallet from "../../components/Wallet/ConnectHiroWallet";
+import ConnectDpalWallet from "../../components/Wallet/ConnectDpalWallet";
+import ConnectUnisatWallet from "../../components/Wallet/ConnectUnisatWallet";
+export function WalletAuthLayout({ title, subtitle, children, setWalletType }) {
   return (
     <main className="flex flex-col justify-center mx-auto w-full max-w-xl min-h-screen py-10">
       <div className="mb-8 text-center">
@@ -15,8 +18,47 @@ export function WalletAuthLayout({ title, subtitle, children }) {
           <Heading size="h2">{title}</Heading>
         </div>
         <p className="mt-3 text-gray-500">{subtitle}</p>
-        <div className="inline-flex items-center mb-1 space-x-3 my-3">
+        <div
+          className="inline-flex items-center mb-1 space-x-3 my-3"
+          onClick={(e) => {
+            e.preventDefault();
+            setWalletType("walletConnect");
+          }}
+        >
           <ConnectButton />
+        </div>
+        <div
+          className="inline-flex items-center mb-1 space-x-3 my-3"
+          onClick={(e) => {
+            e.preventDefault();
+            setWalletType("hiroWallet");
+          }}
+        >
+          <div className="">
+            <ConnectHiroWallet />
+          </div>
+        </div>
+        <div
+          className="inline-flex items-center mb-1 space-x-3 my-3"
+          onClick={(e) => {
+            e.preventDefault();
+            setWalletType("dogeWallet");
+          }}
+        >
+          <div className="">
+            <ConnectDpalWallet />
+          </div>
+        </div>
+        <div
+          className="inline-flex items-center mb-1 space-x-3 my-3"
+          onClick={(e) => {
+            e.preventDefault();
+            setWalletType("unisatWallet");
+          }}
+        >
+          <div>
+            <ConnectUnisatWallet />
+          </div>
         </div>
       </div>
       <Card

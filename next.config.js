@@ -22,6 +22,8 @@ module.exports = {
       "giphy.com",
       "images.unsplash.com",
       "placekitten.com",
+      "stampchain.io",
+      "*",
     ],
   },
 };

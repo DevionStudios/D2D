@@ -25,7 +25,7 @@ function disconnect() {
   userSession.signUserOut(window.location.href);
 }
 
-const ConnectWallet = () => {
+const ConnectHiroWallet = () => {
   const [mounted, setMounted] = useState(false);
   const [walletAddress, setWalletAddress] = useState(null);
 
@@ -34,7 +34,9 @@ const ConnectWallet = () => {
 
     if (userSession.isUserSignedIn()) {
       setWalletAddress(userSession.loadUserData().profile.stxAddress.testnet);
-      setWalletCookie(document, { hiroWallet: userSession.loadUserData().profile.stxAddress.testnet});
+      setWalletCookie(document, {
+        hiroWallet: userSession.loadUserData().profile.stxAddress.testnet,
+      });
     }
   }, [walletAddress]);
 
@@ -55,4 +57,4 @@ const ConnectWallet = () => {
   );
 };
 
-export default ConnectWallet;
+export default ConnectHiroWallet;

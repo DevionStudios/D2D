@@ -1,11 +1,12 @@
-export const getCookie = (doc, name) => {
+export const getCookie = (doc) => {
   let cookies = doc.cookie;
-  let prefix = name + "=";
-  let cookie = cookies.split(";").find((c) => c.trim().startsWith(prefix));
+  // check if foxxi_jwt cookie exists
+  let cookie = cookies.split("foxxi_jwt=")?.[1]?.split(";")?.[0];
   if (cookie) {
-    return cookie.split("=")[1].split(";")[0];
+    return cookie;
+  } else {
+    return null;
   }
-  return null;
 };
 
 export const getWalletCookie = (document) => {

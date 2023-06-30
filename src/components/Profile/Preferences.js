@@ -17,6 +17,7 @@ import { useRouter } from "next/router";
 import { Input } from "../ui/Input";
 import { Switch } from "@headlessui/react";
 import clsx from "clsx";
+import { getCookie, getWalletCookie } from "src/utils/getCookie";
 
 export function Preferences({ currentUser }) {
   const [haveNFT, setHaveNFT] = useState(false);
@@ -24,7 +25,7 @@ export function Preferences({ currentUser }) {
   const [isDisabled, setIsDisabled] = useState(false);
   const [NFTMintDisabled, setNFTMintDisabled] = useState(false);
   const [fileImg, setFileImg] = useState(null);
-
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const ImageFormSchema = object({
     image: z.any(),
@@ -245,6 +246,104 @@ export function Preferences({ currentUser }) {
               }}
             >
               Claim Token
+            </Button>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="flex-grow flex flex-col">
+              <label className="text-sm font-medium dark:text-white text-gray-900">
+                Import Bitcoin Wallet Stamps
+              </label>
+            </span>
+            <Button
+              size="sm"
+              variant="solid"
+              onClick={async () => {
+                setLoading(true);
+                // get the user's bitcoin address
+                const bitcoinWallet = getWalletCookie(document)?.hiroWallet;
+                if (!bitcoinWallet) {
+                  toast.error("Please connect your hiro wallet first");
+                  return;
+                }
+                // get token from cookie
+                const token = getCookie(document);
+                if (!token) {
+                  toast.error("Please login first");
+                  return;
+                }
+                // get stamps from api
+                try {
+                  const res = await axios.post(
+                    `${process.env.NEXT_PUBLIC_BASE_URL}/api/token/stamp/import`,
+                    {
+                      bicoinWalletAddress: bitcoinWallet,
+                    },
+                    {
+                      headers: {
+                        cookies: token,
+                      },
+                    }
+                  );
+                  toast.success("Stamps imported successfully");
+                  setLoading(false);
+                } catch (e) {
+                  toast.error("Failed to import stamps");
+                  console.log(e);
+                  setLoading(false);
+                  return;
+                }
+              }}
+            >
+              {loading ? "Loading..." : "Import Stamps"}
+            </Button>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="flex-grow flex flex-col">
+              <label className="text-sm font-medium dark:text-white text-gray-900">
+                Import Bitcoin Wallet Ordinals
+              </label>
+            </span>
+            <Button
+              size="sm"
+              variant="solid"
+              onClick={async () => {
+                setLoading(true);
+                // get the user's bitcoin address
+                const bitcoinWallet = getWalletCookie(document)?.hiroWallet;
+                if (!bitcoinWallet) {
+                  toast.error("Please connect your hiro wallet first");
+                  return;
+                }
+                // get token from cookie
+                const token = getCookie(document);
+                if (!token) {
+                  toast.error("Please login first");
+                  return;
+                }
+                // get stamps from api
+                try {
+                  const res = await axios.post(
+                    `${process.env.NEXT_PUBLIC_BASE_URL}/api/token/ordinal/import`,
+                    {
+                      bicoinWalletAddress: bitcoinWallet,
+                    },
+                    {
+                      headers: {
+                        cookies: token,
+                      },
+                    }
+                  );
+                  toast.success("Ordinals imported successfully");
+                  setLoading(false);
+                } catch (e) {
+                  toast.error("Failed to import ordinals");
+                  console.log(e);
+                  setLoading(false);
+                  return;
+                }
+              }}
+            >
+              {loading ? "Loading..." : "Import Ordinals"}
             </Button>
           </div>
           <div className="flex items-center justify-between">
