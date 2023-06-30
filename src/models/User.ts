@@ -136,6 +136,8 @@ const userSchema = new mongoose.Schema(
     },
     walletType: {
       type: String,
+      default: "",
+      required: false,
     },
     reports: {
       type: [
