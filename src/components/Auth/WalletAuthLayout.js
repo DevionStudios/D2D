@@ -9,7 +9,8 @@ import { ConnectButton } from "@web3uikit/web3";
 import ConnectHiroWallet from "../../components/Wallet/ConnectHiroWallet";
 import ConnectDpalWallet from "../../components/Wallet/ConnectDpalWallet";
 import ConnectUnisatWallet from "../../components/Wallet/ConnectUnisatWallet";
-export function WalletAuthLayout({ title, subtitle, children, setWalletType }) {
+import { setWalletCookie } from "../../utils/getCookie";
+export function WalletAuthLayout({ title, subtitle, children }) {
   return (
     <main className="flex flex-col justify-center mx-auto w-full max-w-xl min-h-screen py-10">
       <div className="mb-8 text-center">
@@ -18,46 +19,67 @@ export function WalletAuthLayout({ title, subtitle, children, setWalletType }) {
           <Heading size="h2">{title}</Heading>
         </div>
         <p className="mt-3 text-gray-500">{subtitle}</p>
-        <div
-          className="inline-flex items-center mb-1 space-x-3 my-3"
-          onClick={(e) => {
-            e.preventDefault();
-            setWalletType("walletConnect");
-          }}
-        >
-          <ConnectButton />
-        </div>
-        <div
-          className="inline-flex items-center mb-1 space-x-3 my-3"
-          onClick={(e) => {
-            e.preventDefault();
-            setWalletType("hiroWallet");
-          }}
-        >
-          <div className="">
-            <ConnectHiroWallet />
+
+        <div className="flex flex-col gap-3 items-center mb-1 space-x-3 my-3">
+          <div
+            className="inline-flex items-center mb-1 space-x-3 my-3"
+            onClick={(e) => {
+              e.preventDefault();
+              setWalletCookie(document, { walletType: "walletConnect" });
+            }}
+          >
+            <ConnectButton />
           </div>
-        </div>
-        <div
-          className="inline-flex items-center mb-1 space-x-3 my-3"
-          onClick={(e) => {
-            e.preventDefault();
-            setWalletType("dogeWallet");
-          }}
-        >
-          <div className="">
-            <ConnectDpalWallet />
+          <div
+            className="inline-flex items-center mb-1 space-x-3 my-3"
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+          >
+            <div
+              className="bg-red-600 p-2"
+              style={{
+                width: "9.6rem",
+                height: "2.6rem",
+                borderRadius: "1rem",
+              }}
+            >
+              <ConnectHiroWallet />
+            </div>
           </div>
-        </div>
-        <div
-          className="inline-flex items-center mb-1 space-x-3 my-3"
-          onClick={(e) => {
-            e.preventDefault();
-            setWalletType("unisatWallet");
-          }}
-        >
-          <div>
-            <ConnectUnisatWallet />
+          <div
+            className="inline-flex items-center mb-1 space-x-3 my-3"
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+          >
+            <div
+              className="bg-red-600 p-2"
+              style={{
+                width: "9.6rem",
+                height: "2.6rem",
+                borderRadius: "1rem",
+              }}
+            >
+              <ConnectDpalWallet />
+            </div>
+          </div>
+          <div
+            className="inline-flex items-center mb-1 space-x-3 my-3"
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+          >
+            <div
+              className="bg-red-600 p-2"
+              style={{
+                width: "9.6rem",
+                height: "2.6rem",
+                borderRadius: "1rem",
+              }}
+            >
+              <ConnectUnisatWallet />
+            </div>
           </div>
         </div>
       </div>

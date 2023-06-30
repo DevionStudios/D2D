@@ -10,6 +10,7 @@ import { useMoralis } from "react-moralis";
 export function WalletSignIn() {
   const { account, deactivateWeb3 } = useMoralis();
   const [accountWallet, setAccountWallet] = useState();
+  const [walletType, setWalletType] = useState();
   const router = useRouter();
   const processSignIn = async () => {
     if (account == undefined) {
@@ -47,6 +48,7 @@ export function WalletSignIn() {
     <WalletAuthLayout
       title="Sign In."
       subtitle="Welcome back! Sign in to your Foxxi account."
+      setWalletType={setWalletType}
     >
       <div>
         <Card rounded="lg" className="mt-4">

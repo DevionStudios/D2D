@@ -10,6 +10,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { useMoralis } from "react-moralis";
+import { getWalletCookie, setWalletCookie } from "../../utils/getCookie";
 
 const WalletSignUpSchema = z.object({
   name: z.string().min(1),
@@ -19,13 +20,46 @@ const WalletSignUpSchema = z.object({
 export function WalletSignUp() {
   const { account } = useMoralis();
   const [accountWallet, setAccountWallet] = useState(undefined);
-
+  const [walletType, setWalletType] = useState(undefined);
+  useEffect(() => {
+    let cookies = document?.cookie;
+    // check if foxxi_user_wallet cookie exists
+    let cookie = cookies?.split("foxxi_user_wallet=")?.[1]?.split(";")?.[0];
+    if (cookie) {
+      cookie = JSON.parse(cookie);
+      setWalletType(cookie.walletType);
+    }
+  }, []);
   const form = useZodForm({
     schema: WalletSignUpSchema,
   });
   const router = useRouter();
   const processSignUp = async (values) => {
-    if (accountWallet == undefined) {
+    let cookies = document?.cookie;
+    // check if foxxi_user_wallet cookie exists
+    let walletCookie = cookies
+      ?.split("foxxi_user_wallet=")?.[1]
+      ?.split(";")?.[0];
+    if (walletCookie) {
+      walletCookie = JSON.parse(walletCookie);
+      setWalletType(walletCookie.walletType);
+    }
+    const walletType = walletCookie?.walletType;
+    // first check type
+    if (!walletType)
+      return toast.error("Please select a wallet to sign up with!");
+    console.log(walletCookie);
+    let currentUsedWallet;
+    if (walletType == "walletConnect")
+      currentUsedWallet = walletCookie.walletConnectWallet;
+    else if (walletType == "hiroWallet")
+      currentUsedWallet = walletCookie.hiroWallet;
+    else if (walletType == "unisatWallet")
+      currentUsedWallet = walletCookie.unisatWallet;
+    else if (walletType == "dogeWallet")
+      currentUsedWallet = walletCookie.dogeWallet;
+
+    if (currentUsedWallet == undefined) {
       toast.error("Please connect your wallet first");
       return;
     }
@@ -34,7 +68,7 @@ export function WalletSignUp() {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/signup`,
         {
-          accountWallet: accountWallet,
+          accountWallet: currentUsedWallet,
           name: values.name,
           username: values.username,
         },
@@ -43,6 +77,14 @@ export function WalletSignUp() {
       if (res.status == 201) {
         const jwtToken = "foxxi_jwt=" + res.data.jwt;
         document.cookie = jwtToken + ";path=/";
+        setWalletCookie(document, {
+          activeWallet: currentUsedWallet,
+          walletConnectWallet: walletCookie.walletConnectWallet,
+          hiroWallet: walletCookie.hiroWallet,
+          unisatWallet: walletCookie.unisatWallet,
+          dogeWallet: walletCookie.dogeWallet,
+          walletType: walletType,
+        });
         toast.success("Account Created Successfully");
         router.push("/onboarding");
       } else {
@@ -52,13 +94,13 @@ export function WalletSignUp() {
       toast.error("Error Occured! Check If Wallet is already registered!");
     }
   };
-  useEffect(() => {
-    setAccountWallet(account);
-  }, [account]);
   return (
     <>
-      <WalletAuthLayout title="Sign Up." subtitle="Sign up and join the Foxxi!">
-        {accountWallet ? (
+      <WalletAuthLayout
+        title="Sign Up."
+        subtitle="Sign up and join the Foxxi! Note: The last wallet that you sign in to will be used as primary sign up wallet"
+      >
+        {walletType ? (
           <Form
             form={form}
             onSubmit={async (values) => {

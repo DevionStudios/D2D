@@ -36,6 +36,7 @@ const ConnectHiroWallet = () => {
       setWalletAddress(userSession.loadUserData().profile.stxAddress.testnet);
       setWalletCookie(document, {
         hiroWallet: userSession.loadUserData().profile.stxAddress.testnet,
+        walletType: "hiroWallet",
       });
     }
   }, [walletAddress]);
@@ -45,7 +46,8 @@ const ConnectHiroWallet = () => {
 
     return (
       <button className="Connect" onClick={disconnect}>
-        {walletAddress || "Disconnect Hiro"}
+        {walletAddress?.toString()?.slice(0, 5) || "Disconnect Hiro"}
+        {walletAddress && "..."}
       </button>
     );
   }

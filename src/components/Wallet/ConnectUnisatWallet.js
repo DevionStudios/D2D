@@ -14,7 +14,10 @@ const ConnectUnisatWallet = () => {
         try {
           let accounts = await window.unisat.getAccounts();
           setUserAddress(accounts[0]);
-          setWalletCookie(document, { unisatWallet: userAddress });
+          setWalletCookie(document, {
+            unisatWallet: userAddress,
+            walletType: "unisatWallet",
+          });
         } catch (error) {
           console.log("connect failed");
         }
@@ -36,7 +39,10 @@ const ConnectUnisatWallet = () => {
       try {
         let accounts = await window.unisat.requestAccounts();
         console.log("connect success", accounts[0]);
-        setWalletCookie(document, { unisatWallet: accounts[0] });
+        setWalletCookie(document, {
+          unisatWallet: accounts[0],
+          walletType: "unisatWallet",
+        });
         setUserAddress(accounts[0]);
       } catch (e) {
         console.log("connect failed");

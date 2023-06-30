@@ -11,7 +11,10 @@ const ConnectDpalWallet = () => {
 
         if (window?.DogeApi && window?.DogeApi?.isEnabled()) {
           setUserAddress((await window?.DogeApi?.userAddress()).userAddress);
-          setWalletCookie(document, { dogeWallet: userAddress });
+          setWalletCookie(document, {
+            dogeWallet: userAddress,
+            walletType: "dogeWallet",
+          });
         }
       }
     }
@@ -31,7 +34,10 @@ const ConnectDpalWallet = () => {
       const { status } = await doge.enable();
       if (status === "success") {
         setUserAddress((await window?.DogeApi?.userAddress()).userAddress);
-        setWalletCookie(document, { dogeWallet: userAddress });
+        setWalletCookie(document, {
+          dogeWallet: userAddress,
+          walletType: "dogeWallet",
+        });
       }
     }
   }
