@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import TestImage from "../../../assets/Foxxi Logo.png";
 import Image from "next/image";
 import { HiHeart } from "react-icons/hi";
@@ -6,13 +7,25 @@ import { HiOutlineHeart } from "react-icons/hi";
 import toast from "react-hot-toast";
 function Card({ data, cardType }) {
   const [liked, setLiked] = useState(false);
+  const [ordinalImage, setOrdinalImage] = useState("");
+
+  const ordinalImageRequest = async () => {
+    try {
+      const res = await axios.get(
+        `https://api.hiro.so/ordinals/v1/inscriptions/${data.id}/content`
+      );
+      setOrdinalImage(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const handleLike = () => {
     setLiked(!liked);
   };
   const placeHolderStamp =
     "https://stampchain.io/stamps/fbea0e800473731b1f31e5f55000f3d5d5c1edf5fbdcb80ca31a9835103e246c.svg";
-  const placeHolderOrdinal = "";
+  const placeHolderOrdinal = "https://api.hiro.so/ordinals/v1/inscriptions/4d42885f28494456fa806f1d99e2c1d94d00a69f4de59448e0fb3d0f50ca54bai0/content";
   return (
     <div className="max-w-xs rounded-lg overflow-hidden border border-yellow-200 bg-orange-200 bg-opacity-10">
       {cardType === "stamps" && (

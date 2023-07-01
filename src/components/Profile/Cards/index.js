@@ -57,7 +57,7 @@ function CardsLayout({ currentUser, walletAddress }) {
           }`}
           onClick={() => handleTabChange("Ordinals")}
         >
-          Ordinals
+          Ordinals and .Bitmap
         </button>
       </div>
 
@@ -73,7 +73,7 @@ function CardsLayout({ currentUser, walletAddress }) {
       ) : (
         <div className="bg-transparent p-4 grid lg:grid-cols-4 lg:gap-3 sm:grid-cols-2 sm:gap-2 md:grid-cols-3 md:gap-3">
           {ordinals?.length <= 0
-            ? "There Are No Ordinals. Make Sure to Import Your Stamps By Going To Preferences in Settings"
+            ? "There Are No Ordinals. Make Sure to Import Your Ordinals By Going To Preferences in Settings"
             : ordinals?.map((ordinal, index) => {
                 return (
                   <Card cardType={"ordinals"} data={ordinal} key={index} />
