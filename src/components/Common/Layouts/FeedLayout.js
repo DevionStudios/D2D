@@ -19,7 +19,7 @@ import { TrendingFeed } from "../../Trending Feed";
 import { TwitterFeed } from "../../Twitter Trends";
 import { News } from "../../News";
 import { YourFeed } from "../../YourFeed";
-import { BiWallet } from "react-icons/bi";
+import toast from "react-hot-toast";
 const RightSidebar = dynamic(async () => {
   const { RightSidebar } = await import("../Navbar/RightSidebar");
   return RightSidebar;
@@ -28,6 +28,23 @@ const RightSidebar = dynamic(async () => {
 RightSidebar.displayName = "RightSidebar";
 
 export function FeedLayout({ currentUser }) {
+  const [hiroWallet, setHiroWallet] = useState(false);
+
+  useEffect(() => {
+    if (currentUser) {
+      let cookies = document.cookie;
+      // check if foxxi_user_wallet cookie exists
+      let cookie = cookies.split("foxxi_user_wallet=")?.[1]?.split(";")?.[0];
+      console.log(cookie);
+      if (cookie) {
+        cookie = JSON.parse(cookie);
+        if (cookie?.hiroWallet) {
+          setHiroWallet(cookie.hiroWallet);
+        }
+      }
+    }
+  }, [currentUser]);
+
   const [navigation, setNavigation] = useState([
     {
       component: <Feed currentUser={currentUser} />,
@@ -64,6 +81,12 @@ export function FeedLayout({ currentUser }) {
       icon: HiOutlineMail,
       name: "Messages",
       id: "/messages",
+    },
+    {
+      component: <Redirect pageName={`/account/gallery/${hiroWallet}`} />,
+      icon: HiOutlineGlobe,
+      name: "Web3 Gallery",
+      id: `/account/gallery/${hiroWallet}`,
     },
     {
       component: <Redirect pageName={`/profile/${currentUser.username}`} />,

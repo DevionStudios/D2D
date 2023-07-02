@@ -11,7 +11,6 @@ export function FollowButton({
   ...props
 }) {
   const [following, setIsFollowing] = useState(isFollowing);
-  console.log("isFollowing", isFollowing);
   useEffect(() => {
     setIsFollowing(isFollowing);
   });

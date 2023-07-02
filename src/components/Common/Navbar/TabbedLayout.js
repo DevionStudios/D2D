@@ -8,6 +8,7 @@ import { HiOutlineMenu } from "react-icons/hi";
 import { useMoralis } from "react-moralis";
 import { BiWallet } from "react-icons/bi";
 import { useConnect } from "@stacks/connect-react";
+import toast from "react-hot-toast";
 import ConnectHiroWallet from "src/components/Wallet/ConnectHiroWallet";
 import ConnectDpalWallet from "src/components/Wallet/ConnectDpalWallet";
 import ConnectUnisatWallet from "src/components/Wallet/ConnectUnisatWallet";
@@ -20,6 +21,21 @@ export function TabbedLayout({ navigation, currentUser }) {
   const [walletAccount, setWalletAccount] = useState(false);
   const { account, deactivateWeb3, isWeb3Enabled, enableWeb3 } = useMoralis();
   const [deviceType, setDeviceType] = useState("");
+
+  const getHiroWallet = () => {
+    let cookies = document?.cookie;
+    let cookie = cookies.split("foxxi_user_wallet=")?.[1]?.split(";")?.[0];
+    console.log(cookie);
+    if (cookie) {
+      cookie = JSON.parse(cookie);
+      if (cookie?.hiroWallet) {
+        return cookie.hiroWallet;
+      }
+    } else {
+      toast.error("You need to connect your hiro wallet first");
+    }
+  };
+
   useEffect(() => {
     let hasTouchScreen = false;
     if ("maxTouchPoints" in navigator) {
@@ -53,6 +69,13 @@ export function TabbedLayout({ navigation, currentUser }) {
       setCurrentPath(currentPath);
       return;
     }
+
+    if (path.startsWith("/account/gallery")) {
+      const wallet = getHiroWallet();
+      router.push(`/account/gallery/${wallet}`);
+      return;
+    }
+
     setCurrentPath(path);
     setDefaultIdx(idx);
     router.push(path);
@@ -61,8 +84,6 @@ export function TabbedLayout({ navigation, currentUser }) {
     enableWeb3();
     if (account) setWalletAccount(account);
     else setWalletAccount(account);
-    // console.log("account", account);
-    console.log(isWeb3Enabled);
   }, []);
   return deviceType !== "Mobile" ? (
     <>
@@ -82,7 +103,7 @@ export function TabbedLayout({ navigation, currentUser }) {
           if (
             navigation[idx].id == "connectwallet" ||
             navigation[idx].id == "connecthirowallet" ||
-            navigation[idx].id == "connectdpalwallet" || 
+            navigation[idx].id == "connectdpalwallet" ||
             navigation[idx].id == "connectunisatwallet"
           )
             return;
@@ -219,7 +240,8 @@ export function TabbedLayout({ navigation, currentUser }) {
                       item.name === "Profile" ||
                       item.name === "Settings" ||
                       item.name === "Messages" ||
-                      item.name === "Your Feed"
+                      item.name === "Your Feed" ||
+                      item.name === "Web3 Gallery"
                     ) {
                       if (currentUser.annonymous) return null;
                     }

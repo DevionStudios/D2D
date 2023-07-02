@@ -164,7 +164,6 @@ export function Profile({ user, isMe, username, currentUser }) {
                             if (cookie) {
                               cookie = JSON.parse(cookie);
                               if (cookie?.hiroWallet) {
-                                console.log("hemlo");
                                 router.push(
                                   `/account/gallery/${cookie.hiroWallet}`
                                 );

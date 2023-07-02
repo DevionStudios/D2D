@@ -95,7 +95,6 @@ export default function AccountPage({ currentUser }) {
       }
     }
   }, [account]);
-  console.log(walletAddress);
   return (
     <>
       <Navbar currentUser={currentUser} />
