@@ -81,7 +81,7 @@ export function TabbedLayout({ navigation, currentUser }) {
     router.push(path);
   }
   useEffect(() => {
-    enableWeb3();
+    // enableWeb3();
     if (account) setWalletAccount(account);
     else setWalletAccount(account);
   }, []);
@@ -316,14 +316,27 @@ export function TabbedLayout({ navigation, currentUser }) {
                   {navigation.map((item, index) => {
                     const Icon = item.icon;
 
-                    if (item.name === "Messages" || item.name === "Your Feed") {
-                      if (currentUser.annonymous) return null;
+                    if (
+                      item.name === "Messages" ||
+                      item.name === "Your Feed" ||
+                      item.name === "Web3 Gallery" ||
+                      item.name === "Profile" ||
+                      item.name === "Settings"
+                    ) {
+                      if (currentUser?.annonymous) return null;
                     }
 
                     if (
                       item.name !== "Connect Wallet" &&
                       item.name !== "Profile" &&
-                      item.name !== "Settings"
+                      item.name !== "Settings" &&
+                      item.name !== "Messages" &&
+                      item.name !== "Your Feed" &&
+                      item.name !== "Web3 Gallery" &&
+                      item.name !== "Connect Dpal Wallet" &&
+                      item.name !== "Connect Unisat Wallet" &&
+                      item.name !== "Connect Hiro Wallet" &&
+                      item.name !== "Connect Ethereum Wallet"
                     ) {
                       return (
                         <>
@@ -345,6 +358,8 @@ export function TabbedLayout({ navigation, currentUser }) {
                           </Tab>
                         </>
                       );
+                    } else {
+                      return null;
                     }
                   })}
                 </Tab.List>

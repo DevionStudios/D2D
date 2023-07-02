@@ -27,7 +27,7 @@ export default function FeedPage({ currentUser }) {
       if (res.status == 200) {
         const jwtToken = "foxxi_jwt=" + res.data.jwt;
         document.cookie = jwtToken + ";path=/";
-        toast.success("Signed In Successfully");
+        // toast.success("Signed In Successfully");
         window.location.reload();
       } else {
         toast.error("Wallet is not registered! Please sign up first!");
