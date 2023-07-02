@@ -1,9 +1,10 @@
 import { useRouter } from "next/router";
 import { FeedPostCard } from "../Post/FeedPostCard";
+import { LoadingFallback } from "src/components/ui/Fallbacks/LoadingFallback";
 import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
 import { Heading } from "../ui/Heading";
 
-export function HashtagSearchResult({ data, currentUser }) {
+export function HashtagSearchResult({ data, currentUser, loading }) {
   const router = useRouter();
 
   if (!data)
@@ -23,25 +24,33 @@ export function HashtagSearchResult({ data, currentUser }) {
         Posts tagged #{router.query.query}
       </Heading>
 
-      {posts.length > 0 ? (
-        posts.map((edge) => {
-          const data = edge;
-          if (data) {
-            return (
-              <FeedPostCard
-                key={data.id}
-                post={data}   
-                currentUser={currentUser}
-              />
-            );
-          }
-        })
+      {loading ? (
+        <>
+          <LoadingFallback />
+        </>
       ) : (
-        <ErrorFallback
-          action={() => router.back()}
-          message={`No posts tagged with #${router.query.query}`}
-          buttonText="Go back."
-        />
+        <>
+          {posts.length > 0 ? (
+            posts.map((edge) => {
+              const data = edge;
+              if (data) {
+                return (
+                  <FeedPostCard
+                    key={data.id}
+                    post={data}
+                    currentUser={currentUser}
+                  />
+                );
+              }
+            })
+          ) : (
+            <ErrorFallback
+              action={() => router.back()}
+              message={`No posts tagged with #${router.query.query}`}
+              buttonText="Go back."
+            />
+          )}{" "}
+        </>
       )}
     </div>
   );

@@ -7,6 +7,7 @@ import axios from "axios";
 
 export function SearchResults({ currentUser }) {
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
   const [hashtagData, setHashtagData] = useState({});
   const [userData, setUserData] = useState({});
 
@@ -22,6 +23,7 @@ export function SearchResults({ currentUser }) {
       }
     );
     setHashtagData(res.data);
+    setLoading(false);
   };
   const findUsers = async () => {
     const res = await axios.get(
@@ -35,7 +37,9 @@ export function SearchResults({ currentUser }) {
       }
     );
     setUserData(res.data);
+    setLoading(false);
   };
+
   useEffect(() => {
     if (router.query.type === "hashtag") {
       findHashTagPosts();
@@ -49,10 +53,14 @@ export function SearchResults({ currentUser }) {
       <div className="max-w-3xl mx-auto overflow-hidden">
         <Card className="mt-2 overflow-hidden" rounded="lg">
           {router.query.type === "hashtag" && hashtagData && (
-            <HashtagSearchResult data={hashtagData} currentUser={currentUser} />
+            <HashtagSearchResult
+              data={hashtagData}
+              currentUser={currentUser}
+              loading={loading}
+            />
           )}
           {router.query.type === "user" && userData && (
-            <UserSearchResult data={userData} />
+            <UserSearchResult data={userData} loading={loading} />
           )}
         </Card>
       </div>
