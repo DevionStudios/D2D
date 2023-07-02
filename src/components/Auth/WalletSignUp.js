@@ -116,7 +116,7 @@ export function WalletSignUp() {
     <>
       <WalletAuthLayout
         title="Sign Up."
-        subtitle="Sign up and join the Foxxi! Note: The last wallet that you sign in to will be used as primary sign up wallet"
+        subtitle="Sign up and join the Foxxi! Note: The last wallet that you log in to will be used as primary sign up wallet"
       >
         <Form
           form={form}

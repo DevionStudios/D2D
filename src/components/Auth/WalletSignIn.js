@@ -101,8 +101,8 @@ export function WalletSignIn() {
   };
   return (
     <WalletAuthLayout
-      title="Sign In."
-      subtitle="Welcome back! Sign in to your Foxxi account."
+      title="Log In."
+      subtitle="Welcome back! Log in to your Foxxi account."
       setWalletType={setWalletType}
     >
       <div>

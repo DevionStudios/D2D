@@ -36,7 +36,7 @@ export function Status({ statusCode, href }) {
             <div>
               <div className="text-6xl md:text-9xl font-extrabold mb-10 md:mb-20 inline-block relative">
                 <div className="absolute inset-0 border-4 border-red-50 animate-ping"></div>
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-brand-500 relative">
+                <span className="bg-clip-text bg-gradient-to-r from-indigo-600 to-brand-500 relative">
                   {statusCode}
                 </span>
               </div>

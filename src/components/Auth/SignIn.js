@@ -55,8 +55,8 @@ export function LoginForm() {
   });
   return (
     <AuthLayout
-      title="Sign In."
-      subtitle="Welcome back! Sign in to your Foxxi account."
+      title="Log In."
+      subtitle="Welcome back! Log in to your Foxxi account."
     >
       <Form
         form={form}
@@ -103,9 +103,9 @@ export function LoginForm() {
             <span className="mr-1">Don’t have an account yet ?</span>
             <Link
               className="font-medium text-brand-600 hover:text-brand-400"
-              href="/auth/walletsignup"
+              href="/auth/walletsignin"
             >
-              Sign Up With Wallet
+              Log In With Wallet
             </Link>
           </Card.Body>
         </Card>

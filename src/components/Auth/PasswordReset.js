@@ -173,7 +173,7 @@ export function PasswordReset() {
               className="font-medium text-brand-600 hover:text-brand-400"
               href="/auth/walletsignin"
             >
-              Sign In With Wallet
+              Log In With Wallet
             </Link>
           </Card.Body>
         </Card>

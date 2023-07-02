@@ -204,9 +204,9 @@ export function SignUp() {
             <span className="mr-1">Already have an account ?</span>
             <Link
               className="font-medium text-brand-600 hover:text-brand-400"
-              href="/auth/walletsignin"
+              href="/auth/walletsignup"
             >
-              Sign In With Wallet
+              Sign Up With Wallet
             </Link>
           </Card.Body>
         </Card>

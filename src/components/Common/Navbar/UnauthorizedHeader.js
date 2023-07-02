@@ -55,7 +55,7 @@ export function UnauthorizedHeader({ deviceType, CustomLogo }) {
                 className="w-24"
                 rounded={"full"}
               >
-                Sign in
+                Log in
               </Button>
               <Button
                 size="lg"
@@ -126,7 +126,7 @@ export function UnauthorizedHeader({ deviceType, CustomLogo }) {
                         className="text-gray-900 no-underline"
                         rounded={"full"}
                       >
-                        Sign in
+                        Log in
                       </Link>
                     </p>
                   </div>
