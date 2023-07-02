@@ -17,7 +17,7 @@ import { ProfileDropdown } from "./ProfileDropdown";
 import { MobileMenu } from "./MobileMenu";
 import Spinner from "src/components/ui/Spinner";
 import { UnauthorizedHeader } from "./UnauthorizedHeader";
-import Logo from "../../../assets/Foxxi Logo.png";
+import BitVerseLogo from "../../../assets/thumb_Bitverse-Png.png";
 import FoxxiText from "../../../assets/Foxxi-Text.png";
 import { useRouter } from "next/router";
 import { HiOutlineBell } from "react-icons/hi";
@@ -106,7 +106,7 @@ export function Navbar({ currentUser, CustomLogo }) {
               className="fixed max-w-full top-0 z-10"
             />
             <div className="bg-white/70 dark:bg-black backdrop-blur-md px-4 sm:px-6 lg:px-8 fixed top-0.5 z-10 w-full">
-              <div className="mx-auto max-w-7xl relative flex justify-between xl:grid xl:grid-cols-12 lg:gap-8">
+              <div className="mx-auto max-w-7xl relative flex justify-between xl:grid xl:grid-cols-12 lg:gap-0">
                 <div className="flex md:absolute md:left-0 md:inset-y-0 lg:static xl:col-span-2">
                   <div
                     className="flex-shrink-0 flex items-center"
@@ -152,7 +152,7 @@ export function Navbar({ currentUser, CustomLogo }) {
                     )}
                   </Popover.Button>
                 </div>
-                <div className="hidden  lg:flex lg:items-center lg:justify-end xl:col-span-4 space-x-5">
+                <div className="hidden  lg:flex lg:items-center lg:justify-end xl:col-span-4 space-x-3">
                   <ThemeToggle />
                   <button
                     onClick={() => setNotificationOpen(!openNotifications)}
@@ -181,19 +181,22 @@ export function Navbar({ currentUser, CustomLogo }) {
                   )}
                   <Button
                     onClick={() => setCreatePostModalOpen(true)}
-                    size="sm"
+                    size="xs"
                   >
                     Post
                   </Button>
 
                   <Button
-                    size="sm"
+                    size="xs"
                     onClick={() => setCreateStoryModalOpen(true)}
                   >
                     Story
                   </Button>
-                  <Button size="sm" onClick={signout}>
+                  <Button size="xs" onClick={signout}>
                     Sign Out
+                  </Button>
+                  <Button size="xs" className="h-9 w-14" href="#">
+                    <Image src={BitVerseLogo} alt="BitVerse"></Image>
                   </Button>
                 </div>
               </div>
