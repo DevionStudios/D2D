@@ -4,6 +4,8 @@ import { HiOutlineCog, HiOutlineHome, HiOutlineSparkles } from "react-icons/hi";
 import { Button } from "src/components/ui/Button";
 import { Link } from "src/components/ui/Link";
 import { useRouter } from "next/router";
+import BitVerseLogo from "../../../assets/thumb_Bitverse-Png.png";
+import Image from "next/image";
 import ButtonOrLink from "src/components/ui/ButtonOrLink";
 
 export const links = [
@@ -127,17 +129,27 @@ export function MobileMenu({
               </Button>
             </div>
             <div className="mt-3 max-w-3xl mx-auto px-2 space-y-1 sm:px-4">
-              <Button
-                variant="dark"
-                className="mt-2"
-                fullWidth
-                href="#"
-                size="lg"
-                onClick={() => signout()}
-              >
-                Sign Out
+              <Button className="mt-2" fullWidth size="lg">
+                <Image
+                  src={BitVerseLogo}
+                  alt="BitVerse"
+                  width={120}
+                  height={24}
+                ></Image>
               </Button>
             </div>
+          </div>
+          <div className="mt-3 max-w-3xl mx-auto px-2 space-y-1 sm:px-4">
+            <Button
+              variant="dark"
+              className="mt-2"
+              fullWidth
+              href="#"
+              size="lg"
+              onClick={() => signout()}
+            >
+              Sign Out
+            </Button>
           </div>
         </Popover.Panel>
       </Transition>
