@@ -182,6 +182,35 @@ export function Profile({ user, isMe, username, currentUser }) {
                     </div>
                   ) : !currentUser.annonymous ? (
                     <>
+                      <div>
+                        <Button
+                          // href={`/account/gallery`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            let cookies = document.cookie;
+                            // check if foxxi_user_wallet cookie exists
+                            let cookie = cookies
+                              .split("foxxi_user_wallet=")?.[1]
+                              ?.split(";")?.[0];
+                            console.log(cookie);
+                            if (cookie) {
+                              cookie = JSON.parse(cookie);
+                              if (cookie?.hiroWallet) {
+                                router.push(
+                                  `/account/gallery/${cookie.hiroWallet}`
+                                );
+                              }
+                            } else {
+                              toast.error(
+                                "You need to connect your hiro wallet first"
+                              );
+                            }
+                          }}
+                          size={isMobile ? "base" : "lg"}
+                        >
+                          Web3 Gallery
+                        </Button>
+                      </div>
                       <FollowButton
                         isFollowing={user?.followers
                           ?.map((f) => f.id)
