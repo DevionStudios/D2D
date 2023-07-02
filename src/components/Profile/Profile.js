@@ -184,25 +184,16 @@ export function Profile({ user, isMe, username, currentUser }) {
                     <>
                       <div>
                         <Button
-                          // href={`/account/gallery`}
+                          // href={`/account/gallery/${user.accountWallet}`}
                           onClick={(e) => {
                             e.preventDefault();
-                            let cookies = document.cookie;
-                            // check if foxxi_user_wallet cookie exists
-                            let cookie = cookies
-                              .split("foxxi_user_wallet=")?.[1]
-                              ?.split(";")?.[0];
-                            console.log(cookie);
-                            if (cookie) {
-                              cookie = JSON.parse(cookie);
-                              if (cookie?.hiroWallet) {
-                                router.push(
-                                  `/account/gallery/${cookie.hiroWallet}`
-                                );
-                              }
+                            if (user?.accountWallet) {
+                              router.push(
+                                `/account/gallery/${user.accountWallet}`
+                              );
                             } else {
                               toast.error(
-                                "You need to connect your hiro wallet first"
+                                "User has not connected their hiro wallet yet"
                               );
                             }
                           }}
