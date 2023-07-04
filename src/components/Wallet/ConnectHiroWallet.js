@@ -30,9 +30,9 @@ const ConnectHiroWallet = ({ text, currentUser }) => {
   const [walletAddress, setWalletAddress] = useState(null);
 
   async function updateWalletAddress(hiroAddresses) {
+    console.log("hiroAddresses: ", hiroAddresses);
+    console.log("currentUser: ", currentUser);
     // p2wpkh - stamps, p2tr - ordinal
-    // if currentUser.ordinalAddress and currentUser.stampAddress are not set send a put request to /api/users/updatewith userSession.loadUserData().profile.p2wpkh.mainnet as stampAddress and /api/users/updatewith userSession.loadUserData().profile.p2tr.mainnet as ordinalAddress
-
     if (
       currentUser &&
       !currentUser.ordinalAddress &&
@@ -64,8 +64,7 @@ const ConnectHiroWallet = ({ text, currentUser }) => {
     setMounted(true);
 
     if (userSession.isUserSignedIn()) {
-      console.log("Hiro Addresses: ", userSession.loadUserData().profile);
-      updateWalletAddress(userSession.loadUserData().profile);
+      updateWalletAddress(userSession.loadUserData().profile.btcAddress);
 
       setWalletAddress(userSession.loadUserData().profile.stxAddress.testnet);
       setWalletCookie(document, {

@@ -183,7 +183,7 @@ export function TabbedLayout({ navigation, currentUser }) {
                                 "flex-shrink-0 mr-3 h-6 w-6"
                               )}
                             />
-                            <ConnectHiroWallet />
+                            <ConnectHiroWallet currentUser={currentUser} />
                           </span>
                         </div>
                       );
