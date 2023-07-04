@@ -3,7 +3,7 @@ import React from "react";
 import { WalletSignIn } from "../../components/Auth/WalletSignIn";
 import { useEffect } from "react";
 
-const Signin = () => {
+const Signin = ({ currentUser }) => {
   useEffect(() => {
     if (document.cookie.includes("foxxi_jwt")) {
       // clear all cookies
@@ -16,7 +16,7 @@ const Signin = () => {
   }, []);
   return (
     <>
-      <WalletSignIn />
+      <WalletSignIn currentUser={currentUser} />
     </>
   );
 };

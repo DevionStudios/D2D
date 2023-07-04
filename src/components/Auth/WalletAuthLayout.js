@@ -10,7 +10,7 @@ import ConnectHiroWallet from "../../components/Wallet/ConnectHiroWallet";
 import ConnectDpalWallet from "../../components/Wallet/ConnectDpalWallet";
 import ConnectUnisatWallet from "../../components/Wallet/ConnectUnisatWallet";
 import { setWalletCookie } from "../../utils/getCookie";
-export function WalletAuthLayout({ title, subtitle, children }) {
+export function WalletAuthLayout({ title, subtitle, children, currentUser }) {
   return (
     <main className="flex flex-col justify-center mx-auto w-full max-w-xl min-h-screen py-10">
       <div className="mb-8 text-center">
@@ -44,7 +44,7 @@ export function WalletAuthLayout({ title, subtitle, children }) {
                 borderRadius: "1rem",
               }}
             >
-              <ConnectHiroWallet text="text-blue" />
+              <ConnectHiroWallet text="text-blue" currentUser={currentUser} />
             </div>
           </div>
           <div

@@ -7,7 +7,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useMoralis } from "react-moralis";
 import { setWalletCookie } from "../../utils/getCookie";
-export function WalletSignIn() {
+export function WalletSignIn({ currentUser }) {
   const { account, deactivateWeb3 } = useMoralis();
   const [accountWallet, setAccountWallet] = useState();
   const [walletType, setWalletType] = useState(undefined);
@@ -104,6 +104,7 @@ export function WalletSignIn() {
       title="Log In."
       subtitle="Welcome back! Log in to your Foxxi account."
       setWalletType={setWalletType}
+      currentUser={currentUser}
     >
       <div>
         <Card rounded="lg" className="mt-4">

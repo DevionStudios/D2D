@@ -17,7 +17,7 @@ const WalletSignUpSchema = z.object({
   username: z.string().min(2),
 });
 
-export function WalletSignUp() {
+export function WalletSignUp({ currentUser }) {
   const { account } = useMoralis();
   const [accountWallet, setAccountWallet] = useState(undefined);
   const [walletType, setWalletType] = useState(undefined);
@@ -117,6 +117,7 @@ export function WalletSignUp() {
       <WalletAuthLayout
         title="Sign Up."
         subtitle="Sign up and join the Foxxi! Note: The last wallet that you log in to will be used as primary sign up wallet"
+        currentUser={currentUser}
       >
         <Form
           form={form}

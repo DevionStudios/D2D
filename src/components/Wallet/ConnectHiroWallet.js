@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { AppConfig, showConnect, UserSession } from "@stacks/connect";
-import { set } from "nprogress";
 import { setWalletCookie } from "../../utils/getCookie";
+import axios from "axios";
 
 const appConfig = new AppConfig(["store_write", "publish_data"]);
 
@@ -25,16 +25,47 @@ function disconnect() {
   userSession.signUserOut(window.location.href);
 }
 
-const ConnectHiroWallet = ({ text }) => {
+const ConnectHiroWallet = ({ text, currentUser }) => {
   const [mounted, setMounted] = useState(false);
   const [walletAddress, setWalletAddress] = useState(null);
+
+  async function updateWalletAddress(hiroAddresses) {
+    // p2wpkh - stamps, p2tr - ordinal
+    // if currentUser.ordinalAddress and currentUser.stampAddress are not set send a put request to /api/users/updatewith userSession.loadUserData().profile.p2wpkh.mainnet as stampAddress and /api/users/updatewith userSession.loadUserData().profile.p2tr.mainnet as ordinalAddress
+
+    if (
+      currentUser &&
+      !currentUser.ordinalAddress &&
+      !currentUser.stampAddress
+    ) {
+      try {
+        const formdata = new FormData();
+        formdata.append("stampAddress", hiroAddresses.p2wpkh.mainnet);
+        formdata.append("ordinalAddress", hiroAddresses.p2tr.mainnet);
+
+        const res = await axios.put(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/update`,
+          formdata,
+          {
+            headers: {
+              cookies: document.cookie,
+            },
+          }
+        );
+
+        console.log("res: ", res);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }
 
   useEffect(() => {
     setMounted(true);
 
     if (userSession.isUserSignedIn()) {
-      // p2wpkh - stamps, p2tr - ordinal
       console.log("Hiro Addresses: ", userSession.loadUserData().profile);
+      updateWalletAddress(userSession.loadUserData().profile);
 
       setWalletAddress(userSession.loadUserData().profile.stxAddress.testnet);
       setWalletCookie(document, {
@@ -45,8 +76,6 @@ const ConnectHiroWallet = ({ text }) => {
   }, [walletAddress]);
 
   if (mounted && userSession.isUserSignedIn()) {
-    // setWalletAddress(userSession.loadUserData().profile.stxAddress.testnet);
-
     return (
       <button className={text || ""} onClick={disconnect}>
         {walletAddress?.toString()?.slice(0, 5) || "Disconnect Hiro"}
