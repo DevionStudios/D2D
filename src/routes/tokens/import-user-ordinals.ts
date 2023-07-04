@@ -11,7 +11,6 @@ router.post(
   currentUser,
   async (req: Request, res: Response) => {
     try {
-      const { bitcoinWalletAddress } = req.body;
       const { foxxiUser } = req;
 
       if (!foxxiUser) throw new Error("User not found");
@@ -23,7 +22,7 @@ router.post(
       }
 
       const response = await axios.get(
-        `https://api.hiro.so/ordinals/v1/inscriptions?address=${bitcoinWalletAddress}`
+        `https://api.hiro.so/ordinals/v1/inscriptions?address=${existingUser.ordinalAddress}`
       );
       const ordinals = response.data;
 

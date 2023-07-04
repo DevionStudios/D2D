@@ -22,7 +22,6 @@ const router = express_1.default.Router();
 exports.importUserStampsRouter = router;
 router.post("/api/token/stamp/import", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { bitcoinWalletAddress } = req.body;
         const { foxxiUser } = req;
         if (!foxxiUser)
             throw new Error("User not found");
@@ -33,7 +32,7 @@ router.post("/api/token/stamp/import", currentuser_1.currentUser, (req, res) => 
         }
         const response = yield axios_1.default.get(`https://stampchain.io/api/src20`);
         const stamps = response.data;
-        const userStamps = stamps.items.filter((ordinal) => ordinal.creator === bitcoinWalletAddress);
+        const userStamps = stamps.items.filter((ordinal) => ordinal.creator === existingUser.stampAddress);
         // create Ordinal documents, if they don't already exist(based on tx_hash)
         for (let i = 0; i < userStamps.length; i++) {
             const stamp = userStamps[i];

@@ -22,7 +22,6 @@ const router = express_1.default.Router();
 exports.importUserOrdinalsRouter = router;
 router.post("/api/token/ordinal/import", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { bitcoinWalletAddress } = req.body;
         const { foxxiUser } = req;
         if (!foxxiUser)
             throw new Error("User not found");
@@ -31,7 +30,7 @@ router.post("/api/token/ordinal/import", currentuser_1.currentUser, (req, res) =
         if (!existingUser) {
             throw new Error("User not found!");
         }
-        const response = yield axios_1.default.get(`https://api.hiro.so/ordinals/v1/inscriptions?address=${bitcoinWalletAddress}`);
+        const response = yield axios_1.default.get(`https://api.hiro.so/ordinals/v1/inscriptions?address=${existingUser.ordinalAddress}`);
         const ordinals = response.data;
         // create Ordinal documents, if they don't already exist(based on tx_hash)
         for (let i = 0; i < ordinals.length; i++) {

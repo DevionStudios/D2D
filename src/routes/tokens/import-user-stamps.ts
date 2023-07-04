@@ -11,8 +11,6 @@ router.post(
   currentUser,
   async (req: Request, res: Response) => {
     try {
-      const { bitcoinWalletAddress } = req.body;
-
       const { foxxiUser } = req;
 
       if (!foxxiUser) throw new Error("User not found");
@@ -28,7 +26,7 @@ router.post(
 
       const userStamps = stamps.items.filter(
         (ordinal: { creator: string }) =>
-          ordinal.creator === bitcoinWalletAddress
+          ordinal.creator === existingUser.stampAddress
       );
 
       // create Ordinal documents, if they don't already exist(based on tx_hash)
