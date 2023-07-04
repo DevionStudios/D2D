@@ -1,12 +1,13 @@
 import { Navbar } from "src/components/Common/Navbar";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import CardsLayout from "../../../components/Profile/Cards";
 export default function AccountPage({ currentUser }) {
   const router = useRouter();
+  const [user, setUser] = useState(undefined);
 
   useEffect(() => {
     if (currentUser?.annonymous === true) {
@@ -14,7 +15,8 @@ export default function AccountPage({ currentUser }) {
     }
   }, [currentUser]);
   const { account, deactivateWeb3 } = useMoralis();
-  const walletAddress = router.query?.walletAddress;
+  const username = router.query?.username;
+
   const sendSignInRequest = async () => {
     if (account == undefined) {
       toast.error("Please connect your wallet first");
@@ -60,6 +62,7 @@ export default function AccountPage({ currentUser }) {
       router.push("/auth/walletsignin");
     }
   };
+
   useEffect(() => {
     if (!currentUser?.email && !currentUser?.annonymous) {
       if (!currentUser.accountWallet) {
@@ -95,10 +98,25 @@ export default function AccountPage({ currentUser }) {
       }
     }
   }, [account]);
+
+  const fetchUserProfile = async function () {
+    try {
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/otheruser/${username}`
+      );
+      setUser(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchUserProfile();
+  }, []);
+
   return (
     <>
       <Navbar currentUser={currentUser} />
-      <CardsLayout currentUser={currentUser} />
+      <CardsLayout currentUser={currentUser} user={user} />
     </>
   );
 }

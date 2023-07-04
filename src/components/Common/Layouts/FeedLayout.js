@@ -83,10 +83,12 @@ export function FeedLayout({ currentUser }) {
       id: "/messages",
     },
     {
-      component: <Redirect pageName={`/account/gallery/${hiroWallet}`} />,
+      component: (
+        <Redirect pageName={`/account/gallery/${currentUser.username}`} />
+      ),
       icon: HiOutlineGlobe,
       name: "Web3 Gallery",
-      id: `/account/gallery/${hiroWallet}`,
+      id: `/account/gallery/${currentUser.username}`,
     },
     {
       component: <Redirect pageName={`/profile/${currentUser.username}`} />,

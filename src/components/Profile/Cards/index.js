@@ -2,7 +2,7 @@ import { useState } from "react";
 import Card from "./Card";
 import axios from "axios";
 import { useEffect } from "react";
-function CardsLayout({ currentUser, walletAddress }) {
+function CardsLayout({ currentUser, user }) {
   const [activeTab, setActiveTab] = useState("Stamps");
   const [stamps, setStamps] = useState([]);
   const [ordinals, setOrdinals] = useState([]);
@@ -12,7 +12,7 @@ function CardsLayout({ currentUser, walletAddress }) {
   const handleStampsRequest = async () => {
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/token/stamp/${currentUser?.id}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/token/stamp/${user?.id}`
       );
       setStamps(res.data);
     } catch (e) {
@@ -22,7 +22,7 @@ function CardsLayout({ currentUser, walletAddress }) {
   const handleOrdinalRequest = async () => {
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/token/ordinal/${currentUser?.id}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/token/ordinal/${user?.id}`
       );
       setOrdinals(res.data);
     } catch (e) {

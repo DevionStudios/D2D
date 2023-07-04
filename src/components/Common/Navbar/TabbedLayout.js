@@ -71,8 +71,7 @@ export function TabbedLayout({ navigation, currentUser }) {
     }
 
     if (path.startsWith("/account/gallery")) {
-      const wallet = getHiroWallet();
-      router.push(`/account/gallery/${wallet}`);
+      router.push(`/account/gallery/${currentUser?.username}`);
       return;
     }
 

@@ -165,7 +165,7 @@ export function Profile({ user, isMe, username, currentUser }) {
                               cookie = JSON.parse(cookie);
                               if (cookie?.hiroWallet) {
                                 router.push(
-                                  `/account/gallery/${cookie.hiroWallet}`
+                                  `/account/gallery/${currentUser.username}`
                                 );
                               }
                             } else {
@@ -187,10 +187,8 @@ export function Profile({ user, isMe, username, currentUser }) {
                           // href={`/account/gallery/${user.accountWallet}`}
                           onClick={(e) => {
                             e.preventDefault();
-                            if (user?.accountWallet) {
-                              router.push(
-                                `/account/gallery/${user.accountWallet}`
-                              );
+                            if (user?.username) {
+                              router.push(`/account/gallery/${user.username}`);
                             } else {
                               toast.error(
                                 "User has not connected their hiro wallet yet"
