@@ -43,6 +43,9 @@ const ConnectUnisatWallet = ({ text }) => {
           unisatWallet: accounts[0],
           walletType: "unisatWallet",
         });
+
+        console.log("connect unisat", accounts);
+
         setUserAddress(accounts[0]);
       } catch (e) {
         console.log("connect failed");

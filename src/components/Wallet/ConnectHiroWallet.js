@@ -33,6 +33,9 @@ const ConnectHiroWallet = ({ text }) => {
     setMounted(true);
 
     if (userSession.isUserSignedIn()) {
+      // p2wpkh - stamps, p2tr - ordinal
+      console.log("Hiro Addresses: ", userSession.loadUserData().profile);
+
       setWalletAddress(userSession.loadUserData().profile.stxAddress.testnet);
       setWalletCookie(document, {
         hiroWallet: userSession.loadUserData().profile.stxAddress.testnet,
