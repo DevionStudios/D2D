@@ -17,7 +17,14 @@ router.put(
   ]),
   async (req: any, res: Response) => {
     try {
-      const { username, name, bio, walletAddress } = req.body;
+      const {
+        username,
+        name,
+        bio,
+        walletAddress,
+        ordinalAddress,
+        stampAddress,
+      } = req.body;
       let imageFilePath: any;
       let coverImageFilePath: any;
       let imageSecureUrl: any;
@@ -50,6 +57,9 @@ router.put(
       existingUser.image = imageSecureUrl || existingUser.image;
       existingUser.coverImage = coverImageSecureUrl || existingUser.coverImage;
       existingUser.walletAddress = walletAddress || existingUser.walletAddress;
+      existingUser.ordinalAddress =
+        ordinalAddress || existingUser.ordinalAddress;
+      existingUser.stampAddress = stampAddress || existingUser.stampAddress;
 
       if (!existingUser.twitterUsername) {
         existingUser.twitterUsername = req.body.twitterUsername;

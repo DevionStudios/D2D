@@ -10,6 +10,8 @@ interface UserAttrs {
   name: string;
   walletAddress?: string;
   walletType?: string;
+  ordinalAddress?: string;
+  stampAddress?: string;
   image?: string;
   coverImage?: string;
   bio?: string;
@@ -35,6 +37,8 @@ export interface UserDoc extends mongoose.Document {
   username?: string;
   name?: string;
   walletAddress?: string;
+  ordinalAddress?: string;
+  stampAddress?: string;
   image?: string;
   coverImage?: string;
   bio?: string;
@@ -71,6 +75,12 @@ const userSchema = new mongoose.Schema(
       required: false,
     },
     walletAddress: {
+      type: String,
+    },
+    ordinalAddress: {
+      type: String,
+    },
+    stampAddress: {
       type: String,
     },
     hasClaimed: {
