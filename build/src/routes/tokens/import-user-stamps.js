@@ -32,7 +32,7 @@ router.post("/api/token/stamp/import", currentuser_1.currentUser, (req, res) => 
         }
         const response = yield axios_1.default.get(`https://stampchain.io/api/src20`);
         const stamps = response.data;
-        const userStamps = stamps.items.filter((ordinal) => ordinal.creator === existingUser.stampAddress);
+        const userStamps = stamps.filter((ordinal) => ordinal.creator === existingUser.stampAddress);
         // create Ordinal documents, if they don't already exist(based on tx_hash)
         for (let i = 0; i < userStamps.length; i++) {
             const stamp = userStamps[i];

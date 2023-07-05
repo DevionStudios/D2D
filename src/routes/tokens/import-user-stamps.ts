@@ -24,7 +24,7 @@ router.post(
       const response = await axios.get(`https://stampchain.io/api/src20`);
       const stamps = response.data;
 
-      const userStamps = stamps.items.filter(
+      const userStamps = stamps.filter(
         (ordinal: { creator: string }) =>
           ordinal.creator === existingUser.stampAddress
       );

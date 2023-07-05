@@ -13,10 +13,12 @@ router.get(
       const response = await axios.get(`https://stampchain.io/api/src20`);
       const stamps = response.data;
 
+      console.log("Stamps: ", stamps.length);
+
       // filter the ordinals.items to only include the ones that have the bitcoinWalletAddress in the creator field
-      const userStamps = stamps.items.filter(
+      const userStamps = stamps.filter(
         (ordinal: { creator: string }) =>
-          ordinal.creator === bitcoinWalletAddress
+          ordinal.creator == bitcoinWalletAddress
       );
 
       res.status(200).send(userStamps);
