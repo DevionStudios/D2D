@@ -284,6 +284,9 @@ export function Preferences({ currentUser }) {
                       },
                     }
                   );
+
+                  console.log("response: ", res);
+
                   toast.success("Stamps imported successfully");
                   setLoading(false);
                 } catch (e) {
@@ -333,6 +336,9 @@ export function Preferences({ currentUser }) {
                       },
                     }
                   );
+
+                  console.log("response: ", res);
+
                   toast.success("Ordinals imported successfully");
                   setLoading(false);
                 } catch (e) {

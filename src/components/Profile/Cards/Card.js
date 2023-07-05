@@ -25,7 +25,8 @@ function Card({ data, cardType }) {
   };
   const placeHolderStamp =
     "https://stampchain.io/stamps/fbea0e800473731b1f31e5f55000f3d5d5c1edf5fbdcb80ca31a9835103e246c.svg";
-  const placeHolderOrdinal = "https://api.hiro.so/ordinals/v1/inscriptions/4d42885f28494456fa806f1d99e2c1d94d00a69f4de59448e0fb3d0f50ca54bai0/content";
+  const placeHolderOrdinal =
+    "https://api.hiro.so/ordinals/v1/inscriptions/4d42885f28494456fa806f1d99e2c1d94d00a69f4de59448e0fb3d0f50ca54bai0/content";
   return (
     <div className="max-w-xs rounded-lg overflow-hidden border border-yellow-200 bg-orange-200 bg-opacity-10">
       {cardType === "stamps" && (
@@ -156,13 +157,7 @@ function Card({ data, cardType }) {
                     );
                   }}
                 >
-                  <b>number</b>:{" "}
-                  {data?.number?.slice(0, 10) ||
-                    "bc1pfw38f2m955wrt878mx8qjw5547lfj8fqs96tz8a4jaf28a3n8epq97grlp".slice(
-                      0,
-                      10
-                    )}
-                  ...
+                  <b>number</b>: {data.number || "5877614"}
                 </p>
                 <p
                   className="text-xs text-gray-800 dark:text-gray-300 flex justify-start"
@@ -357,13 +352,13 @@ function Card({ data, cardType }) {
         </div>
       </div>
       <div className="flex justify-end mr-3">
-        <button
+        {/* <button
           className={`rounded-full p-3 mb-3 bg-orange-200`}
           onClick={handleLike}
         >
           {liked ? <HiHeart /> : <HiOutlineHeart />}
           {data?.likes?.length || 0}
-        </button>
+        </button> */}
       </div>
     </div>
   );

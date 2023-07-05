@@ -10,9 +10,11 @@ function CardsLayout({ currentUser, user }) {
     setActiveTab(tabName);
   };
   const handleStampsRequest = async () => {
+    console.log("Stamp Address: ", user?.stampAddress);
+
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/token/stamp/${user?.id}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/token/teststamp/${user?.stampAddress}`
       );
       setStamps(res.data);
     } catch (e) {
@@ -20,11 +22,14 @@ function CardsLayout({ currentUser, user }) {
     }
   };
   const handleOrdinalRequest = async () => {
+    console.log("Ordinal Address: ", user?.ordinalAddress);
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/token/ordinal/${user?.id}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/token/testordinal/${user?.ordinalAddress}`
       );
-      setOrdinals(res.data);
+      setOrdinals(res.data.results);
+
+      console.log("Ordinals: ", res.data.results);
     } catch (e) {
       console.log(e);
     }
@@ -35,7 +40,7 @@ function CardsLayout({ currentUser, user }) {
   };
   useEffect(() => {
     handleRequests();
-  });
+  }, []);
   return (
     <div className="container mx-auto p-4 mt-14">
       <div className="flex justify-center mb-4">
