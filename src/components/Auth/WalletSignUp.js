@@ -51,14 +51,13 @@ export function WalletSignUp({ currentUser }) {
     console.log(walletCookie);
     let currentUsedWallet;
     if (walletType == "walletConnect")
-      currentUsedWallet = walletCookie.walletConnectWallet;
+      currentUsedWallet = walletCookie.walletConnectWallet || account;
     else if (walletType == "hiroWallet")
-      currentUsedWallet = walletCookie.hiroWallet;
+      currentUsedWallet = walletCookie.hiroWallet || account;
     else if (walletType == "unisatWallet")
-      currentUsedWallet = walletCookie.unisatWallet;
+      currentUsedWallet = walletCookie.unisatWallet || account;
     else if (walletType == "dogeWallet")
-      currentUsedWallet = walletCookie.dogeWallet;
-
+      currentUsedWallet = walletCookie.dogeWallet || account;
     if (currentUsedWallet == undefined) {
       toast.error("Please connect your wallet first");
       return;
@@ -68,7 +67,7 @@ export function WalletSignUp({ currentUser }) {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/signup`,
         {
-          accountWallet: currentUsedWallet,
+          accountWallet: currentUsedWallet || account,
           name: values.name,
           username: values.username,
           walletType: walletType,
@@ -79,7 +78,7 @@ export function WalletSignUp({ currentUser }) {
         const jwtToken = "foxxi_jwt=" + res.data.jwt;
         document.cookie = jwtToken + ";path=/";
         setWalletCookie(document, {
-          activeWallet: currentUsedWallet,
+          activeWallet: currentUsedWallet || account,
           walletConnectWallet: walletCookie.walletConnectWallet,
           hiroWallet: walletCookie.hiroWallet,
           unisatWallet: walletCookie.unisatWallet,

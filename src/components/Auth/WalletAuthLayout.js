@@ -25,6 +25,7 @@ export function WalletAuthLayout({ title, subtitle, children, currentUser }) {
             className="inline-flex items-center mb-1 space-x-3 my-3"
             onClick={(e) => {
               e.preventDefault();
+              console.log("hello");
               setWalletCookie(document, { walletType: "walletConnect" });
             }}
           >
@@ -78,7 +79,10 @@ export function WalletAuthLayout({ title, subtitle, children, currentUser }) {
                 borderRadius: "1rem",
               }}
             >
-              <ConnectUnisatWallet text={"text-blue"} />
+              <ConnectUnisatWallet
+                text={"text-blue"}
+                currentUser={currentUser}
+              />
             </div>
           </div>
         </div>

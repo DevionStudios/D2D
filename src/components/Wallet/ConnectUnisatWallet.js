@@ -57,7 +57,8 @@ const ConnectUnisatWallet = ({ text }) => {
   if (unisat && userAddress) {
     return (
       <button className={text || ""} onClick={disconnect}>
-        {userAddress || "Disconnect Unisat"}
+        {userAddress?.toString()?.slice(0, 5) || "Disconnect Unisat"}
+        {userAddress && "..."}
       </button>
     );
   }

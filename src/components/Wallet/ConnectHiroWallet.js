@@ -30,8 +30,6 @@ const ConnectHiroWallet = ({ text, currentUser }) => {
   const [walletAddress, setWalletAddress] = useState(null);
 
   async function updateWalletAddress(hiroAddresses) {
-    console.log("hiroAddresses: ", hiroAddresses);
-    console.log("currentUser: ", currentUser);
     // p2wpkh - stamps, p2tr - ordinal
     if (
       currentUser &&

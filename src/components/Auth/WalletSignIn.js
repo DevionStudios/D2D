@@ -40,13 +40,13 @@ export function WalletSignIn({ currentUser }) {
     console.log(walletCookie);
     let currentUsedWallet;
     if (walletType == "walletConnect")
-      currentUsedWallet = walletCookie.walletConnectWallet;
+      currentUsedWallet = walletCookie.walletConnectWallet || account;
     else if (walletType == "hiroWallet")
-      currentUsedWallet = walletCookie.hiroWallet;
+      currentUsedWallet = walletCookie.hiroWallet || account;
     else if (walletType == "unisatWallet")
-      currentUsedWallet = walletCookie.unisatWallet;
+      currentUsedWallet = walletCookie.unisatWallet || account;
     else if (walletType == "dogeWallet")
-      currentUsedWallet = walletCookie.dogeWallet;
+      currentUsedWallet = walletCookie.dogeWallet || account;
 
     if (currentUsedWallet == undefined) {
       toast.error("Please connect your wallet first");
@@ -65,7 +65,7 @@ export function WalletSignIn({ currentUser }) {
         document.cookie = jwtToken + ";path=/";
         toast.success("Signed In Successfully");
         setWalletCookie(document, {
-          activeWallet: currentUsedWallet,
+          activeWallet: currentUsedWallet || account,
           walletConnectWallet: walletCookie.walletConnectWallet,
           hiroWallet: walletCookie.hiroWallet,
           unisatWallet: walletCookie.unisatWallet,
