@@ -16,7 +16,7 @@ export function Hero({ currentUser }) {
             </h1>
             <div className="flex flex-col items-center w-full space-x-5 lg:flex-row rounded-full">
               <a
-                href={user?.id ? "/feed" : "/auth/signup"}
+                href={user?.id ? "/feed" : "/auth/walletsignup"}
                 className="w-full rounded-full px-3 py-3 text-md font-medium text-center text-black bg-gradient-to-r from-orange-500 to-orange-300 shadow-xl xl:px-12 xl:text-lg lg:w-auto"
               >
                 <span className="flex space-x-2 items-center justify-center">

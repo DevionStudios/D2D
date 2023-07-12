@@ -21,7 +21,7 @@ export function UserPosts({
   return (
     <Tab.Group>
       <Card.Body
-        className="mt-5 max-w-2xl   z-10 sticky top-16  bg-white dark:bg-gray-800 rounded-md overflow-hidden"
+        className="mt-5 max-w-2xl   z-10 top-16  bg-white dark:bg-gray-800 rounded-md overflow-hidden"
         noPadding
       >
         <Tab.List

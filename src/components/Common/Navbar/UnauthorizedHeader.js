@@ -50,7 +50,7 @@ export function UnauthorizedHeader({ deviceType, CustomLogo }) {
             <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
               <div className="mx-8">{<ThemeToggle />}</div>
               <Button
-                href="/auth/signin"
+                href="/auth/walletsignin"
                 size="lg"
                 className="w-24"
                 rounded={"full"}
@@ -59,7 +59,7 @@ export function UnauthorizedHeader({ deviceType, CustomLogo }) {
               </Button>
               <Button
                 size="lg"
-                href="/auth/signup"
+                href="/auth/walletsignup"
                 className="ml-8 w-24"
                 rounded={"full"}
               >
@@ -113,7 +113,7 @@ export function UnauthorizedHeader({ deviceType, CustomLogo }) {
                     <Button
                       className="rounded-full"
                       size="lg"
-                      href="/auth/signup"
+                      href="/auth/walletsignup"
                       fullWidth
                       rounded={"full"}
                     >
@@ -122,7 +122,7 @@ export function UnauthorizedHeader({ deviceType, CustomLogo }) {
                     <p className="mt-6 text-center text-base font-medium text-gray-500">
                       Existing user?{" "}
                       <Link
-                        href="/auth/signin"
+                        href="/auth/walletsignin"
                         className="text-gray-900 no-underline"
                         rounded={"full"}
                       >

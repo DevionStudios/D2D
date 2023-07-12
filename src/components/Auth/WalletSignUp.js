@@ -153,12 +153,12 @@ export function WalletSignUp({ currentUser }) {
           </Card>
           <Card rounded="lg" className="mt-4">
             <Card.Body>
-              <span className="mr-1">Want to sign up using email?</span>
+              <span>New To Foxxi?</span>
               <Link
                 className="font-medium text-brand-600 hover:text-brand-400"
                 href="/auth/signup"
               >
-                Join Foxxi™
+                <span>&nbsp; Primitive Sign Up</span>
               </Link>
             </Card.Body>
           </Card>

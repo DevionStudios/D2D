@@ -7,11 +7,19 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useMoralis } from "react-moralis";
 import { setWalletCookie } from "../../utils/getCookie";
+import Form, { useZodForm } from "../ui/Form/Form";
+import FormSubmitButton from "../ui/Form/SubmitButton";
+import { z } from "zod";
+const WalletSignInSchema = z.object({});
+
 export function WalletSignIn({ currentUser }) {
   const { account, deactivateWeb3 } = useMoralis();
   const [accountWallet, setAccountWallet] = useState();
   const [walletType, setWalletType] = useState(undefined);
   const router = useRouter();
+  const form = useZodForm({
+    schema: WalletSignInSchema,
+  });
   useEffect(() => {
     let cookies = document?.cookie;
     // check if foxxi_user_wallet cookie exists
@@ -19,9 +27,8 @@ export function WalletSignIn({ currentUser }) {
     if (cookie) {
       cookie = JSON.parse(cookie);
       setWalletType(cookie.walletType);
-      processSignIn();
     }
-  }, []);
+  }, [account]);
 
   const processSignIn = async () => {
     let cookies = document?.cookie;
@@ -47,7 +54,7 @@ export function WalletSignIn({ currentUser }) {
       currentUsedWallet = walletCookie.unisatWallet || account;
     else if (walletType == "dogeWallet")
       currentUsedWallet = walletCookie.dogeWallet || account;
-
+    console.log(account);
     if (currentUsedWallet == undefined) {
       toast.error("Please connect your wallet first");
       return;
@@ -107,7 +114,15 @@ export function WalletSignIn({ currentUser }) {
       currentUser={currentUser}
     >
       <div>
-        <Card rounded="lg" className="mt-4">
+        <Form
+          form={form}
+          onSubmit={async (values) => {
+            await processSignIn(values);
+          }}
+        >
+          <FormSubmitButton size="lg">Wallet Sign In</FormSubmitButton>
+        </Form>
+        <Card rounded="lg" className="mt-12">
           <Card.Body>
             <span className="mr-1">Don’t have an account yet ?</span>
             <Link
@@ -127,7 +142,7 @@ export function WalletSignIn({ currentUser }) {
               className="font-medium text-brand-600 hover:text-brand-400"
               href="/auth/signin"
             >
-              Log in with Email
+              Primitive Login
             </Link>
           </Card.Body>
         </Card>
