@@ -35,7 +35,7 @@ function Card({ data, cardType }) {
             <Image
               src={
                 cardType === "stamps"
-                  ? data?.stampUrl || placeHolderStamp
+                  ? data?.stamp_url || placeHolderStamp
                   : undefined
               }
               alt={
