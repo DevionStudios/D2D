@@ -28,8 +28,6 @@ function CardsLayout({ currentUser, user }) {
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/token/testordinal/${user?.ordinalAddress}`
       );
       setOrdinals(res.data.results);
-
-      console.log("Ordinals: ", res.data.results);
     } catch (e) {
       console.log(e);
     }
@@ -40,7 +38,7 @@ function CardsLayout({ currentUser, user }) {
   };
   useEffect(() => {
     handleRequests();
-  }, []);
+  }, [user]);
   return (
     <div className="container mx-auto p-4 mt-14">
       <div className="flex justify-center mb-4">
