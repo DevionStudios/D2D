@@ -21,12 +21,9 @@ router.get("/api/token/teststamp/:bitcoinWalletAddress", (req, res) => __awaiter
     try {
         const { bitcoinWalletAddress } = req.params;
         // get all the ordinals from https://stampchain.io/api/src20
-        const response = yield axios_1.default.get(`https://stampchain.io/api/src20`);
+        const response = yield axios_1.default.get(`https://stampchain.io/api/src20?creator=${bitcoinWalletAddress}`);
         const stamps = response.data;
-        console.log("Stamps: ", stamps.length);
-        // filter the ordinals.items to only include the ones that have the bitcoinWalletAddress in the creator field
-        const userStamps = stamps.filter((ordinal) => ordinal.creator == bitcoinWalletAddress);
-        res.status(200).send(userStamps);
+        res.status(200).send(stamps);
     }
     catch (error) {
         console.log(error);
