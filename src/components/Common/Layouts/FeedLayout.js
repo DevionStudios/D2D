@@ -102,24 +102,29 @@ export function FeedLayout({ currentUser }) {
       name: "Settings",
       id: "/account/settings",
     },
+    // {
+    //   name: "Connect Ethereum Wallet",
+    //   id: "connectwallet",
+    //   component: <Redirect pageName={"/account/settings"} />,
+    // },
+    // {
+    //   name: "Connect Hiro Wallet",
+    //   id: "connecthirowallet",
+    //   component: <Redirect pageName={"/account/settings"} />,
+    // },
+    // {
+    //   name: "Connect Dpal Wallet",
+    //   id: "connectdpalwallet",
+    //   component: <Redirect pageName={"/account/settings"} />,
+    // },
+    // {
+    //   name: "Connect Unisat Wallet",
+    //   id: "connectunisatwallet",
+    //   component: <Redirect pageName={"/account/settings"} />,
+    // },
     {
-      name: "Connect Ethereum Wallet",
-      id: "connectwallet",
-      component: <Redirect pageName={"/account/settings"} />,
-    },
-    {
-      name: "Connect Hiro Wallet",
-      id: "connecthirowallet",
-      component: <Redirect pageName={"/account/settings"} />,
-    },
-    {
-      name: "Connect Dpal Wallet",
-      id: "connectdpalwallet",
-      component: <Redirect pageName={"/account/settings"} />,
-    },
-    {
-      name: "Connect Unisat Wallet",
-      id: "connectunisatwallet",
+      name: "Connect Wallet",
+      id: "multiwalletmodal",
       component: <Redirect pageName={"/account/settings"} />,
     },
   ]);

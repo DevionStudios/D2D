@@ -1,8 +1,8 @@
 import { set } from "nprogress";
 import React, { useState, useEffect } from "react";
 import { setWalletCookie } from "../../utils/getCookie";
-
-const ConnectUnisatWallet = ({ text }) => {
+import Image from "next/image";
+const ConnectUnisatWallet = ({ text, image }) => {
   const [unisat, setUnisat] = useState(null);
   const [userAddress, setUserAddress] = useState(null);
 
@@ -56,17 +56,23 @@ const ConnectUnisatWallet = ({ text }) => {
   // check isEnabled
   if (unisat && userAddress) {
     return (
-      <button className={text || ""} onClick={disconnect}>
-        {userAddress?.toString()?.slice(0, 5) || "Disconnect Unisat"}
-        {userAddress && "..."}
-      </button>
+      <div>
+        {image ? <Image src={image} alt="Dpal" width={30} height={30} /> : null}
+        <button className={text || ""} onClick={disconnect}>
+          {userAddress?.toString()?.slice(0, 5) || "Disconnect Unisat"}
+          {userAddress && "..."}
+        </button>
+      </div>
     );
   }
 
   return (
-    <button className={text || ""} onClick={connect}>
-      Connect Unisat
-    </button>
+    <div>
+      {image ? <Image src={image} alt="Dpal" width={30} height={30} /> : null}
+      <button className={text || ""} onClick={connect}>
+        Connect Unisat
+      </button>
+    </div>
   );
 };
 
