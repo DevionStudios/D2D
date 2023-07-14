@@ -102,7 +102,7 @@ export function CreateStoryModal({ currentUser, isOpen, setIsOpen }) {
                 {...form.register("caption")}
               />
             </div>
-            <div className="absolute bottom-3 left-3 flex space-x-3">
+            <div className="left-3 flex space-x-3">
               <EmojiPicker onEmojiPick={handleEmojiPick} />
             </div>
           </div>
