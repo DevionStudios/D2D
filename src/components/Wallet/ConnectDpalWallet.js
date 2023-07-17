@@ -49,7 +49,8 @@ const ConnectDpalWallet = ({ text, image }) => {
       <div>
         {image ? <Image src={image} alt="Dpal" width={30} height={30} /> : null}
         <button className={text || ""} onClick={disconnect}>
-          {userAddress || "Disconnect Dpal"}
+          {userAddress.toString()?.slice(0, 5) || "Disconnect Dpal"}
+          {userAddress && "..."}
         </button>
       </div>
     );

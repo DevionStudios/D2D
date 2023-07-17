@@ -7,28 +7,30 @@ const appConfig = new AppConfig(["store_write", "publish_data"]);
 
 export const userSession = new UserSession({ appConfig });
 
-function authenticate() {
-  showConnect({
-    appDetails: {
-      name: "Foxxi",
-      icon: "/src/assets/Foxxi-Text.png",
-    },
-    onFinish: (props) => {
-      console.log("props: ", props);
-      // window.location.reload();
-    },
-    redirectTo: "/feed",
-    userSession,
-  });
-}
-
-function disconnect() {
-  userSession.signUserOut(window.location.href);
-}
-
 const ConnectHiroWallet = ({ text, currentUser, image }) => {
   const [mounted, setMounted] = useState(false);
   const [walletAddress, setWalletAddress] = useState(null);
+
+  function authenticate() {
+    showConnect({
+      appDetails: {
+        name: "Foxxi",
+        icon: "/src/assets/Foxxi-Text.png",
+      },
+      onFinish: async (props) => {
+        console.log("props: ", props);
+        await updateWalletAddress(props.authResponsePayload.profile.btcAddress);
+
+        window.location.reload();
+      },
+      redirectTo: "/feed",
+      userSession,
+    });
+  }
+
+  function disconnect() {
+    userSession.signUserOut(window.location.href);
+  }
 
   async function updateWalletAddress(hiroAddresses) {
     console.log("Within update function!");
