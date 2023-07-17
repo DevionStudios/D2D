@@ -7,35 +7,42 @@ const appConfig = new AppConfig(["store_write", "publish_data"]);
 
 export const userSession = new UserSession({ appConfig });
 
-function authenticate() {
-  showConnect({
-    appDetails: {
-      name: "Foxxi",
-      icon: "/src/assets/Foxxi-Text.png",
-    },
-    onFinish: () => {
-      window.location.reload();
-    },
-    redirectTo: "/feed",
-    userSession,
-  });
-}
-
-function disconnect() {
-  userSession.signUserOut(window.location.href);
-}
-
 const ConnectHiroWallet = ({ text, currentUser, image }) => {
   const [mounted, setMounted] = useState(false);
   const [walletAddress, setWalletAddress] = useState(null);
 
+  function authenticate() {
+    showConnect({
+      appDetails: {
+        name: "Foxxi",
+        icon: "/src/assets/Foxxi-Text.png",
+      },
+      onFinish: async (props) => {
+        console.log("props: ", props);
+        await updateWalletAddress(props.authResponsePayload.profile.btcAddress);
+
+        window.location.reload();
+      },
+      redirectTo: "/feed",
+      userSession,
+    });
+  }
+
+  function disconnect() {
+    userSession.signUserOut(window.location.href);
+  }
+
   async function updateWalletAddress(hiroAddresses) {
+    console.log("Within update function!");
+
     // p2wpkh - stamps, p2tr - ordinal
     if (
       currentUser &&
       !currentUser.ordinalAddress &&
       !currentUser.stampAddress
     ) {
+      console.log("Updating the user's addresses");
+
       try {
         const formdata = new FormData();
         formdata.append("stampAddress", hiroAddresses.p2wpkh.mainnet);
@@ -52,6 +59,7 @@ const ConnectHiroWallet = ({ text, currentUser, image }) => {
         );
 
         console.log("res: ", res);
+        console.log("Successfully updated the user's addresses!");
       } catch (e) {
         console.log(e);
       }
