@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { setWalletCookie } from "../../utils/getCookie";
-const ConnectDpalWallet = ({ text }) => {
+import Image from "next/image";
+const ConnectDpalWallet = ({ text, image }) => {
   const [doge, setDoge] = useState(null);
   const [userAddress, setUserAddress] = useState(null);
 
@@ -45,16 +46,22 @@ const ConnectDpalWallet = ({ text }) => {
   // check isEnabled
   if (doge && doge.isEnabled() && userAddress) {
     return (
-      <button className={text || ""} onClick={disconnect}>
-        {userAddress || "Disconnect Dpal"}
-      </button>
+      <div>
+        {image ? <Image src={image} alt="Dpal" width={30} height={30} /> : null}
+        <button className={text || ""} onClick={disconnect}>
+          {userAddress || "Disconnect Dpal"}
+        </button>
+      </div>
     );
   }
 
   return (
-    <button className={text || ""} onClick={connect}>
-      Connect Dpal
-    </button>
+    <div>
+      {image ? <Image src={image} alt="Dpal" width={30} height={30} /> : null}
+      <button className={text || ""} onClick={connect}>
+        Connect Dpal
+      </button>
+    </div>
   );
 };
 

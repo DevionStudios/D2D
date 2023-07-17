@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import ConnectHiroWallet from "src/components/Wallet/ConnectHiroWallet";
 import ConnectDpalWallet from "src/components/Wallet/ConnectDpalWallet";
 import ConnectUnisatWallet from "src/components/Wallet/ConnectUnisatWallet";
+import { MultiWalletModal } from "src/components/Wallet/MultiWalletModal";
 export function TabbedLayout({ navigation, currentUser }) {
   const router = useRouter();
 
@@ -21,6 +22,7 @@ export function TabbedLayout({ navigation, currentUser }) {
   const [walletAccount, setWalletAccount] = useState(false);
   const { account, deactivateWeb3, isWeb3Enabled, enableWeb3 } = useMoralis();
   const [deviceType, setDeviceType] = useState("");
+  const [openMultiWalletModal, setOpenMultiWalletModal] = useState(false);
 
   const getHiroWallet = () => {
     let cookies = document?.cookie;
@@ -119,6 +121,45 @@ export function TabbedLayout({ navigation, currentUser }) {
               {navigation && navigation.length > 0 && (
                 <Tab.List className="space-y-2">
                   {navigation.map((item, index) => {
+                    if (item.name == "Connect Wallet") {
+                      if (currentUser.annonymous) return null;
+                      return (
+                        <div
+                          key={index + 10}
+                          className={clsx(
+                            account
+                              ? " text-brand-600  dark:text-brand-500"
+                              : "hover:text-brand-300 dark:hover:text-brand-400",
+                            "group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full "
+                          )}
+                        >
+                          <span className="truncate flex items-center linksText">
+                            <BiWallet
+                              className={clsx(
+                                " group-hover:text-black dark:group-hover:text-white text-brand-500",
+                                "flex-shrink-0 mr-3 h-6 w-6"
+                              )}
+                            />
+                            <btn
+                              onClick={() => {
+                                setOpenMultiWalletModal(true);
+                              }}
+                            >
+                              Connect Wallet
+                              <MultiWalletModal
+                                isOpen={openMultiWalletModal}
+                                onClose={() => {
+                                  setOpenMultiWalletModal(false);
+                                }}
+                                text={
+                                  "dark:font-bold font-bold dark:text-white text-white"
+                                }
+                              />
+                            </btn>
+                          </span>
+                        </div>
+                      );
+                    }
                     if (item.name == "Connect Ethereum Wallet") {
                       return (
                         <div
@@ -335,7 +376,8 @@ export function TabbedLayout({ navigation, currentUser }) {
                       item.name !== "Connect Dpal Wallet" &&
                       item.name !== "Connect Unisat Wallet" &&
                       item.name !== "Connect Hiro Wallet" &&
-                      item.name !== "Connect Ethereum Wallet"
+                      item.name !== "Connect Ethereum Wallet" &&
+                      item.name !== "Connect Wallet"
                     ) {
                       return (
                         <>

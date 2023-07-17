@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AppConfig, showConnect, UserSession } from "@stacks/connect";
 import { setWalletCookie } from "../../utils/getCookie";
 import axios from "axios";
-
+import Image from "next/image";
 const appConfig = new AppConfig(["store_write", "publish_data"]);
 
 export const userSession = new UserSession({ appConfig });
@@ -26,7 +26,7 @@ function disconnect() {
   userSession.signUserOut(window.location.href);
 }
 
-const ConnectHiroWallet = ({ text, currentUser }) => {
+const ConnectHiroWallet = ({ text, currentUser, image }) => {
   const [mounted, setMounted] = useState(false);
   const [walletAddress, setWalletAddress] = useState(null);
 
@@ -80,17 +80,31 @@ const ConnectHiroWallet = ({ text, currentUser }) => {
 
   if (mounted && userSession.isUserSignedIn()) {
     return (
-      <button className={text || ""} onClick={disconnect}>
-        {walletAddress?.toString()?.slice(0, 5) || "Disconnect Hiro"}
-        {walletAddress && "..."}
-      </button>
+      <div>
+        <div>
+          {image ? (
+            <Image src={image} alt="Dpal" width={30} height={30} />
+          ) : null}
+        </div>
+        <div>
+          <button className={text || ""} onClick={disconnect}>
+            {walletAddress?.toString()?.slice(0, 5) || "Disconnect Hiro"}
+            {walletAddress && "..."}
+          </button>
+        </div>
+      </div>
     );
   }
 
   return (
-    <button className={text || ""} onClick={authenticate}>
-      Connect Hiro
-    </button>
+    <div>
+      <div>
+        {image ? <Image src={image} alt="Dpal" width={30} height={30} /> : null}
+      </div>
+      <button className={text || ""} onClick={authenticate}>
+        Connect Hiro
+      </button>
+    </div>
   );
 };
 
