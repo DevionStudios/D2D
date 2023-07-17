@@ -76,6 +76,7 @@ import { getUserOrdinalsFromDBRouter } from "./routes/tokens/get-user-ordinals-f
 import { getUserStampsFromDBRouter } from "./routes/tokens/get-user-stamps-from-db";
 import { likeOrdinalRouter } from "./routes/tokens/like-ordinal";
 import { likeStampRouter } from "./routes/tokens/like-stamp";
+import { getFollowerFollowingRouter } from "./routes/auth/get-follower-following";
 
 const app = express();
 app.use(
@@ -119,6 +120,7 @@ app.use(resetPasswordRouter);
 app.use(updatePasswordRouter);
 app.use(createPostRouter);
 app.use(getPostRouter);
+app.use(getFollowerFollowingRouter);
 app.use(getTrendingPostsRouter);
 app.use(getUserPostsRouter);
 app.use(updatePostRouter);
