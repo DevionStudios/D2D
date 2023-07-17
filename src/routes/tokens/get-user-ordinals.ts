@@ -21,8 +21,9 @@ router.get("/api/token/testordinal", async (req: Request, res: Response) => {
 
     let ordinals: any[] = [];
 
-    if (hiroResponse) ordinals = [...ordinals, ...hiroResponse.data];
-    if (unisatResponse) ordinals = [...ordinals, ...unisatResponse.data];
+    if (hiroResponse) ordinals = [...ordinals, ...hiroResponse.data.results];
+    if (unisatResponse)
+      ordinals = [...ordinals, ...unisatResponse.data.results];
 
     res.status(200).send(ordinals);
   } catch (error) {

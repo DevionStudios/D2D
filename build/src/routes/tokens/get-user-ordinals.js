@@ -28,9 +28,9 @@ router.get("/api/token/testordinal", (req, res) => __awaiter(void 0, void 0, voi
             unisatResponse = yield axios_1.default.get(`https://api.hiro.so/ordinals/v1/inscriptions?address=${unisatAddress}`);
         let ordinals = [];
         if (hiroResponse)
-            ordinals = [...ordinals, ...hiroResponse.data];
+            ordinals = [...ordinals, ...hiroResponse.data.results];
         if (unisatResponse)
-            ordinals = [...ordinals, ...unisatResponse.data];
+            ordinals = [...ordinals, ...unisatResponse.data.results];
         res.status(200).send(ordinals);
     }
     catch (error) {
