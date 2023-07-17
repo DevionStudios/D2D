@@ -26,7 +26,7 @@ router.put("/api/users/update", currentuser_1.currentUser, multer_filefilter_con
     { name: "coverImage", maxCount: 1 },
 ]), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { username, name, bio, walletAddress, ordinalAddress, stampAddress, } = req.body;
+        const { username, name, bio, walletAddress, ordinalAddress, stampAddress, unisatAddress, } = req.body;
         let imageFilePath;
         let coverImageFilePath;
         let imageSecureUrl;
@@ -61,6 +61,7 @@ router.put("/api/users/update", currentuser_1.currentUser, multer_filefilter_con
         existingUser.ordinalAddress =
             ordinalAddress || existingUser.ordinalAddress;
         existingUser.stampAddress = stampAddress || existingUser.stampAddress;
+        existingUser.unisatAddress = unisatAddress || existingUser.unisatAddress;
         if (!existingUser.twitterUsername) {
             existingUser.twitterUsername = req.body.twitterUsername;
         }

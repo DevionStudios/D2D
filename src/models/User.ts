@@ -12,6 +12,7 @@ interface UserAttrs {
   walletType?: string;
   ordinalAddress?: string;
   stampAddress?: string;
+  unisatAddress?: string;
   image?: string;
   coverImage?: string;
   bio?: string;
@@ -39,6 +40,7 @@ export interface UserDoc extends mongoose.Document {
   walletAddress?: string;
   ordinalAddress?: string;
   stampAddress?: string;
+  unisatAddress?: string;
   image?: string;
   coverImage?: string;
   bio?: string;
@@ -81,6 +83,9 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
     stampAddress: {
+      type: String,
+    },
+    unisatAddress: {
       type: String,
     },
     hasClaimed: {

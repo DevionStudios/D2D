@@ -39,6 +39,9 @@ const userSchema = new mongoose_1.default.Schema({
     stampAddress: {
         type: String,
     },
+    unisatAddress: {
+        type: String,
+    },
     hasClaimed: {
         type: Boolean,
         default: false,

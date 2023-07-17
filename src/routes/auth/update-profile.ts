@@ -24,6 +24,7 @@ router.put(
         walletAddress,
         ordinalAddress,
         stampAddress,
+        unisatAddress,
       } = req.body;
       let imageFilePath: any;
       let coverImageFilePath: any;
@@ -60,6 +61,7 @@ router.put(
       existingUser.ordinalAddress =
         ordinalAddress || existingUser.ordinalAddress;
       existingUser.stampAddress = stampAddress || existingUser.stampAddress;
+      existingUser.unisatAddress = unisatAddress || existingUser.unisatAddress;
 
       if (!existingUser.twitterUsername) {
         existingUser.twitterUsername = req.body.twitterUsername;
