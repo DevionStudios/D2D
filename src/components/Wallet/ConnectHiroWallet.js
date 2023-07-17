@@ -13,8 +13,9 @@ function authenticate() {
       name: "Foxxi",
       icon: "/src/assets/Foxxi-Text.png",
     },
-    onFinish: () => {
-      window.location.reload();
+    onFinish: (props) => {
+      console.log("props: ", props);
+      // window.location.reload();
     },
     redirectTo: "/feed",
     userSession,
@@ -30,12 +31,16 @@ const ConnectHiroWallet = ({ text, currentUser }) => {
   const [walletAddress, setWalletAddress] = useState(null);
 
   async function updateWalletAddress(hiroAddresses) {
+    console.log("Within update function!");
+
     // p2wpkh - stamps, p2tr - ordinal
     if (
       currentUser &&
       !currentUser.ordinalAddress &&
       !currentUser.stampAddress
     ) {
+      console.log("Updating the user's addresses");
+
       try {
         const formdata = new FormData();
         formdata.append("stampAddress", hiroAddresses.p2wpkh.mainnet);
@@ -52,6 +57,7 @@ const ConnectHiroWallet = ({ text, currentUser }) => {
         );
 
         console.log("res: ", res);
+        console.log("Successfully updated the user's addresses!");
       } catch (e) {
         console.log(e);
       }

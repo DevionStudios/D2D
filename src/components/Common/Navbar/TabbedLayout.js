@@ -229,7 +229,7 @@ export function TabbedLayout({ navigation, currentUser }) {
                                 "flex-shrink-0 mr-3 h-6 w-6"
                               )}
                             />
-                            <ConnectUnisatWallet />
+                            <ConnectUnisatWallet currentUser={currentUser} />
                             {/* {"Connect Unisat"} */}
                           </span>
                         </div>
