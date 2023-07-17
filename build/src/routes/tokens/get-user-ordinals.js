@@ -17,12 +17,21 @@ const express_1 = __importDefault(require("express"));
 const axios_1 = __importDefault(require("axios"));
 const router = express_1.default.Router();
 exports.getUserOrdinalsRouter = router;
-router.get("/api/token/testordinal/:bitcoinWallet", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get("/api/token/testordinal", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { bitcoinWallet } = req.params;
+        const { hiroOrdinalAddress, unisatAddress } = req.query;
+        let hiroResponse, unisatResponse;
         // get all the ordinals from https://api.hiro.so/ordinals/v1/inscriptions?address=<bitcoinWallet>
-        const response = yield axios_1.default.get(`https://api.hiro.so/ordinals/v1/inscriptions?address=${bitcoinWallet}`);
-        res.status(200).send(response.data);
+        if (hiroOrdinalAddress)
+            hiroResponse = yield axios_1.default.get(`https://api.hiro.so/ordinals/v1/inscriptions?address=${hiroOrdinalAddress}`);
+        if (unisatAddress)
+            unisatResponse = yield axios_1.default.get(`https://api.hiro.so/ordinals/v1/inscriptions?address=${unisatAddress}`);
+        let ordinals = [];
+        if (hiroResponse)
+            ordinals = [...ordinals, ...hiroResponse.data];
+        if (unisatResponse)
+            ordinals = [...ordinals, ...unisatResponse.data];
+        res.status(200).send(ordinals);
     }
     catch (error) {
         console.log(error);

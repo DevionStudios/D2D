@@ -17,12 +17,22 @@ const express_1 = __importDefault(require("express"));
 const axios_1 = __importDefault(require("axios"));
 const router = express_1.default.Router();
 exports.getUserStampsRouter = router;
-router.get("/api/token/teststamp/:bitcoinWalletAddress", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get("/api/token/teststamp", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { bitcoinWalletAddress } = req.params;
+        const { hiroStampAddress, unisatAddress } = req.query;
+        let hiroResponse, unisatResponse;
         // get all the ordinals from https://stampchain.io/api/src20
-        const response = yield axios_1.default.get(`https://stampchain.io/api/src20?creator=${bitcoinWalletAddress}`);
-        const stamps = response.data;
+        if (hiroStampAddress)
+            hiroResponse = yield axios_1.default.get(`https://stampchain.io/api/src20?creator=${hiroStampAddress}`);
+        if (unisatAddress)
+            unisatResponse = yield axios_1.default.get(`https://stampchain.io/api/src20?creator=${unisatAddress}`);
+        let stamps = [];
+        if (hiroResponse) {
+            stamps = [...stamps, ...hiroResponse.data];
+        }
+        if (unisatResponse) {
+            stamps = [...stamps, ...unisatResponse.data];
+        }
         res.status(200).send(stamps);
     }
     catch (error) {
