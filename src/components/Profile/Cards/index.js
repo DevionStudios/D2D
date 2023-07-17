@@ -14,7 +14,7 @@ function CardsLayout({ currentUser, user }) {
 
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/token/teststamp/${user?.stampAddress}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/token/teststamp?hiroStampsAddress=${user?.stampAddress}&unisatAddress=${user?.unisatAddress}`
       );
       setStamps(res.data);
     } catch (e) {
@@ -25,9 +25,9 @@ function CardsLayout({ currentUser, user }) {
     console.log("Ordinal Address: ", user?.ordinalAddress);
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/token/testordinal/${user?.ordinalAddress}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/token/testordinal?hiroOrdinalAddress=${user?.ordinalAddress}&unisatAddress=${user?.unisatAddress}`
       );
-      setOrdinals(res.data.results);
+      setOrdinals(res.data);
     } catch (e) {
       console.log(e);
     }
@@ -67,7 +67,7 @@ function CardsLayout({ currentUser, user }) {
       {activeTab === "Stamps" ? (
         <div className="bg-transparent p-4 grid lg:grid-cols-4 lg:gap-3 sm:grid-cols-2 sm:gap-2 md:grid-cols-3 md:gap-3">
           {stamps?.length <= 0
-            ? "There Are No Stamps. Make Sure to Import Your Stamps By Going To Preferences in Settings"
+            ? "There Are No Stamps in the Wallet."
             : stamps?.map((stamp, index) => {
                 return <Card cardType={"stamps"} data={stamp} key={index} />;
               })}
@@ -76,7 +76,7 @@ function CardsLayout({ currentUser, user }) {
       ) : (
         <div className="bg-transparent p-4 grid lg:grid-cols-4 lg:gap-3 sm:grid-cols-2 sm:gap-2 md:grid-cols-3 md:gap-3">
           {ordinals?.length <= 0
-            ? "There Are No Ordinals. Make Sure to Import Your Ordinals By Going To Preferences in Settings"
+            ? "There Are No Ordinals in the Wallet."
             : ordinals?.map((ordinal, index) => {
                 return (
                   <Card cardType={"ordinals"} data={ordinal} key={index} />
