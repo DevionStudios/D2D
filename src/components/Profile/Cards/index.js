@@ -14,7 +14,7 @@ function CardsLayout({ currentUser, user }) {
 
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/token/teststamp?hiroStampsAddress=${user?.stampAddress}&unisatAddress=${user?.unisatAddress}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/token/teststamp?hiroStampAddress=${user?.stampAddress}&unisatAddress=${user?.unisatAddress}`
       );
       setStamps(res.data);
     } catch (e) {
