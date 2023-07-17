@@ -27,11 +27,11 @@ export function UserMessageResult({ data, currentUser }) {
 
               if (user) {
                 return (
-                  <li key={user.id} className="py-4">
+                  <li key={user.id} className="py-4 mx-6">
                     <div className="flex items-center space-x-4">
                       <div className="flex-shrink-0">
                         <img
-                          className="h-8 w-8 rounded-full"
+                          className="h-12 w-12 rounded-full"
                           src={user.image}
                           alt=""
                         />
@@ -45,7 +45,11 @@ export function UserMessageResult({ data, currentUser }) {
                         </p>
                       </div>
                       <div>
-                        <Button variant="dark" href={`/chat/${user.id}`}>
+                        <Button
+                          variant="dark"
+                          href={`/chat/${user.id}`}
+                          size="lg"
+                        >
                           Message
                         </Button>
                       </div>

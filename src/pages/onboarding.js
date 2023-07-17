@@ -175,7 +175,6 @@ export default function Onboarding({ currentUser }) {
           <Link href="/">
             <Image src={FoxxiText} width={100} height={25} alt="Logo" />{" "}
           </Link>
-          <Heading size="h5">Foxxi</Heading>
         </div>
         <div
           className={`w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5`}

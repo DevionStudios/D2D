@@ -332,12 +332,12 @@ export function TabbedLayout({ navigation, currentUser }) {
         defaultIndex={
           currentPath === "/feed"
             ? 0
-            : currentPath === "/yourfeed"
-            ? 1
             : currentPath === "/trending"
             ? 2
             : currentPath === "/twittertrends"
             ? 3
+            : currentPath === "/news"
+            ? 4
             : 4
         }
         onChange={(idx) => {
@@ -364,6 +364,7 @@ export function TabbedLayout({ navigation, currentUser }) {
                       item.name === "Settings"
                     ) {
                       if (currentUser?.annonymous) return null;
+                      return null;
                     }
 
                     if (
@@ -410,7 +411,13 @@ export function TabbedLayout({ navigation, currentUser }) {
         </div>
         <Tab.Panels className="">
           {navigation.map((panel, index) => {
-            return <Tab.Panel key={index}>{panel.component}</Tab.Panel>;
+            if (
+              panel.name === "Explore" ||
+              panel.name === "Trending" ||
+              panel.name === "Foxxi Trends" ||
+              panel.name === "News"
+            )
+              return <Tab.Panel key={index}>{panel.component}</Tab.Panel>;
           })}
         </Tab.Panels>
       </Tab.Group>
