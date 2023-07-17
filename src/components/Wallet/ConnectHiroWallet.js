@@ -19,8 +19,17 @@ const ConnectHiroWallet = ({ text, currentUser, image }) => {
       },
       onFinish: async (props) => {
         console.log("props: ", props);
+        setWalletAddress(
+          props.authResponsePayload.profile.btcAddress.p2wpkh.mainnet
+        );
+        setWalletCookie(document, {
+          hiroWallet:
+            props.authResponsePayload.profile.btcAddress.p2wpkh.mainnet, // stamp address
+          walletType: "hiroWallet",
+          hiroOrdinalWallet:
+            props.authResponsePayload.profile.btcAddress.p2tr.mainnet,
+        });
         await updateWalletAddress(props.authResponsePayload.profile.btcAddress);
-
         window.location.reload();
       },
       redirectTo: "/feed",
@@ -47,7 +56,6 @@ const ConnectHiroWallet = ({ text, currentUser, image }) => {
         const formdata = new FormData();
         formdata.append("stampAddress", hiroAddresses.p2wpkh.mainnet);
         formdata.append("ordinalAddress", hiroAddresses.p2tr.mainnet);
-
         const res = await axios.put(
           `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/update`,
           formdata,
@@ -70,11 +78,15 @@ const ConnectHiroWallet = ({ text, currentUser, image }) => {
     setMounted(true);
 
     if (userSession.isUserSignedIn()) {
-      updateWalletAddress(userSession.loadUserData().profile.btcAddress);
-
-      setWalletAddress(userSession.loadUserData().profile.stxAddress.testnet);
+      // updateWalletAddress(userSession.loadUserData().profile.btcAddress);
+      console.log(userSession.loadUserData().profile.btcAddress);
+      setWalletAddress(
+        userSession.loadUserData().profile.btcAddress.p2tr.mainnet
+      );
       setWalletCookie(document, {
-        hiroWallet: userSession.loadUserData().profile.stxAddress.testnet,
+        hiroWallet: userSession.loadUserData().profile.btcAddress.p2tr.mainnet,
+        hiroOrdinalWallet:
+          userSession.loadUserData().profile.btcAddress.p2wpkh.mainnet,
         walletType: "hiroWallet",
       });
     }

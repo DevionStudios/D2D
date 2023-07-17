@@ -20,7 +20,8 @@ const ButtonVariants = {
   dark: "border border-gray-300 dark:border-gray-800 dark:text-gray-100 bg-white shadow-sm dark:bg-gray-800 hover:bg-gray-50 hover:dark:bg-gray-800 focus:outline-none focus:ring focus:ring-gray-500 active:bg-gray-200 active:dark:bg-gray-800",
   danger:
     "text-white bg-red-700 hover:bg-red-800 border border-red-800 focus:outline-none",
-  orange: "text-white bg-orange-800 hover:bg-orange-900 bg-gradient-to-r from-orange-700 to-orange-400 focus:outline-none",
+  orange:
+    "text-white bg-orange-800 hover:bg-orange-900 bg-gradient-to-r from-orange-700 to-orange-400 focus:outline-none",
 };
 
 export function Button({

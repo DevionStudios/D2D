@@ -195,8 +195,13 @@ export function Navbar({ currentUser, CustomLogo }) {
                   <Button size="xs" onClick={signout}>
                     Sign Out
                   </Button>
-                  <Button size="xs" className="h-9 w-14" href="#">
-                    <Image src={BitVerseLogo} alt="BitVerse"></Image>
+                  <Button size="xs" href="#">
+                    <Image
+                      src={BitVerseLogo}
+                      alt="BitVerse"
+                      width={80}
+                      height={20}
+                    ></Image>
                   </Button>
                 </div>
               </div>

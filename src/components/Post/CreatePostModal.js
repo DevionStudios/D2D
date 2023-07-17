@@ -35,7 +35,7 @@ export const CreatePostSchema = object({
 
 export function CreatePostModal({ currentUser, isOpen, setIsOpen }) {
   const [loading, setLoading] = useState(false);
-
+  const [currentText, setCurrentText] = useState("");
   const createPost = async ({ variables }) => {
     //post data
     const { input } = variables;
@@ -146,6 +146,10 @@ export function CreatePostModal({ currentUser, isOpen, setIsOpen }) {
                 label="Caption"
                 placeholder="Include body for your post."
                 {...form.register("caption")}
+                onChange={(e) => {
+                  const capt = e.target.value;
+                  const startOfAt = capt.lastIndexOf("@");
+                }}
               />
             </div>
             <div className="left-3 flex space-x-3">

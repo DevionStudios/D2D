@@ -10,7 +10,10 @@ import ConnectHiroWallet from "../../components/Wallet/ConnectHiroWallet";
 import ConnectDpalWallet from "../../components/Wallet/ConnectDpalWallet";
 import ConnectUnisatWallet from "../../components/Wallet/ConnectUnisatWallet";
 import { setWalletCookie } from "../../utils/getCookie";
+import { MultiWalletModal } from "../../components/Wallet/MultiWalletModal";
+import { useState } from "react";
 export function WalletAuthLayout({ title, subtitle, children, currentUser }) {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <main className="flex flex-col justify-center mx-auto w-full max-w-xl min-h-screen py-10">
       <div className="mb-8 text-center">
@@ -28,9 +31,7 @@ export function WalletAuthLayout({ title, subtitle, children, currentUser }) {
               console.log("hello");
               setWalletCookie(document, { walletType: "walletConnect" });
             }}
-          >
-            <ConnectButton />
-          </div>
+          ></div>
           <div
             className="inline-flex items-center mb-1 space-x-3 my-3"
             onClick={(e) => {
@@ -44,11 +45,24 @@ export function WalletAuthLayout({ title, subtitle, children, currentUser }) {
                 height: "2.6rem",
                 borderRadius: "1rem",
               }}
+              onClick={(e) => {
+                e.preventDefault();
+                console.log(document.cookie);
+                setIsOpen(true);
+              }}
             >
-              <ConnectHiroWallet text="text-blue" currentUser={currentUser} />
+              Connect Wallet
+              <MultiWalletModal
+                isOpen={isOpen}
+                onClose={() => {
+                  setIsOpen(false);
+                }}
+                text={"dark:font-bold font-bold dark:text-white text-white"}
+              ></MultiWalletModal>
+              {/* <ConnectHiroWallet text="text-blue" currentUser={currentUser} /> */}
             </div>
           </div>
-          <div
+          {/* <div
             className="inline-flex items-center mb-1 space-x-3 my-3"
             onClick={(e) => {
               e.preventDefault();
@@ -64,8 +78,8 @@ export function WalletAuthLayout({ title, subtitle, children, currentUser }) {
             >
               <ConnectDpalWallet text={"text-blue"} />
             </div>
-          </div>
-          <div
+          </div> */}
+          {/* <div
             className="inline-flex items-center mb-1 space-x-3 my-3"
             onClick={(e) => {
               e.preventDefault();
@@ -84,7 +98,7 @@ export function WalletAuthLayout({ title, subtitle, children, currentUser }) {
                 currentUser={currentUser}
               />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       <Card

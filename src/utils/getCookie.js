@@ -26,6 +26,7 @@ export const setWalletCookie = (
   {
     activeWallet,
     hiroWallet,
+    hiroOrdinalWallet,
     dogeWallet,
     wallectConnectWallet,
     unisatWallet,
@@ -49,6 +50,7 @@ export const setWalletCookie = (
       wallectConnectWallet:
         cookie?.wallectConnectWallet || wallectConnectWallet,
       walletType: cookie?.walletType || walletType,
+      hiroOrdinalWallet: cookie?.hiroOrdinalWallet || hiroOrdinalWallet,
     };
     document.cookie =
       jwt + `foxxi_user_wallet=${JSON.stringify(cookie)};path=/`;
@@ -60,6 +62,7 @@ export const setWalletCookie = (
       unisatWallet,
       hiroWallet,
       walletType,
+      hiroOrdinalWallet,
     };
     document.cookie =
       jwt + `foxxi_user_wallet=${JSON.stringify(cookie)};path=/`;

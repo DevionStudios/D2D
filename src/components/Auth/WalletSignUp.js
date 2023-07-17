@@ -58,6 +58,7 @@ export function WalletSignUp({ currentUser }) {
       currentUsedWallet = walletCookie.unisatWallet || account;
     else if (walletType == "dogeWallet")
       currentUsedWallet = walletCookie.dogeWallet || account;
+    else currentUsedWallet = account;
     if (currentUsedWallet == undefined) {
       toast.error("Please connect your wallet first");
       return;

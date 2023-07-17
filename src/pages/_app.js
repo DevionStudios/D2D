@@ -16,11 +16,16 @@ function MyApp({ Component, pageProps, currentUser }) {
   useEffect(() => {
     setTheme("light");
     if (currentUser.annonymous) {
-      // clear all cookies
+      // clear all cookies except foxxi_user_wallet
       document.cookie.split(";").forEach(function (c) {
-        document.cookie = c
-          .replace(/^ +/, "")
-          .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+        if (!c.includes("foxxi_user_wallet")) {
+          document.cookie = c
+            .replace(/^ +/, "")
+            .replace(
+              /=.*/,
+              "=;expires=" + new Date().toUTCString() + ";path=/"
+            );
+        }
       });
     }
   }, []);
