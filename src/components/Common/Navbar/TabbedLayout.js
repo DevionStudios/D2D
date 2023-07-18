@@ -331,7 +331,7 @@ export function TabbedLayout({ navigation, currentUser }) {
         </aside>
         <Tab.Panels className="space-y-6 sm:px-6 lg:px-0 lg:col-span-9">
           {navigation.map((panel, index) => {
-            if (currentUser?.annonymous)
+            if (currentUser?.annonymous) {
               if (
                 panel.name === "Explore" ||
                 panel.name === "Trending" ||
@@ -339,6 +339,9 @@ export function TabbedLayout({ navigation, currentUser }) {
                 panel.name === "News"
               )
                 return <Tab.Panel key={index}>{panel.component}</Tab.Panel>;
+            } else {
+              return <Tab.Panel key={index}>{panel.component}</Tab.Panel>;
+            }
           })}
         </Tab.Panels>
       </Tab.Group>
