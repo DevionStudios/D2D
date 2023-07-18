@@ -1,24 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import TestImage from "../../../assets/Foxxi Logo.png";
 import Image from "next/image";
 import { HiHeart } from "react-icons/hi";
 import { HiOutlineHeart } from "react-icons/hi";
 import toast from "react-hot-toast";
 function Card({ data, cardType }) {
   const [liked, setLiked] = useState(false);
-  const [ordinalImage, setOrdinalImage] = useState("");
+  const [ordinalImageURL, setOrdinalImageURL] = useState("");
 
   const ordinalImageRequest = async () => {
-    try {
-      const res = await axios.get(
-        `https://api.hiro.so/ordinals/v1/inscriptions/${data.id}/content`
-      );
-      setOrdinalImage(res.data);
-    } catch (e) {
-      console.log(e);
+    if (data.id) {
+      try {
+        const res = await axios.get(
+          `https://api.hiro.so/ordinals/v1/inscriptions/${data.id}/content`
+        );
+
+        if (res.headers["content-type"].includes("image"))
+          setOrdinalImageURL(
+            `https://api.hiro.so/ordinals/v1/inscriptions/${data.id}/content`
+          );
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
+
+  useEffect(() => {
+    ordinalImageRequest();
+  }, [data]);
 
   const handleLike = () => {
     setLiked(!liked);
@@ -26,7 +35,7 @@ function Card({ data, cardType }) {
   const placeHolderStamp =
     "https://stampchain.io/stamps/fbea0e800473731b1f31e5f55000f3d5d5c1edf5fbdcb80ca31a9835103e246c.svg";
   const placeHolderOrdinal =
-    "https://api.hiro.so/ordinals/v1/inscriptions/4d42885f28494456fa806f1d99e2c1d94d00a69f4de59448e0fb3d0f50ca54bai0/content";
+    "https://www.enbri.org/wp-content/themes/enbri/assets/images/no-image.png";
   return (
     <div className="max-w-xs rounded-lg overflow-hidden border border-yellow-200 bg-orange-200 bg-opacity-10">
       {cardType === "stamps" && (
@@ -41,6 +50,18 @@ function Card({ data, cardType }) {
               alt={
                 cardType === "stamps" ? "Stamp Image" : "Ordinal Has No Image"
               }
+              width={300}
+              height={300}
+            />
+          </div>
+        </div>
+      )}
+      {cardType === "ordinals" && (
+        <div style={{ width: 300, height: "auto" }}>
+          <div style={{ width: 300, height: "auto" }}>
+            <Image
+              src={ordinalImageURL || placeHolderOrdinal}
+              alt={cardType === "ordinals" ? "Ordinal Image" : "No Image"}
               width={300}
               height={300}
             />
