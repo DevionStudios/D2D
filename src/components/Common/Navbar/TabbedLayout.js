@@ -143,30 +143,28 @@ export function TabbedLayout({ navigation, currentUser }) {
                             "group flex items-center px-3 py-2 text-sm font-medium rounded-md w-full "
                           )}
                         >
-                          <span className="truncate flex items-center linksText">
+                          {/* <span className="truncate flex items-center linksText">
                             <BiWallet
                               className={clsx(
                                 " group-hover:text-black dark:group-hover:text-white text-brand-500",
                                 "flex-shrink-0 mr-3 h-6 w-6"
                               )}
-                            />
-                            <btn
-                              onClick={() => {
-                                setOpenMultiWalletModal(true);
-                              }}
-                            >
-                              Connect Wallet
-                              <MultiWalletModal
-                                isOpen={openMultiWalletModal}
-                                onClose={() => {
-                                  setOpenMultiWalletModal(false);
-                                }}
-                                text={
-                                  "dark:font-bold font-bold dark:text-white text-white"
-                                }
-                              />
-                            </btn>
-                          </span>
+                            /> */}
+                          {/* <btn
+                            // onClick={() => {
+                            //   setOpenMultiWalletModal(true);
+                            // }}
+                            > */}
+                          Connect Wallet
+                          <MultiWalletModal
+                            isOpen={openMultiWalletModal}
+                            setClose={setOpenMultiWalletModal}
+                            text={
+                              "dark:font-bold font-bold dark:text-white text-white"
+                            }
+                          />
+                          {/* </btn> */}
+                          {/* </span> */}
                         </div>
                       );
                     }

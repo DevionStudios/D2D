@@ -15,9 +15,15 @@ import DpalImage from "src/assets/dpal.png";
 import WalletConnectImage from "src/assets/wallet-connect-logo.png";
 import Image from "next/image";
 
-export function MultiWalletModal({ isOpen, onClose, text, currentUser }) {
+export function MultiWalletModal({ isOpen, setClose, text, currentUser }) {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} className="">
+    <Modal
+      isOpen={isOpen}
+      onClose={() => {
+        setClose(false);
+      }}
+      className=""
+    >
       <Modal.Header dismiss>
         <Heading size="h4">ConnectWallet</Heading>
       </Modal.Header>

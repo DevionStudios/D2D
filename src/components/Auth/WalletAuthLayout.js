@@ -16,6 +16,11 @@ export function WalletAuthLayout({ title, subtitle, children, currentUser }) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <main className="flex flex-col justify-center mx-auto w-full max-w-xl min-h-screen py-10">
+      <MultiWalletModal
+        isOpen={isOpen}
+        setClose={setIsOpen}
+        text={"dark:font-bold font-bold dark:text-white text-white"}
+      ></MultiWalletModal>
       <div className="mb-8 text-center">
         <div className="inline-flex items-center mb-1 space-x-3">
           <Image src={Logo} alt="Foxxi Logo" width={110} height={110} />
@@ -52,13 +57,6 @@ export function WalletAuthLayout({ title, subtitle, children, currentUser }) {
               }}
             >
               Connect Wallet
-              <MultiWalletModal
-                isOpen={isOpen}
-                onClose={() => {
-                  setIsOpen(false);
-                }}
-                text={"dark:font-bold font-bold dark:text-white text-white"}
-              ></MultiWalletModal>
               {/* <ConnectHiroWallet text="text-blue" currentUser={currentUser} /> */}
             </div>
           </div>
