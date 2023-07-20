@@ -78,6 +78,7 @@ dependencies:
   path_provider: ^2.0.13
   fluttertoast: ^8.2.1
   simple_gradient_text: ^1.2.4
+  flutter_dotenv: ^5.1.0
 
 
 
@@ -117,6 +118,7 @@ flutter:
     - lib/assets/foxxiSplash.riv
     - lib/assets/foxxiLogo.png
     - lib/assets/foxxiLogoText.png
+    - lib/.env
 
 
 
