@@ -88,14 +88,6 @@ export default function CreatePage({ currentUser }) {
         toast.error("Detected Sign In With Different Wallet!");
         sendSignInRequest();
       }
-      if (
-        walletCookie?.activeWallet &&
-        currentUser.accountWallet &&
-        walletCookie?.walletType != currentUser?.walletType
-      ) {
-        toast.error("Detected Sign In With Different Wallet!");
-        sendSignInRequest();
-      }
     }
   }, [account]);
   return (

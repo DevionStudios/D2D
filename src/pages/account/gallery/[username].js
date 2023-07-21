@@ -88,11 +88,7 @@ export default function AccountPage({ currentUser }) {
         toast.error("Detected Sign In With Different Wallet!");
         sendSignInRequest();
       }
-      if (
-        walletCookie?.activeWallet &&
-        currentUser.accountWallet &&
-        walletCookie?.walletType != currentUser?.walletType
-      ) {
+      if (walletCookie?.activeWallet && currentUser.accountWallet) {
         toast.error("Detected Sign In With Different Wallet!");
         sendSignInRequest();
       }
