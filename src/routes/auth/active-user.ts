@@ -11,7 +11,7 @@ router.get(
   currentUser,
   async (req: Request, res: Response) => {
     try {
-      const activeUsers = await User.find().sort({ updatedAt: -1 }).limit(3);
+      const activeUsers = await User.find().sort({ updatedAt: -1 }).limit(5);
       if (!activeUsers) {
         throw new BadRequestError("No Users found!");
       }
