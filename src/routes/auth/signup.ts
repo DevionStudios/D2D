@@ -29,7 +29,6 @@ router.post(
         username,
         name,
         accountWallet,
-        walletType,
         ordinalAddress,
         stampAddress,
       } = req.body;
@@ -73,9 +72,8 @@ router.post(
           username,
           name,
           accountWallet,
-          walletType,
-          ordinalAddress: ordinalAddress,
-          stampAddress: stampAddress,
+          ordinalAddress,
+          stampAddress,
         });
       await user.save();
 

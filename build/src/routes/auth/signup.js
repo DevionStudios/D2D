@@ -32,7 +32,7 @@ router.post("/api/users/signup", [
     (0, express_validator_1.body)("name").trim().notEmpty().withMessage("Name is required"),
 ], common_1.validateRequest, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { email, password, username, name, accountWallet, walletType, ordinalAddress, stampAddress, } = req.body;
+        const { email, password, username, name, accountWallet, ordinalAddress, stampAddress, } = req.body;
         // check if email is provided
         let existingUser;
         if (email && email.length > 0)
@@ -69,9 +69,8 @@ router.post("/api/users/signup", [
                 username,
                 name,
                 accountWallet,
-                walletType,
-                ordinalAddress: ordinalAddress,
-                stampAddress: stampAddress,
+                ordinalAddress,
+                stampAddress,
             });
         yield user.save();
         // Generate JWT
