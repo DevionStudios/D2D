@@ -59,7 +59,6 @@ export function CreateStoryModal({ currentUser, isOpen, setIsOpen }) {
     } catch (e) {
       console.log(e);
       toast.error("Failed to create story. Try again.");
-    } finally {
       setLoading(false);
     }
   };
