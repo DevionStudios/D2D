@@ -95,10 +95,6 @@ export default function AirdropPage({ currentUser }) {
         // toast.error("Detected Sign In With Different Wallet!");
         // sendSignInRequest();
       }
-      if (walletCookie?.activeWallet && currentUser.accountWallet) {
-        toast.error("Detected Sign In With Different Wallet!");
-        sendSignInRequest();
-      }
     }
   }, [account]);
   const form = useZodForm({
