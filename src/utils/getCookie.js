@@ -20,18 +20,17 @@ export const getWalletCookie = (document) => {
     return null;
   }
 };
-
+export const resetWalletCookie = (document) => {
+  // delete wallet cookie
+  setWalletCookie(document, {
+    activeWallet: undefined,
+    ordinalWalletAddress: undefined,
+    stampWalletAddress: undefined,
+  });
+};
 export const setWalletCookie = (
   document,
-  {
-    activeWallet,
-    hiroWallet,
-    hiroOrdinalWallet,
-    dogeWallet,
-    wallectConnectWallet,
-    unisatWallet,
-    walletType,
-  }
+  { activeWallet, ordinalWalletAddress, stampWalletAddress }
 ) => {
   let cookies = document?.cookie;
   // "foxxi_jwt="
@@ -43,26 +42,17 @@ export const setWalletCookie = (
   if (cookie) {
     cookie = JSON.parse(cookie);
     cookie = {
-      activeWallet: cookie?.activeWallet || activeWallet,
-      hiroWallet: cookie?.hiroWallet || hiroWallet,
-      unisatWallet: cookie?.unisatWallet || unisatWallet,
-      dogeWallet: cookie?.dogeWallet || dogeWallet,
-      wallectConnectWallet:
-        cookie?.wallectConnectWallet || wallectConnectWallet,
-      walletType: cookie?.walletType || walletType,
-      hiroOrdinalWallet: cookie?.hiroOrdinalWallet || hiroOrdinalWallet,
+      activeWallet: activeWallet,
+      ordinalWalletAddress: ordinalWalletAddress,
+      stampWalletAddress: stampWalletAddress,
     };
     document.cookie =
       jwt + `foxxi_user_wallet=${JSON.stringify(cookie)};path=/`;
   } else {
     cookie = {
       activeWallet,
-      dogeWallet,
-      wallectConnectWallet,
-      unisatWallet,
-      hiroWallet,
-      walletType,
-      hiroOrdinalWallet,
+      ordinalWalletAddress,
+      stampWalletAddress,
     };
     document.cookie =
       jwt + `foxxi_user_wallet=${JSON.stringify(cookie)};path=/`;

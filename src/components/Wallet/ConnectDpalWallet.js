@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { setWalletCookie } from "../../utils/getCookie";
+import { setWalletCookie, resetWalletCookie } from "../../utils/getCookie";
 import Image from "next/image";
 const ConnectDpalWallet = ({ text, image }) => {
   const [doge, setDoge] = useState(null);
@@ -12,9 +12,9 @@ const ConnectDpalWallet = ({ text, image }) => {
 
         if (window?.DogeApi && window?.DogeApi?.isEnabled()) {
           setUserAddress((await window?.DogeApi?.userAddress()).userAddress);
+          resetWalletCookie(document);
           setWalletCookie(document, {
-            dogeWallet: userAddress,
-            walletType: "dogeWallet",
+            activeWallet: userAddress,
           });
         }
       }
@@ -35,9 +35,9 @@ const ConnectDpalWallet = ({ text, image }) => {
       const { status } = await doge.enable();
       if (status === "success") {
         setUserAddress((await window?.DogeApi?.userAddress()).userAddress);
+        resetWalletCookie(document);
         setWalletCookie(document, {
-          dogeWallet: userAddress,
-          walletType: "dogeWallet",
+          activeWallet: userAddress,
         });
       }
     }

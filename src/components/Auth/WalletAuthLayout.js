@@ -9,11 +9,13 @@ import { ConnectButton } from "@web3uikit/web3";
 import ConnectHiroWallet from "../../components/Wallet/ConnectHiroWallet";
 import ConnectDpalWallet from "../../components/Wallet/ConnectDpalWallet";
 import ConnectUnisatWallet from "../../components/Wallet/ConnectUnisatWallet";
-import { setWalletCookie } from "../../utils/getCookie";
+import { setWalletCookie, resetWalletCookie } from "../../utils/getCookie";
 import { MultiWalletModal } from "../../components/Wallet/MultiWalletModal";
 import { useState } from "react";
+import { useMoralis } from "react-moralis";
 export function WalletAuthLayout({ title, subtitle, children, currentUser }) {
   const [isOpen, setIsOpen] = useState(false);
+  const { account, deactivateWeb3 } = useMoralis();
   return (
     <main className="flex flex-col justify-center mx-auto w-full max-w-xl min-h-screen py-10">
       <MultiWalletModal
@@ -29,14 +31,6 @@ export function WalletAuthLayout({ title, subtitle, children, currentUser }) {
         <p className="mt-3 text-gray-500">{subtitle}</p>
 
         <div className="flex flex-col gap-3 items-center mb-1 space-x-3 my-3">
-          <div
-            className="inline-flex items-center mb-1 space-x-3 my-3"
-            onClick={(e) => {
-              e.preventDefault();
-              console.log("hello");
-              setWalletCookie(document, { walletType: "walletConnect" });
-            }}
-          ></div>
           <div
             className="inline-flex items-center mb-1 space-x-3 my-3"
             onClick={(e) => {

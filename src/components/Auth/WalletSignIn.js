@@ -10,25 +10,16 @@ import { setWalletCookie } from "../../utils/getCookie";
 import Form, { useZodForm } from "../ui/Form/Form";
 import FormSubmitButton from "../ui/Form/SubmitButton";
 import { z } from "zod";
+import { el } from "date-fns/locale";
 const WalletSignInSchema = z.object({});
 
 export function WalletSignIn({ currentUser }) {
   const { account, deactivateWeb3 } = useMoralis();
   const [accountWallet, setAccountWallet] = useState();
-  const [walletType, setWalletType] = useState(undefined);
   const router = useRouter();
   const form = useZodForm({
     schema: WalletSignInSchema,
   });
-  useEffect(() => {
-    let cookies = document?.cookie;
-    // check if foxxi_user_wallet cookie exists
-    let cookie = cookies?.split("foxxi_user_wallet=")?.[1]?.split(";")?.[0];
-    if (cookie) {
-      cookie = JSON.parse(cookie);
-      setWalletType(cookie.walletType);
-    }
-  }, [account]);
 
   const processSignIn = async () => {
     let cookies = document?.cookie;
@@ -38,33 +29,18 @@ export function WalletSignIn({ currentUser }) {
       ?.split(";")?.[0];
     if (walletCookie) {
       walletCookie = JSON.parse(walletCookie);
-      setWalletType(walletCookie.walletType);
+    } else {
+      return toast.error("Please select a wallet to sign in with!");
     }
-    const walletType = walletCookie?.walletType;
+
     // first check type
-    if (!walletType)
-      return toast.error("Please select a wallet to sign up with!");
-    console.log(walletCookie);
-    let currentUsedWallet;
-    if (walletType == "walletConnect")
-      currentUsedWallet = walletCookie.walletConnectWallet || account;
-    else if (walletType == "hiroWallet")
-      currentUsedWallet = walletCookie.hiroWallet || account;
-    else if (walletType == "unisatWallet")
-      currentUsedWallet = walletCookie.unisatWallet || account;
-    else if (walletType == "dogeWallet")
-      currentUsedWallet = walletCookie.dogeWallet || account;
-    else currentUsedWallet = account;
-    console.log(account);
-    if (currentUsedWallet == undefined) {
-      toast.error("Please connect your wallet first");
-      return;
-    }
+    if (!walletCookie?.activeWallet)
+      return toast.error("Please select a wallet to sign in with!");
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/signin`,
         {
-          accountWallet: currentUsedWallet,
+          accountWallet: account || walletCookie?.activeWallet,
         },
         { withCredentials: true }
       );
@@ -72,14 +48,6 @@ export function WalletSignIn({ currentUser }) {
         const jwtToken = "foxxi_jwt=" + res.data.jwt;
         document.cookie = jwtToken + ";path=/";
         toast.success("Signed In Successfully");
-        setWalletCookie(document, {
-          activeWallet: currentUsedWallet || account,
-          walletConnectWallet: walletCookie.walletConnectWallet,
-          hiroWallet: walletCookie.hiroWallet,
-          unisatWallet: walletCookie.unisatWallet,
-          dogeWallet: walletCookie.dogeWallet,
-          walletType: walletType,
-        });
         router.push("/feed");
       } else {
         toast.error("Wallet is not registered! Please sign up first!");
@@ -111,7 +79,6 @@ export function WalletSignIn({ currentUser }) {
     <WalletAuthLayout
       title="Log In."
       subtitle="Welcome back! Log in to your Foxxi account."
-      setWalletType={setWalletType}
       currentUser={currentUser}
     >
       <div>

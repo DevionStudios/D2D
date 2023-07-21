@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AppConfig, showConnect, UserSession } from "@stacks/connect";
-import { setWalletCookie } from "../../utils/getCookie";
+import { resetWalletCookie, setWalletCookie } from "../../utils/getCookie";
 import axios from "axios";
 import Image from "next/image";
 const appConfig = new AppConfig(["store_write", "publish_data"]);
@@ -22,15 +22,16 @@ const ConnectHiroWallet = ({ text, currentUser, image }) => {
         setWalletAddress(
           props.authResponsePayload.profile.btcAddress.p2wpkh.mainnet
         );
+        resetWalletCookie(document);
         setWalletCookie(document, {
-          hiroWallet:
+          activeWallet:
             props.authResponsePayload.profile.btcAddress.p2wpkh.mainnet, // stamp address
-          walletType: "hiroWallet",
-          hiroOrdinalWallet:
+          stampWalletAddress:
+            props.authResponsePayload.profile.btcAddress.p2wpkh.mainnet,
+          ordinalWalletAddress:
             props.authResponsePayload.profile.btcAddress.p2tr.mainnet,
         });
-        await updateWalletAddress(props.authResponsePayload.profile.btcAddress);
-        window.location.reload();
+        // window.location.reload();
       },
       redirectTo: "/feed",
       userSession,
@@ -38,41 +39,43 @@ const ConnectHiroWallet = ({ text, currentUser, image }) => {
   }
 
   function disconnect() {
+    // clear all cookies
+    resetWalletCookie(document);
     userSession.signUserOut(window.location.href);
   }
 
-  async function updateWalletAddress(hiroAddresses) {
-    console.log("Within update function!");
+  // async function updateWalletAddress(hiroAddresses) {
+  //   console.log("Within update function!");
 
-    // p2wpkh - stamps, p2tr - ordinal
-    if (
-      currentUser &&
-      !currentUser.ordinalAddress &&
-      !currentUser.stampAddress
-    ) {
-      console.log("Updating the user's addresses");
+  //   // p2wpkh - stamps, p2tr - ordinal
+  //   if (
+  //     currentUser &&
+  //     !currentUser.ordinalAddress &&
+  //     !currentUser.stampAddress
+  //   ) {
+  //     console.log("Updating the user's addresses");
 
-      try {
-        const formdata = new FormData();
-        formdata.append("stampAddress", hiroAddresses.p2wpkh.mainnet);
-        formdata.append("ordinalAddress", hiroAddresses.p2tr.mainnet);
-        const res = await axios.put(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/update`,
-          formdata,
-          {
-            headers: {
-              cookies: document.cookie,
-            },
-          }
-        );
+  //     try {
+  //       const formdata = new FormData();
+  //       formdata.append("stampAddress", hiroAddresses.p2wpkh.mainnet);
+  //       formdata.append("ordinalAddress", hiroAddresses.p2tr.mainnet);
+  //       const res = await axios.put(
+  //         `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/update`,
+  //         formdata,
+  //         {
+  //           headers: {
+  //             cookies: document.cookie,
+  //           },
+  //         }
+  //       );
 
-        console.log("res: ", res);
-        console.log("Successfully updated the user's addresses!");
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  }
+  //       console.log("res: ", res);
+  //       console.log("Successfully updated the user's addresses!");
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   }
+  // }
 
   useEffect(() => {
     setMounted(true);
@@ -80,14 +83,17 @@ const ConnectHiroWallet = ({ text, currentUser, image }) => {
     if (userSession.isUserSignedIn()) {
       // updateWalletAddress(userSession.loadUserData().profile.btcAddress);
       console.log(userSession.loadUserData().profile.btcAddress);
+      resetWalletCookie(document);
       setWalletAddress(
         userSession.loadUserData().profile.btcAddress.p2tr.mainnet
       );
       setWalletCookie(document, {
-        hiroWallet: userSession.loadUserData().profile.btcAddress.p2tr.mainnet,
-        hiroOrdinalWallet:
+        activeWallet:
           userSession.loadUserData().profile.btcAddress.p2wpkh.mainnet,
-        walletType: "hiroWallet",
+        stampWalletAddress:
+          userSession.loadUserData().profile.btcAddress.p2wpkh.mainnet,
+        ordinalWalletAddress:
+          userSession.loadUserData().profile.btcAddress.p2tr.mainnet,
       });
     }
   }, [walletAddress]);

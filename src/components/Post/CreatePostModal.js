@@ -94,7 +94,7 @@ export function CreatePostModal({ currentUser, isOpen, setIsOpen }) {
 
       //route to feed
       setIsOpen(false);
-      // router.push("/feed");
+      router.push("/feed");
 
       window.location.reload();
     } catch (e) {
