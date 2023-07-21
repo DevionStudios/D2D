@@ -11,12 +11,25 @@ router.get(
   currentUser,
   async (req: Request, res: Response) => {
     try {
-      const existingUser = await User.find().sort({ updatedAt: -1 }).limit(3);
-      if (!existingUser) {
+      const activeUsers = await User.find().sort({ updatedAt: -1 }).limit(3);
+      if (!activeUsers) {
         throw new BadRequestError("No Users found!");
       }
-      console.log("Active Users", existingUser);
-      res.status(200).send(existingUser);
+
+      const currentUser = await User.findOne({ email: req.foxxiUser?.email });
+
+      if (currentUser) {
+        activeUsers.forEach((user) => {
+          if (currentUser.following?.includes(user._id)) {
+            const index = activeUsers.indexOf(user);
+            if (index > -1) {
+              activeUsers.splice(index, 1);
+            }
+          }
+        });
+      }
+
+      res.status(200).send(activeUsers);
     } catch (err) {
       console.log(err);
       res.status(400).send({ message: err });
