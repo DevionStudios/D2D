@@ -22,22 +22,20 @@ exports.activeUserRouter = router;
 router.get("/api/users/active", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
-        const activeUsers = yield User_1.User.find().sort({ updatedAt: -1 }).limit(3);
-        if (!activeUsers) {
+        const activeUsersRaw = yield User_1.User.find().sort({ updatedAt: -1 }).limit(5);
+        if (!activeUsersRaw) {
             throw new common_1.BadRequestError("No Users found!");
         }
         const currentUser = yield User_1.User.findOne({ email: (_a = req.foxxiUser) === null || _a === void 0 ? void 0 : _a.email });
-        if (currentUser) {
-            activeUsers.forEach((user) => {
-                var _a;
-                if ((_a = currentUser.following) === null || _a === void 0 ? void 0 : _a.includes(user._id)) {
-                    const index = activeUsers.indexOf(user);
-                    if (index > -1) {
-                        activeUsers.splice(index, 1);
-                    }
-                }
-            });
-        }
+        const activeUsers = [];
+        if (!currentUser)
+            throw new common_1.BadRequestError("Not authorized!");
+        activeUsersRaw.forEach((user) => {
+            var _a;
+            if (!((_a = currentUser.following) === null || _a === void 0 ? void 0 : _a.includes(user.id))) {
+                activeUsers.push(user);
+            }
+        });
         res.status(200).send(activeUsers);
     }
     catch (err) {
