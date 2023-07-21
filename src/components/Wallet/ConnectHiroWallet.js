@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { AppConfig, showConnect, UserSession } from "@stacks/connect";
-import { resetWalletCookie, setWalletCookie } from "../../utils/getCookie";
+import {
+  getWalletCookie,
+  resetWalletCookie,
+  setWalletCookie,
+} from "../../utils/getCookie";
 import axios from "axios";
 import Image from "next/image";
+import { toast } from "react-hot-toast";
 const appConfig = new AppConfig(["store_write", "publish_data"]);
 
 export const userSession = new UserSession({ appConfig });
@@ -77,28 +82,28 @@ const ConnectHiroWallet = ({ text, currentUser, image }) => {
   //   }
   // }
 
-  useEffect(() => {
-    setMounted(true);
+  // useEffect(() => {
+  //   setMounted(true);
 
-    if (userSession.isUserSignedIn()) {
-      // updateWalletAddress(userSession.loadUserData().profile.btcAddress);
-      console.log(userSession.loadUserData().profile.btcAddress);
-      resetWalletCookie(document);
-      setWalletAddress(
-        userSession.loadUserData().profile.btcAddress.p2tr.mainnet
-      );
-      setWalletCookie(document, {
-        activeWallet:
-          userSession.loadUserData().profile.btcAddress.p2wpkh.mainnet,
-        stampWalletAddress:
-          userSession.loadUserData().profile.btcAddress.p2wpkh.mainnet,
-        ordinalWalletAddress:
-          userSession.loadUserData().profile.btcAddress.p2tr.mainnet,
-      });
-    }
-  }, [walletAddress]);
+  //   if (userSession.isUserSignedIn()) {
+  //     // updateWalletAddress(userSession.loadUserData().profile.btcAddress);
+  //     console.log(userSession.loadUserData().profile.btcAddress);
+  //     resetWalletCookie(document);
+  //     setWalletAddress(
+  //       userSession.loadUserData().profile.btcAddress.p2tr.mainnet
+  //     );
+  //     setWalletCookie(document, {
+  //       activeWallet:
+  //         userSession.loadUserData().profile.btcAddress.p2wpkh.mainnet,
+  //       stampWalletAddress:
+  //         userSession.loadUserData().profile.btcAddress.p2wpkh.mainnet,
+  //       ordinalWalletAddress:
+  //         userSession.loadUserData().profile.btcAddress.p2tr.mainnet,
+  //     });
+  //   }
+  // }, [walletAddress]);
 
-  if (mounted && userSession.isUserSignedIn()) {
+  if (walletAddress) {
     return (
       <div>
         <div>

@@ -1,6 +1,10 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { resetWalletCookie, setWalletCookie } from "../../utils/getCookie";
+import {
+  getWalletCookie,
+  resetWalletCookie,
+  setWalletCookie,
+} from "../../utils/getCookie";
 import Image from "next/image";
 import { toast } from "react-hot-toast";
 const ConnectUnisatWallet = ({ currentUser, text, image }) => {

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { WalletModal } from "@web3uikit/web3";
 import { useMoralis } from "react-moralis";
 import Image from "next/image";
+import { getWalletCookie } from "src/utils/getCookie";
+import { toast } from "react-hot-toast";
 const ConnectMetamask = ({ text, currentUser, image }) => {
   const { account, deactivateWeb3 } = useMoralis();
   const [openModal, setOpenModal] = useState(false);

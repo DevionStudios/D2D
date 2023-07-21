@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { setWalletCookie, resetWalletCookie } from "../../utils/getCookie";
+import {
+  setWalletCookie,
+  resetWalletCookie,
+  getWalletCookie,
+} from "../../utils/getCookie";
 import Image from "next/image";
+import { toast } from "react-hot-toast";
 const ConnectDpalWallet = ({ text, image }) => {
   const [doge, setDoge] = useState(null);
   const [userAddress, setUserAddress] = useState(null);

@@ -26,6 +26,9 @@ export function MultiWalletModal({ isOpen, setClose, text, currentUser }) {
     >
       <Modal.Header dismiss>
         <Heading size="h4">ConnectWallet</Heading>
+        <p className="text-sm dark:text-gray-500 text-gray-400">
+          Disconnect Previous Wallet Before Connecting A New One
+        </p>
       </Modal.Header>
       <Card.Body noPadding className="mt-4">
         <div className="flex flex-col items-center justify-center gap-8 text-center">
