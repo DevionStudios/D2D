@@ -14,6 +14,7 @@ export default function AccountPage({ currentUser }) {
       router.push("/feed");
     }
   }, [currentUser]);
+
   const { account, deactivateWeb3 } = useMoralis();
   const username = router.query?.username;
 
@@ -64,35 +65,35 @@ export default function AccountPage({ currentUser }) {
   };
 
   useEffect(() => {
-    if (!currentUser?.email && !currentUser?.annonymous) {
-      if (!currentUser.accountWallet) {
-        toast.error(
-          "You are not signed in! You are being redirected to sign in page!"
-        );
-        router.push("/auth/walletsignin");
-        return;
-      }
-      let cookies = document?.cookie;
-      // check if foxxi_user_wallet cookie exists
-      let walletCookie = cookies
-        ?.split("foxxi_user_wallet=")?.[1]
-        ?.split(";")?.[0];
-      if (walletCookie) {
-        walletCookie = JSON.parse(walletCookie);
-      }
-      if (
-        walletCookie?.activeWallet &&
-        currentUser.accountWallet &&
-        walletCookie?.activeWallet !== currentUser.accountWallet
-      ) {
-        toast.error("Detected Sign In With Different Wallet!");
-        sendSignInRequest();
-      }
-      if (walletCookie?.activeWallet && currentUser.accountWallet) {
-        toast.error("Detected Sign In With Different Wallet!");
-        sendSignInRequest();
-      }
-    }
+    // if (!currentUser?.email && !currentUser?.annonymous) {
+    //   if (!currentUser.accountWallet) {
+    //     toast.error(
+    //       "You are not signed in! You are being redirected to sign in page!"
+    //     );
+    //     router.push("/auth/walletsignin");
+    //     return;
+    //   }
+    //   let cookies = document?.cookie;
+    //   // check if foxxi_user_wallet cookie exists
+    //   let walletCookie = cookies
+    //     ?.split("foxxi_user_wallet=")?.[1]
+    //     ?.split(";")?.[0];
+    //   if (walletCookie) {
+    //     walletCookie = JSON.parse(walletCookie);
+    //   }
+    //   if (
+    //     walletCookie?.activeWallet &&
+    //     currentUser.accountWallet &&
+    //     walletCookie?.activeWallet !== currentUser.accountWallet
+    //   ) {
+    //     toast.error("Detected Sign In With Different Wallet!");
+    //     sendSignInRequest();
+    //   }
+    //   if (walletCookie?.activeWallet && currentUser.accountWallet) {
+    //     toast.error("Detected Sign In With Different Wallet!");
+    //     sendSignInRequest();
+    //   }
+    // }
   }, [account]);
 
   const fetchUserProfile = async function () {
