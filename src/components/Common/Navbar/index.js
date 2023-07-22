@@ -195,7 +195,12 @@ export function Navbar({ currentUser, CustomLogo }) {
                   <Button size="xs" onClick={signout}>
                     Sign Out
                   </Button>
-                  <Button size="xs" href="#">
+                  <Button
+                    size="xs"
+                    href="https://bitverse.foxxi.co/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Image
                       src={BitVerseLogo}
                       alt="BitVerse"
