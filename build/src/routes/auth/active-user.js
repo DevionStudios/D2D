@@ -20,13 +20,23 @@ const currentuser_1 = require("../../middlewares/currentuser");
 const router = express_1.default.Router();
 exports.activeUserRouter = router;
 router.get("/api/users/active", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
-        const existingUser = yield User_1.User.find().sort({ updatedAt: -1 }).limit(3);
-        if (!existingUser) {
+        const activeUsersRaw = yield User_1.User.find().sort({ updatedAt: -1 }).limit(5);
+        if (!activeUsersRaw) {
             throw new common_1.BadRequestError("No Users found!");
         }
-        console.log("Active Users", existingUser);
-        res.status(200).send(existingUser);
+        const currentUser = yield User_1.User.findOne({ email: (_a = req.foxxiUser) === null || _a === void 0 ? void 0 : _a.email });
+        const activeUsers = [];
+        if (!currentUser)
+            throw new common_1.BadRequestError("Not authorized!");
+        activeUsersRaw.forEach((user) => {
+            var _a;
+            if (!((_a = currentUser.following) === null || _a === void 0 ? void 0 : _a.includes(user.id))) {
+                activeUsers.push(user);
+            }
+        });
+        res.status(200).send(activeUsers);
     }
     catch (err) {
         console.log(err);
