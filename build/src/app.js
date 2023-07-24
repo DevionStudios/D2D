@@ -89,6 +89,7 @@ const get_user_ordinals_from_db_1 = require("./routes/tokens/get-user-ordinals-f
 const get_user_stamps_from_db_1 = require("./routes/tokens/get-user-stamps-from-db");
 const like_ordinal_1 = require("./routes/tokens/like-ordinal");
 const like_stamp_1 = require("./routes/tokens/like-stamp");
+const get_follower_following_1 = require("./routes/auth/get-follower-following");
 const app = (0, express_1.default)();
 exports.app = app;
 app.use((0, cors_1.default)({
@@ -125,6 +126,7 @@ app.use(reset_password_1.resetPasswordRouter);
 app.use(update_password_1.updatePasswordRouter);
 app.use(create_post_1.createPostRouter);
 app.use(get_post_by_id_1.getPostRouter);
+app.use(get_follower_following_1.getFollowerFollowingRouter);
 app.use(get_trending_post_1.getTrendingPostsRouter);
 app.use(get_user_posts_1.getUserPostsRouter);
 app.use(update_post_1.updatePostRouter);
