@@ -111,7 +111,7 @@ export function Step2({ currentUser }) {
         <div className="px-5 py-10">
           <Input
             {...form.register("walletAddress")}
-            label="Funding Wallet Address"
+            label="Airdrop Address"
             placeholder="Your Wallet Address"
           />
         </div>

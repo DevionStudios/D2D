@@ -248,7 +248,7 @@ export function Preferences({ currentUser }) {
               Claim Token
             </Button>
           </div>
-          <div className="flex items-center justify-between">
+          {/* <div className="flex items-center justify-between">
             <span className="flex-grow flex flex-col">
               <label className="text-sm font-medium dark:text-white text-gray-900">
                 Import Bitcoin Wallet Stamps
@@ -299,8 +299,8 @@ export function Preferences({ currentUser }) {
             >
               {loading ? "Loading..." : "Import Stamps"}
             </Button>
-          </div>
-          <div className="flex items-center justify-between">
+          </div> */}
+          {/* <div className="flex items-center justify-between">
             <span className="flex-grow flex flex-col">
               <label className="text-sm font-medium dark:text-white text-gray-900">
                 Import Bitcoin Wallet Ordinals
@@ -351,7 +351,7 @@ export function Preferences({ currentUser }) {
             >
               {loading ? "Loading..." : "Import Ordinals"}
             </Button>
-          </div>
+          </div> */}
           <div className="flex items-center justify-between">
             <span className="flex-grow flex flex-col">
               <label className="text-sm font-medium dark:text-white text-gray-900">
