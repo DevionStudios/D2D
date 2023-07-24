@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import router from "next/router";
 import { object, z } from "zod";
 import "emoji-mart/css/emoji-mart.css";
@@ -11,6 +11,10 @@ import Modal from "../ui/Modal";
 import { LoadingFallback } from "../ui/Fallbacks/LoadingFallback";
 import { Heading } from "../ui/Heading";
 import axios from "axios";
+import { MentionsInput, Mention } from "react-mentions";
+import mentionStyle from "./mentionStyles";
+import mentionsInputStyle from "./mentionInputStyles";
+import merge from "lodash/merge";
 import { toast } from "react-hot-toast";
 const oneOf = (keys) => (val) => {
   for (const k of keys) {
@@ -20,16 +24,13 @@ const oneOf = (keys) => (val) => {
 };
 
 export const CreateStorySchema = object({
-  caption: z.string().min(1, "Caption is required.").max(420),
   media: z.any(),
-}).refine(oneOf(["caption", "media"]), {
-  message: "Please include a text body for stories without images.",
-  path: ["caption"],
 });
 
 export function CreateStoryModal({ currentUser, isOpen, setIsOpen }) {
   const [loading, setLoading] = useState(false);
-
+  const [mentionData, setMentionData] = useState([]);
+  const [caption, setCaption] = useState();
   const createStory = async ({ variables }) => {
     //story data
     const { input } = variables;
@@ -69,7 +70,53 @@ export function CreateStoryModal({ currentUser, isOpen, setIsOpen }) {
   function handleEmojiPick(emote) {
     form.setValue("caption", form.watch("caption") + emote.native);
   }
-
+  const handleCaptionChange = (e) => {
+    setCaption(handleCaptionChange(e.target.value));
+  };
+  let customStyle = merge({}, mentionsInputStyle, {
+    input: {
+      height: 80,
+      overflowX: "hidden",
+      boxSizing: "border-box",
+      overflowY: "visible",
+    },
+    highlighter: {
+      height: 80,
+      overflowX: "hidden",
+      boxSizing: "border-box",
+    },
+  });
+  const getFollowersAndFollowing = async () => {
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/get/social`;
+    try {
+      const response = await axios.get(url, {
+        headers: {
+          cookies: document.cookie,
+        },
+      });
+      const newData = [];
+      const followers = response.data?.followers;
+      const following = response.data?.following;
+      for (let i = 0; i < followers.length; i++) {
+        newData.push({
+          id: followers[i].username,
+          display: followers[i].username,
+        });
+      }
+      for (let i = 0; i < following.length; i++) {
+        newData.push({
+          id: following[i].username,
+          display: following[i].username,
+        });
+      }
+      setMentionData(newData);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  useEffect(() => {
+    getFollowersAndFollowing();
+  }, []);
   return (
     <Modal
       isOpen={isOpen}
@@ -82,24 +129,47 @@ export function CreateStoryModal({ currentUser, isOpen, setIsOpen }) {
       <Form
         form={form}
         onSubmit={async (values) => {
-          await createStory({
-            variables: {
-              input: {
-                caption: values.caption,
-                media: values?.media?.[0],
+          if (values?.media?.[0] == undefined && caption?.length <= 0) {
+            return toast.error("Please select a media to post without text!");
+          } else
+            await createStory({
+              variables: {
+                input: {
+                  caption: caption,
+                  media: values?.media?.[0],
+                },
               },
-            },
-          });
+            });
         }}
       >
         <Card.Body className="space-y-5">
           <div className="relative">
             <div>
-              <TextArea
+              {/* <TextArea
                 label="Caption"
                 placeholder="Include body for your story."
                 {...form.register("caption")}
-              />
+              /> */}
+              <label>Caption</label>
+              <MentionsInput
+                value={caption}
+                onChange={(e) => setCaption(e.target.value)}
+                label="Caption"
+                style={customStyle}
+                a11ySuggestionsListLabel={"Suggested mentions"}
+                placeholder="Include body for your story."
+              >
+                <Mention
+                  trigger="@"
+                  data={mentionData}
+                  style={mentionStyle}
+                  markup="@__display__"
+                  appendSpaceOnAdd={true}
+                  displayTransform={(id, display) => {
+                    return "@" + display;
+                  }}
+                />
+              </MentionsInput>
             </div>
             <div className="left-3 flex space-x-3">
               <EmojiPicker onEmojiPick={handleEmojiPick} />

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import router from "next/router";
 import { object, z } from "zod";
 import { EmojiData } from "emoji-mart";
@@ -15,7 +15,11 @@ import { LoadingFallback } from "../ui/Fallbacks/LoadingFallback";
 import Modal from "../ui/Modal";
 import { Heading } from "../ui/Heading";
 import axios from "axios";
-
+import { MentionsInput, Mention } from "react-mentions";
+import mentionStyle from "./mentionStyles";
+import mentionsInputStyle from "./mentionInputStyles";
+import merge from "lodash/merge";
+import { toast } from "react-hot-toast";
 const oneOf = (keys) => (val) => {
   for (const k of keys) {
     if (val[k] !== undefined) return true;
@@ -24,31 +28,42 @@ const oneOf = (keys) => (val) => {
 };
 
 export const CreatePostSchema = object({
-  caption: z.string().nonempty("Caption is required.").max(420),
   media: z.any().optional(),
   gifLink: z.string().optional(),
   hashtags: z.string().optional(),
-}).refine(oneOf(["caption", "media"]), {
-  message: "Please include a text body for posts without images.",
-  path: ["caption"],
 });
 
 export function CreatePostModal({ currentUser, isOpen, setIsOpen }) {
   const [loading, setLoading] = useState(false);
+  const [mentionData, setMentionData] = useState([]);
   const [currentText, setCurrentText] = useState("");
+  const [caption, setCaption] = useState();
+  const handleCaptionChange = (e) => {
+    setCaption(handleCaptionChange(e.target.value));
+  };
+  let customStyle = merge({}, mentionsInputStyle, {
+    input: {
+      height: 80,
+      overflowX: "hidden",
+      boxSizing: "border-box",
+      overflowY: "visible",
+    },
+    highlighter: {
+      height: 80,
+      overflowX: "hidden",
+      boxSizing: "border-box",
+    },
+  });
   const createPost = async ({ variables }) => {
     //post data
     const { input } = variables;
 
     const content = input.caption;
-    console.log("prev content", content);
     const hashtags = [];
     content.replace(/(?<=#).*?(?=( |$))/g, (hashtag) => {
       hashtags.push("#" + hashtag);
       return "";
     });
-    console.log("content", content);
-    console.log("tags", hashtags);
     const formdata = new FormData();
     formdata.append("caption", input.caption);
     formdata.append("media", input.media);
@@ -116,6 +131,37 @@ export function CreatePostModal({ currentUser, isOpen, setIsOpen }) {
     setCurrentGIF(gif.images.original.url);
   }
 
+  const getFollowersAndFollowing = async () => {
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/get/social`;
+    try {
+      const response = await axios.get(url, {
+        headers: {
+          cookies: document.cookie,
+        },
+      });
+      const newData = [];
+      const followers = response.data?.followers;
+      const following = response.data?.following;
+      for (let i = 0; i < followers.length; i++) {
+        newData.push({
+          id: followers[i].username,
+          display: followers[i].username,
+        });
+      }
+      for (let i = 0; i < following.length; i++) {
+        newData.push({
+          id: following[i].username,
+          display: following[i].username,
+        });
+      }
+      setMentionData(newData);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  useEffect(() => {
+    getFollowersAndFollowing();
+  }, []);
   return (
     <Modal
       isOpen={isOpen}
@@ -128,21 +174,28 @@ export function CreatePostModal({ currentUser, isOpen, setIsOpen }) {
       <Form
         form={form}
         onSubmit={async (values) => {
-          await createPost({
-            variables: {
-              input: {
-                caption: values.caption,
-                media: values?.media?.[0],
-                gifLink: currentGIF,
+          if (
+            values?.media?.[0] == undefined &&
+            currentGIF == "" &&
+            caption?.length <= 0
+          ) {
+            return toast.error("Please select a media to post without text!");
+          } else
+            await createPost({
+              variables: {
+                input: {
+                  caption: caption,
+                  media: values?.media?.[0],
+                  gifLink: currentGIF,
+                },
               },
-            },
-          });
+            });
         }}
       >
         <Card.Body className="space-y-5">
           <div className="relative">
             <div>
-              <TextArea
+              {/* <TextArea
                 label="Caption"
                 placeholder="Include body for your post."
                 {...form.register("caption")}
@@ -150,7 +203,27 @@ export function CreatePostModal({ currentUser, isOpen, setIsOpen }) {
                   const capt = e.target.value;
                   const startOfAt = capt.lastIndexOf("@");
                 }}
-              />
+              /> */}
+              <label>Caption</label>
+              <MentionsInput
+                value={caption}
+                onChange={(e) => setCaption(e.target.value)}
+                label="Caption"
+                style={customStyle}
+                a11ySuggestionsListLabel={"Suggested mentions"}
+                placeholder="Include body for your post."
+              >
+                <Mention
+                  trigger="@"
+                  data={mentionData}
+                  style={mentionStyle}
+                  markup="@__display__"
+                  appendSpaceOnAdd={true}
+                  displayTransform={(id, display) => {
+                    return "@" + display;
+                  }}
+                />
+              </MentionsInput>
             </div>
             <div className="left-3 flex space-x-3">
               <EmojiPicker onEmojiPick={handleEmojiPick} />
