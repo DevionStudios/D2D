@@ -95,9 +95,7 @@ export function PostDropdown({
               icon={<HiOutlineShare />}
               onClick={async () => {
                 navigator.clipboard
-                  .writeText(
-                    `https://foxxi-frontend.vercel.app/post/${post.id}`
-                  )
+                  .writeText(`https://foxxi.social/post/${post.id}`)
                   .then(() => toast.success("Link copied to clipboard"));
               }}
             >
