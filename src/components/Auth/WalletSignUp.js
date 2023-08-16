@@ -31,10 +31,10 @@ export function WalletSignUp({ currentUser }) {
       ?.split(";")?.[0];
     if (walletCookie) {
       walletCookie = JSON.parse(walletCookie);
-    } else {
+    } else if (account) {
       return toast.error("Please select a wallet to sign up with!");
     }
-    if (!walletCookie?.activeWallet) {
+    if (!walletCookie?.activeWallet && !account) {
       return toast.error("Please select a wallet to sign up with!");
     }
 

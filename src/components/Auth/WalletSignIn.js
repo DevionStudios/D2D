@@ -29,12 +29,12 @@ export function WalletSignIn({ currentUser }) {
       ?.split(";")?.[0];
     if (walletCookie) {
       walletCookie = JSON.parse(walletCookie);
-    } else {
+    } else if (!account) {
       return toast.error("Please select a wallet to sign in with!");
     }
 
     // first check type
-    if (!walletCookie?.activeWallet)
+    if (!walletCookie?.activeWallet && !account)
       return toast.error("Please select a wallet to sign in with!");
     try {
       const res = await axios.post(
