@@ -11,6 +11,9 @@ import {
   HiOutlineGlobe,
   HiOutlineGlobeAlt,
 } from "react-icons/hi";
+
+import { FaRobot } from "react-icons/fa";
+
 import { Feed } from "src/components/Feed";
 import { TabbedLayout } from "../Navbar/TabbedLayout";
 import { IndeterminateProgress } from "src/components/ui/Progress";
@@ -81,6 +84,12 @@ export function FeedLayout({ currentUser }) {
       icon: HiOutlineMail,
       name: "Messages",
       id: "/messages",
+    },
+    {
+      component: <Redirect pageName={"/messages"} />,
+      icon: FaRobot,
+      name: "ChatBot",
+      id: "/chat/bot",
     },
     {
       component: (

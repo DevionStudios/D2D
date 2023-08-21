@@ -1,15 +1,21 @@
-import React, { useState } from "react";
-import ChatInput from "./ChatInput";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import { useRouter } from "next/router";
 import OpenAI from "openai";
 
-const BotChatContainer = () => {
-  const [messages, setMessages] = useState([]);
+import ChatInput from "./ChatInput";
+import { Button } from "../ui/Button";
 
-  const apiKey = process.env.OPENAI_API_KEY;
+const BotChatContainer = () => {
+  const router = useRouter();
+
+  const [messages, setMessages] = useState([]);
+  const [botResponse, setBotResponse] = useState();
+
+  const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
 
   let openai = new OpenAI({
-    apiKey: "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",
+    apiKey: apiKey,
     dangerouslyAllowBrowser: true,
   });
 
@@ -23,26 +29,40 @@ const BotChatContainer = () => {
         messages: [{ role: "user", content: message }],
         model: "gpt-3.5-turbo",
       };
-      const completion = await openai.chat.completions.create(params);
+      const completion = (await openai.chat.completions.create(params))
+        .choices[0].message.content;
 
-      console.log("Answer: ", completion);
-
-      msgs.push({
-        fromSelf: false,
-        message: completion.choices[0].message.content,
-      });
-      setMessages(msgs);
+      setBotResponse(completion);
     } catch (e) {
       console.log(e);
       toast.error(e.message);
     }
   };
 
+  useEffect(() => {
+    if (!botResponse) return;
+
+    const msgs = [...messages];
+
+    msgs.push({
+      fromSelf: false,
+      message: botResponse,
+    });
+    setMessages(msgs);
+  }, [botResponse]);
+
   return (
     <>
       <div className="chatcontainer">
         <div>
           <h1 className="chatheader">
+            <Button
+              className={"w-24 float-left"}
+              variant="dark"
+              onClick={() => router.back()}
+            >
+              ← Back
+            </Button>
             Direct Messages With <i>ChatBot</i>
           </h1>
         </div>
