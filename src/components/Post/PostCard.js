@@ -382,7 +382,7 @@ export function PostCard({ id, username, currentUser }) {
                       variant="dark"
                       onClick={async () => {
                         navigator.clipboard
-                          .writeText(`https://foxxi.vercel.app/post/${data.id}`)
+                          .writeText(`https://foxxi.social/post/${data.id}`)
                           .then(() =>
                             toast.success("Link copied to clipboard")
                           );
