@@ -63,7 +63,7 @@ const BotChatContainer = () => {
             >
               ← Back
             </Button>
-            Direct Messages With <i>ChatBot</i>
+            Direct Messages With <i>Foxxi AI</i>
           </h1>
         </div>
         <div className="messages" id="msg">

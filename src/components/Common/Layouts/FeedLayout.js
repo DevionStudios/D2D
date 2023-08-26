@@ -88,7 +88,7 @@ export function FeedLayout({ currentUser }) {
     {
       component: <Redirect pageName={"/messages"} />,
       icon: FaRobot,
-      name: "ChatBot",
+      name: "Foxxi AI",
       id: "/chat/bot",
     },
     {
