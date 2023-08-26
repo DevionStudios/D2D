@@ -131,10 +131,7 @@ export function TabbedLayout({ navigation, currentUser }) {
               {navigation && navigation.length > 0 && (
                 <Tab.List className="space-y-2">
                   {navigation.map((item, index) => {
-                    if (
-                      item.name == "Connect Wallet" ||
-                      item.name == "Foxxi AI"
-                    ) {
+                    if (item.name == "Connect Wallet") {
                       if (currentUser.annonymous) return null;
                       return (
                         <div
@@ -293,7 +290,7 @@ export function TabbedLayout({ navigation, currentUser }) {
                       item.name === "Messages" ||
                       item.name === "Your Feed" ||
                       item.name === "Web3 Gallery" ||
-                      item.name == "Foxxi AI"
+                      item.name === "Foxxi AI"
                     ) {
                       if (currentUser.annonymous) return null;
                     }
