@@ -118,7 +118,7 @@ flutter:
     - lib/assets/foxxiSplash.riv
     - lib/assets/foxxiLogo.png
     - lib/assets/foxxiLogoText.png
-    - lib/.env
+    - .env
 
 
 
