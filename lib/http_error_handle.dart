@@ -23,13 +23,19 @@ void httpErrorHandle({
       break;
     case 400:
       dev.log(response.statusCode.toString(), name: "Response Status Code");
+      dev.log(response.body.toString(), name: 'Response Status Body');
 
       break;
     case 500:
       dev.log(response.statusCode.toString(), name: "Response Status Code ");
+      dev.log(response.body.toString(), name: 'Response Status Body');
+      showSnackBar(context, 'Something went wrong');
+
       break;
     case 501:
       dev.log(response.statusCode.toString(), name: "Response Status Code ");
+      dev.log(response.body.toString(), name: 'Response Status Body');
+      showSnackBar(context, 'Something went wrong');
 
       break;
     default:
