@@ -345,10 +345,9 @@ div.css-h5ends {
 .messages {
   overflow: auto;
   height: 60vh;
-  padding: 1rem;
+  padding: 1.5rem;
   margin-top: 2%;
   border: rgba(0, 0, 0, 0.541) solid 0.5px;
-  border-radius: 10px;
 }
 .messages::-webkit-scrollbar {
   width: 1px;
