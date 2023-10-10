@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { Password } from "../services/password";
 import { PostDoc } from "./Post";
 import { StoryDoc } from "./Story";
+import { CommunityDoc } from "./Community";
 
 interface UserAttrs {
   email?: string;
@@ -26,6 +27,7 @@ interface UserAttrs {
   reports?: string[];
   isBanned?: boolean;
   preferences?: string[];
+  joinedCommunities?: CommunityDoc[];
 }
 
 interface UserModel extends mongoose.Model<UserDoc> {
@@ -58,6 +60,7 @@ export interface UserDoc extends mongoose.Document {
   reports?: string[];
   isBanned?: boolean;
   preferences?: string[];
+  joinedCommunities?: CommunityDoc[];
 }
 
 const userSchema = new mongoose.Schema(
@@ -171,6 +174,15 @@ const userSchema = new mongoose.Schema(
         {
           type: String,
           default: "",
+        },
+      ],
+      default: [],
+    },
+    joinedCommunities: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Community",
         },
       ],
       default: [],

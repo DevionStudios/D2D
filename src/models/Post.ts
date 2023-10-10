@@ -1,10 +1,16 @@
 import mongoose from "mongoose";
 import { CommentDoc } from "./Comment";
 import { UserDoc } from "./User";
+import { CommunityDoc } from "./Community";
 
 interface media {
   url: string;
   mediatype: string;
+}
+
+export enum PostType {
+  CommunityPost = "CommunityPost",
+  UserPost = "UserPost",
 }
 
 interface PostAttrs {
@@ -20,6 +26,8 @@ interface PostAttrs {
   createdAt?: Date;
   reports?: string[];
   originalPostId?: string;
+  type?: PostType;
+  communityId?: CommunityDoc;
 }
 
 interface PostModel extends mongoose.Model<PostDoc> {
@@ -40,6 +48,8 @@ export interface PostDoc extends mongoose.Document {
   twitterId?: string;
   reports?: string[];
   originalPostId?: string;
+  type?: PostType;
+  communityId?: CommunityDoc;
 }
 
 const PostSchema = new mongoose.Schema(
@@ -111,6 +121,14 @@ const PostSchema = new mongoose.Schema(
     originalPostId: {
       type: String,
       default: "",
+    },
+    type: {
+      type: String,
+      default: PostType.UserPost,
+    },
+    communityId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Community",
     },
   },
   {
