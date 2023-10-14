@@ -4,13 +4,13 @@ import { PostDoc } from "./Post";
 
 interface CommunityAttrs {
   publicName: string;
-  name: string;
-  members: UserDoc[];
-  creator: string;
+  name?: string;
+  members?: UserDoc[];
+  creator?: UserDoc;
   description?: string;
   avatar?: string;
   banner?: string;
-  isSafeForWork: boolean;
+  isSafeForWork?: boolean;
   rules?: string[];
   posts?: PostDoc[];
 }
@@ -30,20 +30,24 @@ export interface MemberAttrs {
   role: Role;
 }
 export interface CommunityDoc extends mongoose.Document {
-  publicName: string;
-  name: string;
-  creator: UserDoc;
-  members: MemberAttrs[];
+  publicName?: string;
+  name?: string;
+  creator?: UserDoc;
+  members?: MemberAttrs[];
   posts?: PostDoc[];
   description?: string;
   avatar?: string;
   banner?: string;
-  isSafeForWork: boolean;
+  isSafeForWork?: boolean;
   rules?: string[];
 }
 
 const CommunitySchema = new mongoose.Schema(
   {
+    creator: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
     publicName: {
       type: String,
       required: true,
@@ -115,9 +119,38 @@ CommunitySchema.statics.build = (attrs: CommunityAttrs) => {
   return new Community(attrs);
 };
 
+CommunitySchema.pre("save", async function (done) {
+  if (this.isNew) {
+    const publicName = this.get("publicName");
+    const slug = generateSlug(publicName);
+    const number = await Community.countDocuments({ publicName });
+    const finalSlug = number > 0 ? `${slug}-${number}` : slug;
+    this.set("name", finalSlug);
+    this.members.push({
+      userId: this.get("creator"),
+      role: Role.Admin,
+    });
+  }
+  done();
+});
+
 const Community = mongoose.model<CommunityDoc, CommunityModel>(
   "Community",
   CommunitySchema
 );
+
+function generateSlug(text: string): string {
+  return text
+    .toString()
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w\-]+/g, "")
+    .replace(/\-\-+/g, "-")
+    .replace(/^-+/, "")
+    .replace(/-+$/, "");
+}
+
+
 
 export { Community, CommunitySchema };
