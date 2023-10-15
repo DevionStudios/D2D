@@ -1,1 +1,0 @@
-//make any member admin of a community

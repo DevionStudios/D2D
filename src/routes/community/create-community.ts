@@ -50,6 +50,7 @@ router.put(
         rules,
         avatar: avatarImageUrl,
         banner: bannerImageUrl,
+        members: [],
       });
 
       await newCommunity.save();

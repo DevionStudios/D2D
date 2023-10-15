@@ -1,3 +1,5 @@
+//change publicName, rules, description, avatar or banner of a community 
+
 import { Community } from "./../../models/Community";
 import { BadRequestError } from "@devion/common";
 import express, { Request, Response } from "express";
@@ -61,7 +63,7 @@ router.put(
         );
       }
       // Update community details if they are different, otherwise fallback to existing values
-      if (publicName?.length > 0) {
+      if (publicName?.length > 0) {//if publicName is being changed, then also modify the name accordingly
         community.publicName = publicName;
         const slug = publicName
           .toString()
@@ -92,4 +94,4 @@ router.put(
   }
 );
 
-export { router as createCommunityRouter };
+export { router as editCommunityRouter };

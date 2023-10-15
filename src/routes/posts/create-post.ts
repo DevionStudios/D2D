@@ -8,6 +8,7 @@ import cloudinary from "../../config/cloudinaryConfig";
 import upload from "../../config/multer.filefilter.config";
 import { currentUser } from "../../middlewares/currentuser";
 import path from "path";
+import { Community } from "../../models/Community";
 
 const router = express.Router();
 
@@ -17,7 +18,7 @@ router.post(
   upload.single("media"),
   async (req: Request, res: Response) => {
     try {
-      const { caption, gifLink, hashtags } = req.body;
+      const { caption, gifLink, hashtags, communityId } = req.body;
       console.log(hashtags);
       let media;
       if (req.file) {
@@ -67,6 +68,21 @@ router.post(
         hashtags: hashtags || [],
         author: existingUser as UserDoc,
       });
+      if (communityId) {
+        const existingCommunity = await Community.findOne({ _id: communityId });
+        if (!existingCommunity) {
+          throw new BadRequestError("Community not found!");
+        }
+        //check if user is a member of the community
+        const isMember = existingCommunity.members?.some(
+          (member) =>
+            member.userId === existingUser.id && member.role !== "banned"
+        );
+        if (!isMember) {
+          throw new BadRequestError("You are not a member of this community!");
+        }
+        post.communityId = existingCommunity.id;
+      }
       existingUser?.posts!.push(post);
 
       await post.save();
