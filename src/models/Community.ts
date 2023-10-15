@@ -5,7 +5,7 @@ import { PostDoc } from "./Post";
 interface CommunityAttrs {
   publicName: string;
   name?: string;
-  members?: UserDoc[];
+  members: UserDoc[];
   creator?: UserDoc;
   description?: string;
   avatar?: string;
@@ -33,7 +33,7 @@ export interface CommunityDoc extends mongoose.Document {
   publicName?: string;
   name?: string;
   creator?: UserDoc;
-  members?: MemberAttrs[];
+  members: MemberAttrs[];
   posts?: PostDoc[];
   description?: string;
   avatar?: string;
