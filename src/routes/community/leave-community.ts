@@ -28,13 +28,13 @@ router.put(
       }
       //check if user is already not a member of the community
       let existingMember = -1;
-      existingMember = community.members?.findIndex(
+      existingMember = community.members.findIndex(
         (member) => member.userId.toString() === existingUser.id.toString()
       );
       if (existingMember == -1) {
         throw new BadRequestError("You are not a member of this community!");
       }
-      community.members?.splice(existingMember, 1);
+      community.members.splice(existingMember, 1);
       await community.save();
       res.status(201).send({
         message: "member has left the community",
