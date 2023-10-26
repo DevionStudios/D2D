@@ -77,3 +77,4 @@ router.put(
     }
   }
 );
+export { router as moderateCommunityMembersRouter };
