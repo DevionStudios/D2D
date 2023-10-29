@@ -1,5 +1,10 @@
-import React, { useState } from "react";
-import { resetWalletCookie, setWalletCookie } from "../../utils/getCookie";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import {
+  getWalletCookie,
+  resetWalletCookie,
+  setWalletCookie,
+} from "../../utils/getCookie";
 import Image from "next/image";
 import { toast } from "react-hot-toast";
 const ConnectUnisatWallet = ({ currentUser, text, image, setClose }) => {
@@ -27,6 +32,7 @@ const ConnectUnisatWallet = ({ currentUser, text, image, setClose }) => {
 
         setUserAddress(accounts[0]);
         toast.success("Connected to Unisat");
+        // await updateUnisatWalletAddress(accounts[0]);
         setClose(false);
       } catch (e) {
         console.log("connect failed");

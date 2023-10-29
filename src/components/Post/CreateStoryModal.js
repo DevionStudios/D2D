@@ -55,6 +55,7 @@ export function CreateStoryModal({ currentUser, isOpen, setIsOpen }) {
         }
       );
       //route to feed
+      setLoading(false);
       toast.success("Yayy! Story posted");
       router.push(`/stories/${currentUser.username}`);
     } catch (e) {

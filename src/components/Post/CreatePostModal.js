@@ -108,6 +108,7 @@ export function CreatePostModal({ currentUser, isOpen, setIsOpen }) {
       });
 
       //route to feed
+      setLoading(false);
       setIsOpen(false);
       // router.push("/feed");
 
@@ -195,15 +196,6 @@ export function CreatePostModal({ currentUser, isOpen, setIsOpen }) {
         <Card.Body className="space-y-5">
           <div className="relative">
             <div>
-              {/* <TextArea
-                label="Caption"
-                placeholder="Include body for your post."
-                {...form.register("caption")}
-                onChange={(e) => {
-                  const capt = e.target.value;
-                  const startOfAt = capt.lastIndexOf("@");
-                }}
-              /> */}
               <label>Caption</label>
               <MentionsInput
                 value={caption}
@@ -262,7 +254,7 @@ export function CreatePostModal({ currentUser, isOpen, setIsOpen }) {
         </Card.Body>
         <Card.Footer className="flex justify-end">
           <Form.SubmitButton size="lg" disabled={loading}>
-            Upload
+            Post
           </Form.SubmitButton>
         </Card.Footer>
       </Form>
