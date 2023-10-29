@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
-import {
-  setWalletCookie,
-  resetWalletCookie,
-  getWalletCookie,
-} from "../../utils/getCookie";
+import { setWalletCookie, resetWalletCookie } from "../../utils/getCookie";
 import Image from "next/image";
 import { toast } from "react-hot-toast";
-const ConnectDpalWallet = ({ text, image }) => {
+const ConnectDpalWallet = ({ text, image, setClose }) => {
   const [doge, setDoge] = useState(null);
   const [userAddress, setUserAddress] = useState(null);
 
@@ -44,6 +40,9 @@ const ConnectDpalWallet = ({ text, image }) => {
         setWalletCookie(document, {
           activeWallet: userAddress,
         });
+        toast.success("Connected to Dpal");
+
+        setClose(false);
       }
     }
   }
@@ -51,23 +50,25 @@ const ConnectDpalWallet = ({ text, image }) => {
   // check isEnabled
   if (doge && doge.isEnabled() && userAddress) {
     return (
-      <div>
-        {image ? <Image src={image} alt="Dpal" width={30} height={30} /> : null}
-        <button className={text || ""} onClick={disconnect}>
-          {userAddress.toString()?.slice(0, 5) || "Disconnect Dpal"}
-          {userAddress && "..."}
-        </button>
-      </div>
+      <button className={text || ""} onClick={disconnect}>
+        {image ? (
+          <Image src={image} alt="Dpal" width={"60%"} height={"60%"} />
+        ) : null}
+        <br />
+        {userAddress.toString()?.slice(0, 5) || "Disconnect Dpal"}
+        {userAddress && "..."}
+      </button>
     );
   }
 
   return (
-    <div>
-      {image ? <Image src={image} alt="Dpal" width={30} height={30} /> : null}
-      <button className={text || ""} onClick={connect}>
-        Connect Dpal
-      </button>
-    </div>
+    <button className={text || ""} onClick={connect}>
+      {image ? (
+        <Image src={image} alt="Dpal" width={"60%"} height={"60%"} />
+      ) : null}
+      <br />
+      Connect Dpal
+    </button>
   );
 };
 

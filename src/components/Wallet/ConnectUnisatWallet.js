@@ -1,63 +1,10 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import {
-  getWalletCookie,
-  resetWalletCookie,
-  setWalletCookie,
-} from "../../utils/getCookie";
+import React, { useState } from "react";
+import { resetWalletCookie, setWalletCookie } from "../../utils/getCookie";
 import Image from "next/image";
 import { toast } from "react-hot-toast";
-const ConnectUnisatWallet = ({ currentUser, text, image }) => {
+const ConnectUnisatWallet = ({ currentUser, text, image, setClose }) => {
   const [unisat, setUnisat] = useState(null);
   const [userAddress, setUserAddress] = useState(null);
-
-  // async function updateUnisatWalletAddress(address) {
-  //   if (!currentUser.unisatAddress) {
-  //     const formdata = new FormData();
-  //     formdata.append("unisatAddress", address);
-
-  //     try {
-  //       const res = await axios.put(
-  //         `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/update`,
-  //         formdata,
-  //         {
-  //           headers: {
-  //             cookies: document.cookie,
-  //           },
-  //         }
-  //       );
-  //       console.log("res: ", res);
-  //     } catch (e) {
-  //       console.log("Error updating unisat address: ", e);
-  //     }
-  //   } else {
-  //     console.log("User already has a unisat address");
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   async function loadUnisat() {
-  //     if (typeof window.unisat !== "undefined") {
-  //       setUnisat(window.unisat);
-
-  //       try {
-  //         let accounts = await window.unisat.getAccounts();
-  //         setUserAddress(accounts[0]);
-  //         resetWalletCookie();
-  //         setWalletCookie(document, {
-  //           activeWallet: userAddress,
-  //           ordinalWalletAddress: userAddress,
-  //           stampWalletAddress: userAddress,
-  //         });
-
-  //         console.log("connect success", accounts[0]);
-  //       } catch (error) {
-  //         console.log("connect failed");
-  //       }
-  //     }
-  //   }
-  //   loadUnisat();
-  // }, [unisat]);
 
   async function disconnect() {
     setUserAddress("Connect Unisat");
@@ -80,7 +27,7 @@ const ConnectUnisatWallet = ({ currentUser, text, image }) => {
 
         setUserAddress(accounts[0]);
         toast.success("Connected to Unisat");
-        // await updateUnisatWalletAddress(accounts[0]);
+        setClose(false);
       } catch (e) {
         console.log("connect failed");
       }
@@ -90,23 +37,23 @@ const ConnectUnisatWallet = ({ currentUser, text, image }) => {
   // check isEnabled
   if (userAddress) {
     return (
-      <div>
-        {image ? <Image src={image} alt="Dpal" width={30} height={30} /> : null}
-        <button className={text || ""} onClick={disconnect}>
-          {userAddress?.toString()?.slice(0, 5) || "Disconnect Unisat"}
-          {userAddress && "..."}
-        </button>
-      </div>
+      <button className={text || ""} onClick={disconnect}>
+        {image ? (
+          <Image src={image} alt="Dpal" width="60%" height="60%" />
+        ) : null}
+        <br />
+        {userAddress?.toString()?.slice(0, 5) || "Disconnect Unisat"}
+        {userAddress && "..."}
+      </button>
     );
   }
 
   return (
-    <div>
-      {image ? <Image src={image} alt="Dpal" width={30} height={30} /> : null}
-      <button className={text || ""} onClick={connect}>
-        Connect Unisat
-      </button>
-    </div>
+    <button className={text || ""} onClick={connect}>
+      {image ? <Image src={image} alt="Dpal" width="60%" height="60%" /> : null}
+      <br />
+      Connect Unisat
+    </button>
   );
 };
 
