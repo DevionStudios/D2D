@@ -65,16 +65,15 @@ function CardsLayout({ currentUser, user }) {
       </div>
 
       {activeTab === "Stamps" ? (
-        <div className="bg-transparent p-4 grid lg:grid-cols-4 lg:gap-3 sm:grid-cols-2 sm:gap-2 md:grid-cols-3 md:gap-3">
+        <div className="bg-transparent p-4 grid grid-cols-1 gap-2 lg:grid-cols-5 lg:gap-8 sm:grid-cols-2 sm:gap-2 md:grid-cols-3 md:gap-3">
           {stamps?.length <= 0
             ? "There Are No Stamps in the Wallet."
             : stamps?.map((stamp, index) => {
                 return <Card cardType={"stamps"} data={stamp} key={index} />;
               })}
-          {/* <Card cardType={"stamps"} data={stamps} /> */}
         </div>
       ) : (
-        <div className="bg-transparent p-4 grid lg:grid-cols-4 lg:gap-3 sm:grid-cols-2 sm:gap-2 md:grid-cols-3 md:gap-3">
+        <div className="bg-transparent p-4 grid grid-cols-1 gap-2 xl:grid-cols-6 xl:gap-6 lg:grid-cols-5 lg:gap-6 sm:grid-cols-2 sm:gap-2 md:grid-cols-3 md:gap-3">
           {ordinals?.length <= 0
             ? "There Are No Ordinals in the Wallet."
             : ordinals?.map((ordinal, index) => {
@@ -82,7 +81,6 @@ function CardsLayout({ currentUser, user }) {
                   <Card cardType={"ordinals"} data={ordinal} key={index} />
                 );
               })}
-          {/* <Card cardType={"ordinals"} data={ordinals} /> */}
         </div>
       )}
     </div>
