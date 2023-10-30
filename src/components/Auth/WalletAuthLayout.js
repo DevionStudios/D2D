@@ -5,17 +5,14 @@ import { Footer } from "../Common/Footer";
 import { GradientBar } from "../ui/GradientBar";
 import Logo from "../../assets/Foxxi Logo.png";
 import Image from "next/image";
-import { ConnectButton } from "@web3uikit/web3";
-import ConnectHiroWallet from "../../components/Wallet/ConnectHiroWallet";
-import ConnectDpalWallet from "../../components/Wallet/ConnectDpalWallet";
-import ConnectUnisatWallet from "../../components/Wallet/ConnectUnisatWallet";
-import { setWalletCookie, resetWalletCookie } from "../../utils/getCookie";
 import { MultiWalletModal } from "../../components/Wallet/MultiWalletModal";
 import { useState } from "react";
 import { useMoralis } from "react-moralis";
+
 export function WalletAuthLayout({ title, subtitle, children, currentUser }) {
   const [isOpen, setIsOpen] = useState(false);
   const { account, deactivateWeb3 } = useMoralis();
+
   return (
     <main className="flex flex-col justify-center mx-auto w-full max-w-xl min-h-screen py-10">
       <MultiWalletModal
@@ -40,7 +37,7 @@ export function WalletAuthLayout({ title, subtitle, children, currentUser }) {
             <div
               className="bg-gradient-to-r from-orange-500 to-orange-300 p-2"
               style={{
-                width: "9.6rem",
+                width: "10.8rem",
                 height: "2.6rem",
                 borderRadius: "1rem",
               }}
@@ -50,47 +47,9 @@ export function WalletAuthLayout({ title, subtitle, children, currentUser }) {
                 setIsOpen(true);
               }}
             >
-              Connect Wallet
-              {/* <ConnectHiroWallet text="text-blue" currentUser={currentUser} /> */}
+              Connect Wallet first
             </div>
           </div>
-          {/* <div
-            className="inline-flex items-center mb-1 space-x-3 my-3"
-            onClick={(e) => {
-              e.preventDefault();
-            }}
-          >
-            <div
-              className="bg-gradient-to-r from-orange-500 to-orange-300 p-2"
-              style={{
-                width: "9.6rem",
-                height: "2.6rem",
-                borderRadius: "1rem",
-              }}
-            >
-              <ConnectDpalWallet text={"text-blue"} />
-            </div>
-          </div> */}
-          {/* <div
-            className="inline-flex items-center mb-1 space-x-3 my-3"
-            onClick={(e) => {
-              e.preventDefault();
-            }}
-          >
-            <div
-              className="bg-gradient-to-r from-orange-500 to-orange-300 p-2"
-              style={{
-                width: "9.6rem",
-                height: "2.6rem",
-                borderRadius: "1rem",
-              }}
-            >
-              <ConnectUnisatWallet
-                text={"text-blue"}
-                currentUser={currentUser}
-              />
-            </div>
-          </div> */}
         </div>
       </div>
       <Card

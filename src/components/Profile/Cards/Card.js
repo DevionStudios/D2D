@@ -37,10 +37,10 @@ function Card({ data, cardType }) {
   const placeHolderOrdinal =
     "https://www.enbri.org/wp-content/themes/enbri/assets/images/no-image.png";
   return (
-    <div className="max-w-xs rounded-lg overflow-hidden border border-yellow-200 bg-orange-200 bg-opacity-10">
+    <div className=" max-w-xs w-48 h-48 rounded-lg overflow-hidden border border-yellow-200 bg-orange-200 bg-opacity-10">
       {cardType === "stamps" && (
-        <div style={{ width: 300, height: "auto" }}>
-          <div style={{ width: 300, height: "auto" }}>
+        <div style={{ width: 192, height: "auto" }}>
+          <div style={{ width: 192, height: "auto" }}>
             <Image
               src={
                 cardType === "stamps"
@@ -50,25 +50,25 @@ function Card({ data, cardType }) {
               alt={
                 cardType === "stamps" ? "Stamp Image" : "Ordinal Has No Image"
               }
-              width={300}
-              height={300}
+              width={192}
+              height={192}
             />
           </div>
         </div>
       )}
       {cardType === "ordinals" && (
-        <div style={{ width: 300, height: "auto" }}>
-          <div style={{ width: 300, height: "auto" }}>
+        <div style={{ width: 192, height: "auto" }}>
+          <div style={{ width: 192, height: "auto" }}>
             <Image
               src={ordinalImageURL || placeHolderOrdinal}
               alt={cardType === "ordinals" ? "Ordinal Image" : "No Image"}
-              width={300}
-              height={300}
+              width={192}
+              height={192}
             />
           </div>
         </div>
       )}
-      <div className="bg-transparent">
+      {/* <div className="bg-transparent">
         <div className="p-4">
           <div className="text-xs text-gray-800 dark:text-gray-300">
             {cardType === "stamps" ? (
@@ -371,7 +371,7 @@ function Card({ data, cardType }) {
             )}
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="flex justify-end mr-3">
         {/* <button
           className={`rounded-full p-3 mb-3 bg-orange-200`}

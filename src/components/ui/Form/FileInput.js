@@ -56,7 +56,7 @@ export function FileInput(props) {
         />
         <div
           className={clsx(
-            "border-2 h-20 border-gray-300 dark:border-gray-500 border-dashed rounded-md  flex justify-center  overflow-hidden",
+            "border-2 h-40 border-gray-300 dark:border-gray-500 border-dashed rounded-md  flex justify-center  overflow-hidden",
             isDragActive
               ? "bg-gray-400 dark:bg-gray-800"
               : "bg-gray-50 dark:bg-gray-800"
@@ -68,7 +68,7 @@ export function FileInput(props) {
                   backgroundRepeat: "no-repeat",
                   backgroundSize: "contain",
                   backgroundPosition: "center center",
-                  objectFit: "cover",
+                  objectFit: "contain",
                   backgroundColor: "rgba(0,0,0,0.1)",
                 }
               : {}
@@ -105,9 +105,10 @@ export function FileInput(props) {
                 return (
                   <div key={file.name}>
                     <img
-                      className="mx-auto object-cover"
+                      className="object-cover"
                       src={URL.createObjectURL(file)}
                       alt={file.name}
+                      style={{ height: "160px" }}
                     />
                   </div>
                 );

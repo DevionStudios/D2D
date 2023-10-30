@@ -111,7 +111,7 @@ export function LoginForm() {
         </Card>
       </div>
       <div>
-        <Card rounded="lg" className="mt-4">
+        {/* <Card rounded="lg" className="mt-4">
           <Card.Body>
             <span className="mr-1">Don’t want to join yet ?</span>
             <Link
@@ -121,7 +121,7 @@ export function LoginForm() {
               Browse Annonymously!
             </Link>
           </Card.Body>
-        </Card>
+        </Card> */}
       </div>
       <div>
         <Card rounded="lg" className="mt-4">

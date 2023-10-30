@@ -55,6 +55,7 @@ export function CreateStoryModal({ currentUser, isOpen, setIsOpen }) {
         }
       );
       //route to feed
+      setLoading(false);
       toast.success("Yayy! Story posted");
       router.push(`/stories/${currentUser.username}`);
     } catch (e) {
@@ -116,6 +117,10 @@ export function CreateStoryModal({ currentUser, isOpen, setIsOpen }) {
   };
   useEffect(() => {
     getFollowersAndFollowing();
+
+    // the following lines are to fix a bug where paste (ctrl + v) is not working when the caption is empty initially
+    setCaption(" ");
+    setCaption("");
   }, []);
   return (
     <Modal

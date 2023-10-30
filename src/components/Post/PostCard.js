@@ -11,7 +11,7 @@ import {
 } from "react-icons/hi";
 import { z } from "zod";
 import NextImage from "next/image";
-
+import { EmojiPicker } from "../ui/EmojiPicker";
 import { Interweave } from "../Interweave";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
@@ -30,6 +30,11 @@ import { SEO } from "../SEO";
 
 import axios from "axios";
 
+import { MentionsInput, Mention } from "react-mentions";
+import mentionStyle from "./mentionStyles";
+import mentionsInputStyle from "./mentionInputStyles";
+import merge from "lodash/merge";
+
 export const CommentSchema = z.object({
   caption: z.string().min(1, "Comment must be atleast 1 character long."),
 });
@@ -42,6 +47,9 @@ export function PostCard({ id, username, currentUser }) {
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState([]);
   const [comments, setComments] = useState([]);
+  const [mentionData, setMentionData] = useState([]);
+  const [caption, setCaption] = useState();
+
   let error,
     isLikeLoading = false;
 
@@ -56,17 +64,59 @@ export function PostCard({ id, username, currentUser }) {
       setLikes(res.data?.likes.length);
       setComments(res.data?.comments);
       setIsLiked(res.data?.likes?.includes(currentUser.id));
+
+      //mention data
+      const mentionData = [];
+
+      mentionData.push({
+        id: res.data?.author.username,
+        display: res.data?.author.username,
+      });
+
+      res.data?.comments?.map((edge, index) => {
+        // skip if already mentioned
+        if (mentionData.find((mention) => mention.id === edge.author.username))
+          return;
+
+        mentionData.push({
+          id: edge.author.username,
+          display: edge.author.username,
+        });
+      });
+
+      setMentionData(mentionData);
     } catch (e) {
       // console.log(e);
     }
     setLoading(false);
   };
   useEffect(() => {
+    setCaption(" ");
+    setCaption("");
+
     fetchPostData();
   }, []);
   const form = useZodForm({
     schema: CommentSchema,
   });
+
+  let customStyle = merge({}, mentionsInputStyle, {
+    input: {
+      height: 80,
+      overflowX: "hidden",
+      boxSizing: "border-box",
+      overflowY: "visible",
+    },
+    highlighter: {
+      height: 80,
+      overflowX: "hidden",
+      boxSizing: "border-box",
+    },
+  });
+
+  function handleEmojiPick(emote) {
+    form.setValue("caption", form.watch("caption") + emote.native);
+  }
 
   const toggleLike = async () => {
     try {
@@ -404,36 +454,69 @@ export function PostCard({ id, username, currentUser }) {
           </div>
         </div>
         {!currentUser.annonymous ? (
-          <Card
-            className="w-full bg-gray-25 dark:bg-black"
-            rounded="lg"
-            style={{}}
-          >
-            <Card.Body>
-              <Form
-                form={form}
-                onSubmit={async (values) => {
-                  await createComment({
-                    variables: {
-                      input: {
-                        caption: values.caption,
-                      },
-                    },
-                  });
-                }}
-              >
-                <TextArea
-                  label="Your reply"
-                  {...form.register("caption")}
-                  placeholder="An interesting comment"
-                />
-                <div className="flex justify-end space-x-2">
-                  <Form.SubmitButton>Reply</Form.SubmitButton>
-                  <Button variant="dark">Cancel</Button>
+          <>
+            <Form form={form} className="w-full">
+              <Card.Body>
+                <div className="relative">
+                  <div>
+                    <label className="">Your Reply</label>
+                    <MentionsInput
+                      value={caption}
+                      onChange={(e) => {
+                        setCaption(e.target.value);
+                      }}
+                      label="Caption"
+                      style={customStyle}
+                      a11ySuggestionsListLabel={"Suggested mentions"}
+                      placeholder="Write your interesting comment..."
+                    >
+                      <Mention
+                        trigger="@"
+                        data={mentionData}
+                        style={mentionStyle}
+                        markup="@__display__"
+                        appendSpaceOnAdd={true}
+                        displayTransform={(id, display) => {
+                          return "@" + display;
+                        }}
+                      />
+                    </MentionsInput>
+                    {/* <EmojiPicker onEmojiPick={handleEmojiPick} /> */}
+                  </div>
                 </div>
-              </Form>
-            </Card.Body>
-          </Card>
+              </Card.Body>
+              <div>
+                <Card.Footer className="flex justify-end space-x-2 ">
+                  <Form.SubmitButton
+                    disabled={loading}
+                    onClick={async () => {
+                      setLoading(true);
+
+                      await createComment({
+                        variables: {
+                          input: {
+                            caption: caption,
+                          },
+                        },
+                      });
+
+                      setLoading(false);
+                    }}
+                  >
+                    Reply
+                  </Form.SubmitButton>
+                  <Button
+                    variant="dark"
+                    onClick={() => {
+                      setCaption("");
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </Card.Footer>
+              </div>
+            </Form>
+          </>
         ) : null}
         <div className="w-full relative">
           <Comments
