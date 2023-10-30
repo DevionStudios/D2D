@@ -37,7 +37,7 @@ export function WalletAuthLayout({ title, subtitle, children, currentUser }) {
             <div
               className="bg-gradient-to-r from-orange-500 to-orange-300 p-2"
               style={{
-                width: "9.6rem",
+                width: "10.8rem",
                 height: "2.6rem",
                 borderRadius: "1rem",
               }}
@@ -47,7 +47,7 @@ export function WalletAuthLayout({ title, subtitle, children, currentUser }) {
                 setIsOpen(true);
               }}
             >
-              Connect Wallet
+              Connect Wallet first
             </div>
           </div>
         </div>
