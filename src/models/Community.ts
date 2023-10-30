@@ -102,6 +102,10 @@ const CommunitySchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    tags: {
+      type: [String],
+      default: [],
+    },
   },
   {
     toJSON: {
