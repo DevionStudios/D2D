@@ -11,7 +11,7 @@ import {
 } from "react-icons/hi";
 import { z } from "zod";
 import NextImage from "next/image";
-
+import { EmojiPicker } from "../ui/EmojiPicker";
 import { Interweave } from "../Interweave";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
@@ -67,6 +67,10 @@ export function PostCard({ id, username, currentUser }) {
   const form = useZodForm({
     schema: CommentSchema,
   });
+
+  function handleEmojiPick(emote) {
+    form.setValue("caption", form.watch("caption") + emote.native);
+  }
 
   const toggleLike = async () => {
     try {
@@ -428,6 +432,7 @@ export function PostCard({ id, username, currentUser }) {
                   placeholder="An interesting comment"
                 />
                 <div className="flex justify-end space-x-2">
+                  <EmojiPicker onEmojiPick={handleEmojiPick} />
                   <Form.SubmitButton>Reply</Form.SubmitButton>
                   <Button variant="dark">Cancel</Button>
                 </div>

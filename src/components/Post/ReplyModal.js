@@ -11,6 +11,7 @@ import { Heading } from "../ui/Heading";
 import Modal from "../ui/Modal";
 import { TextArea } from "../ui/TextArea";
 import Link from "next/link";
+import { EmojiPicker } from "../ui/EmojiPicker";
 
 export function ReplyModal({
   isOpen,
@@ -60,6 +61,10 @@ export function ReplyModal({
   const CommentSchema = z.object({
     caption: z.string().min(1, "Comment must be atleast 1 character long."),
   });
+
+  function handleEmojiPick(emote) {
+    form.setValue("caption", form.watch("caption") + emote.native);
+  }
 
   const form = useZodForm({
     schema: CommentSchema,
@@ -137,7 +142,6 @@ export function ReplyModal({
                 placeholder="An interesting comment"
                 {...form.register("caption")}
               />
-
               <div className="flex justify-end space-x-2">
                 <Form.SubmitButton>Reply</Form.SubmitButton>
                 <Button type="button" onClick={onClose} variant="dark">
