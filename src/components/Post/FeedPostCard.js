@@ -252,29 +252,29 @@ export function FeedPostCard(props) {
               </div>
             )}
 
-{props.post.media.url && (
-                <div className="aspect-w-1 aspect-h-1 ">
-                  {props.post.media &&
-                  props.post.media.url &&
-                  props.post.media.mediatype === "video" ? (
-                    <video placeholder="empty" className="!w-full" controls>
-                      <source src={props.post.media.url} type="video/mp4" />
-                      <source src={props.post.media.url} type="video/mkv" />
-                      <source src={props.post.media.url} type="video/m4v" />
-                      <source src={props.post.media.url} type="video/webm" />
-                    </video>
-                  ) : (
-                    <NextImage
-                      onClick={() => setImageModal(true)}
-                      src={props.post.media?.url || props.post.media}
-                      layout="fill"
-                      objectFit="cover"
-                      placeholder="empty"
-                      className="!w-full"
-                    />
-                  )}
-                </div>
-              )}
+            {props.post.media.url && (
+              <div className="aspect-w-3 aspect-h-2 h-auto ">
+                {props.post.media &&
+                props.post.media.url &&
+                props.post.media.mediatype === "video" ? (
+                  <video placeholder="empty" className="!w-full" controls>
+                    <source src={props.post.media.url} type="video/mp4" />
+                    <source src={props.post.media.url} type="video/mkv" />
+                    <source src={props.post.media.url} type="video/m4v" />
+                    <source src={props.post.media.url} type="video/webm" />
+                  </video>
+                ) : (
+                  <NextImage
+                    onClick={() => setImageModal(true)}
+                    src={props.post.media?.url || props.post.media}
+                    layout="fill"
+                    objectFit="contain"
+                    placeholder="empty"
+                    className="!w-full"
+                  />
+                )}
+              </div>
+            )}
           </Link>
           {/* Post Actions */}
           <div className="py-2 px-6 bg-gray-200 dark:bg-gray-900/70 flex border-t border-gray-200 dark:border-gray-700 justify-between space-x-8">
