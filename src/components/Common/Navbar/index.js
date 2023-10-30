@@ -110,7 +110,10 @@ export function Navbar({ currentUser, CustomLogo }) {
                 <div className="flex md:absolute md:left-0 md:inset-y-0 lg:static xl:col-span-2">
                   <div
                     className="flex-shrink-0 flex items-center"
-                    style={{ position: "relative", right: "20%" }}
+                    style={{
+                      position: "relative",
+                      right: `${deviceType == "Desktop" ? "20%" : "0%"}`,
+                    }}
                   >
                     <Link href={`/feed`}>
                       <Image

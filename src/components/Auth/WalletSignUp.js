@@ -126,13 +126,13 @@ export function WalletSignUp({ currentUser }) {
                 className="font-medium text-brand-600 hover:text-brand-400"
                 href="/auth/signup"
               >
-                <span>&nbsp; Primitive Sign Up</span>
+                <span>&nbsp;Sign Up with Email</span>
               </Link>
             </Card.Body>
           </Card>
         </div>
         <div>
-          <Card rounded="lg" className="mt-4">
+          {/* <Card rounded="lg" className="mt-4">
             <Card.Body>
               <span className="mr-1">Don’t want to join yet ?</span>
               <Link
@@ -142,7 +142,7 @@ export function WalletSignUp({ currentUser }) {
                 Browse Annonymously!
               </Link>
             </Card.Body>
-          </Card>
+          </Card> */}
         </div>
         <div></div>
       </WalletAuthLayout>
