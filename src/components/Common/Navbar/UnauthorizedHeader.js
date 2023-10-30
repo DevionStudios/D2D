@@ -28,9 +28,15 @@ export function UnauthorizedHeader({ deviceType, CustomLogo }) {
               "flex justify-between items-center max-w-7xl mx-[85px] py-4 px-4 lg:px-0 md:justify-start md:space-x-10 "
             }
           >
-            <div className="flex justify-start lg:w-0 lg:flex-1  ">
+            <div className="flex justify-between lg:w-0 lg:flex-1">
               <Link href="/feed" passHref={true}>
-                <div className="flex items-center space-x-4 ">
+                <div
+                  className="flex items-center"
+                  style={{
+                    position: "relative",
+                    right: `${deviceType == "Desktop" ? "0%" : "70%"}`,
+                  }}
+                >
                   <Image
                     src={CustomLogo || FoxxiText}
                     alt="Foxxi Logo"

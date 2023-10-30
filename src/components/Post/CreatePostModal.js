@@ -123,6 +123,8 @@ export function CreatePostModal({ currentUser, isOpen, setIsOpen }) {
   });
 
   function handleEmojiPick(emote) {
+    console.log("Emoji: ", emote.native);
+
     form.setValue("caption", form.watch("caption") + emote.native);
   }
 
