@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 import {
   HiOutlineCog,
   HiOutlineFire,
@@ -10,6 +11,7 @@ import {
   HiOutlineUser,
   HiOutlineGlobe,
   HiOutlineGlobeAlt,
+  HiOutlineUserGroup,
 } from "react-icons/hi";
 
 import { FaRobot } from "react-icons/fa";
@@ -20,9 +22,12 @@ import { IndeterminateProgress } from "src/components/ui/Progress";
 import { Redirect } from "./Redirect";
 import { TrendingFeed } from "../../Trending Feed";
 import { TwitterFeed } from "../../Twitter Trends";
+import { CommunityFeed } from "../../Community/CommunityFeed";
 import { News } from "../../News";
 import { YourFeed } from "../../YourFeed";
 import toast from "react-hot-toast";
+import { DiscoverCommunity } from "../../Community/DiscoverCommunity";
+import { CreateCommunityModal } from "../../Community/CreateCommunityModal";
 const RightSidebar = dynamic(async () => {
   const { RightSidebar } = await import("../Navbar/RightSidebar");
   return RightSidebar;
@@ -31,8 +36,13 @@ const RightSidebar = dynamic(async () => {
 RightSidebar.displayName = "RightSidebar";
 
 export function FeedLayout({ currentUser }) {
+  const router = useRouter();
+  const pathname = router.pathname;
   const [hiroWallet, setHiroWallet] = useState(false);
-
+  const [isCommunityCreateModalOpen, setIsCommunityCreateModalOpen] =
+    useState(false);
+  // check if community is present in url
+  const iscommunityPage = pathname.includes("community");
   useEffect(() => {
     if (currentUser) {
       let cookies = document.cookie;
@@ -68,12 +78,6 @@ export function FeedLayout({ currentUser }) {
       id: "/trending",
     },
     {
-      component: <TwitterFeed currentUser={currentUser} />,
-      icon: HiOutlineFire,
-      name: "Foxxi Trends",
-      id: "/twittertrends",
-    },
-    {
       component: <News currentUser={currentUser} />,
       icon: HiOutlineNewspaper,
       name: "News",
@@ -93,17 +97,23 @@ export function FeedLayout({ currentUser }) {
     },
     {
       component: (
-        <Redirect pageName={`/account/gallery/${currentUser.username}`} />
+        <Redirect pageName={`/account/gallery/${currentUser?.username}`} />
       ),
       icon: HiOutlineGlobe,
       name: "Web3 Gallery",
-      id: `/account/gallery/${currentUser.username}`,
+      id: `/account/gallery/${currentUser?.username}`,
     },
     {
-      component: <Redirect pageName={`/profile/${currentUser.username}`} />,
+      component: <CommunityFeed currentUser={currentUser} />,
+      icon: HiOutlineUserGroup,
+      name: "Community",
+      id: `/community`,
+    },
+    {
+      component: <Redirect pageName={`/profile/${currentUser?.username}`} />,
       icon: HiOutlineUser,
       name: "Profile",
-      id: `/profile/${currentUser.username}`,
+      id: `/profile/${currentUser?.username}`,
     },
     {
       component: <Redirect pageName={"/account/settings"} />,
@@ -158,9 +168,20 @@ export function FeedLayout({ currentUser }) {
           />
         </div>
         <div className=" lg:block lg:col-span-3">
-          <RightSidebar currentUser={currentUser} />
+          {iscommunityPage ? (
+            <DiscoverCommunity
+              currentUser={currentUser}
+              setIsCreateModalOpen={setIsCommunityCreateModalOpen}
+            />
+          ) : (
+            <RightSidebar currentUser={currentUser} />
+          )}
         </div>
       </div>
+      <CreateCommunityModal
+        isOpen={isCommunityCreateModalOpen}
+        setIsOpen={setIsCommunityCreateModalOpen}
+      />
     </div>
   );
 }

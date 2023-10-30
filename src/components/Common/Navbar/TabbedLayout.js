@@ -132,7 +132,7 @@ export function TabbedLayout({ navigation, currentUser }) {
                 <Tab.List className="space-y-2">
                   {navigation.map((item, index) => {
                     if (item.name == "Connect Wallet") {
-                      if (currentUser.annonymous) return null;
+                      // if (currentUser.annonymous) return null;
                       return (
                         <div
                           key={index + 10}
@@ -292,7 +292,7 @@ export function TabbedLayout({ navigation, currentUser }) {
                       item.name === "Web3 Gallery" ||
                       item.name === "Foxxi AI"
                     ) {
-                      if (currentUser.annonymous) return null;
+                      // if (currentUser.annonymous) return null;
                     }
                     const Icon = item.icon;
                     return (
