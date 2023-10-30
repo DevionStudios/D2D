@@ -34,8 +34,8 @@ export function UnauthorizedHeader({ deviceType, CustomLogo }) {
                   <Image
                     src={CustomLogo || FoxxiText}
                     alt="Foxxi Logo"
-                    width={CustomLogo ? 125 : 100}
-                    height={CustomLogo ? 150 : 25}
+                    width={CustomLogo ? 300 : 100}
+                    height={CustomLogo ? 206 : 25}
                   />
                 </div>
               </Link>
