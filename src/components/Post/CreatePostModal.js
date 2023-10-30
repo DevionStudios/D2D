@@ -162,6 +162,10 @@ export function CreatePostModal({ currentUser, isOpen, setIsOpen }) {
   };
   useEffect(() => {
     getFollowersAndFollowing();
+
+    // the following lines are to fix a bug where paste (ctrl + v) is not working when the caption is empty initially
+    setCaption(" ");
+    setCaption("");
   }, []);
   return (
     <Modal
@@ -199,7 +203,9 @@ export function CreatePostModal({ currentUser, isOpen, setIsOpen }) {
               <label>Caption</label>
               <MentionsInput
                 value={caption}
-                onChange={(e) => setCaption(e.target.value)}
+                onChange={(e) => {
+                  setCaption(e.target.value);
+                }}
                 label="Caption"
                 style={customStyle}
                 a11ySuggestionsListLabel={"Suggested mentions"}
