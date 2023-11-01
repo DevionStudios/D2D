@@ -339,7 +339,7 @@ export function PostCard({ id, username, currentUser }) {
                       onClick={() => setImageModal(true)}
                       src={data.media?.url || data.media}
                       layout="fill"
-                      objectFit="cover"
+                      objectFit="contain"
                       placeholder="empty"
                       className="!w-full"
                     />

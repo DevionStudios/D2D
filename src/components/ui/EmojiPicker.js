@@ -31,7 +31,11 @@ export function EmojiPicker({ className, onEmojiPick }) {
                       set="twitter"
                       showSkinTones={false}
                       showPreview={false}
-                      onSelect={(emoji) => onEmojiPick(emoji)}
+                      onSelect={(emoji) => {
+                        console.log("Emoji on picker: ", emoji);
+
+                        onEmojiPick(emoji);
+                      }}
                       theme="auto"
                     />
                   </div>
