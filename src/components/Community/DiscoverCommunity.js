@@ -11,8 +11,10 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { JoinButton } from "./JoinButton";
 import { Button } from "../ui/Button";
+import { useRouter } from "next/router";
 
 export function DiscoverCommunity({ currentUser, setIsCreateModalOpen }) {
+  const router = useRouter();
   const [suggestedCommunitites, setsuggestedCommunitites] = useState([
     {},
     {},
@@ -63,6 +65,7 @@ export function DiscoverCommunity({ currentUser, setIsCreateModalOpen }) {
                 className="text-xs dark:text-gray-300 text-gray-600 hover:underline"
                 onClick={() => {
                   // redirect to discover communities page
+                  router.push("/community/discover");
                 }}
               >
                 {" "}
@@ -122,6 +125,7 @@ export function DiscoverCommunity({ currentUser, setIsCreateModalOpen }) {
                 className="text-xs dark:text-gray-300 text-gray-600 hover:underline"
                 onClick={() => {
                   // redirect to joined communities page
+                  router.push("/community/joined");
                 }}
               >
                 {" "}

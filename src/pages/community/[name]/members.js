@@ -8,17 +8,17 @@ import { Navbar } from "src/components/Common/Navbar";
 import { Profile } from "src/components/Profile/Profile";
 import { Status } from "src/components/ui/StatusPages/Status";
 import { Community } from "../../../components/Community/CommunityHome";
+import { AllCommunityUsers } from "../../../components/Community/CommunityMembers";
 
-export default function CommunityProfilePage({ currentUser }) {
+export default function CommunityMembersPage({ currentUser }) {
   const router = useRouter();
-  const [unableToSetUser, setUnableToSetUser] = useState(false);
   const communityName = router.query.name;
 
   return communityName ? (
     <>
       <Navbar currentUser={currentUser} />
       {/* community tab */}
-      <Community currentUser={currentUser} communityName={communityName} />
+      <AllCommunityUsers currentUser={currentUser} />
     </>
   ) : (
     <div>
@@ -27,6 +27,6 @@ export default function CommunityProfilePage({ currentUser }) {
   );
 }
 
-CommunityProfilePage.getLayout = function getLayout(page) {
+CommunityMembersPage.getLayout = function getLayout(page) {
   return <>{page}</>;
 };
