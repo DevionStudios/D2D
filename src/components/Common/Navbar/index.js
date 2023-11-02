@@ -112,7 +112,7 @@ export function Navbar({ currentUser, CustomLogo }) {
                     className="flex-shrink-0 flex items-center"
                     style={{
                       position: "relative",
-                      right: "20%",
+                      right: "5%",
                     }}
                   >
                     <Link href={`/feed`}>
