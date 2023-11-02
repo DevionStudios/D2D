@@ -13,6 +13,7 @@ interface CommunityAttrs {
   isSafeForWork?: boolean;
   rules?: string[];
   posts?: PostDoc[];
+  tags?: [];
 }
 
 interface CommunityModel extends mongoose.Model<CommunityDoc> {
@@ -40,6 +41,7 @@ export interface CommunityDoc extends mongoose.Document {
   banner?: string;
   isSafeForWork?: boolean;
   rules?: string[];
+  tags?:[]
 }
 
 const CommunitySchema = new mongoose.Schema(

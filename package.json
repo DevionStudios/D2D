@@ -34,7 +34,8 @@
     "socket.io": "^4.5.4",
     "ts-node": "^10.9.1",
     "twitter-api-sdk": "^1.2.1",
-    "twitter-api-v2": "^1.13.0"
+    "twitter-api-v2": "^1.13.0",
+    "typescript": "^5.2.2"
   },
   "devDependencies": {
     "@types/cookie-session": "^2.0.44",

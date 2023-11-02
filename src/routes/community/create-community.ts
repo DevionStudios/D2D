@@ -18,7 +18,7 @@ router.put(
   ]),
   async (req: any, res: Response) => {
     try {
-      const { publicName, description, rules = [] } = req.body;
+      const { publicName, description, rules = [], tags = [] } = req.body;
       let avatarImageUrl = "",
         bannerImageUrl = "";
       if (req.files) {
@@ -51,6 +51,7 @@ router.put(
         avatar: avatarImageUrl,
         banner: bannerImageUrl,
         members: [],
+        tags,
       });
 
       await newCommunity.save();

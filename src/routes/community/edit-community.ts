@@ -20,12 +20,7 @@ router.put(
   ]),
   async (req: any, res: Response) => {
     try {
-      const {
-        publicName,
-        description,
-        rules = [],
-        name,
-      } = req.body;
+      const { publicName, description, rules = [], tags = [], name } = req.body;
       let avatarImageUrl = "",
         bannerImageUrl = "";
       if (req.files) {
@@ -63,7 +58,8 @@ router.put(
         );
       }
       // Update community details if they are different, otherwise fallback to existing values
-      if (publicName?.length > 0) {//if publicName is being changed, then also modify the name accordingly
+      if (publicName?.length > 0) {
+        //if publicName is being changed, then also modify the name accordingly
         community.publicName = publicName;
         const slug = publicName
           .toString()
@@ -82,6 +78,7 @@ router.put(
       community.avatar = avatarImageUrl || community.avatar;
       community.banner = bannerImageUrl || community.banner;
       community.rules = rules || community.rules;
+      community.tags = tags || community.tags;
       await community.save();
       res.status(201).send({
         message: "Community edited successfully",
