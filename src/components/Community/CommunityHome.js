@@ -19,20 +19,28 @@ import { useSelector } from "react-redux";
 import { CommunityPosts } from "./CommunityPosts";
 import { JoinButton } from "./JoinButton";
 import { EditCommunityModal } from "./EditCommunityModal";
+import { CreateCommunityPostModal } from "./CreateCommunityPostModal";
 export function Community({ communityName, currentUser }) {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
   const isMobile = useMediaQuery(MEDIA_QUERIES.SMALL);
-  const [community, setCommunity] = useState({
-    name: "testcom",
-    publicName: "TestCom",
-    members: [currentUser.username],
-    banner: "/assets/banner.jpg",
-    description: "This is the frontend of test community",
-    createdAt: "2021-08-22T11:35:30.000Z",
-    isNSFW: false,
-    rules: ["No Spamming", "No Nudity", "No Racism", "No Hate Speech"],
-  });
+  const [community, setCommunity] = useState(undefined);
   const [isMyCommunity, setIsMyCommunity] = useState(true); // by default it is kept false
+
+  const fetchCommunityDetails = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/community/${communityName}`
+      );
+      console.log(response.data);
+      setCommunity(response.data?.community);
+    } catch (e) {
+      toast.error("Error fetching community details");
+    }
+  };
+  useEffect(() => {
+    fetchCommunityDetails();
+  }, []);
   return community ? (
     <>
       <div className="py-16">
@@ -97,6 +105,16 @@ export function Community({ communityName, currentUser }) {
                         </Button>
                       </div>
                       <div>
+                        <Button
+                          onClick={() => {
+                            setIsCreatePostModalOpen(true);
+                          }}
+                          size={isMobile ? "base" : "lg"}
+                        >
+                          Create Post
+                        </Button>
+                      </div>
+                      <div>
                         <JoinButton
                           currentUser={currentUser}
                           isJoined={true}
@@ -135,7 +153,10 @@ export function Community({ communityName, currentUser }) {
                   <span className="font-bold mr-2">
                     {community.members.length}
                   </span>
-                  <ButtonOrLink href="#" className="text-muted hover:underline">
+                  <ButtonOrLink
+                    href={`/community/${community?.name}/members`}
+                    className="text-muted hover:underline"
+                  >
                     Members
                   </ButtonOrLink>
                 </div>
@@ -158,6 +179,11 @@ export function Community({ communityName, currentUser }) {
         currentUser={currentUser}
         isOpen={isUpdateModalOpen}
         setIsOpen={setIsUpdateModalOpen}
+      />
+      <CreateCommunityPostModal
+        communityId={community?.id}
+        isOpen={isCreatePostModalOpen}
+        setIsOpen={setIsCreatePostModalOpen}
       />
     </>
   ) : (

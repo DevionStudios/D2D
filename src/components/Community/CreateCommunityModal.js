@@ -29,10 +29,9 @@ const oneOf = (keys) => (val) => {
 
 export const CreatePostSchema = object({
   publicName: z.string(),
-  identity: z.string(),
   description: z.string(),
   avatar: z.any().optional(),
-  banner: z.string().optional(),
+  banner: z.any().optional(),
   tags: z.string().optional(),
 });
 
@@ -49,9 +48,6 @@ export function CreateCommunityModal({ currentUser, isOpen, setIsOpen }) {
     const value = e.target.value;
     if (!value.trim()) return;
     let tagValue = value;
-    if (value[0] !== "#") {
-      tagValue = "#" + value;
-    }
     setTags([...tags, tagValue]);
     e.target.value = "";
   }
@@ -60,7 +56,9 @@ export function CreateCommunityModal({ currentUser, isOpen, setIsOpen }) {
     const value = e.target.value;
     if (!value.trim()) return;
     let ruleValue = value;
-    setRules([...rules, ruleValue]);
+    let tempRule = rules;
+    tempRule.push(ruleValue);
+    setRules(tempRule);
     e.target.value = "";
   }
   function removeRule(index) {
@@ -85,67 +83,38 @@ export function CreateCommunityModal({ currentUser, isOpen, setIsOpen }) {
       boxSizing: "border-box",
     },
   });
-  const createPost = async ({ variables }) => {
-    //post data
-    // const { input } = variables;
+  const createPost = async (values) => {
+    const { publicName, identity, description, avatar, banner } = values;
+    const formData = new FormData();
+    formData.append("publicName", publicName);
+    formData.append("description", description);
+    formData.append("avatarImage", avatar);
+    formData.append("bannerImage", banner);
+    formData.append("tags", tags);
+    formData.append("rules", rules);
+    console.log("hemlo");
+    try {
+      setLoading(true);
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/community/create`,
+        formData,
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
+      );
+      if (response.status == 201) {
+        toast.success("Community Created Successfully");
+        setIsOpen(false);
+        window.location.reload();
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Failed to create post!");
+    }
 
-    // const content = input.description;
-    // const hashtags = [];
-    // content.replace(/(?<=#).*?(?=( |$))/g, (hashtag) => {
-    //   hashtags.push("#" + hashtag);
-    //   return "";
-    // });
-    // const formdata = new FormData();
-    // formdata.append("description", input.description);
-    // formdata.append("media", input.media);
-    // formdata.append("gifLink", input.gifLink);
-    // for (let i = 0; i < hashtags.length; i++) {
-    //   formdata.append("hashtags", hashtags[i]);
-    // }
-    // setLoading(true);
-    // try {
-    //   const response = await axios.post(
-    //     `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/create`,
-    //     formdata,
-    //     {
-    //       headers: {
-    //         cookies: document.cookie,
-    //       },
-    //     }
-    //   );
-
-    //   console.log("Response: ", response);
-
-    //   const description = input.description;
-    //   description.replace(/(?<=@).*?(?=( |$))/g, async (mention) => {
-    //     console.log("Mention: ", mention);
-
-    //     // create notification of every mention
-    //     const notificationResponse = await axios.post(
-    //       `${process.env.NEXT_PUBLIC_BASE_URL}/api/notification/create`,
-    //       {
-    //         notification: ` mentioned you `,
-    //         userId: currentUser?.id,
-    //         notificationType: "MENTION",
-    //         username: mention,
-    //         postId: response.data?.post?.id || null,
-    //       },
-    //       {
-    //         headers: {
-    //           cookies: document.cookie,
-    //         },
-    //       }
-    //     );
-    //   });
-
-    //   //route to feed
-    //   setIsOpen(false);
-    //   // router.push("/feed");
-
-    //   window.location.reload();
-    // } catch (e) {
-    //   // !remove console.log(e);
-    // }
+    // setIsOpen(false);
+    // window.location.reload();
     setLoading(false);
   };
   const form = useZodForm({
@@ -184,7 +153,8 @@ export function CreateCommunityModal({ currentUser, isOpen, setIsOpen }) {
             "flex-grow block w-full min-w-0 rounded-none rounded-r-md"
           )}
           type="text"
-          placeholder="Press Enter To Add Hashtags (E.g- #d2d)"
+          name="tags"
+          placeholder="Press Enter To Add Tags"
           onKeyDown={handleKeyDown}
         />
       </div>
@@ -218,6 +188,7 @@ export function CreateCommunityModal({ currentUser, isOpen, setIsOpen }) {
             "flex-grow block w-full min-w-0 rounded-none rounded-r-md"
           )}
           type="text"
+          name="rules"
           placeholder="Press Enter To Add Rules"
           onKeyDown={handleKeyDownRules}
         />
@@ -238,6 +209,7 @@ export function CreateCommunityModal({ currentUser, isOpen, setIsOpen }) {
         form={form}
         onSubmit={async (values) => {
           // submit the form
+          createPost(values);
         }}
       >
         <Card.Body className="space-y-5">
@@ -245,6 +217,7 @@ export function CreateCommunityModal({ currentUser, isOpen, setIsOpen }) {
             <div>
               <Input
                 label="Public Name"
+                name="publicName"
                 placeholder={"Enter public name of your community"}
                 {...form.register("publicName")}
               />
@@ -255,20 +228,9 @@ export function CreateCommunityModal({ currentUser, isOpen, setIsOpen }) {
           </div>
           <div className="relative">
             <div>
-              <Input
-                label="Unique Identity"
-                placeholder={"Enter your community's unique identity"}
-                {...form.register("identity")}
-              />
-            </div>
-            <div className="left-3 flex space-x-3">
-              <EmojiPicker onEmojiPick={handleEmojiPick} />
-            </div>
-          </div>
-          <div className="relative">
-            <div>
               <TextArea
                 label="Description"
+                name="description"
                 placeholder={"Include description of your community"}
                 {...form.register("description")}
               />
@@ -292,7 +254,7 @@ export function CreateCommunityModal({ currentUser, isOpen, setIsOpen }) {
             {...form.register("banner")}
           />
           <div className="relative">
-            <label>
+            <label htmlFor="tags">
               Tags
               <span className="text-gray-500 dark:text-gray-400">
                 {" "}
@@ -304,7 +266,7 @@ export function CreateCommunityModal({ currentUser, isOpen, setIsOpen }) {
             </div>
           </div>
           <div className="relative">
-            <label>
+            <label htmlFor="rules">
               Community Rules
               <span className="text-gray-500 dark:text-gray-400">
                 {" "}

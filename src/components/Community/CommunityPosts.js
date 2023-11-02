@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { Card } from "../ui/Card";
 import { Tab } from "@headlessui/react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { EndMessage } from "../Feed";
 import { Badge } from "../ui/Badge";
@@ -11,6 +11,8 @@ import { StoryCard } from "../Post/StoryCard";
 import { LoadingFallback } from "../ui/Fallbacks/LoadingFallback";
 import { CommunityPostCard } from "./CommunityPostCard";
 import { CommunityDetails } from "./CommunityDetails";
+import toast from "react-hot-toast";
+import axios from "axios";
 export function CommunityPosts({
   communityname,
   currentUser,
@@ -20,6 +22,25 @@ export function CommunityPosts({
   memberCount,
 }) {
   const [posts, setPosts] = useState([]);
+  const [skip, setSkip] = useState(0);
+  const [hasMorePost, setHasMorePost] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const limit = 10;
+  const fetchPosts = async () => {
+    // fetch posts from community
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/community/posts/${communityname}?skip=${skip}`
+      );
+      console.log(response.data);
+      if (response.data?.communityPosts?.length > 0)
+        setPosts([...posts, ...response.data?.communityPosts]);
+      else setHasMorePost(false);
+      setSkip(skip + limit);
+    } catch (e) {
+      toast.error("Failed to fetch posts.");
+    }
+  };
   return (
     <Tab.Group>
       <Card.Body
@@ -67,9 +88,10 @@ export function CommunityPosts({
           <main className="lg:col-span-7 xl:col-span-6 lg:grid lg:grid-cols-12 lg:gap-3">
             <div className=" lg:col-span-12 ">
               <InfiniteScroll
-                next={() => {}}
-                dataLength={posts.length}
+                next={fetchPosts}
+                dataLength={posts?.length}
                 loader={<LoadingFallback />}
+                hasMore={hasMorePost}
                 endMessage={<EndMessage />}
               >
                 {posts.map((post) => {
@@ -77,7 +99,10 @@ export function CommunityPosts({
                   if (data) {
                     return (
                       <div key={post.id}>
-                        <CommunityPostCard />
+                        <CommunityPostCard
+                          post={post}
+                          currentUser={currentUser}
+                        />
                       </div>
                     );
                   }

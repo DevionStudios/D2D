@@ -11,7 +11,7 @@ export default function CommunityPage({ currentUser }) {
   return (
     <>
       <Navbar currentUser={currentUser} />
-      <FeedLayout />
+      <FeedLayout currentUser={currentUser} />
     </>
   );
 }

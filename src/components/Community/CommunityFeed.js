@@ -10,33 +10,36 @@ import { SEO } from "../SEO";
 import { IndeterminateProgress } from "../ui/Progress";
 import axios from "axios";
 import { CommunityPostCard } from "./CommunityPostCard";
+import toast from "react-hot-toast";
 
 export function CommunityFeed({ currentUser }) {
-  const [data, setData] = useState([
-    {
-      id: "1",
-      caption: "test caption aisdnoaisn dasindoasn dnasidonas",
-      author: {
-        username: "testuser",
-      },
-      media: {},
-    },
-  ]);
+  const [data, setData] = useState([]);
+  const [skip, setSkip] = useState(0);
+  const [hasMorePost, setHasMorePost] = useState(true);
   const [error, setError] = useState(false);
-
-  //   const fetchAllPosts = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`
-  //       );
-  //       setData(response.data);
-  //     } catch (e) {
-  //       setError(true);
-  //     }
-  //   };
-  //   useEffect(() => {
-  //     fetchAllPosts();
-  //   }, []);
+  const limit = 10;
+  const fetchPosts = async () => {
+    // fetch posts from community
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/community/posts/discover?skip=${skip}`,
+        {
+          headers: {
+            cookie: document.cookie,
+          },
+        }
+      );
+      if (response.data?.communityPosts?.length > 0)
+        setData([...data, ...response.data?.communityPosts]);
+      else setHasMorePost(false);
+      setSkip(skip + limit);
+    } catch (e) {
+      toast.error("Failed to fetch posts.");
+    }
+  };
+  useEffect(() => {
+    fetchPosts();
+  }, []);
   if (error) {
     return (
       <ErrorFallback
@@ -59,7 +62,9 @@ export function CommunityFeed({ currentUser }) {
         <main className="lg:col-span-7 xl:col-span-6 lg:grid lg:grid-cols-12 lg:gap-3">
           <div className="px-4 lg:col-span-12 -mt-3">
             <InfiniteScroll
-              dataLength={data.length}
+              dataLength={data?.length}
+              next={fetchPosts}
+              hasMore={hasMorePost}
               loader={<IndeterminateProgress />}
               endMessage={<EndMessage />}
             >
@@ -69,8 +74,8 @@ export function CommunityFeed({ currentUser }) {
                       <div key={index}>
                         <CommunityPostCard
                           post={post}
-                          username={"testuser"}
-                          currentUser={{ username: "testuser" }}
+                          username={currentUser?.username}
+                          currentUser={currentUser}
                         />
                       </div>
                     );

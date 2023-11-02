@@ -15,41 +15,54 @@ import { useRouter } from "next/router";
 
 export function DiscoverCommunity({ currentUser, setIsCreateModalOpen }) {
   const router = useRouter();
-  const [suggestedCommunitites, setsuggestedCommunitites] = useState([
-    {},
-    {},
-    {},
-    {},
-  ]);
+  const [suggestedCommunitites, setsuggestedCommunitites] = useState([]);
   const [joinedCommunities, setJoinedCommunities] = useState([{}]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  //   if (suggestedCommunitites.length === 0) {
-  //     return (
-  //       <>
-  //         <Card rounded="lg" className="sticky top-20 dark:bg-black bg-gray-75">
-  //           {!currentUser.annonymous ? (
-  //             <ErrorFallback
-  //               message="No community suggestions for now. :)"
-  //               noAction
-  //               icon={
-  //                 <HiOutlineCubeTransparent className="h-12 w-12 text-gray-500" />
-  //               }
-  //             />
-  //           ) : (
-  //             <ErrorFallback
-  //               message="Please Sign Up To See Suggestions."
-  //               icon={
-  //                 <HiOutlineCubeTransparent className="h-12 w-12 text-gray-500" />
-  //               }
-  //               noAction
-  //             />
-  //           )}
-  //         </Card>
-  //       </>
-  //     );
-  //   }
+  const fetchSuggestedCommunities = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/community/discover?limit=5`
+      );
+      setsuggestedCommunitites(response.data?.communities);
+      console.log(response.data);
+    } catch (e) {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchSuggestedCommunities();
+  }, []);
+  if (currentUser.annonymous) {
+    return (
+      <>
+        <Card rounded="lg" className="sticky top-20 dark:bg-black bg-gray-75">
+          {!currentUser.annonymous ? (
+            <ErrorFallback
+              message="No community suggestions for now. :)"
+              noAction
+              icon={
+                <HiOutlineCubeTransparent className="h-12 w-12 text-gray-500" />
+              }
+            />
+          ) : (
+            <ErrorFallback
+              message="Please Sign Up To See Suggestions."
+              icon={
+                <HiOutlineCubeTransparent className="h-12 w-12 text-gray-500" />
+              }
+              noAction
+            />
+          )}
+        </Card>
+      </>
+    );
+  }
 
   return (
     <aside className="w-full sticky top-20">
@@ -76,37 +89,70 @@ export function DiscoverCommunity({ currentUser, setIsCreateModalOpen }) {
                   role="list"
                   className="-my-4 divide-y divide-gray-200 dark:divide-gray-700"
                 >
-                  {suggestedCommunitites.map((data) => {
-                    const community = data;
-                    return (
-                      <li key={1} className="flex items-center py-4 space-x-3">
-                        <div className="flex-shrink-0">
-                          <img
-                            className="h-8 w-8 rounded-full object-cover"
-                            src="/assets/community.jpg"
-                            alt=""
-                          />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                            <Link className="no-underline" href="#">
-                              Community Name
-                              {/* {community?.lastName ? community?.lastName : null} */}
-                            </Link>
-                          </p>
-                          <span className="text-sm text-gray-500 dark:text-gray-400">
-                            500+ joined
-                          </span>
-                        </div>
-                        <div className="flex-shrink-0">
-                          <JoinButton
-                            currentUser={currentUser}
-                            isJoined={false}
-                          />
-                        </div>
-                      </li>
-                    );
-                  })}
+                  {!loading ? (
+                    suggestedCommunitites?.length > 0 ? (
+                      suggestedCommunitites.map((data) => {
+                        const community = data;
+                        return (
+                          <li
+                            key={1}
+                            className="flex items-center py-4 space-x-3"
+                          >
+                            <div className="flex-shrink-0">
+                              <img
+                                className="h-8 w-8 rounded-full object-cover"
+                                src="/assets/community.jpg"
+                                alt=""
+                              />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                <Link
+                                  className="no-underline"
+                                  href={`/community/${community?.name}`}
+                                >
+                                  {community?.publicName}
+                                  {/* {community?.lastName ? community?.lastName : null} */}
+                                </Link>
+                              </p>
+                              <span className="text-sm text-gray-500 dark:text-gray-400">
+                                {community?.members?.length > 500
+                                  ? "500+"
+                                  : community?.members?.length}{" "}
+                                Joined
+                              </span>
+                            </div>
+                            <div className="flex-shrink-0">
+                              <JoinButton
+                                currentUser={currentUser}
+                                isJoined={() => {
+                                  currentUser?.communities?.includes(
+                                    community?.id
+                                  );
+                                }}
+                              />
+                            </div>
+                          </li>
+                        );
+                      })
+                    ) : (
+                      <ErrorFallback
+                        message="No Communities Suggested For Now... :)"
+                        noAction
+                        icon={
+                          <HiOutlineCubeTransparent className="h-12 w-12 text-gray-500" />
+                        }
+                      />
+                    )
+                  ) : (
+                    <ErrorFallback
+                      message="Loading Communities..."
+                      noAction
+                      icon={
+                        <HiOutlineCubeTransparent className="h-12 w-12 text-gray-500" />
+                      }
+                    />
+                  )}
                 </ul>
               </div>
             </div>

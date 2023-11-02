@@ -61,20 +61,6 @@ export function CommunityPostCard(props) {
       setDeviceType("Desktop");
     }
   }, []);
-
-  let loading;
-  useEffect(() => {
-    setIsLiked(checkLiked());
-    setPost(props.post);
-
-    setLikes(props.post?.likes?.length);
-    setComments(props.post?.comments?.length);
-  }, [props.post]);
-
-  if (!props.post || !props.post.author) {
-    return <ErrorFallback message="Failed to load" />;
-  }
-
   const toggleLike = async () => {
     try {
       const response = await axios.put(
@@ -128,6 +114,18 @@ export function CommunityPostCard(props) {
 
     return props.post.likes.includes(props.currentUser.id);
   };
+  let loading;
+  useEffect(() => {
+    setIsLiked(checkLiked());
+    setPost(props.post);
+
+    setLikes(props.post?.likes?.length);
+    setComments(props.post?.comments?.length);
+  }, [props.post]);
+
+  if (!props.post || !props.post.author) {
+    return <ErrorFallback message="Failed to load" />;
+  }
 
   const repost = async () => {
     try {
