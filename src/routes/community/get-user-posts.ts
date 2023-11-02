@@ -48,4 +48,4 @@ router.get(
   }
 );
 
-export { router as getUserPostsRouter };
+export { router as getCommunityUserPostsRouter };

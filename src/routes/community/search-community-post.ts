@@ -33,4 +33,4 @@ router.get(
   }
 );
 
-export { router as searchPostRouter };
+export { router as searchCommunityPostRouter };

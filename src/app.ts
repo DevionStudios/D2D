@@ -77,6 +77,17 @@ import { getUserStampsFromDBRouter } from "./routes/tokens/get-user-stamps-from-
 import { likeOrdinalRouter } from "./routes/tokens/like-ordinal";
 import { likeStampRouter } from "./routes/tokens/like-stamp";
 import { getFollowerFollowingRouter } from "./routes/auth/get-follower-following";
+import { createCommunityRouter } from "./routes/community/create-community";
+import { editCommunityRouter } from "./routes/community/edit-community";
+import { getCommunityRouter } from "./routes/community/get-community";
+import { getCommunityUsersRouter } from "./routes/community/get-community-users";
+import { joinCommunityRouter } from "./routes/community/join-community";
+import { leaveCommunityRouter } from "./routes/community/leave-community";
+import { searchCommunityPostRouter } from "./routes/community/search-community-post";
+import { getCommunityPostsRouter } from "./routes/community/get-community-posts";
+import { getCommunityUserPostsRouter } from "./routes/community/get-user-posts";
+import { moderateCommunityMembersRouter } from "./routes/community/moderate-member";
+
 
 const app = express();
 app.use(
@@ -170,6 +181,18 @@ app.use(getUserOrdinalsFromDBRouter);
 app.use(getUserStampsFromDBRouter);
 app.use(likeOrdinalRouter);
 app.use(likeStampRouter);
+app.use(createCommunityRouter);
+app.use(editCommunityRouter);
+app.use(getCommunityRouter);
+app.use(getCommunityUsersRouter);
+app.use(joinCommunityRouter);
+app.use(leaveCommunityRouter);
+app.use(searchCommunityPostRouter);
+app.use(getCommunityPostsRouter);
+app.use(getCommunityUserPostsRouter);
+app.use(moderateCommunityMembersRouter);
+
+
 
 app.all("*", async (req: any, res: any) => {
   throw new Error("Route not found!!");
