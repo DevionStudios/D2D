@@ -14,7 +14,7 @@ router.get("/api/community/discover", async (req: any, res: Response) => {
       .limit(Number(limit))
       .sort({ createdAt: -1 });
     const totalCommunities = await Community.find({}).countDocuments();
-    res.status(201).send({
+    res.status(200).send({
       message: "Communities",
       communities,
       totalCommunities,
@@ -24,3 +24,5 @@ router.get("/api/community/discover", async (req: any, res: Response) => {
     res.status(500).send({ message: err });
   }
 });
+
+export { router as getCommunitiesRouter };

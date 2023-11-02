@@ -87,7 +87,7 @@ import { searchCommunityPostRouter } from "./routes/community/search-community-p
 import { getCommunityPostsRouter } from "./routes/community/get-community-posts";
 import { getCommunityUserPostsRouter } from "./routes/community/get-user-posts";
 import { moderateCommunityMembersRouter } from "./routes/community/moderate-member";
-
+import { getCommunitiesRouter } from "./routes/community/get-communities";
 
 const app = express();
 app.use(
@@ -191,7 +191,7 @@ app.use(searchCommunityPostRouter);
 app.use(getCommunityPostsRouter);
 app.use(getCommunityUserPostsRouter);
 app.use(moderateCommunityMembersRouter);
-
+app.use(getCommunitiesRouter);
 
 
 app.all("*", async (req: any, res: any) => {
