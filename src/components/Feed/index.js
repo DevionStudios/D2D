@@ -1,6 +1,7 @@
 import { HiCheckCircle } from "react-icons/hi";
 import InfiniteScroll from "react-infinite-scroll-component";
 
+import Spinner from "../ui/Spinner";
 import { Card } from "src/components/ui/Card";
 import { GradientBar } from "src/components/ui/GradientBar";
 import { LoadingFallback } from "src/components/ui/Fallbacks/LoadingFallback";
@@ -10,23 +11,61 @@ import React, { useState, useEffect } from "react";
 import { SEO } from "../SEO";
 import { IndeterminateProgress } from "../ui/Progress";
 import axios from "axios";
+import { Button } from "../ui/Button";
 
 export function Feed({ currentUser }) {
   const [data, setData] = useState({});
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const fetchAllPosts = async () => {
     try {
+      setLoading(true);
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`
       );
       setData(response.data);
+      setLoading(false);
     } catch (e) {
       setError(true);
     }
   };
+
+  const fetchMorePosts = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts?skip=${data.length}`
+      );
+      setData([...data, ...response.data]);
+      setLoading(false);
+    } catch (e) {
+      setError(true);
+    }
+  };
+
   useEffect(() => {
     fetchAllPosts();
   }, []);
+
+  function LoadMore() {
+    return (
+      <div className="px-4 py-3">
+        <div className="flex flex-col items-center justify-center  ">
+          <Button
+            className="text-center text-gray-900 dark:text-gray-100 hover:text-black dark:hover:text-white font-medium"
+            onClick={() => {
+              fetchMorePosts();
+            }}
+          >
+            {loading ? "Loading..." : "Load More"}
+            {loading && <Spinner className="h-4 w-4 m-1 text-white" />}
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   if (error) {
     return (
       <ErrorFallback
@@ -51,7 +90,7 @@ export function Feed({ currentUser }) {
             <InfiniteScroll
               dataLength={data.length}
               loader={<IndeterminateProgress />}
-              endMessage={<EndMessage />}
+              endMessage={<LoadMore />}
             >
               {data && data.length > 0
                 ? data.map((post, index) => {
@@ -74,7 +113,7 @@ export function Feed({ currentUser }) {
       <InfiniteScroll
         dataLength={0}
         loader={<IndeterminateProgress />}
-        endMessage={<EndMessage />}
+        endMessage={<LoadMore />}
       ></InfiniteScroll>
     )
   ) : (
