@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/api/community/:name", async (req: any, res: Response) => {
   try {
     const { name } = req.params; //name of community
-    const community = await Community.findOne({ name }, "-members");
+    const community = await Community.findOne({ name });
     if (!community) {
       throw new BadRequestError("Community not found, invalid name provided!");
     }

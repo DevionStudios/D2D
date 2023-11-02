@@ -76,7 +76,8 @@ router.post(
         //check if user is a member of the community
         const isMember = existingCommunity.members?.some(
           (member) =>
-            member.userId === existingUser.id && member.role !== "banned"
+            member.userId.toString() === existingUser.id.toString() &&
+            member.role !== "banned"
         );
         if (!isMember) {
           throw new BadRequestError("You are not a member of this community!");
@@ -125,7 +126,6 @@ router.post(
       }
       res.status(201).send({
         message: "Post created successfully",
-        post: post,
       });
     } catch (err) {
       console.log(err);

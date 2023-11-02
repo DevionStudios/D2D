@@ -9,6 +9,7 @@ const router = express.Router();
 router.get("/api/community/discover", async (req: any, res: Response) => {
   try {
     const { limit = 20, skip = 0 } = req.query;
+    console.log("Hemlo");
     const communities = await Community.find({})
       .skip(Number(skip))
       .limit(Number(limit))

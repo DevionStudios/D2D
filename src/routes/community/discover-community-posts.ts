@@ -8,7 +8,7 @@ router.get("/api/community/posts/discover", async (req: any, res: Response) => {
   try {
     const { limit = 20, skip = 0 } = req.query;
     const communityPosts = await Post.find({
-      communityId: { exists: true },
+      communityId: { $exists: true },
     })
       .skip(Number(skip))
       .limit(Number(limit))

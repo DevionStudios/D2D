@@ -41,7 +41,7 @@ export interface CommunityDoc extends mongoose.Document {
   banner?: string;
   isSafeForWork?: boolean;
   rules?: string[];
-  tags?:[]
+  tags?: [];
 }
 
 const CommunitySchema = new mongoose.Schema(
@@ -57,7 +57,6 @@ const CommunitySchema = new mongoose.Schema(
     name: {
       type: String,
       required: false,
-      // unique: true,
     },
     members: {
       type: [
@@ -156,7 +155,5 @@ function generateSlug(text: string): string {
     .replace(/^-+/, "")
     .replace(/-+$/, "");
 }
-
-
 
 export { Community, CommunitySchema };
