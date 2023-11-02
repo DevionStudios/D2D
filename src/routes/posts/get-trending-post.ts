@@ -6,12 +6,13 @@ const router = express.Router();
 
 router.get("/api/posts/trending", async (req: Request, res: Response) => {
   try {
+    const { limit = 20, skip = 0 } = req.query;
     const hashtags = await HashTag.find({}).sort({ useCounter: -1 }).limit(3);
     console.log(hashtags);
 
     // find the posts concerning the hashtags
 
-    const posts = await Post.find({}).sort({ createdAt: -1 }).populate({
+    const posts = await Post.find({}).sort({ createdAt: -1 }).skip(Number(skip)).limit(Number(limit)).populate({
       path: "author",
     });
 

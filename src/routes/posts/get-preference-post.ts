@@ -10,6 +10,7 @@ router.post(
   currentUser,
   async (req: Request, res: Response) => {
     try {
+      const { limit = 20, skip = 0 } = req.query;
       const hashtagsList = req.body.hashtags;
       console.log("Hashtags list:", hashtagsList);
       const currentUser = await User.findOne({
@@ -25,6 +26,8 @@ router.post(
         ],
       })
         .sort({ createdAt: -1 })
+        .skip(Number(skip))
+        .limit(Number(limit))
         .populate({
           path: "author",
         })
