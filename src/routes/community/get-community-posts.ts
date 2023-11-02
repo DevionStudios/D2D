@@ -22,7 +22,7 @@ router.get("/api/community/posts/:name", async (req: any, res: Response) => {
     const totalCommunityPosts = await Post.find({
       communityId: community,
     }).countDocuments();
-    res.status(201).send({
+    res.status(200).send({
       message: "Community posts",
       communityPosts,
       totalCommunityPosts,

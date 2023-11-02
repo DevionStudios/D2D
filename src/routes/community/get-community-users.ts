@@ -15,7 +15,7 @@ router.get("/api/community/users/:name", async (req: any, res: Response) => {
     }
     const communityMembers = community.members.slice(skip, limit + skip);
     const totalCommunityMembers = community.members.length;
-    res.status(201).send({
+    res.status(200).send({
       message: "Community Members",
       communityMembers,
       totalCommunityMembers,

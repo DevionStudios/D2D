@@ -11,7 +11,7 @@ router.get("/api/community/:name", async (req: any, res: Response) => {
     if (!community) {
       throw new BadRequestError("Community not found, invalid name provided!");
     }
-    res.status(201).send({
+    res.status(200).send({
       message: "Community Information",
       community,
     });

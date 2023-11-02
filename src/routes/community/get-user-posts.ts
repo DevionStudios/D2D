@@ -39,6 +39,7 @@ router.get(
       res.status(200).send({
         userPosts: userCommPosts,
         message: "User's posts in the community",
+        userCommPosts,
         totalPosts,
       });
     } catch (err) {
