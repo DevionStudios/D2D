@@ -40,7 +40,8 @@ router.put(
         role: Role.Member,
       });
       await community.save();
-
+      existingUser.joinedCommunities?.push(community.id);
+      await existingUser.save();
       res.status(201).send({
         message: "member joined community successfully",
       });

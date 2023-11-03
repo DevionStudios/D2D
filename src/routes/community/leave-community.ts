@@ -36,6 +36,11 @@ router.put(
       }
       community.members.splice(existingMember, 1);
       await community.save();
+      //Removing community from user's joinedCommunities array
+      existingUser.joinedCommunities = existingUser.joinedCommunities?.filter(
+        (community1) => community1.toString() !== community.id.toString()
+      );
+      await existingUser.save();
       res.status(201).send({
         message: "member has left the community",
       });
