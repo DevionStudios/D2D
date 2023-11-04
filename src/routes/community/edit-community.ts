@@ -1,4 +1,4 @@
-//change publicName, rules, description, avatar or banner of a community 
+//change publicName, rules, description, avatar or banner of a community
 
 import { Community } from "./../../models/Community";
 import { BadRequestError } from "@devion/common";
@@ -46,11 +46,12 @@ router.put(
           "Community not found, invalid name provided!"
         );
       }
-
+      console.log(existingUser);
       //loop through members and check if userId matches with existing user and if role is admin
       const isAdmin = community.members?.some(
         (member) =>
-          member.userId === existingUser.id && member.role == Role.Admin
+          member.userId.toString() === existingUser.id.toString() &&
+          member.role == Role.Admin
       );
       if (!isAdmin) {
         throw new BadRequestError(
@@ -61,18 +62,8 @@ router.put(
       if (publicName?.length > 0) {
         //if publicName is being changed, then also modify the name accordingly
         community.publicName = publicName;
-        const slug = publicName
-          .toString()
-          .trim()
-          .toLowerCase()
-          .replace(/\s+/g, "-")
-          .replace(/[^\w\-]+/g, "")
-          .replace(/\-\-+/g, "-")
-          .replace(/^-+/, "")
-          .replace(/-+$/, "");
-        const number = await Community.countDocuments({ publicName });
-        const finalSlug = number > 0 ? `${slug}-${number}` : slug;
-        community.name = finalSlug;
+      } else {
+        throw new BadRequestError("Public Name Cannot Be Empty!");
       }
       community.description = description || community.description;
       community.avatar = avatarImageUrl || community.avatar;
@@ -80,7 +71,7 @@ router.put(
       community.rules = rules || community.rules;
       community.tags = tags || community.tags;
       await community.save();
-      res.status(201).send({
+      res.status(200).send({
         message: "Community edited successfully",
         community,
       });

@@ -62,6 +62,8 @@ router.put(
       });
 
       await newCommunity.save();
+      existingUser.joinedCommunities?.push(newCommunity.id);
+      await existingUser.save();
       res.status(201).send({
         message: "Community created successfully",
         newCommunity,
