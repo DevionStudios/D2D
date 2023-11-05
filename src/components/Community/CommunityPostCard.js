@@ -161,7 +161,7 @@ export function CommunityPostCard(props) {
   return (
     <>
       {/* uncomment when integrating */}
-      {/* <ReplyModal
+      <ReplyModal
         isOpen={isOpen}
         comments={comments}
         setComments={setComments}
@@ -173,7 +173,7 @@ export function CommunityPostCard(props) {
         onClose={() => setIsDonateModalOpen(false)}
         receiverWalletAddress={props.post.author.walletAddress}
         {...props}
-      /> */}
+      />
       <Card
         noPadding
         className="max-w-2xl bg-gray-25 dark:bg-black overflow-hidden my-3 rounded-lg "
@@ -182,43 +182,49 @@ export function CommunityPostCard(props) {
           <div className="px-6 py-4">
             <div className="flex space-x-3">
               <Link
-                href="#" // take to the particular community
+                href={`/community/${props?.post.communityId?.name}`} // take to the particular community
                 className="no-underline"
               >
                 <div className="flex-shrink-0">
                   <img
                     className="h-10 w-10 rounded-full object-cover"
-                    src="/assets/community.jpg"
+                    src={
+                      props?.post?.communityId?.avatar?.length > 0
+                        ? props?.post?.communityId?.avatar
+                        : "/assets/community.jpg"
+                    }
                     alt="Image of Community"
                   />
                 </div>
               </Link>
               <div className="min-w-0 flex-1">
                 <Link
-                  href="#" // take to community
+                  href={`/community/${props?.post?.communityId?.name}`} // take to community
                   className="no-underline"
                 >
                   <p className="text-sm font-medium usernametext">
-                    Community Name
+                    {props?.post?.communityId?.publicName}
                     <Link
-                      href="#" // take to user profile
+                      href={`/profile/${props.post.author.username}`} // take to user profile
                       className="no-underline"
                     >
                       <span className="text-muted text-sm ml-2 usernametext">
-                        posted by @author_name
+                        posted by @{props.post.author.username}
                       </span>
                     </Link>
                   </p>
                 </Link>
                 <p className="text-sm text-gray-500">
-                  <a href="#" className="hover:underline">
-                    {/* <time dateTime="2020-12-09T11:43:00">
+                  <a
+                    href={`/profile/${props.post.author.username}`}
+                    className="hover:underline"
+                  >
+                    <time dateTime="2020-12-09T11:43:00">
                       {format(
                         new Date(props.post.createdAt),
                         "MMMM d, hh:mm aaa"
                       )}
-                    </time> */}
-                    datetime here
+                    </time>
                   </a>
                 </p>
               </div>

@@ -24,7 +24,7 @@ export function Follows({ currentUser }) {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/otheruser/${username}`,
         {
-          headers: { cookie: document.cookie },
+          headers: { cookies: document.cookie },
         }
       );
       setFollowers(response.data.followers);

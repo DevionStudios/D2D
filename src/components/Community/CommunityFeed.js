@@ -25,7 +25,7 @@ export function CommunityFeed({ currentUser }) {
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/community/posts/discover?skip=${skip}`,
         {
           headers: {
-            cookie: document.cookie,
+            cookies: document.cookie,
           },
         }
       );

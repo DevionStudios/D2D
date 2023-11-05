@@ -20,9 +20,11 @@ import { CommunityPosts } from "./CommunityPosts";
 import { JoinButton } from "./JoinButton";
 import { EditCommunityModal } from "./EditCommunityModal";
 import { CreateCommunityPostModal } from "./CreateCommunityPostModal";
+import { AllCommunityUsersModal } from "./CommunityMembers";
 export function Community({ communityName, currentUser }) {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
+  const [isMembersModalOpen, setIsMembersModalOpen] = useState(false);
   const isMobile = useMediaQuery(MEDIA_QUERIES.SMALL);
   const [community, setCommunity] = useState(undefined);
   const [isMyCommunity, setIsMyCommunity] = useState(true); // by default it is kept false
@@ -34,6 +36,16 @@ export function Community({ communityName, currentUser }) {
       );
       console.log(response.data);
       setCommunity(response.data?.community);
+      if (
+        response.data?.community?.members?.some(
+          (member) =>
+            member.userId === currentUser.id && member.role === "admin"
+        )
+      ) {
+        setIsMyCommunity(true);
+      } else {
+        setIsMyCommunity(false);
+      }
     } catch (e) {
       toast.error("Error fetching community details");
     }
@@ -117,18 +129,44 @@ export function Community({ communityName, currentUser }) {
                       <div>
                         <JoinButton
                           currentUser={currentUser}
-                          isJoined={true}
+                          isJoined={() => {
+                            return currentUser?.joinedCommunities?.includes(
+                              community?.id
+                            );
+                          }}
                           size={isMobile ? "base" : "lg"}
+                          communityName={community?.name}
                         />
                       </div>
                     </div>
                   ) : (
-                    <div>
-                      <JoinButton
-                        currentUser={currentUser}
-                        isJoined={true}
-                        size={isMobile ? "base" : "lg"}
-                      />
+                    <div className="flex flex-row-reverse gap-2">
+                      <div>
+                        <JoinButton
+                          currentUser={currentUser}
+                          isJoined={() => {
+                            return currentUser?.joinedCommunities?.includes(
+                              community?.id
+                            );
+                          }}
+                          size={isMobile ? "base" : "lg"}
+                          communityName={community?.name}
+                        />
+                      </div>
+                      {currentUser?.joinedCommunities?.includes(
+                        community?.id
+                      ) && (
+                        <div>
+                          <Button
+                            onClick={() => {
+                              setIsCreatePostModalOpen(true);
+                            }}
+                            size={isMobile ? "base" : "lg"}
+                          >
+                            Create Post
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -154,7 +192,9 @@ export function Community({ communityName, currentUser }) {
                     {community.members.length}
                   </span>
                   <ButtonOrLink
-                    href={`/community/${community?.name}/members`}
+                    onClick={() => {
+                      setIsMembersModalOpen(true);
+                    }}
                     className="text-muted hover:underline"
                   >
                     Members
@@ -170,6 +210,7 @@ export function Community({ communityName, currentUser }) {
             isNSFWAllowed={true}
             communityRules={community.rules}
             memberCount={community.members.length}
+            community={community}
           />
         </div>
       </div>
@@ -179,11 +220,18 @@ export function Community({ communityName, currentUser }) {
         currentUser={currentUser}
         isOpen={isUpdateModalOpen}
         setIsOpen={setIsUpdateModalOpen}
+        community={community}
       />
       <CreateCommunityPostModal
         communityId={community?.id}
         isOpen={isCreatePostModalOpen}
         setIsOpen={setIsCreatePostModalOpen}
+      />
+      <AllCommunityUsersModal
+        isOpen={isMembersModalOpen}
+        setIsOpen={setIsMembersModalOpen}
+        communityName={communityName}
+        isAdmin={isMyCommunity}
       />
     </>
   ) : (

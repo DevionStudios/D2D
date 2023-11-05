@@ -92,7 +92,8 @@ export function CreateCommunityModal({ currentUser, isOpen, setIsOpen }) {
     formData.append("bannerImage", banner);
     formData.append("tags", tags);
     formData.append("rules", rules);
-    console.log("hemlo");
+    console.log(tags);
+    console.log(formData);
     try {
       setLoading(true);
       const response = await axios.put(
@@ -113,8 +114,8 @@ export function CreateCommunityModal({ currentUser, isOpen, setIsOpen }) {
       toast.error(error?.response?.data?.message || "Failed to create post!");
     }
 
-    // setIsOpen(false);
-    // window.location.reload();
+    setIsOpen(false);
+    window.location.reload();
     setLoading(false);
   };
   const form = useZodForm({

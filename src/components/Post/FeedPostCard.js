@@ -216,6 +216,16 @@ export function FeedPostCard(props) {
                     </time>
                   </a>
                 </p>
+                {/* {props?.post?.communityId ? (
+                  <p className="text-sm text-gray-500">
+                    <a
+                      href={`/community/${props?.post?.communityId?.name}`}
+                      className="hover:underline"
+                    >
+                      From {props?.post?.communityId}
+                    </a>
+                  </p>
+                ) : null} */}
               </div>
               <div className="flex-shrink-0 self-center flex">
                 {props.currentUser.annonymous ? null : (

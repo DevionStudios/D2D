@@ -102,6 +102,7 @@ export function CommunityPosts({
                         <CommunityPostCard
                           post={post}
                           currentUser={currentUser}
+                          username={currentUser?.username}
                         />
                       </div>
                     );

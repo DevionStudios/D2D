@@ -24,10 +24,14 @@ export function DiscoverCommunity({ currentUser, setIsCreateModalOpen }) {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/community/discover?limit=5`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/community/discover?limit=5`,
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
       );
       setsuggestedCommunitites(response.data?.communities);
-      console.log(response.data);
     } catch (e) {
       setError(true);
     } finally {
@@ -35,8 +39,27 @@ export function DiscoverCommunity({ currentUser, setIsCreateModalOpen }) {
     }
   };
 
+  const fetchJoinedCommunities = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/community/joined?limit=5`,
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
+      );
+      setJoinedCommunities(response.data?.communities);
+    } catch (e) {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
     fetchSuggestedCommunities();
+    fetchJoinedCommunities();
   }, []);
   if (currentUser.annonymous) {
     return (
@@ -91,11 +114,11 @@ export function DiscoverCommunity({ currentUser, setIsCreateModalOpen }) {
                 >
                   {!loading ? (
                     suggestedCommunitites?.length > 0 ? (
-                      suggestedCommunitites.map((data) => {
+                      suggestedCommunitites.map((data, index) => {
                         const community = data;
                         return (
                           <li
-                            key={1}
+                            key={index}
                             className="flex items-center py-4 space-x-3"
                           >
                             <div className="flex-shrink-0">
@@ -126,10 +149,11 @@ export function DiscoverCommunity({ currentUser, setIsCreateModalOpen }) {
                               <JoinButton
                                 currentUser={currentUser}
                                 isJoined={() => {
-                                  currentUser?.communities?.includes(
+                                  return currentUser?.joinedCommunities?.includes(
                                     community?.id
                                   );
                                 }}
+                                communityName={community?.name}
                               />
                             </div>
                           </li>
@@ -186,7 +210,7 @@ export function DiscoverCommunity({ currentUser, setIsCreateModalOpen }) {
                     role="list"
                     className="-my-4 divide-y divide-gray-200 dark:divide-gray-700"
                   >
-                    {joinedCommunities.map((data) => {
+                    {joinedCommunities?.map((data) => {
                       const community = data;
                       return (
                         <li
@@ -202,19 +226,29 @@ export function DiscoverCommunity({ currentUser, setIsCreateModalOpen }) {
                           </div>
                           <div className="min-w-0 flex-1">
                             <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                              <Link className="no-underline" href="#">
-                                Community Name
-                                {/* {community?.lastName ? community?.lastName : null} */}
+                              <Link
+                                className="no-underline"
+                                href={`/community/${community?.name}`}
+                              >
+                                {community?.publicName}
                               </Link>
                             </p>
                             <span className="text-sm text-gray-500 dark:text-gray-400">
-                              500+ joined
+                              {community?.members?.length > 500
+                                ? "500+"
+                                : community?.members?.length}{" "}
+                              Joined
                             </span>
                           </div>
                           <div className="flex-shrink-0">
                             <JoinButton
                               currentUser={currentUser}
-                              isJoined={true}
+                              isJoined={() => {
+                                return currentUser?.joinedCommunities?.includes(
+                                  community?.id
+                                );
+                              }}
+                              communityName={community?.name}
                             />
                           </div>
                         </li>

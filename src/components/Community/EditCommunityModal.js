@@ -35,14 +35,19 @@ export const CreatePostSchema = object({
   tags: z.string().optional(),
 });
 
-export function EditCommunityModal({ currentUser, isOpen, setIsOpen }) {
+export function EditCommunityModal({
+  currentUser,
+  isOpen,
+  setIsOpen,
+  community,
+}) {
   const [loading, setLoading] = useState(false);
   const [mentionData, setMentionData] = useState([]);
   const [currentText, setCurrentText] = useState("");
-  const [description, setCaption] = useState();
-  const [rules, setRules] = useState([]);
-  const [isNSFW, setIsNSFW] = useState(false);
-  const [tags, setTags] = useState([]);
+  const [description, setCaption] = useState(community?.description);
+  const [rules, setRules] = useState(community?.rules);
+  const [isSafeForWork, setIsSafeForWork] = useState(community?.isSafeForWork);
+  const [tags, setTags] = useState(community?.tags);
   function handleKeyDown(e) {
     if (e.key !== "Enter") return;
     const value = e.target.value;
@@ -84,67 +89,39 @@ export function EditCommunityModal({ currentUser, isOpen, setIsOpen }) {
       boxSizing: "border-box",
     },
   });
-  const createPost = async ({ variables }) => {
-    //post data
-    // const { input } = variables;
+  const updateCommunity = async (values) => {
+    const { publicName, description, avatar, banner } = values;
+    const formData = new FormData();
+    formData.append("publicName", publicName);
+    formData.append("description", description);
+    formData.append("avatarImage", avatar);
+    formData.append("bannerImage", banner);
+    formData.append("name", community?.name);
+    formData.append("tags", tags);
+    formData.append("rules", rules);
+    console.log("hemlo");
+    try {
+      setLoading(true);
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/community/edit`,
+        formData,
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
+      );
+      if (response.status == 200) {
+        toast.success("Community Updated Successfully");
+        setIsOpen(false);
+        window.location.reload();
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Failed to create post!");
+    }
 
-    // const content = input.description;
-    // const hashtags = [];
-    // content.replace(/(?<=#).*?(?=( |$))/g, (hashtag) => {
-    //   hashtags.push("#" + hashtag);
-    //   return "";
-    // });
-    // const formdata = new FormData();
-    // formdata.append("description", input.description);
-    // formdata.append("media", input.media);
-    // formdata.append("gifLink", input.gifLink);
-    // for (let i = 0; i < hashtags.length; i++) {
-    //   formdata.append("hashtags", hashtags[i]);
-    // }
-    // setLoading(true);
-    // try {
-    //   const response = await axios.post(
-    //     `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/create`,
-    //     formdata,
-    //     {
-    //       headers: {
-    //         cookies: document.cookie,
-    //       },
-    //     }
-    //   );
-
-    //   console.log("Response: ", response);
-
-    //   const description = input.description;
-    //   description.replace(/(?<=@).*?(?=( |$))/g, async (mention) => {
-    //     console.log("Mention: ", mention);
-
-    //     // create notification of every mention
-    //     const notificationResponse = await axios.post(
-    //       `${process.env.NEXT_PUBLIC_BASE_URL}/api/notification/create`,
-    //       {
-    //         notification: ` mentioned you `,
-    //         userId: currentUser?.id,
-    //         notificationType: "MENTION",
-    //         username: mention,
-    //         postId: response.data?.post?.id || null,
-    //       },
-    //       {
-    //         headers: {
-    //           cookies: document.cookie,
-    //         },
-    //       }
-    //     );
-    //   });
-
-    //   //route to feed
-    //   setIsOpen(false);
-    //   // router.push("/feed");
-
-    //   window.location.reload();
-    // } catch (e) {
-    //   // !remove console.log(e);
-    // }
+    // setIsOpen(false);
+    // window.location.reload();
     setLoading(false);
   };
   const form = useZodForm({
@@ -237,6 +214,7 @@ export function EditCommunityModal({ currentUser, isOpen, setIsOpen }) {
         form={form}
         onSubmit={async (values) => {
           // submit the form
+          await updateCommunity(values);
         }}
       >
         <Card.Body className="space-y-5">
@@ -244,6 +222,7 @@ export function EditCommunityModal({ currentUser, isOpen, setIsOpen }) {
             <div>
               <Input
                 label="Public Name"
+                defaultValue={community?.publicName}
                 placeholder={"Enter public name of your community"}
                 {...form.register("publicName")}
               />
@@ -256,6 +235,7 @@ export function EditCommunityModal({ currentUser, isOpen, setIsOpen }) {
             <div>
               <TextArea
                 label="Description"
+                defaultValue={community?.description}
                 placeholder={"Include description of your community"}
                 {...form.register("description")}
               />
@@ -267,6 +247,7 @@ export function EditCommunityModal({ currentUser, isOpen, setIsOpen }) {
 
           <FileInput
             name="avatar"
+            existingimage={community?.avatar}
             label="Avatar"
             accept="image/png, image/jpg, image/jpeg, image/gif, video/mp4, video/mkv, video/webm"
             {...form.register("avatar")}
@@ -275,6 +256,7 @@ export function EditCommunityModal({ currentUser, isOpen, setIsOpen }) {
           <FileInput
             name="banner"
             label="Banner"
+            existingimage={community?.banner}
             accept="image/png, image/jpg, image/jpeg, image/gif, video/mp4, video/mkv, video/webm"
             {...form.register("banner")}
           />
