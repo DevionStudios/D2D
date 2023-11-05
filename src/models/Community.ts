@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { UserDoc } from "./User";
 import { PostDoc } from "./Post";
+import { CommunityChannelDoc } from "./CommunityChannel";
 
 interface CommunityAttrs {
   publicName: string;
@@ -14,6 +15,7 @@ interface CommunityAttrs {
   rules?: string[];
   posts?: PostDoc[];
   tags?: [];
+  channels?: [CommunityChannelDoc];
 }
 
 interface CommunityModel extends mongoose.Model<CommunityDoc> {
@@ -42,6 +44,7 @@ export interface CommunityDoc extends mongoose.Document {
   isSafeForWork?: boolean;
   rules?: string[];
   tags?: [];
+  channels?: [CommunityChannelDoc];
 }
 
 const CommunitySchema = new mongoose.Schema(
@@ -105,6 +108,15 @@ const CommunitySchema = new mongoose.Schema(
     },
     tags: {
       type: [String],
+      default: [],
+    },
+    channels: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "CommunityChannel",
+        },
+      ],
       default: [],
     },
   },

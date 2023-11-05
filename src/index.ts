@@ -1,8 +1,11 @@
+import { CommunityChannel } from "./models/CommunityChannel";
+import { ExpressPeerServer } from "peer";
 import mongoose from "mongoose";
 import { app } from "./app";
 import dotenv from "dotenv";
 const socket = require("socket.io");
 import { Socket } from "socket.io";
+import { nanoid } from "nanoid";
 dotenv.config();
 
 const start = async () => {
@@ -41,6 +44,17 @@ const start = async () => {
       },
     });
 
+    const peerServer = ExpressPeerServer(server, {
+      // debug: true,
+      port: 443,
+      proxied: true,
+      ssl: {
+        key: "privateKey",
+        cert: "certificate",
+      },
+      generateClientId: () => nanoid(),
+    });
+
     let onlineUsers = new Map();
     io.on("connection", (socket: Socket) => {
       let chatSocket = socket;
@@ -54,6 +68,40 @@ const start = async () => {
         if (sendUserSocket) {
           io.to(sendUserSocket).emit("recieve-msg", data.message);
         }
+      });
+      socket.on("join-room", async (roomId, userId) => {
+        //check if room exists
+        const room = await CommunityChannel.findOne({ _id: roomId });
+        if (!room)
+          return socket.emit("room-error", "Room does not exist in database!");
+        //find number of sockets which are currently in the room
+        const roomSockets = io.sockets.adapter.rooms.get(roomId);
+        const numClients = roomSockets ? roomSockets.size : 0;
+        if (numClients > room.maxNumbers)
+          return socket.emit("room-error", "Room is full!");
+        socket.join(roomId);
+        // socket.to(roomId).broadcast.emit("user-connected", userId);
+        socket.broadcast.to(roomId).emit("user-connected", userId);
+
+        socket.on("video-off", (uId) => {
+          socket.broadcast.to(roomId).emit("video-off", uId);
+        });
+
+        socket.on("video-on", (uId) => {
+          socket.broadcast.to(roomId).emit("video-on", uId);
+        });
+
+        socket.on("audio-off", (uId) => {
+          socket.broadcast.to(roomId).emit("audio-off", uId);
+        });
+
+        socket.on("audio-on", (uId) => {
+          socket.broadcast.to(roomId).emit("audio-on", uId);
+        });
+
+        socket.on("disconnect", () => {
+          socket.broadcast.to(roomId).emit("user-disconnected", userId);
+        });
       });
     });
   } catch (err) {
