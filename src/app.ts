@@ -90,6 +90,7 @@ import { moderateCommunityMembersRouter } from "./routes/community/moderate-memb
 import { getCommunitiesRouter } from "./routes/community/get-communities";
 import { discoverCommunityPostsRouter } from "./routes/community/discover-community-posts";
 import { getUserCommunityFeedRouter } from "./routes/community/get-user's-communities'-posts";
+import { getJoinedCommunitiesRouter } from "./routes/community/get-user-joined-communities";
 
 const app = express();
 app.use(
@@ -185,6 +186,7 @@ app.use(likeOrdinalRouter);
 app.use(likeStampRouter);
 app.use(createCommunityRouter);
 app.use(editCommunityRouter);
+app.use(getJoinedCommunitiesRouter);
 app.use(getCommunitiesRouter);
 app.use(getCommunityUsersRouter);
 app.use(joinCommunityRouter);

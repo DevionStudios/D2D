@@ -15,9 +15,13 @@ router.post(
     try {
       const { postId } = req.body;
 
-      const originalPost = await Post.findById(postId).populate({
-        path: "author",
-      });
+      const originalPost = await Post.findById(postId)
+        .populate({
+          path: "author",
+        })
+        .populate({
+          path: "communityId",
+        });
 
       if (!originalPost) {
         return res.status(404).send({ message: "Post not found!" });

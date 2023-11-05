@@ -13,6 +13,10 @@ router.get("/api/posts", async (req: Request, res: Response) => {
       .skip(Number(skip))
       .populate({
         path: "author",
+      })
+      .populate({
+        path: "communityId",
+        match: { $exists: true },
       });
     res.status(200).send(posts);
   } catch (err) {

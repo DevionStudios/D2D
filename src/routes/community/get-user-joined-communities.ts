@@ -9,23 +9,19 @@ import mongoose from "mongoose";
 const router = express.Router();
 
 router.get(
-  "/api/community/discover",
+  "/api/community/joined",
   currentUser,
   async (req: any, res: Response) => {
     try {
       const { limit = 20, skip = 0 } = req.query;
       const communities = await Community.find({
-        "members.userId": {
-          $ne: new mongoose.Types.ObjectId(req.foxxiUser!.id),
-        },
+        "members.userId": new mongoose.Types.ObjectId(req.foxxiUser!.id),
       })
         .skip(Number(skip))
         .limit(Number(limit))
         .sort({ createdAt: -1 });
       const totalCommunities = await Community.find({
-        "members.userId": {
-          $ne: new mongoose.Types.ObjectId(req.foxxiUser!.id),
-        },
+        "members.userId": new mongoose.Types.ObjectId(req.foxxiUser!.id),
       }).countDocuments();
       res.status(200).send({
         message: "Communities",
@@ -39,4 +35,4 @@ router.get(
   }
 );
 
-export { router as getCommunitiesRouter };
+export { router as getJoinedCommunitiesRouter };

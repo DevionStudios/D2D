@@ -9,7 +9,9 @@ router.get("/api/community/users/:name", async (req: any, res: Response) => {
   try {
     const { name } = req.params; //name of community
     const { limit = 20, skip = 0 } = req.query;
-    const community = await Community.findOne({ name });
+    const community = await Community.findOne({ name }).populate(
+      "members.userId"
+    );
     if (!community) {
       throw new BadRequestError("Community not found, invalid name provided!");
     }

@@ -42,7 +42,7 @@ router.put(
       await community.save();
       existingUser.joinedCommunities?.push(community.id);
       await existingUser.save();
-      res.status(201).send({
+      res.status(200).send({
         message: "member joined community successfully",
       });
     } catch (err) {

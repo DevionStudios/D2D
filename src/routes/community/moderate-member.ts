@@ -27,7 +27,8 @@ router.put(
       //loop through members and check if userId matches with existing user and if role is admin
       const isAdmin = community.members?.some(
         (member) =>
-          member.userId === existingUser.id && member.role == Role.Admin
+          member.userId.toString() === existingUser.id.toString() &&
+          member.role == Role.Admin
       );
       if (!isAdmin) {
         throw new BadRequestError(
@@ -39,7 +40,7 @@ router.put(
         throw new BadRequestError("User not found!");
       }
       const memberIndex = community.members.findIndex(
-        (member) => member.userId === otherUser.id
+        (member) => member.userId.toString() === otherUser.id.toString()
       );
       if (memberIndex === -1) {
         throw new BadRequestError("User is not part of community");
@@ -67,7 +68,7 @@ router.put(
         throw new BadRequestError("Invalid role");
       }
       await community.save();
-      res.status(201).send({
+      res.status(200).send({
         message: "Community edited successfully",
         community,
       });

@@ -20,6 +20,10 @@ router.get("/api/post/:id", async (req: Request, res: Response) => {
         populate: {
           path: "author",
         },
+      })
+      .populate({
+        path: "communityId",
+        match: { $exists: true }
       });
 
     res.status(200).send(post);

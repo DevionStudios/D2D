@@ -17,7 +17,7 @@ router.get("/api/community/posts/:name", async (req: any, res: Response) => {
     })
       .skip(Number(skip))
       .limit(Number(limit))
-      .populate("author")
+      .populate("author communityId")
       .sort({ createdAt: -1 });
     const totalCommunityPosts = await Post.find({
       communityId: community,

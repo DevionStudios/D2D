@@ -14,7 +14,7 @@ router.get("/api/posts/:username", async (req: Request, res: Response) => {
       .sort({ createdAt: -1 })
       .populate({
         path: "posts",
-        populate: { path: "author" },
+        populate: { path: "author communityId" },
       });
 
     if (!existingUser) {

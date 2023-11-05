@@ -12,9 +12,17 @@ router.get("/api/posts/trending", async (req: Request, res: Response) => {
 
     // find the posts concerning the hashtags
 
-    const posts = await Post.find({}).sort({ createdAt: -1 }).skip(Number(skip)).limit(Number(limit)).populate({
-      path: "author",
-    });
+    const posts = await Post.find({})
+      .sort({ createdAt: -1 })
+      .skip(Number(skip))
+      .limit(Number(limit))
+      .populate({
+        path: "author",
+      })
+      .populate({
+        path: "communityId",
+        match: { $exists: true },
+      });
 
     let filteredPosts: any = [];
     posts.map((post) => {

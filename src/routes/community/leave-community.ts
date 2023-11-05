@@ -41,7 +41,7 @@ router.put(
         (community1) => community1.toString() !== community.id.toString()
       );
       await existingUser.save();
-      res.status(201).send({
+      res.status(200).send({
         message: "member has left the community",
       });
     } catch (err) {

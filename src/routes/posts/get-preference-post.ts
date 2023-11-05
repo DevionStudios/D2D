@@ -36,6 +36,10 @@ router.post(
           populate: {
             path: "author",
           },
+        })
+        .populate({
+          path: "communityId",
+          match: { $exists: true }
         });
       console.log(posts);
       res.status(200).send(posts);
