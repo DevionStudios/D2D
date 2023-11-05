@@ -3,7 +3,7 @@ import { FeedPostCard } from "../Post/FeedPostCard";
 import { LoadingFallback } from "src/components/ui/Fallbacks/LoadingFallback";
 import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
 import { Heading } from "../ui/Heading";
-
+import { CommunityPostCard } from "../Community/CommunityPostCard";
 export function HashtagSearchResult({ data, currentUser, loading }) {
   const router = useRouter();
 
@@ -34,10 +34,16 @@ export function HashtagSearchResult({ data, currentUser, loading }) {
             posts.map((edge) => {
               const data = edge;
               if (data) {
-                return (
+                return !data?.communityId ? (
                   <FeedPostCard
-                    key={data.id}
                     post={data}
+                    username={currentUser.username}
+                    currentUser={currentUser}
+                  />
+                ) : (
+                  <CommunityPostCard
+                    post={data}
+                    username={currentUser.username}
                     currentUser={currentUser}
                   />
                 );

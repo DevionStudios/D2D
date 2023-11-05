@@ -12,6 +12,7 @@ import { SEO } from "../SEO";
 import { IndeterminateProgress } from "../ui/Progress";
 import axios from "axios";
 import { Button } from "../ui/Button";
+import { CommunityPostCard } from "../Community/CommunityPostCard";
 
 export function Feed({ currentUser }) {
   const [data, setData] = useState({});
@@ -96,11 +97,19 @@ export function Feed({ currentUser }) {
                 ? data.map((post, index) => {
                     return (
                       <div key={index}>
-                        <FeedPostCard
-                          post={post}
-                          username={currentUser.username}
-                          currentUser={currentUser}
-                        />
+                        {!post?.communityId ? (
+                          <FeedPostCard
+                            post={post}
+                            username={currentUser.username}
+                            currentUser={currentUser}
+                          />
+                        ) : (
+                          <CommunityPostCard
+                            post={post}
+                            username={currentUser.username}
+                            currentUser={currentUser}
+                          />
+                        )}
                       </div>
                     );
                   })

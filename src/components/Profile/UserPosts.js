@@ -8,6 +8,7 @@ import { Badge } from "../ui/Badge";
 import { FeedPostCard } from "../Post/FeedPostCard";
 import { StoryCard } from "../Post/StoryCard";
 import { LoadingFallback } from "../ui/Fallbacks/LoadingFallback";
+import { CommunityPostCard } from "../Community/CommunityPostCard";
 
 export function UserPosts({
   username,
@@ -18,6 +19,7 @@ export function UserPosts({
   stories,
   storiesCount,
 }) {
+  console.log(posts);
   return (
     <Tab.Group>
       <Card.Body
@@ -59,12 +61,19 @@ export function UserPosts({
                   if (data) {
                     return (
                       <div key={post.id}>
-                        <FeedPostCard
-                          post={data}
-                          username={username}
-                          user={user}
-                          currentUser={currentUser}
-                        />
+                        {!post?.communityId ? (
+                          <FeedPostCard
+                            post={post}
+                            username={currentUser.username}
+                            currentUser={currentUser}
+                          />
+                        ) : (
+                          <CommunityPostCard
+                            post={post}
+                            username={currentUser.username}
+                            currentUser={currentUser}
+                          />
+                        )}
                       </div>
                     );
                   }

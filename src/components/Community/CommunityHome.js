@@ -89,7 +89,7 @@ export function Community({ communityName, currentUser }) {
                   <p className="text-muted text-sm">@{community?.name}</p>
                 </div>
                 <div className=" flex items-center justify-stretch  sm:flex-row sm:space-y-0 sm:space-x-5">
-                  <div className="mr-3">
+                  {/* <div className="mr-3">
                     {currentUser.annonymous !== true ? (
                       <Menu
                         dropdown={
@@ -103,7 +103,7 @@ export function Community({ communityName, currentUser }) {
                         </span>
                       </Menu>
                     ) : null}
-                  </div>
+                  </div> */}
                   {isMyCommunity ? (
                     <div className="flex flex-row-reverse gap-2">
                       <div>
