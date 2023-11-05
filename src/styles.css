@@ -242,6 +242,72 @@ div.css-h5ends {
     left: 100%;
   }
 }
+@keyframes float {
+  0% {
+    transform: translatey(0px);
+  }
+  50% {
+    transform: translatey(14px);
+  }
+  100% {
+    transform: translatey(0px);
+  }
+}
+
+@keyframes loader-rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.App {
+  text-align: center;
+  height: 100vh;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+#graphic {
+  transform: translatey(0px);
+  animation: float 4s ease-in-out infinite;
+}
+
+#main-container {
+  width: 100vw;
+  height: 100vh;
+}
+
+.loader {
+  border-right-color: transparent;
+  animation: loader-rotate 1s linear infinite;
+}
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
