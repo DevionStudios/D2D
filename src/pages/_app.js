@@ -4,6 +4,7 @@ import { DefaultSeo } from "next-seo";
 import { useTheme, ThemeProvider } from "next-themes";
 import { Toaster } from "react-hot-toast";
 import { MoralisProvider } from "react-moralis";
+import { SocketContext, socket } from "../context/socket";
 import { NotificationProvider } from "@web3uikit/core";
 import "../styles.css";
 import { NProgress } from "src/components/ui/NProgress";
@@ -41,11 +42,13 @@ function MyApp({ Component, pageProps, currentUser }) {
           <NProgress />
           <Toaster position="top-right" toastOptions={toastOptions} />
           <MoralisProvider initializeOnMount={false}>
-            <NotificationProvider>
-              {getLayout(
-                <Component {...pageProps} currentUser={currentUser} />
-              )}
-            </NotificationProvider>
+            <SocketContext.Provider value={socket}>
+              <NotificationProvider>
+                {getLayout(
+                  <Component {...pageProps} currentUser={currentUser} />
+                )}
+              </NotificationProvider>
+            </SocketContext.Provider>
           </MoralisProvider>
         </ThemeProvider>
       </Provider>

@@ -2,30 +2,32 @@ import { useRouter } from "next/router";
 import { Button } from "../ui/Button";
 import { ErrorFallback } from "../ui/Fallbacks/ErrorFallback";
 import { Heading } from "../ui/Heading";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { JoinButton } from "./JoinButton";
 import Link from "next/link";
-export function AllCommunities({ currentUser, isDiscover }) {
+
+export function ActiveMeetings({ currentUser }) {
   const [data, setData] = useState([
     {
       id: 1,
       publicName: "Public Name",
       name: "Name",
-      avatar: "/assets/community.jpg",
+      avatar: "/assets/meeting.jpg",
     },
     {
       id: 1,
       publicName: "Public Name",
       name: "Name",
-      avatar: "/assets/community.jpg",
+      avatar: "/assets/meeting.jpg",
     },
     {
       id: 1,
       publicName: "Public Name",
       name: "Name",
-      avatar: "/assets/community.jpg",
+      avatar: "/assets/meeting.jpg",
     },
   ]);
+
   const router = useRouter();
   if (!data)
     return (
@@ -36,34 +38,37 @@ export function AllCommunities({ currentUser, isDiscover }) {
       />
     );
 
-  const communities = data;
+  const meetings = data;
+
+  // TODO: Fetch all meetings
+  const getMeetings = async () => {};
 
   return (
     <div className="dark:bg-gray-900 " style={{ marginTop: "100px" }}>
       <div className="flow-root mt-2 px-4 dark:bg-gray-900">
         <ul role="list" className=" divide-y divide-gray-200">
-          {communities.length > 0 ? (
-            communities.map((edge) => {
-              const community = edge;
-              if (community) {
+          {meetings.length > 0 ? (
+            meetings.map((edge) => {
+              const meeting = edge;
+              if (meeting) {
                 return (
-                  <li key={community.id} className="py-4 mx-6">
+                  <li key={meeting.id} className="py-4 mx-6">
                     <div className="flex items-center justify-evenly space-x-4">
-                      <Link href="#">
+                      <Link href="#" passHref>
                         <div>
                           <div className="flex-shrink-0">
                             <img
                               className="h-20 w-20 rounded-full"
-                              src={community.avatar}
-                              alt="Community Image"
+                              src={meeting.avatar}
+                              alt="meeting Image"
                             />
                           </div>
                           <div className="pt-2 flex-1 min-w-0">
                             <p className="text-md font-medium truncate">
-                              {community.publicName}
+                              {meeting.publicName}
                             </p>
                             <p className="text-sm text-gray-500 truncate">
-                              {"@" + community.name}
+                              {"@" + meeting.name}
                             </p>
                           </div>
                         </div>
@@ -83,7 +88,7 @@ export function AllCommunities({ currentUser, isDiscover }) {
           ) : (
             <ErrorFallback
               action={() => router.back()}
-              message={`You have not messaged anyone yet.`}
+              message={`There are no active meetings in this meeting.`}
               buttonText="Go back"
             />
           )}
