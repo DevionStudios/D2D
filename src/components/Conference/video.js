@@ -1,5 +1,5 @@
 import { useRef, useEffect, useContext, useState } from "react";
-import { SocketContext } from "../context/socket";
+import { SocketContext } from "../../context/socket";
 import dotenv from "dotenv";
 import { MdVideocam, MdVideocamOff, MdMic, MdMicOff } from "react-icons/md";
 import { toast } from "react-toastify";

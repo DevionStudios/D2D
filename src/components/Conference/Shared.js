@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState, useContext } from "react";
-import { SocketContext } from "../../../context/socket";
+import { SocketContext } from "../../context/socket";
 import CanvasDraw from "react-canvas-draw";
 import Toolbar from "./Toolbar";
 import FadeIn from "react-fade-in";

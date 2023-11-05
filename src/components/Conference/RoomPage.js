@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import Peer from "peerjs";
 import Video from "./video";
 import SharedContent from "./Shared";
-import { SocketContext } from "../../../context/socket";
+import { SocketContext } from "../../context/socket";
 import dotenv from "dotenv";
 import "react-toastify/dist/ReactToastify.css";
 
