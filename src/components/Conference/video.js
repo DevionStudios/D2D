@@ -1,5 +1,4 @@
 import { useRef, useEffect, useContext, useState } from "react";
-import { SocketContext } from "../../context/socket";
 import dotenv from "dotenv";
 import { MdVideocam, MdVideocamOff, MdMic, MdMicOff } from "react-icons/md";
 import { toast } from "react-toastify";
@@ -9,17 +8,16 @@ dotenv.config();
 
 const peers = {};
 
-const Video = ({ roomId, peer }) => {
+const Video = ({ roomId, peer, socket }) => {
   const myVideoRef = useRef(null);
   const videoGridRef = useRef(null);
   const [myCamOn, setMyCamOn] = useState(false);
   const [myMicOn, setMyMicOn] = useState(false);
   const [myStream, setMyStream] = useState(null);
-  const socket = useContext(SocketContext);
 
   useEffect(() => {
     navigator.mediaDevices
-      .getUserMedia({ audio: true, video: true })
+      ?.getUserMedia({ audio: true, video: true })
       .then((stream) => {
         myVideoRef.current.srcObject = stream;
         myVideoRef.current.muted = true;
@@ -28,6 +26,7 @@ const Video = ({ roomId, peer }) => {
         setMyMicOn(true);
       })
       .catch((err) => {
+        console.log(err);
         switch (err.message) {
           case "Permission denied":
             toast.error(
@@ -68,7 +67,7 @@ const Video = ({ roomId, peer }) => {
           autoPlay: true,
         });
         navigator.mediaDevices
-          .getUserMedia({ audio: true, video: true })
+          ?.getUserMedia({ audio: true, video: true })
           .then((stream) => {
             const call = peer.call(userId, stream, { metadata: peer.id });
 
@@ -175,7 +174,7 @@ const Video = ({ roomId, peer }) => {
       });
 
       navigator.mediaDevices
-        .getUserMedia({ audio: true, video: true })
+        ?.getUserMedia({ audio: true, video: true })
         .then((stream) => {
           call.answer(stream);
 

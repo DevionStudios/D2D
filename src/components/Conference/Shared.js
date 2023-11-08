@@ -1,11 +1,9 @@
 import { useRef, useEffect, useState, useContext } from "react";
-import { SocketContext } from "../../context/socket";
 import CanvasDraw from "react-canvas-draw";
 import Toolbar from "./Toolbar";
 import FadeIn from "react-fade-in";
 
-const SharedContent = ({ isBoardActive, setBoardActive }) => {
-  const socket = useContext(SocketContext);
+const SharedContent = ({ isBoardActive, setBoardActive, socket }) => {
   const [canvas, setCanvas] = useState(null);
   const [color, setColor] = useState("black");
   const [code, setCode] = useState(`function add(a, b) {\n  return a + b;\n}`);

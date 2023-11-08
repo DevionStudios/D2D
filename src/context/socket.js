@@ -1,10 +1,9 @@
 import socketio from "socket.io-client";
 import dotenv from "dotenv";
 import { createContext } from "react";
-
+import { io } from "socket.io-client";
 dotenv.config();
 
-const socket = socketio.connect(process.env.REACT_APP_SOCKET_SERVER_URL);
-const SocketContext = createContext();
+const socket = io.connect(process.env.NEXT_PUBLIC_BASE_URL);
 
-export { socket, SocketContext };
+export { socket };

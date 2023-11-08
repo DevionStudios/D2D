@@ -5,7 +5,6 @@ import dotenv from "dotenv";
 import FadeIn from "react-fade-in";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { BsPlusSquare } from "react-icons/bs";
 import { AiFillInfoCircle } from "react-icons/ai";
@@ -25,43 +24,28 @@ dotenv.config();
 const Rootpage = ({ currentUser, communityName }) => {
   const [loading, setLoading] = useState(false);
   const [newMeetLoading, setNewMeetLoading] = useState(false);
-  const [isModerator, setIsModerator] = useState(true);
+  const [isModerator, setIsModerator] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [newId, setId] = useState("");
   const router = useRouter();
-  const history = useHistory();
 
   // TODO: Remove static data
-  const [data, setData] = useState([
-    {
-      id: "0fhCrxqPgqjMFzghirvjI",
-      isPublic: true,
-      description: "Meet description",
-    },
-    {
-      id: "0fhCrxqPgqjMFzghirvjI",
-      isPublic: false,
-      description: "Meet description",
-    },
-  ]);
+  const [data, setData] = useState([]);
 
   const validateMeet = async (meetId) => {
     try {
-      const meetData = await axios.post(
-        process.env.NEXT_PUBLIC_BASE_URL + "api/channel/id/isValid",
-        { meetId }
+      const resData = await axios.put(
+        process.env.NEXT_PUBLIC_BASE_URL + "api/community/moderator",
+        { name: communityName }
       );
-      const { status } = meetData.data;
-      return status;
+      const isAdmin = resData.data;
+      setIsModerator(isAdmin);
     } catch (error) {
-      toast.error(
-        "Oopsie 🤔 , There was an error generating a meet id. Try checking your internet",
-        {
-          style: {
-            fontFamily: "Poppins",
-          },
-        }
-      );
+      toast.error("Oopsie 🤔 , There was an error.. Please reload", {
+        style: {
+          fontFamily: "Poppins",
+        },
+      });
 
       return false;
     }
@@ -79,17 +63,17 @@ const Rootpage = ({ currentUser, communityName }) => {
       return;
     }
 
-    const isValidMeet = await validateMeet(meetId);
+    // const isValidMeet = await validateMeet(meetId);
 
-    if (isValidMeet) {
-      history.push(`/${meetId}`);
-    } else {
-      toast.error("Oopsie 🤔 , Enter a valid meet id !", {
-        style: {
-          fontFamily: "Poppins",
-        },
-      });
-    }
+    // if (isValidMeet) {
+    router.push(`/community/${communityName}/meeting/${meetId}`);
+    // } else {
+    //   toast.error("Oopsie 🤔 , Enter a valid meet id !", {
+    //     style: {
+    //       fontFamily: "Poppins",
+    //     },
+    //   });
+    // }
     setNewMeetLoading(false);
   };
 
@@ -135,16 +119,56 @@ const Rootpage = ({ currentUser, communityName }) => {
   };
 
   //TODO
-  const isModeratorCheck = async () => {};
+  const isModeratorCheck = async () => {
+    try {
+      const resData = await axios.put(
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/community/moderator",
+        { name: communityName },
+        {
+          headers: {
+            cookies: document.cookie,
+          },
+        }
+      );
+      const isAdmin = resData.data;
+      setIsModerator(isAdmin.isAdmin);
+      console.log(isAdmin.isAdmin);
+    } catch (error) {
+      toast.error("Oopsie 🤔 , There was an error.. Please reload", {
+        style: {
+          fontFamily: "Poppins",
+        },
+      });
+
+      return false;
+    }
+  };
 
   // TODO: Fetch all channels
-  const getActiveChannels = async () => {};
+  const getActiveChannels = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/community/channels/${communityName}`
+      );
+      setData(res.data);
+    } catch (e) {
+      console.log(e);
+      toast.error("Some error occured 😢 . Cannot Fetch Existing Channels", {
+        style: {
+          fontFamily: "Poppins",
+          color: "black",
+        },
+      });
+    }
+    setLoading(false);
+  };
   const channels = data;
 
   useEffect(() => {
     isModeratorCheck();
     getActiveChannels();
-  }, []);
+  }, [data.length]);
 
   return (
     <>
@@ -173,19 +197,19 @@ const Rootpage = ({ currentUser, communityName }) => {
                               <div className="flex items-center justify-evenly space-x-4">
                                 <div className="pt-0 min-w-0">
                                   <p className="text-md font-medium truncate">
-                                    {index}.
+                                    {index + 1}.
                                   </p>
                                 </div>
                                 <Link href="#" passHref>
                                   <div className="pt-2 flex-1 min-w-0">
                                     <p className="text-md font-medium truncate">
-                                      {channel.id}
+                                      {channel.name}
                                     </p>
                                   </div>
                                 </Link>
                                 <div className="pt-2 flex-1 min-w-0">
                                   <p className="text-md font-medium truncate">
-                                    {channel.isPublic ? "Public" : "Private"}
+                                    {channel.public ? "Public" : "Private"}
                                   </p>
                                 </div>
                                 <div>

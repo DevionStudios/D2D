@@ -26,30 +26,35 @@ export function CreateChannelModal({
   const [loading, setLoading] = useState(false);
   const [isPublic, setIsPublic] = useState(false);
   const [caption, setCaption] = useState();
+  const [participants, setParticipants] = useState();
+  const [channelName, setChannelName] = useState();
   const handleCaptionChange = (e) => {
     setCaption(handleCaptionChange(e.target.value));
   };
 
   const createChannel = async ({ variables }) => {
     const { input } = variables;
-
+    console.log(input);
     const formdata = new FormData();
-    formdata.append("description", input.caption);
-    formdata.append("isPublic", input.isPublic);
-    formdata.append("communityName", communityName);
-
     setLoading(true);
     try {
+      console.log(communityName);
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/meeting/create`,
-        formdata,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/community/channel/create`,
+        {
+          description: input.description,
+          isPublic: input.isPublic,
+          maxNumbers: input.participants,
+          channelName: input.channelName,
+          name: communityName,
+        },
         {
           headers: {
             cookies: document.cookie,
           },
         }
       );
-
+      console.log(response.data);
       toast.success("🚀 New channel created ", {
         style: {
           fontFamily: "Poppins",
@@ -98,8 +103,10 @@ export function CreateChannelModal({
             await createChannel({
               variables: {
                 input: {
+                  channelName: channelName,
                   description: caption,
                   isPublic: isPublic,
+                  participants: participants,
                 },
               },
             });
@@ -108,7 +115,7 @@ export function CreateChannelModal({
         <Card.Body className="space-y-5">
           <div className="relative">
             <div>
-              <label>Desription</label>
+              <label>Description</label>
               <Input
                 value={caption}
                 onChange={(e) => {
@@ -119,6 +126,39 @@ export function CreateChannelModal({
             </div>
             <div className="left-3 flex space-x-3">
               <EmojiPicker onEmojiPick={handleEmojiPick} />
+            </div>
+          </div>
+          <div className="relative">
+            <div>
+              <label>Channel Name</label>
+              <Input
+                value={channelName}
+                onChange={(e) => {
+                  setChannelName(e.target.value);
+                }}
+                placeholder="Write channel name."
+              ></Input>
+            </div>
+            <div className="left-3 flex space-x-3">
+              <EmojiPicker onEmojiPick={handleEmojiPick} />
+            </div>
+          </div>
+          <div className="relative">
+            <div>
+              <label>Max Participants (max can be 15)</label>
+              <Input
+                type="number"
+                min="1"
+                step="1"
+                pattern="\d+"
+                value={participants}
+                onChange={(e) => {
+                  e.target.value = Math.floor(Math.abs(e.target.value));
+                  e.target.value = Math.min(e.target.value, 15);
+                  setParticipants(e.target.value);
+                }}
+                placeholder="How many participants can join the channel concurrently?"
+              ></Input>
             </div>
           </div>
           <div className="relative">
