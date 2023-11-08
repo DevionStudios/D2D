@@ -11,8 +11,15 @@ router.post(
   "/api/community/channel/create",
   currentUser,
   async (req: any, res: Response) => {
-    const { name, channelName, maxNumbers = 10 } = req.body;
+    const {
+      name,
+      channelName,
+      description = "",
+      maxNumbers = 10,
+      isPublic = false,
+    } = req.body;
     try {
+      console.log(req.body);
       const existingUser = await User.findOne({ _id: req.foxxiUser!.id });
       if (!existingUser) {
         throw new BadRequestError("User not found!");
@@ -26,7 +33,9 @@ router.post(
       }
       //check if existingUser is an admin of the community
       const existingAdmin = community.members.find(
-        (member) => member.userId === existingUser.id && member.role === "admin"
+        (member) =>
+          member.userId.toString() === req.foxxiUser!.id.toString() &&
+          member.role === "admin"
       );
       if (!existingAdmin) {
         throw new BadRequestError(
@@ -44,6 +53,8 @@ router.post(
         maxNumbers,
         community,
         creator: existingUser,
+        description,
+        public: isPublic,
       });
       await newChannel.save();
       community.channels?.push(newChannel);

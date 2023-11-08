@@ -91,6 +91,9 @@ import { getCommunitiesRouter } from "./routes/community/get-communities";
 import { discoverCommunityPostsRouter } from "./routes/community/discover-community-posts";
 import { getUserCommunityFeedRouter } from "./routes/community/get-user's-communities'-posts";
 import { getJoinedCommunitiesRouter } from "./routes/community/get-user-joined-communities";
+import { getCommunityChannelsRouter } from "./routes/communityChannels/get-channels";
+import { createCommunityChannelRouter } from "./routes/communityChannels/create-channel";
+import { checkCommunityModeratorRouter } from "./routes/community/check-community-moderator";
 
 const app = express();
 app.use(
@@ -185,6 +188,7 @@ app.use(getUserStampsFromDBRouter);
 app.use(likeOrdinalRouter);
 app.use(likeStampRouter);
 app.use(createCommunityRouter);
+app.use(checkCommunityModeratorRouter);
 app.use(editCommunityRouter);
 app.use(getJoinedCommunitiesRouter);
 app.use(getCommunitiesRouter);
@@ -198,8 +202,11 @@ app.use(getCommunityUserPostsRouter);
 app.use(moderateCommunityMembersRouter);
 app.use(getCommunityRouter);
 app.use(getUserCommunityFeedRouter);
+app.use(createCommunityChannelRouter);
+app.use(getCommunityChannelsRouter);
 
 app.all("*", async (req: any, res: any) => {
+  console.log(req.originalUrl);
   throw new Error("Route not found!!");
 });
 

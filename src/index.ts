@@ -39,26 +39,32 @@ const start = async () => {
     });
     const io = socket(server, {
       cors: {
-        origin: "https://foxxi-frontend.vercel.app",
-        credentials: true,
+        // origin: ["*", "https://foxxi-frontend.vercel.app"],
+        // credentials: true,
       },
     });
 
     const peerServer = ExpressPeerServer(server, {
-      // debug: true,
       port: 443,
       proxied: true,
-      ssl: {
-        key: "privateKey",
-        cert: "certificate",
-      },
+      // ssl: {
+      //   key: "privateKey",
+      //   cert: "certificate",
+      // },
       generateClientId: () => nanoid(),
     });
 
+    app.use("/peerJs", peerServer);
+
     let onlineUsers = new Map();
     io.on("connection", (socket: Socket) => {
+      console.log("socket connected!!!!");
+      console.log(socket.id);
       let chatSocket = socket;
-
+      socket.on("hello", (data: any) => {
+        console.log("object socker!!");
+        socket.emit("error", "hello from server");
+      });
       socket.on("add-user", (userId: string) => {
         onlineUsers.set(userId, socket.id);
       });
@@ -70,18 +76,27 @@ const start = async () => {
         }
       });
       socket.on("join-room", async (roomId, userId) => {
+        console.log("join room emited\n");
         //check if room exists
         const room = await CommunityChannel.findOne({ _id: roomId });
         if (!room)
-          return socket.emit("room-error", "Room does not exist in database!");
+          return socket.emit("error", "Room does not exist in database!");
         //find number of sockets which are currently in the room
         const roomSockets = io.sockets.adapter.rooms.get(roomId);
         const numClients = roomSockets ? roomSockets.size : 0;
         if (numClients > room.maxNumbers)
           return socket.emit("room-error", "Room is full!");
         socket.join(roomId);
-        // socket.to(roomId).broadcast.emit("user-connected", userId);
         socket.broadcast.to(roomId).emit("user-connected", userId);
+
+        socket.on("drawing-data", (data) => {
+          // console.log(data);
+          socket.broadcast.to(roomId).emit("receive-drawing-data", data);
+        });
+
+        socket.on("editor-changes", (data) => {
+          socket.broadcast.to(roomId).emit("receive-editor-data", data);
+        });
 
         socket.on("video-off", (uId) => {
           socket.broadcast.to(roomId).emit("video-off", uId);

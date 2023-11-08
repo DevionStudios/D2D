@@ -7,6 +7,8 @@ interface CommunityChannelAttrs {
   maxNumbers: number;
   community: CommunityDoc;
   creator: UserDoc;
+  description?: string;
+  public: boolean;
 }
 
 interface CommunityChannelModel extends mongoose.Model<CommunityChannelDoc> {
@@ -18,15 +20,22 @@ export interface CommunityChannelDoc extends mongoose.Document {
   maxNumbers: number;
   community: CommunityDoc;
   creator: UserDoc;
+  public: boolean;
+  description?: string;
 }
 
 const CommunityChannelSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     maxNumbers: { type: Number, default: 10 },
+    public: { type: Boolean, default: true },
     community: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Community",
+    },
+    description: {
+      type: String,
+      default: "A channel!",
     },
     creator: {
       type: mongoose.Schema.Types.ObjectId,
