@@ -14,7 +14,7 @@ interface CommunityAttrs {
   isSafeForWork?: boolean;
   rules?: string[];
   posts?: PostDoc[];
-  tags?: [];
+  tags?: string[];
   channels?: [CommunityChannelDoc];
 }
 
@@ -43,7 +43,7 @@ export interface CommunityDoc extends mongoose.Document {
   banner?: string;
   isSafeForWork?: boolean;
   rules?: string[];
-  tags?: [];
+  tags?: string[];
   channels?: [CommunityChannelDoc];
 }
 

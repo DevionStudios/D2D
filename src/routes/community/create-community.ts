@@ -48,16 +48,17 @@ router.put(
       if (!publicName) {
         throw new BadRequestError("Community name is required!");
       }
-
+      const tagsArray: string[] = tags.split(",");
+      const rulesArray: string[] = rules.split(",");
       const newCommunity = Community.build({
         publicName,
         creator: existingUser,
         description,
-        rules,
+        rules: rulesArray,
         avatar: avatarImageUrl,
         banner: bannerImageUrl,
         members: [],
-        tags,
+        tags: tagsArray,
         isSafeForWork,
       });
 
