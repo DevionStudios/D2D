@@ -2,9 +2,6 @@
 import { Community, Role } from "./../../models/Community";
 import { BadRequestError } from "@devion/common";
 import express, { Request, Response } from "express";
-import cloudinary from "../../config/cloudinaryConfig";
-import upload from "../../config/multer.filefilter.config";
-import path from "path";
 import { User } from "../../models/User";
 import { currentUser } from "../../middlewares/currentuser";
 
@@ -34,6 +31,11 @@ router.put(
       if (existingMember == -1) {
         throw new BadRequestError("You are not a member of this community!");
       }
+      const memberDoc = community.members[existingMember].userId;
+      if (community.creator?.toString() == memberDoc.toString())
+        throw new BadRequestError(
+          "You cannot leave the community as you are the creator"
+        );
       community.members.splice(existingMember, 1);
       await community.save();
       //Removing community from user's joinedCommunities array
