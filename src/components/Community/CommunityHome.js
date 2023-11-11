@@ -22,6 +22,9 @@ import { EditCommunityModal } from "./EditCommunityModal";
 import { CreateCommunityPostModal } from "./CreateCommunityPostModal";
 import { AllCommunityUsersModal } from "./CommunityMembers";
 export function Community({ communityName, currentUser }) {
+  const router = useRouter();
+  console.log("Path: ", router.asPath);
+
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
   const [isMembersModalOpen, setIsMembersModalOpen] = useState(false);
@@ -127,6 +130,16 @@ export function Community({ communityName, currentUser }) {
                         </Button>
                       </div>
                       <div>
+                        <Button
+                          onClick={() => {
+                            router.push(`${communityName}/meeting`);
+                          }}
+                          size={isMobile ? "base" : "lg"}
+                        >
+                          Meeting
+                        </Button>
+                      </div>
+                      <div>
                         <JoinButton
                           currentUser={currentUser}
                           isJoined={() => {
@@ -156,16 +169,28 @@ export function Community({ communityName, currentUser }) {
                       {currentUser?.joinedCommunities?.includes(
                         community?.id
                       ) && (
-                        <div>
-                          <Button
-                            onClick={() => {
-                              setIsCreatePostModalOpen(true);
-                            }}
-                            size={isMobile ? "base" : "lg"}
-                          >
-                            Create Post
-                          </Button>
-                        </div>
+                        <>
+                          <div>
+                            <Button
+                              onClick={() => {
+                                router.push("meeting");
+                              }}
+                              size={isMobile ? "base" : "lg"}
+                            >
+                              Meeting
+                            </Button>
+                          </div>
+                          <div>
+                            <Button
+                              onClick={() => {
+                                setIsCreatePostModalOpen(true);
+                              }}
+                              size={isMobile ? "base" : "lg"}
+                            >
+                              Create Post
+                            </Button>
+                          </div>
+                        </>
                       )}
                     </div>
                   )}

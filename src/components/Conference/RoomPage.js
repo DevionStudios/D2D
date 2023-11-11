@@ -26,14 +26,29 @@ const RoomPage = ({ isBoardActive, setBoardActive, currentUser }) => {
   });
   const setupPeer = async () => {
     const fn = async () => {
+      var config = {
+        iceServers: [
+          {
+            urls: "stun:openrelay.metered.ca:80",
+          },
+          {
+            urls: "stun:stun.l.google.com:19302",
+          },
+          {
+            urls: "stun:stun2.l.google.com:19302",
+          },
+        ],
+      };
+
       const PeerJs = (await import("peerjs")).default;
       // set it to state here
       let peer = new PeerJs(undefined, {
-        path: "/peerJs",
-        host: process.env.NEXT_PUBLIC_BASE_URL,
-        port: 5000,
-        // key: "peerJs",
-        secure: false,
+        // path: "/peerJs",
+        // host: process.env.NEXT_PUBLIC_BASE_URL,
+        // port: 3000,
+        // // key: "peerJs",
+        // secure: false,
+        config: config,
       });
       setPeer(peer);
       socket.current.emit("join-room", roomId, peer.id);

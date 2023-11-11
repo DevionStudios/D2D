@@ -6,7 +6,7 @@ import "rc-slider/assets/index.css";
 
 const Toolbar = ({ setColor, undo, clearDrawing, setBrushRadius }) => {
   return (
-    <div className=" flex flex-row justify-center items-center rounded-full w-2/5 bg-gray-900 shadow-2xl p-4 mb-3  ">
+    <div className=" flex flex-row justify-center items-center rounded-full w-11/12 bg-gray-900 shadow-2xl p-4 mb-3  ">
       <span
         className="rounded-full mx-1 h-8 w-8 flex items-center justify-center bg-black border-2 border-white transform hover:scale-110 motion-reduce:transform-none "
         onClick={(e) => setColor("black")}

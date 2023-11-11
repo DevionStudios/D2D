@@ -17,7 +17,7 @@ const Video = ({ roomId, peer, socket }) => {
 
   useEffect(() => {
     navigator.mediaDevices
-      ?.getUserMedia({ audio: true, video: true })
+      ?.getUserMedia({ audio: true, video: false })
       .then((stream) => {
         myVideoRef.current.srcObject = stream;
         myVideoRef.current.muted = true;
@@ -30,7 +30,7 @@ const Video = ({ roomId, peer, socket }) => {
         switch (err.message) {
           case "Permission denied":
             toast.error(
-              "Camera Permission denied . Try giving permission and refresh the page \n ",
+              "Permission denied. Try giving permission and refresh the page \n ",
               {
                 style: {
                   fontFamily: "Poppins",
@@ -245,27 +245,35 @@ const Video = ({ roomId, peer, socket }) => {
       className="h-screen w-1/6 m-5 overflow-y-auto font-body"
       ref={videoGridRef}
     >
-      <video
-        ref={myVideoRef}
+      {/* <video
+        // ref={myVideoRef}
         id={peer.id}
         autoPlay={true}
         className="rounded-md"
         poster="https://i.imgur.com/bGOuVkD.png"
-      />
+      /> */}
+      {/* show profile image of user */}
+      <div className="flex flex-row md:flex-col justify-center">
+        <img
+          src="https://i.imgur.com/mCHMpLT.png"
+          alt="profile"
+          className="rounded-full h-20 w-20 object-cover "
+        />
+      </div>
 
       <div className="flex flex-row justify-center mt-1 rounded-lg shadow-2xl gap-x-4">
-        {myCamOn === true ? (
+        {/* {myCamOn === true ? (
           <MdVideocam size={26} color={"white"} onClick={() => playStop()} />
         ) : (
           <MdVideocamOff size={26} color={"white"} onClick={() => playStop()} />
-        )}
+        )} */}
         {myMicOn === true ? (
           <MdMic size={26} color={"white"} onClick={() => muteUnmute()} />
         ) : (
           <MdMicOff size={26} color={"white"} onClick={() => muteUnmute()} />
         )}
       </div>
-      <ToastContainer autoClose={3000} position={"bottom-right"} />
+      <ToastContainer autoClose={3000} position={"top-right"} />
     </div>
   );
 };

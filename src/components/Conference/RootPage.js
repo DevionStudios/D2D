@@ -29,27 +29,7 @@ const Rootpage = ({ currentUser, communityName }) => {
   const [newId, setId] = useState("");
   const router = useRouter();
 
-  // TODO: Remove static data
   const [data, setData] = useState([]);
-
-  const validateMeet = async (meetId) => {
-    try {
-      const resData = await axios.put(
-        process.env.NEXT_PUBLIC_BASE_URL + "api/community/moderator",
-        { name: communityName }
-      );
-      const isAdmin = resData.data;
-      setIsModerator(isAdmin);
-    } catch (error) {
-      toast.error("Oopsie 🤔 , There was an error.. Please reload", {
-        style: {
-          fontFamily: "Poppins",
-        },
-      });
-
-      return false;
-    }
-  };
 
   const joinMeet = async (meetId) => {
     setNewMeetLoading(true);
@@ -63,62 +43,10 @@ const Rootpage = ({ currentUser, communityName }) => {
       return;
     }
 
-    // const isValidMeet = await validateMeet(meetId);
-
-    // if (isValidMeet) {
     router.push(`/community/${communityName}/meeting/${meetId}`);
-    // } else {
-    //   toast.error("Oopsie 🤔 , Enter a valid meet id !", {
-    //     style: {
-    //       fontFamily: "Poppins",
-    //     },
-    //   });
-    // }
     setNewMeetLoading(false);
   };
 
-  const creatNewMeet = async () => {
-    if (newId !== "") {
-      toast.info("Psst 🤔 , You already generated a new id !", {
-        style: {
-          fontFamily: "Poppins",
-        },
-      });
-      return;
-    }
-    setLoading(true);
-
-    try {
-      const channelId = await axios.post(
-        process.env.NEXT_PUBLIC_BASE_URL + "api/channel/id",
-        {
-          moderatorId: currentUser.id,
-          communityId: currentUser.communityId,
-        }
-      );
-      setId(channelId.data.id);
-      toast("🚀 New channel created ", {
-        style: {
-          fontFamily: "Poppins",
-          color: "black",
-        },
-      });
-    } catch (error) {
-      console.log(error);
-      toast.error(
-        "Some error occured 😢 . Try checking your internet connection",
-        {
-          style: {
-            fontFamily: "Poppins",
-            color: "black",
-          },
-        }
-      );
-    }
-    setLoading(false);
-  };
-
-  //TODO
   const isModeratorCheck = async () => {
     try {
       const resData = await axios.put(
@@ -144,7 +72,6 @@ const Rootpage = ({ currentUser, communityName }) => {
     }
   };
 
-  // TODO: Fetch all channels
   const getActiveChannels = async () => {
     setLoading(true);
     try {
@@ -180,12 +107,12 @@ const Rootpage = ({ currentUser, communityName }) => {
       />
       <div className="w-screen overflow-auto" id="main-container">
         <div className="leading-normal tracking-normal text-indigo-400 bg-bg bg-center w-full h-full font-body ">
-          <div className="container p-20 mx-auto flex flex-wrap flex-col md:flex-row items-center">
-            <div className="w-full xl:w-3/5 p-10 overflow-hidden ">
+          <div className="container  mx-auto flex flex-wrap flex-col md:flex-row items-center">
+            <div className="w-full xl:w-3/5 p-4 pt-20 overflow-hidden ">
               <h6 className="text-2xl md:text-4xl font-bold leading-tight text-center ">
                 Join a channel
               </h6>
-              <div className="dark:bg-gray-900 mt-10 ">
+              <div className="dark:bg-gray-900 mt-10">
                 <div className="flow-root mt-2 px-4 dark:bg-gray-900 text-center">
                   <ul role="list" className=" divide-y divide-gray-200">
                     {channels.length > 0 ? (
@@ -309,11 +236,11 @@ const Rootpage = ({ currentUser, communityName }) => {
                 className="w-full xl:w-3/5 p-10 overflow-hidden "
                 id="graphic"
               >
-                <Image
+                {/* <Image
                   className="mx-auto w-full md:w-3/5 transform -rotate-6 transition hover:scale-100 duration-700 ease-in-out hover:rotate-6 bg-collab"
                   alt="Together"
                   src={Wizard}
-                />
+                /> */}
               </div>
             )}
           </div>
