@@ -10,6 +10,12 @@ import { NProgress } from "src/components/ui/NProgress";
 import { toastOptions } from "src/utils/toastOptions";
 import { store } from "../redux/store";
 import { Provider } from "react-redux";
+import { createContext } from "react";
+import { io } from "socket.io-client";
+
+const socket = io("/", { path: "/api/socketio" });
+export const SocketContext = createContext(socket);
+
 function MyApp({ Component, pageProps, currentUser }) {
   const getLayout = Component.getLayout ?? ((page) => page);
   const { setTheme, theme } = useTheme();
@@ -41,11 +47,11 @@ function MyApp({ Component, pageProps, currentUser }) {
           <NProgress />
           <Toaster position="top-right" toastOptions={toastOptions} />
           <MoralisProvider initializeOnMount={false}>
-              <NotificationProvider>
-                {getLayout(
-                  <Component {...pageProps} currentUser={currentUser} />
-                )}
-              </NotificationProvider>
+            <NotificationProvider>
+              {getLayout(
+                <Component {...pageProps} currentUser={currentUser} />
+              )}
+            </NotificationProvider>
           </MoralisProvider>
         </ThemeProvider>
       </Provider>
