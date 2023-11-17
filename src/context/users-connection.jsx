@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useUser } from "@auth0/nextjs-auth0";
 import { toast } from "react-toastify";
 
 import { append } from "../utils";
@@ -17,9 +16,9 @@ export default function UsersConnectionProvider({
   peer,
   myId,
   children,
+  currentUser,
 }) {
   const router = useRouter();
-  const user = useUser().user;
 
   const socket = useContext(SocketContext);
   const { streams } = useContext(UsersStateContext);
@@ -68,8 +67,8 @@ export default function UsersConnectionProvider({
           {
             metadata: {
               user: {
-                name: user.name,
-                picture: user.picture,
+                name: currentUser?.username || "Loading...",
+                picture: currentUser?.image || "",
               },
               muted,
               visible,
@@ -80,7 +79,14 @@ export default function UsersConnectionProvider({
         call.on("stream", (stream) => {
           setStreams(
             append({
-              [id]: <PeerVideo stream={stream} isMe={false} name={name} />,
+              [id]: (
+                <PeerVideo
+                  currentUser={currentUser}
+                  stream={stream}
+                  isMe={false}
+                  name={name}
+                />
+              ),
             })
           );
           const screenTrack = stream.getVideoTracks()[1];

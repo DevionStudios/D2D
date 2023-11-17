@@ -1,20 +1,18 @@
 import { useContext, useEffect, useState } from "react";
 
-import { useUser } from "@auth0/nextjs-auth0";
-import { useMediaStream } from "@hooks/index";
-import { SocketContext } from "@pages/_app";
+import { useMediaStream } from "./index";
+import { SocketContext } from "../pages/_app";
 import { useRouter } from "next/router";
 
-import { error } from "@common/utils";
+import { error } from "../utils";
 
 /**
  * Creates a peer and joins them into the room
  * @returns peer object, its id and meta-state whether is peer fully created
  */
-const usePeer = (stream) => {
+const usePeer = (stream, currentUser) => {
   const socket = useContext(SocketContext);
-  const room = useRouter().query.qoraId;
-  const user = useUser().user;
+  const room = useRouter().query.meetingId;
 
   const { muted, visible } = useMediaStream(stream);
 
@@ -38,8 +36,8 @@ const usePeer = (stream) => {
               id,
               muted,
               visible,
-              name: user.name,
-              picture: user.picture,
+              name: currentUser?.username,
+              picture: currentUser?.image,
             },
           });
         });

@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import { useUser } from "@auth0/nextjs-auth0";
 
 import { MYSELF } from "../../../constants";
 import { append, formatTimeHHMM } from "../../../utils";
@@ -7,8 +6,8 @@ import { append, formatTimeHHMM } from "../../../utils";
 import { SocketContext } from "../../../pages/_app";
 import { Message } from "..";
 
-const Chat = () => {
-  const username = useUser().user.name;
+const Chat = ({ currentUser }) => {
+  const username = currentUser?.username || "Loading...";
   const socket = useContext(SocketContext);
 
   const [text, setText] = useState("");

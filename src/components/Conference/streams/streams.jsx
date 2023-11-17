@@ -11,6 +11,7 @@ export default function Streams({
   stream,
   muted,
   visible,
+  currentUser,
 }) {
   const shared =
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -22,7 +23,12 @@ export default function Streams({
         fullscreen && shared ? "hidden" : ""
       } flex flex-wrap gap-4 justify-around ${shared ? "basis-1/6" : ""}`}
     >
-      <MyStream stream={stream} muted={muted} visible={visible} />
+      <MyStream
+        currentUser={currentUser}
+        stream={stream}
+        muted={muted}
+        visible={visible}
+      />
       <OtherStreams />
     </div>
   );

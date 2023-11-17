@@ -1,10 +1,7 @@
 import Link from "next/link";
-import { useUser } from "@auth0/nextjs-auth0";
 import { UserIcon } from "../../../assets/icons";
 
-const Header = () => {
-  const userMetadata = useUser();
-
+const Header = ({ currentUser }) => {
   return (
     <nav className="bg-gray-800">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -12,7 +9,7 @@ const Header = () => {
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">
-                {!userMetadata.user ? (
+                {currentUser ? (
                   <Link passHref href="/api/auth/login">
                     <button className="text-white">Login with Google</button>
                   </Link>
@@ -33,10 +30,10 @@ const Header = () => {
                 aria-haspopup="true"
               >
                 <span className="sr-only">Open user menu</span>
-                {userMetadata.user?.picture ? (
+                {currentUser?.image ? (
                   <img
                     className="h-8 w-8 rounded-full"
-                    src={userMetadata.user.picture}
+                    src={currentUser?.image}
                     alt=""
                   />
                 ) : (

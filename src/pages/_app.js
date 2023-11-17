@@ -47,11 +47,13 @@ function MyApp({ Component, pageProps, currentUser }) {
           <NProgress />
           <Toaster position="top-right" toastOptions={toastOptions} />
           <MoralisProvider initializeOnMount={false}>
-            <NotificationProvider>
-              {getLayout(
-                <Component {...pageProps} currentUser={currentUser} />
-              )}
-            </NotificationProvider>
+            <SocketContext.Provider value={socket}>
+              <NotificationProvider>
+                {getLayout(
+                  <Component {...pageProps} currentUser={currentUser} />
+                )}
+              </NotificationProvider>
+            </SocketContext.Provider>
           </MoralisProvider>
         </ThemeProvider>
       </Provider>

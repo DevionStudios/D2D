@@ -1,4 +1,3 @@
-import { useUser } from "@auth0/nextjs-auth0";
 import { VideoCameraIcon, MicrophoneIcon } from "@heroicons/react/solid";
 import Tooltip from "react-tooltip";
 
@@ -8,8 +7,7 @@ import { CrossLineDiv } from "../../../components/Common";
 
 import { PeerVideo, VideoContainer } from "..";
 
-export default function Lobby({ stream, onJoinRoom }) {
-  const user = useUser().user;
+export default function Lobby({ stream, onJoinRoom, currentUser }) {
   const { muted, visible, toggle, toggleVideo } = useMediaStream(stream);
 
   return (
@@ -20,7 +18,7 @@ export default function Lobby({ stream, onJoinRoom }) {
           muted={muted}
           visible={visible}
           stream={stream}
-          userPicture={user?.picture || ""}
+          userPicture={currentUser?.image || ""}
         >
           <PeerVideo key="me" stream={stream} name={MYSELF} isMe={true} />
         </VideoContainer>
@@ -55,7 +53,7 @@ export default function Lobby({ stream, onJoinRoom }) {
         type="button"
         className="p-2 text-sm font-medium rounded-md text-emerald-800 bg-emerald-300 hover:bg-indigo-200"
       >
-        Join qora
+        Join meeting
       </button>
     </div>
   );

@@ -8,7 +8,7 @@ import { SocketContext } from "../pages/_app";
 export const UsersUpdaterContext = createContext({});
 export const UsersStateContext = createContext({});
 
-export default function UsersSettingsProvider({ children }) {
+export default function UsersSettingsProvider({ children, currentUser }) {
   const router = useRouter();
   const socket = useContext(SocketContext);
 
@@ -35,17 +35,19 @@ export default function UsersSettingsProvider({ children }) {
 
   return (
     <UsersStateContext.Provider
+      currentUser={currentUser}
       value={{
         streams,
         isMuted,
         isHidden,
-        isHost: isHost(router.query.qoraId),
+        isHost: isHost(router.query.meetingId),
         avatars,
         names,
         sharedScreenTrack,
       }}
     >
       <UsersUpdaterContext.Provider
+        currentUser={currentUser}
         value={{
           setIsMuted,
           setIsHidden,

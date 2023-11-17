@@ -8,6 +8,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth0/nextjs-auth0": "^1.7.0",
     "@dhaiwat10/react-link-preview": "^1.9.0",
     "@feedback-fish/react": "^1.2.1",
     "@headlessui/react": "^1.4.0",

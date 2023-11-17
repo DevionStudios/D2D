@@ -3,8 +3,8 @@ import { useState } from "react";
 import { error } from "../utils";
 
 const useScreen = (stream) => {
-  const [status, setStatus] =
-    (useState < "idle") | "loading" | "success" | ("rejected" > "idle");
+  const [status, setStatus] = useState("idle");
+  // (useState < "idle") | "loading" | "success" | ("rejected" > "idle");
   const [screenTrack, setScreenTrack] = useState(null);
 
   async function startShare(onstarted, onended) {
