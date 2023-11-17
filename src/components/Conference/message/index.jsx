@@ -12,8 +12,8 @@ const Message = ({ message, isLast }) => {
         </div>
       )}
       <div
-        className={`w-fit mt-1 mr-6 p-3 rounded-xl ${
-          isMe ? "ml-auto bg-emerald-600" : "bg-gray-600"
+        className={`w-fit mt-1 mr-6 p-3 rounded-xl text-black ${
+          isMe ? "ml-auto bg-orange-400" : "bg-gray-600"
         } ${isLast ? (isMe ? "rounded-br-none" : "rounded-bl-none") : ""}`}
       >
         {message.text}

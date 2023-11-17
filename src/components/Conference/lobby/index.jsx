@@ -28,7 +28,7 @@ export default function Lobby({ stream, onJoinRoom, currentUser }) {
             onClick={toggleVideo}
             data-for="visibility"
             data-tip={`${!visible ? "switch on" : "switch off"}`}
-            className="p-3 rounded-xl text-white bg-slate-800 hover:bg-indigo-700 relative"
+            className="p-3 rounded-xl relative text-white bg-orange-800 hover:bg-orange-900 bg-gradient-to-r from-orange-700 to-orange-400 focus:outline-none"
           >
             <VideoCameraIcon className="h-6 w-6" />
             {!visible && <CrossLineDiv />}
@@ -39,7 +39,7 @@ export default function Lobby({ stream, onJoinRoom, currentUser }) {
             onClick={() => toggle("audio")(stream)}
             data-for="audio"
             data-tip={`${muted ? "unmute" : "mute"}`}
-            className="p-3 rounded-xl text-white bg-slate-800 hover:bg-indigo-700 relative"
+            className="p-3 rounded-xl text-white bg-orange-800 hover:bg-orange-900 bg-gradient-to-r from-orange-700 to-orange-400 focus:outline-none relative"
           >
             <MicrophoneIcon className="h-6 w-6" />
             {muted && <CrossLineDiv />}
@@ -51,7 +51,7 @@ export default function Lobby({ stream, onJoinRoom, currentUser }) {
       <button
         onClick={onJoinRoom}
         type="button"
-        className="p-2 text-sm font-medium rounded-md text-emerald-800 bg-emerald-300 hover:bg-indigo-200"
+        className="p-2 text-sm font-medium rounded-md text-white bg-orange-800 hover:bg-orange-900 bg-gradient-to-r from-orange-700 to-orange-400 focus:outline-none"
       >
         Join meeting
       </button>

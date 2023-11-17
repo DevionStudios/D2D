@@ -18,7 +18,7 @@ export default function App({ stream, currentUser }) {
   const socket = useContext(SocketContext);
 
   const { muted, visible, toggle, toggleVideo } = useMediaStream(stream);
-  const { peer, myId, isPeerReady } = usePeer(stream);
+  const { peer, myId, isPeerReady } = usePeer(stream, currentUser);
   const { startShare, stopShare, screenTrack } = useScreen(stream);
 
   const [modal, setModal] = useState("hidden");

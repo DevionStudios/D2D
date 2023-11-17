@@ -5,6 +5,7 @@ import { ROOM_NAME } from "../../constants";
 import { createRoomId, createHost } from "../../utils";
 import { Navbar } from "src/components/Common/Navbar";
 
+import { Button } from "src/components/ui/Button";
 import { WelcomeContainer } from "../../components/Conference";
 
 export default function Home({ currentUser }) {
@@ -27,12 +28,9 @@ export default function Home({ currentUser }) {
       <Navbar className="pb-10" currentUser={currentUser} />
 
       <WelcomeContainer currentUser={currentUser}>
-        <button
-          onClick={createRoom}
-          className="p-3 bg-emerald-300 hover:bg-indigo-200 rounded-md text-emerald-800 text-sm founded-medium"
-        >
+        <Button onClick={createRoom} size="xs">
           Create Room
-        </button>
+        </Button>
 
         <input
           onChange={(e) => setRoomId(e.target.value)}
@@ -40,13 +38,13 @@ export default function Home({ currentUser }) {
           className="px-4 py-1 w-80 rounded-md"
         />
 
-        <button
+        <Button
           onClick={joinRoom}
           disabled={roomId.length == 0}
-          className="p-3 bg-emerald-500 hover:bg-indigo-300 rounded-md text-emerald-800 text-sm founded-medium disabled:bg-gray-300 disabled:cursor-not-allowed"
+          className="disabled:cursor-not-allowed"
         >
           Join
-        </button>
+        </Button>
       </WelcomeContainer>
     </>
   );

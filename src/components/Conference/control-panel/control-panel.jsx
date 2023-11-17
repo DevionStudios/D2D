@@ -31,7 +31,7 @@ const ControlPanel = ({
       {(screenTrack || shared) && (
         <button
           onClick={() => onToggle("fullscreen")}
-          className={`${common} bg-slate-800 hover:bg-emerald-700`}
+          className={`${common} bg-slate-800 hover:bg-orange-700`}
         >
           <ArrowsExpandIcon className="w-6 h-6" />
         </button>
@@ -42,7 +42,7 @@ const ControlPanel = ({
           onClick={() => onToggle("video", Object.values(users))}
           data-for="visibility"
           data-tip={`${!visible ? "switch on" : "switch off"}`}
-          className={`${common} bg-slate-800 hover:bg-emerald-700 relative`}
+          className={`${common} bg-slate-800 hover:bg-orange-700 relative`}
         >
           <VideoCameraIcon className="h-6 w-6" />
           {!visible && <CrossLineDiv />}
@@ -53,7 +53,7 @@ const ControlPanel = ({
           onClick={() => onToggle("audio")}
           data-for="audio"
           data-tip={`${muted ? "unmute" : "mute"}`}
-          className={`${common} bg-slate-800 hover:bg-emerald-700 relative`}
+          className={`${common} bg-slate-800 hover:bg-orange-700 relative`}
         >
           <MicrophoneIcon className="h-6 w-6" />
           {muted && <CrossLineDiv />}
@@ -75,8 +75,8 @@ const ControlPanel = ({
           disabled={shared}
           className={`${common} ${
             screenTrack || shared
-              ? "bg-emerald-600 hover:bg-emerald-500"
-              : "bg-slate-800 hover:bg-emerald-700"
+              ? "bg-orange-600 hover:bg-orange-500"
+              : "bg-slate-800 hover:bg-orange-700"
           }`}
           data-for="shareScreen"
           data-tip="share your screen"
@@ -91,8 +91,8 @@ const ControlPanel = ({
           onClick={() => onToggle("chat")}
           className={`${common} ${
             chat
-              ? "bg-emerald-600 hover:bg-emerald-500"
-              : "bg-slate-800 hover:bg-emerald-700"
+              ? "bg-orange-600 hover:bg-orange-500"
+              : "bg-slate-800 hover:bg-orange-700"
           }`}
         >
           <ChatIcon className="w-6 h-6" />
