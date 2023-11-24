@@ -31,6 +31,10 @@ export function AllCommunityUsersModal({
   const limit = 5;
   const [data, setData] = useState([]);
   const router = useRouter();
+  useEffect(() => {
+    fetchMembersData();
+  }, []);
+
   if (!data)
     return (
       <ErrorFallback
@@ -81,10 +85,6 @@ export function AllCommunityUsersModal({
       toast.error("Failed To Update User Role");
     }
   };
-
-  useEffect(() => {
-    fetchMembersData();
-  }, []);
 
   return (
     <Modal

@@ -24,8 +24,9 @@ const VideoContainer = ({
       key={id}
       className="relative group h-fit drop-shadow-2xl shadow-indigo-500/50"
     >
-      {!visible && <VideoPlug userPicture={userPicture} />}
-      <div className={`${!visible ? "hidden" : ""}`}>{children}</div>
+      {<VideoPlug userPicture={userPicture} />}
+      {/* {!visible && <VideoPlug userPicture={userPicture} />} */}
+      {/* <div className={`${!visible ? "hidden" : ""}`}>{children}</div> */}
 
       {muted ? (
         <div className="absolute top-3 right-3">

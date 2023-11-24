@@ -23,13 +23,13 @@ const Status = ({ muted, visible, currentUser }) => {
             <Icon children={icon["not-muted"]} />
           )}
         </div>
-        <div>
+        {/* <div>
           {!visible ? (
             <Icon children={icon["not-visible"]} />
           ) : (
             <Icon children={icon["visible"]} />
           )}
-        </div>
+        </div> */}
       </div>
       {usersEntries.map(([id]) => (
         <div key={id} className="flex gap-2 items-center pr-4">

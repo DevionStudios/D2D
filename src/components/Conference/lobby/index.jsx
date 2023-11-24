@@ -24,7 +24,7 @@ export default function Lobby({ stream, onJoinRoom, currentUser }) {
         </VideoContainer>
 
         <div className="flex justify-end gap-2">
-          <button
+          {/* <button
             onClick={toggleVideo}
             data-for="visibility"
             data-tip={`${!visible ? "switch on" : "switch off"}`}
@@ -32,7 +32,7 @@ export default function Lobby({ stream, onJoinRoom, currentUser }) {
           >
             <VideoCameraIcon className="h-6 w-6" />
             {!visible && <CrossLineDiv />}
-          </button>
+          </button> */}
           <Tooltip id="visibility" effect="solid" />
 
           <button

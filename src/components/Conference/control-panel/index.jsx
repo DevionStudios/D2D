@@ -41,7 +41,7 @@ const ControlPanel = ({
       )}
 
       <div className="flex flex-auto gap-6 place-content-center items-center">
-        <button
+        {/* <button
           onClick={() => onToggle("video", Object.values(users))}
           data-for="visibility"
           data-tip={`${!visible ? "switch on" : "switch off"}`}
@@ -49,7 +49,7 @@ const ControlPanel = ({
         >
           <VideoCameraIcon className="h-6 w-6" />
           {!visible && <CrossLineDiv />}
-        </button>
+        </button> */}
         <Tooltip id="visibility" effect="solid" />
 
         <button
@@ -73,7 +73,7 @@ const ControlPanel = ({
         </button>
         <Tooltip id="hangUp" effect="solid" />
 
-        <button
+        {/* <button
           onClick={() => onToggle("screen")}
           disabled={shared}
           className={`${common} ${
@@ -85,7 +85,7 @@ const ControlPanel = ({
           data-tip="share your screen"
         >
           <ShareScreenIcon className="h-6 w-6" />
-        </button>
+        </button> */}
         <Tooltip id="shareScreen" effect="solid" />
 
         <button
