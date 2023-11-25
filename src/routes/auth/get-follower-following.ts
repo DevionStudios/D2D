@@ -5,7 +5,7 @@ import { currentUser } from "../../middlewares/currentuser";
 
 const router = express.Router();
 
-router.get("/api/users/get/social", currentUser, async (req, res) => {
+router.get("/api/users/social", currentUser, async (req, res) => {
   const { foxxiUser } = req;
   try {
     if (foxxiUser) {
