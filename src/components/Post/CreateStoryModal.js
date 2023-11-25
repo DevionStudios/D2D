@@ -88,7 +88,7 @@ export function CreateStoryModal({ currentUser, isOpen, setIsOpen }) {
     },
   });
   const getFollowersAndFollowing = async () => {
-    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/get/social`;
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/social`;
     try {
       const response = await axios.get(url, {
         headers: {
