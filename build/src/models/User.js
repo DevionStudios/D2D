@@ -128,6 +128,15 @@ const userSchema = new mongoose_1.default.Schema({
         ],
         default: [],
     },
+    joinedCommunities: {
+        type: [
+            {
+                type: mongoose_1.default.Schema.Types.ObjectId,
+                ref: "Community",
+            },
+        ],
+        default: [],
+    },
 }, {
     toJSON: {
         transform(doc, ret) {

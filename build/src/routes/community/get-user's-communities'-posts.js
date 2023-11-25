@@ -12,49 +12,42 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.preferencePostRouter = void 0;
-const Post_1 = require("../../models/Post");
-const express_1 = __importDefault(require("express"));
-const currentuser_1 = require("../../middlewares/currentuser");
-const User_1 = require("../../models/User");
+exports.getUserCommunityFeedRouter = void 0;
+const Community_1 = require("./../../models/Community");
 const common_1 = require("@devion/common");
+const currentuser_1 = require("../../middlewares/currentuser");
+const express_1 = __importDefault(require("express"));
+const Post_1 = require("../../models/Post");
+const User_1 = require("../../models/User");
 const router = express_1.default.Router();
-exports.preferencePostRouter = router;
-router.post("/api/post/preference", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getUserCommunityFeedRouter = router;
+router.get("/api/community/user/feed", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { limit = 20, skip = 0 } = req.query;
-        const hashtagsList = req.body.hashtags;
-        console.log("Hashtags list:", hashtagsList);
-        const currentUser = yield User_1.User.findOne({
-            username: req.foxxiUser.username,
-        });
-        if (!currentUser) {
-            throw new common_1.BadRequestError("User not found");
+        const existingUser = yield User_1.User.findOne({ _id: req.foxxiUser.id });
+        if (!existingUser) {
+            throw new common_1.BadRequestError("User not found!");
         }
-        const posts = yield Post_1.Post.find({
-            $or: [
-                { hashtags: { $in: hashtagsList } },
-                { author: { $in: currentUser.following } },
-            ],
+        //find all communities that the user is a member of
+        const userCommunities = yield Community_1.Community.find({
+            members: { $elemMatch: { userId: existingUser } },
+        });
+        const userCommunityFeed = yield Post_1.Post.find({
+            communityId: { $in: userCommunities },
         })
-            .sort({ createdAt: -1 })
+            .populate("author")
             .skip(Number(skip))
             .limit(Number(limit))
-            .populate({
-            path: "author",
-        })
-            .populate({
-            path: "comments",
-            populate: {
-                path: "author",
-            },
-        })
-            .populate({
-            path: "communityId",
-            match: { $exists: true }
+            .sort({ createdAt: -1 });
+        const { name } = req.params; //name of community
+        const totalCommunityPosts = yield Post_1.Post.find({
+            communityId: { $in: userCommunities },
+        }).countDocuments();
+        res.status(200).send({
+            message: "Community posts",
+            userCommunityFeed,
+            totalCommunityPosts,
         });
-        console.log(posts);
-        res.status(200).send(posts);
     }
     catch (err) {
         console.log(err);

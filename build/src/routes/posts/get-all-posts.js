@@ -19,8 +19,17 @@ const router = express_1.default.Router();
 exports.getAllPostsRouter = router;
 router.get("/api/posts", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const posts = yield Post_1.Post.find({}).sort({ createdAt: -1 }).populate({
+        const { limit = 20, skip = 0 } = req.query;
+        const posts = yield Post_1.Post.find({})
+            .sort({ createdAt: -1 })
+            .limit(Number(limit))
+            .skip(Number(skip))
+            .populate({
             path: "author",
+        })
+            .populate({
+            path: "communityId",
+            match: { $exists: true },
         });
         res.status(200).send(posts);
     }

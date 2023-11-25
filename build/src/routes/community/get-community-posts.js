@@ -12,38 +12,36 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTrendingPostsRouter = void 0;
+exports.getCommunityPostsRouter = void 0;
+const Community_1 = require("./../../models/Community");
+const common_1 = require("@devion/common");
 const express_1 = __importDefault(require("express"));
 const Post_1 = require("../../models/Post");
-const HashTags_1 = require("../../models/HashTags");
 const router = express_1.default.Router();
-exports.getTrendingPostsRouter = router;
-router.get("/api/posts/trending", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getCommunityPostsRouter = router;
+router.get("/api/community/posts/:name", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const { name } = req.params; //name of community
         const { limit = 20, skip = 0 } = req.query;
-        const hashtags = yield HashTags_1.HashTag.find({}).sort({ useCounter: -1 }).limit(3);
-        console.log(hashtags);
-        // find the posts concerning the hashtags
-        const posts = yield Post_1.Post.find({})
-            .sort({ createdAt: -1 })
+        const community = yield Community_1.Community.findOne({ name });
+        if (!community) {
+            throw new common_1.BadRequestError("Community not found, invalid name provided!");
+        }
+        const communityPosts = yield Post_1.Post.find({
+            communityId: community,
+        })
             .skip(Number(skip))
             .limit(Number(limit))
-            .populate({
-            path: "author",
-        })
-            .populate({
-            path: "communityId",
-            match: { $exists: true },
+            .populate("author communityId")
+            .sort({ createdAt: -1 });
+        const totalCommunityPosts = yield Post_1.Post.find({
+            communityId: community,
+        }).countDocuments();
+        res.status(200).send({
+            message: "Community posts",
+            communityPosts,
+            totalCommunityPosts,
         });
-        let filteredPosts = [];
-        posts.map((post) => {
-            if (post.hashtags &&
-                post.hashtags.some((tag) => hashtags.map((hashtag) => hashtag.content).includes(tag))) {
-                filteredPosts.push(post);
-            }
-        });
-        console.log(filteredPosts);
-        res.status(200).send(filteredPosts);
     }
     catch (err) {
         console.log(err);

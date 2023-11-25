@@ -27,7 +27,7 @@ router.get("/api/posts/:username", (req, res) => __awaiter(void 0, void 0, void 
             .sort({ createdAt: -1 })
             .populate({
             path: "posts",
-            populate: { path: "author" },
+            populate: { path: "author communityId" },
         });
         if (!existingUser) {
             throw new common_1.BadRequestError("User not found!");

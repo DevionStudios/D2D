@@ -18,22 +18,13 @@ const Post_1 = require("../../models/Post");
 const HashTags_1 = require("../../models/HashTags");
 const router = express_1.default.Router();
 exports.getTrendingPostsRouter = router;
-router.get("/api/posts/trending", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get("/api/community/posts/trending", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { limit = 20, skip = 0 } = req.query;
         const hashtags = yield HashTags_1.HashTag.find({}).sort({ useCounter: -1 }).limit(3);
         console.log(hashtags);
         // find the posts concerning the hashtags
-        const posts = yield Post_1.Post.find({})
-            .sort({ createdAt: -1 })
-            .skip(Number(skip))
-            .limit(Number(limit))
-            .populate({
+        const posts = yield Post_1.Post.find({}).sort({ createdAt: -1 }).populate({
             path: "author",
-        })
-            .populate({
-            path: "communityId",
-            match: { $exists: true },
         });
         let filteredPosts = [];
         posts.map((post) => {

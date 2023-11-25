@@ -12,38 +12,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTrendingPostsRouter = void 0;
+exports.getCommunityUsersRouter = void 0;
+//get list of members in community
+const Community_1 = require("./../../models/Community");
+const common_1 = require("@devion/common");
 const express_1 = __importDefault(require("express"));
-const Post_1 = require("../../models/Post");
-const HashTags_1 = require("../../models/HashTags");
 const router = express_1.default.Router();
-exports.getTrendingPostsRouter = router;
-router.get("/api/posts/trending", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getCommunityUsersRouter = router;
+router.get("/api/community/users/:name", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const { name } = req.params; //name of community
         const { limit = 20, skip = 0 } = req.query;
-        const hashtags = yield HashTags_1.HashTag.find({}).sort({ useCounter: -1 }).limit(3);
-        console.log(hashtags);
-        // find the posts concerning the hashtags
-        const posts = yield Post_1.Post.find({})
-            .sort({ createdAt: -1 })
-            .skip(Number(skip))
-            .limit(Number(limit))
-            .populate({
-            path: "author",
-        })
-            .populate({
-            path: "communityId",
-            match: { $exists: true },
+        const community = yield Community_1.Community.findOne({ name }).populate("members.userId");
+        if (!community) {
+            throw new common_1.BadRequestError("Community not found, invalid name provided!");
+        }
+        const communityMembers = community.members.slice(skip, limit + skip);
+        const totalCommunityMembers = community.members.length;
+        res.status(200).send({
+            message: "Community Members",
+            communityMembers,
+            totalCommunityMembers,
         });
-        let filteredPosts = [];
-        posts.map((post) => {
-            if (post.hashtags &&
-                post.hashtags.some((tag) => hashtags.map((hashtag) => hashtag.content).includes(tag))) {
-                filteredPosts.push(post);
-            }
-        });
-        console.log(filteredPosts);
-        res.status(200).send(filteredPosts);
     }
     catch (err) {
         console.log(err);

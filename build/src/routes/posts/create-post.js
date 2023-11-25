@@ -22,11 +22,13 @@ const cloudinaryConfig_1 = __importDefault(require("../../config/cloudinaryConfi
 const multer_filefilter_config_1 = __importDefault(require("../../config/multer.filefilter.config"));
 const currentuser_1 = require("../../middlewares/currentuser");
 const path_1 = __importDefault(require("path"));
+const Community_1 = require("../../models/Community");
 const router = express_1.default.Router();
 exports.createPostRouter = router;
 router.post("/api/posts/create", currentuser_1.currentUser, multer_filefilter_config_1.default.single("media"), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
-        const { caption, gifLink, hashtags } = req.body;
+        const { caption, gifLink, hashtags, communityId } = req.body;
         console.log(hashtags);
         let media;
         if (req.file) {
@@ -69,6 +71,19 @@ router.post("/api/posts/create", currentuser_1.currentUser, multer_filefilter_co
             hashtags: hashtags || [],
             author: existingUser,
         });
+        if (communityId) {
+            const existingCommunity = yield Community_1.Community.findOne({ _id: communityId });
+            if (!existingCommunity) {
+                throw new common_1.BadRequestError("Community not found!");
+            }
+            //check if user is a member of the community
+            const isMember = (_a = existingCommunity.members) === null || _a === void 0 ? void 0 : _a.some((member) => member.userId.toString() === existingUser.id.toString() &&
+                member.role !== "banned");
+            if (!isMember) {
+                throw new common_1.BadRequestError("You are not a member of this community!");
+            }
+            post.communityId = existingCommunity.id;
+        }
         existingUser === null || existingUser === void 0 ? void 0 : existingUser.posts.push(post);
         yield post.save();
         yield existingUser.save();
@@ -112,7 +127,6 @@ router.post("/api/posts/create", currentuser_1.currentUser, multer_filefilter_co
         }
         res.status(201).send({
             message: "Post created successfully",
-            post: post,
         });
     }
     catch (err) {

@@ -12,38 +12,42 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTrendingPostsRouter = void 0;
-const express_1 = __importDefault(require("express"));
+exports.preferencePostRouter = void 0;
 const Post_1 = require("../../models/Post");
-const HashTags_1 = require("../../models/HashTags");
+const express_1 = __importDefault(require("express"));
+const currentuser_1 = require("../../middlewares/currentuser");
+const User_1 = require("../../models/User");
+const common_1 = require("@devion/common");
 const router = express_1.default.Router();
-exports.getTrendingPostsRouter = router;
-router.get("/api/posts/trending", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.preferencePostRouter = router;
+router.post("/api/community/post/preference", currentuser_1.currentUser, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { limit = 20, skip = 0 } = req.query;
-        const hashtags = yield HashTags_1.HashTag.find({}).sort({ useCounter: -1 }).limit(3);
-        console.log(hashtags);
-        // find the posts concerning the hashtags
-        const posts = yield Post_1.Post.find({})
+        const hashtagsList = req.body.hashtags;
+        console.log("Hashtags list:", hashtagsList);
+        const currentUser = yield User_1.User.findOne({
+            username: req.foxxiUser.username,
+        });
+        if (!currentUser) {
+            throw new common_1.BadRequestError("User not found");
+        }
+        const posts = yield Post_1.Post.find({
+            $or: [
+                { hashtags: { $in: hashtagsList } },
+                { author: { $in: currentUser.following } },
+            ],
+        })
             .sort({ createdAt: -1 })
-            .skip(Number(skip))
-            .limit(Number(limit))
             .populate({
             path: "author",
         })
             .populate({
-            path: "communityId",
-            match: { $exists: true },
+            path: "comments",
+            populate: {
+                path: "author",
+            },
         });
-        let filteredPosts = [];
-        posts.map((post) => {
-            if (post.hashtags &&
-                post.hashtags.some((tag) => hashtags.map((hashtag) => hashtag.content).includes(tag))) {
-                filteredPosts.push(post);
-            }
-        });
-        console.log(filteredPosts);
-        res.status(200).send(filteredPosts);
+        console.log(posts);
+        res.status(200).send(posts);
     }
     catch (err) {
         console.log(err);

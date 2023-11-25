@@ -3,8 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PostSchema = exports.Post = void 0;
+exports.PostSchema = exports.Post = exports.PostType = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
+var PostType;
+(function (PostType) {
+    PostType["CommunityPost"] = "CommunityPost";
+    PostType["UserPost"] = "UserPost";
+})(PostType = exports.PostType || (exports.PostType = {}));
 const PostSchema = new mongoose_1.default.Schema({
     caption: {
         type: String,
@@ -73,6 +78,14 @@ const PostSchema = new mongoose_1.default.Schema({
     originalPostId: {
         type: String,
         default: "",
+    },
+    type: {
+        type: String,
+        default: PostType.UserPost,
+    },
+    communityId: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: "Community",
     },
 }, {
     toJSON: {

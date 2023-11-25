@@ -12,33 +12,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPostRouter = void 0;
-const mongoose_1 = __importDefault(require("mongoose"));
+exports.getCommunityRouter = void 0;
+//get info about community
+const Community_1 = require("./../../models/Community");
+const common_1 = require("@devion/common");
 const express_1 = __importDefault(require("express"));
-const Post_1 = require("../../models/Post");
 const router = express_1.default.Router();
-exports.getPostRouter = router;
-router.get("/api/post/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("Id of post:", req.params.id);
+exports.getCommunityRouter = router;
+router.get("/api/community/:name", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const post = yield Post_1.Post.findOne({
-            _id: new mongoose_1.default.Types.ObjectId(req.params.id),
-        })
-            .sort({ createdAt: -1 })
-            .populate({
-            path: "author",
-        })
-            .populate({
-            path: "comments",
-            populate: {
-                path: "author",
-            },
-        })
-            .populate({
-            path: "communityId",
-            match: { $exists: true }
+        const { name } = req.params; //name of community
+        const community = yield Community_1.Community.findOne({ name });
+        if (!community) {
+            throw new common_1.BadRequestError("Community not found, invalid name provided!");
+        }
+        res.status(200).send({
+            message: "Community Information",
+            community,
         });
-        res.status(200).send(post);
     }
     catch (err) {
         console.log(err);

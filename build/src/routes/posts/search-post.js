@@ -34,6 +34,10 @@ router.get("/api/post/search/:searchWord", currentuser_1.currentUser, (req, res)
             populate: {
                 path: "author",
             },
+        })
+            .populate({
+            path: "communityId",
+            match: { $exists: true },
         });
         console.log(post);
         res.status(200).send(post);

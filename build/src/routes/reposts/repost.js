@@ -25,8 +25,12 @@ router.post("/api/reposts/create", currentuser_1.currentUser, (req, res) => __aw
     var _a;
     try {
         const { postId } = req.body;
-        const originalPost = yield Post_1.Post.findById(postId).populate({
+        const originalPost = yield Post_1.Post.findById(postId)
+            .populate({
             path: "author",
+        })
+            .populate({
+            path: "communityId",
         });
         if (!originalPost) {
             return res.status(404).send({ message: "Post not found!" });
