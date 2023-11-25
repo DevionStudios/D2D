@@ -13,7 +13,7 @@ import { Provider } from "react-redux";
 import { createContext } from "react";
 import { io } from "socket.io-client";
 
-const socket = io("/", { path: "/api/socketio" });
+const socket = io("/", { path: "/socketio/socketio" });
 export const SocketContext = createContext(socket);
 
 function MyApp({ Component, pageProps, currentUser }) {

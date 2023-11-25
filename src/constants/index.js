@@ -1,7 +1,7 @@
 export const ROOM_NAME = "meeting";
 export const WINDOW_SIZE_IN_SAMPLES = 1024;
 export const MYSELF = "You";
-export const SOCKET_PATH = "/api/socketio";
+export const SOCKET_PATH = "/socketio/socketio";
 export const TOAST_PROPS = {
   position: "bottom-left",
   theme: "dark",
