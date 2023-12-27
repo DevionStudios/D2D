@@ -69,7 +69,7 @@ export function CreateStoryModal({ currentUser, isOpen, setIsOpen }) {
   });
 
   function handleEmojiPick(emote) {
-    form.setValue("caption", form.watch("caption") + emote.native);
+    setCaption(caption + emote.native);
   }
   const handleCaptionChange = (e) => {
     setCaption(handleCaptionChange(e.target.value));

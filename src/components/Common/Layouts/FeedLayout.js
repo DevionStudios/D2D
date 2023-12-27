@@ -23,7 +23,6 @@ import { Redirect } from "./Redirect";
 import { TrendingFeed } from "../../Trending Feed";
 import { TwitterFeed } from "../../Twitter Trends";
 import { CommunityFeed } from "../../Community/CommunityFeed";
-import { News } from "../../News";
 import { YourFeed } from "../../YourFeed";
 import toast from "react-hot-toast";
 import { DiscoverCommunity } from "../../Community/DiscoverCommunity";
@@ -76,12 +75,6 @@ export function FeedLayout({ currentUser }) {
       icon: HiOutlineHashtag,
       name: "Trending",
       id: "/trending",
-    },
-    {
-      component: <News currentUser={currentUser} />,
-      icon: HiOutlineNewspaper,
-      name: "News",
-      id: "/news",
     },
     {
       component: <Redirect pageName={"/messages"} />,

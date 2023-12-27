@@ -356,8 +356,8 @@ export function TabbedLayout({ navigation, currentUser }) {
             : currentPath === "/twittertrends"
             ? 3
             : currentPath === "/news"
-            ? 4
-            : 4
+            ? 0
+            : 0
         }
         onChange={(idx) => {
           if (navigation[idx].id == "connectwallet") return;
@@ -433,8 +433,7 @@ export function TabbedLayout({ navigation, currentUser }) {
             if (
               panel.name === "Explore" ||
               panel.name === "Trending" ||
-              panel.name === "Foxxi Trends" ||
-              panel.name === "News"
+              panel.name === "Foxxi Trends"
             )
               return <Tab.Panel key={index}>{panel.component}</Tab.Panel>;
           })}
