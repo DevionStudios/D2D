@@ -22,7 +22,7 @@ const Video = ({ roomId, peer, socket }) => {
         myVideoRef.current.srcObject = stream;
         myVideoRef.current.muted = true;
         setMyStream(stream);
-        setMyCamOn(true);
+        setMyCamOn(false);
         setMyMicOn(true);
       })
       .catch((err) => {
@@ -40,7 +40,7 @@ const Video = ({ roomId, peer, socket }) => {
             break;
           case "Requested device not found":
             toast.error(
-              "We couldn't reach your video/audio devices.Try reconnecting them back !",
+              "We couldn't reach your audio devices.Try reconnecting them back !",
               {
                 style: {
                   fontFamily: "Poppins",
@@ -67,7 +67,7 @@ const Video = ({ roomId, peer, socket }) => {
           autoPlay: true,
         });
         navigator.mediaDevices
-          ?.getUserMedia({ audio: true, video: true })
+          ?.getUserMedia({ audio: true, video: false })
           .then((stream) => {
             const call = peer.call(userId, stream, { metadata: peer.id });
 
