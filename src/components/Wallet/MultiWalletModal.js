@@ -4,11 +4,11 @@ import Modal from "../ui/Modal";
 import ConnectHiroWallet from "./ConnectHiroWallet";
 import ConnectUnisatWallet from "./ConnectUnisatWallet";
 import ConnectDpalWallet from "./ConnectDpalWallet";
-import ConnectMetamask from "./ConnectMetamask";
+// import ConnectMetamask from "./ConnectMetamask";
 import HiroImage from "src/assets/hiro wallet.jpg";
 import UnisatImage from "src/assets/unisat.png";
 import DpalImage from "src/assets/dpal.png";
-import WalletConnectImage from "src/assets/wallet-connect-logo.png";
+// import WalletConnectImage from "src/assets/wallet-connect-logo.png";
 
 export function MultiWalletModal({ isOpen, setClose, text, currentUser }) {
   return (
@@ -72,7 +72,7 @@ export function MultiWalletModal({ isOpen, setClose, text, currentUser }) {
               setClose={setClose}
             />
           </div>
-          <div
+          {/* <div
             className="bg-gradient-to-r from-orange-500 to-orange-300 p-2"
             style={{
               width: "10.5rem",
@@ -86,7 +86,7 @@ export function MultiWalletModal({ isOpen, setClose, text, currentUser }) {
               currentUser={currentUser}
               setClose={setClose}
             />
-          </div>
+          </div> */}
         </div>
       </Card.Body>
     </Modal>

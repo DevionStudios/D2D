@@ -1,1 +1,1 @@
-const WalletTypes = ["WalletConnect", "Bitcoin", "Doge"];
+const WalletTypes = ["Bitcoin", "Doge"];
