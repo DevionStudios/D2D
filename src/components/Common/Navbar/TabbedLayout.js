@@ -13,7 +13,8 @@ import ConnectHiroWallet from "src/components/Wallet/ConnectHiroWallet";
 import ConnectDpalWallet from "src/components/Wallet/ConnectDpalWallet";
 import ConnectUnisatWallet from "src/components/Wallet/ConnectUnisatWallet";
 import { MultiWalletModal } from "src/components/Wallet/MultiWalletModal";
-export function TabbedLayout({ navigation, currentUser }) {
+import { current } from "@reduxjs/toolkit";
+export function TabbedLayout({ navigation, currentUser, navigationForMobile }) {
   const router = useRouter();
 
   const [currentPath, setCurrentPath] = useState(router.pathname);
@@ -81,6 +82,12 @@ export function TabbedLayout({ navigation, currentUser }) {
     setDefaultIdx(idx);
     router.push(path);
   }
+  function handleChangeForMobile(idx) {
+    const path = navigationForMobile[idx].id;
+    setCurrentPath(path);
+    setDefaultIdx(idx);
+    router.push(path);
+  }
   useEffect(() => {
     // enableWeb3();
     if (account) setWalletAccount(account);
@@ -90,25 +97,23 @@ export function TabbedLayout({ navigation, currentUser }) {
     <>
       <Tab.Group
         defaultIndex={
-          !currentUser?.annonymous
+          currentUser?.annonymous
             ? currentPath === "/feed"
               ? 0
               : currentPath === "/yourfeed"
               ? 1
               : currentPath === "/trending"
               ? 2
-              : currentPath === "/twittertrends"
-              ? 3
-              : 4
+              : 6
             : currentPath === "/feed"
-            ? 4
+            ? 0
+            : currentPath === "/yourfeed"
+            ? 1
             : currentPath === "/trending"
             ? 2
-            : currentPath === "/twittertrends"
-            ? 3
-            : currentPath === "/news"
-            ? 4
-            : 4
+            : currentPath === "/community"
+            ? 6
+            : 6
         }
         onChange={(idx) => {
           if (
@@ -290,7 +295,8 @@ export function TabbedLayout({ navigation, currentUser }) {
                       item.name === "Messages" ||
                       item.name === "Your Feed" ||
                       item.name === "Web3 Gallery" ||
-                      item.name === "Foxxi AI"
+                      item.name === "Foxxi AI" ||
+                      item.name === "Community"
                     ) {
                       // if (currentUser.annonymous) return null;
                     }
@@ -352,16 +358,15 @@ export function TabbedLayout({ navigation, currentUser }) {
           currentPath === "/feed"
             ? 0
             : currentPath === "/trending"
+            ? 1
+            : currentPath === "/community"
             ? 2
-            : currentPath === "/twittertrends"
+            : currentPath === "/messages"
             ? 3
-            : currentPath === "/news"
-            ? 0
-            : 0
+            : 3
         }
         onChange={(idx) => {
-          if (navigation[idx].id == "connectwallet") return;
-          handleChange(idx);
+          handleChangeForMobile(idx);
         }}
       >
         <div className="w-full">
@@ -370,58 +375,31 @@ export function TabbedLayout({ navigation, currentUser }) {
             className="block fixed inset-x-0 bottom-0 z-10"
           >
             <div id="tabs" className="">
-              {navigation && navigation.length > 0 && (
+              {navigationForMobile && navigationForMobile.length > 0 && (
                 <Tab.List className="flex flex-row">
-                  {navigation.map((item, index) => {
+                  {navigationForMobile.map((item, index) => {
                     const Icon = item.icon;
-
-                    if (
-                      item.name === "Messages" ||
-                      item.name === "Your Feed" ||
-                      item.name === "Web3 Gallery" ||
-                      item.name === "Profile" ||
-                      item.name === "Settings"
-                    ) {
-                      if (currentUser?.annonymous) return null;
-                      return null;
-                    }
-
-                    if (
-                      item.name !== "Connect Wallet" &&
-                      item.name !== "Profile" &&
-                      item.name !== "Settings" &&
-                      item.name !== "Messages" &&
-                      item.name !== "Your Feed" &&
-                      item.name !== "Web3 Gallery" &&
-                      item.name !== "Connect Dpal Wallet" &&
-                      item.name !== "Connect Unisat Wallet" &&
-                      item.name !== "Connect Hiro Wallet" &&
-                      item.name !== "Connect Ethereum Wallet" &&
-                      item.name !== "Connect Wallet"
-                    ) {
-                      return (
-                        <>
-                          <Tab
-                            key={index}
-                            className="dark:bg-black bg-slate-200 flex flex-grow"
-                          >
-                            {({ selected }) => (
-                              <span className="w-full focus:text-teal-500 hover:text-teal-500 justify-center  text-center pt-2 pb-1">
-                                <Icon
-                                  className={
-                                    selected
-                                      ? "inline-block pb-1 text-brand-800 h-9 w-9"
-                                      : "inline-block pb-1 dark:text-white text-gray-800 h-9 w-9"
-                                  }
-                                />
-                              </span>
-                            )}
-                          </Tab>
-                        </>
-                      );
-                    } else {
-                      return null;
-                    }
+                    console.log(item.id);
+                    return (
+                      <>
+                        <Tab
+                          key={index}
+                          className="dark:bg-black bg-slate-200 flex flex-grow"
+                        >
+                          {({ selected }) => (
+                            <span className="w-full focus:text-teal-500 hover:text-teal-500 justify-center  text-center pt-2 pb-1">
+                              <Icon
+                                className={
+                                  selected
+                                    ? "inline-block pb-1 text-brand-800 h-9 w-9"
+                                    : "inline-block pb-1 dark:text-white text-gray-800 h-9 w-9"
+                                }
+                              />
+                            </span>
+                          )}
+                        </Tab>
+                      </>
+                    );
                   })}
                 </Tab.List>
               )}
@@ -429,13 +407,8 @@ export function TabbedLayout({ navigation, currentUser }) {
           </section>
         </div>
         <Tab.Panels className="">
-          {navigation.map((panel, index) => {
-            if (
-              panel.name === "Explore" ||
-              panel.name === "Trending" ||
-              panel.name === "Foxxi Trends"
-            )
-              return <Tab.Panel key={index}>{panel.component}</Tab.Panel>;
+          {navigationForMobile.map((panel, index) => {
+            return <Tab.Panel key={index}>{panel.component}</Tab.Panel>;
           })}
         </Tab.Panels>
       </Tab.Group>

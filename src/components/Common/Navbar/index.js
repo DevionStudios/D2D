@@ -22,6 +22,7 @@ import FoxxiText from "../../../assets/Foxxi-Text.png";
 import { useRouter } from "next/router";
 import { HiOutlineBell } from "react-icons/hi";
 import { NotificationOverlay } from "src/components/ui/Notifications/NotificationOverlay";
+import { CreateCommunityModal } from "src/components/Community/CreateCommunityModal";
 
 export function Navbar({ currentUser, CustomLogo }) {
   const router = useRouter();
@@ -31,6 +32,8 @@ export function Navbar({ currentUser, CustomLogo }) {
   const [hasNotification, setHasNotification] = useState(false);
   const user = currentUser;
   const [deviceType, setDeviceType] = useState("");
+  const [createCommunityModalOpen, setCreateCommunityModalOpen] =
+    useState(false);
 
   useEffect(() => {
     let hasTouchScreen = false;
@@ -88,6 +91,11 @@ export function Navbar({ currentUser, CustomLogo }) {
         currentUser={currentUser}
         isOpen={createStoryModalOpen}
         setIsOpen={setCreateStoryModalOpen}
+      />
+      <CreateCommunityModal
+        currentUser={currentUser}
+        isOpen={createCommunityModalOpen}
+        setIsOpen={setCreateCommunityModalOpen}
       />
       <Popover
         as="header"
@@ -229,6 +237,7 @@ export function Navbar({ currentUser, CustomLogo }) {
               setCreatePostModalOpen={setCreatePostModalOpen}
               createStoryModalOpen={createStoryModalOpen}
               setCreateStoryModalOpen={setCreateStoryModalOpen}
+              setCreateCommunityModalOpen={setCreateCommunityModalOpen}
             />
           </>
         )}

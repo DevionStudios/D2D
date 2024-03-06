@@ -47,7 +47,6 @@ export function FeedLayout({ currentUser }) {
       let cookies = document.cookie;
       // check if foxxi_user_wallet cookie exists
       let cookie = cookies.split("foxxi_user_wallet=")?.[1]?.split(";")?.[0];
-      console.log(cookie);
       if (cookie) {
         cookie = JSON.parse(cookie);
         if (cookie?.hiroWallet) {
@@ -115,6 +114,39 @@ export function FeedLayout({ currentUser }) {
       id: "/account/settings",
     },
   ]);
+
+  const [navigationForMobile, setNavigationForMobile] = useState([
+    {
+      component: <Feed currentUser={currentUser} />,
+      icon: HiOutlineGlobeAlt,
+      name: "Explore",
+      id: "/feed",
+    },
+    {
+      component: <TrendingFeed currentUser={currentUser} />,
+      icon: HiOutlineHashtag,
+      name: "Trending",
+      id: "/trending",
+    },
+    {
+      component: <CommunityFeed currentUser={currentUser} />,
+      icon: HiOutlineUserGroup,
+      name: "Community",
+      id: `/community`,
+    },
+    {
+      component: <Redirect pageName={"/messages"} />,
+      icon: HiOutlineMail,
+      name: "Messages",
+      id: "/messages",
+    },
+    {
+      component: <Redirect pageName={"/messages"} />,
+      icon: FaRobot,
+      name: "Foxxi AI",
+      id: "/chat/bot",
+    },
+  ]);
   let user = currentUser;
   let loading = false;
 
@@ -133,6 +165,7 @@ export function FeedLayout({ currentUser }) {
             isTabbed={true}
             navigation={navigation}
             currentUser={currentUser}
+            navigationForMobile={navigationForMobile}
           />
         </div>
         <div className=" lg:block lg:col-span-3">

@@ -32,6 +32,8 @@ export function CommunityFeed({ currentUser }) {
       if (response.data?.communityPosts?.length > 0)
         setData([...data, ...response.data?.communityPosts]);
       else setHasMorePost(false);
+      console.log(response.data);
+
       setSkip(skip + limit);
     } catch (e) {
       toast.error("Failed to fetch posts.");
